@@ -1,0 +1,33 @@
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px;
+    /* width: 350px;  */
+    max-width: 350px; 
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.input-group-text::before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #7f7f7f;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.input-group-text::after {
+    content: attr(data-symbol);
+    font-family: Material-Design-Iconic-Font;
+    color: #adadad;
+    align-items: center;
+    justify-content: center;
+}
