@@ -24,14 +24,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             <!-- Sidebar -->
             <ul class="nav navbar-light bg-white sidebar flex-column" id="sidebarMenu">
-                <a href="#" class="d-flex sidebar-brand align-items-center justify-content-center fa fa-e"><span>ndemik</span></a>
+                <a href="#" class="d-flex sidebar-brand align-items-center justify-content-center fa fa-e"><span>itraWeb</span></a>
+                <!-- <img src="<?php echo base_url('assets/images/brand/mitra-logo.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
                 <hr class="sidebar-divider my-0">
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                         <i class="fas fa-align-justify"></i>
                         <span>Form</span>
                     </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#sidebarMenu" style="">
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#sidebarMenu">
                         <div class="card bg-white py-2 rounded">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">

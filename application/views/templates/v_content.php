@@ -1,11 +1,11 @@
 <div class="container-fluid p-5">
     <!-- Page Heading -->
     <!-- <h1 class="h3 mb-4 text-gray-800">Blank Page</h1> -->
-    <form class="form-inline">
-        <label class="sr-only" for="inlineFormInputName2">Name</label>
-        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Type patient id">
+    <form class="form-inline" action="<?php echo base_url('medrec/medrec_func/getDataMR');?>" id="getMR">
+        <label class="sr-only" for="inlineFormInputName2">Medical Record Number</label>
+        <input type="text" class="form-control mb-2 mr-sm-2" id="inputMR" placeholder="Type medrec" name="medrec">
 
-        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+        <button type="submit" class="btn btn-primary mb-2" id="btnSearch">Submit</button>
     </form>
     <form>
         <div class="form-row">
@@ -20,7 +20,7 @@
                 <input type="text" class="form-control" id="inputBirthPlace" placeholder="birth place" disabled>
             </div>
             <div class="form-group col-md-4">
-                <label for="inputState">State</label>
+                <label for="inputState">Birth Date</label>
                 <input type="text" class="form-control" id="datetimepicker1" placeholder="birth date" disabled>
             </div>
         </div>
