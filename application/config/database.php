@@ -70,6 +70,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
+$active_group = 'oracle';
+$query_builder = TRUE;
+
+$db['oracle'] = array(
+	'dsn'	=> '',
+	'hostname' => '192.168.2.252:1521/uat',
+	'username' => 'IT_BB',
+	'password' => 'ujicoba',
+	'database' => 'HIS_MANAGER',
+	'dbdriver' => 'oci8',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+
+
 $active_group = 'default';
 $query_builder = TRUE;
 
@@ -78,7 +104,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'admin',
 	'password' => 'admin',
-	'database' => 'endemik',
+	'database' => 'mitraweb',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
