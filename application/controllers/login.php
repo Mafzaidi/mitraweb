@@ -24,7 +24,7 @@ class Login extends CI_Controller
 		);
 
 		if ($username <> '' && $password <> '') {
-			$check = $this->mu->cek_login('ms_user_m', $where)->num_rows();
+			$check = $this->mu->countUser('ms_user_m', $where)->num_rows();
 			if ($check > 0) {
 				$login = $this->mu->loginUser($username, $password);
 
