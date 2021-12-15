@@ -16,7 +16,7 @@ class M_ora_medrec extends CI_Model
                     A.MR,
                     A.NAMA,
                     NVL(A.TEMPAT_LAHIR,'-') AS TEMPAT_LAHIR, 
-                    A.TGL_LAHIR,
+                    TO_CHAR(A.TGL_LAHIR,'DD/MM/YYYY') AS TGL_LAHIR,
                     CASE WHEN A.ALAMAT = '' THEN '-'
                     ELSE
                         (A.ALAMAT || ' RT.' || A.RT || ' RW.' || A.RW || ' ' || A.KELURAHAN || ' ' || A.KECAMATAN || ' ' || A.KOTA) 

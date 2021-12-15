@@ -30,7 +30,9 @@
 
 <script>
     $(function() {
-        $('#datetimepicker1').datetimepicker();
+        $('#datetimepicker4').datetimepicker({
+            format: 'dd.mm.yyyy'
+        });
     });
     var _URL = window.URL || window.webkitURL;
 
@@ -45,9 +47,10 @@
                 mr: mr
             },
             success: function(data) {
-                //alert(JSON.stringify(data));
+                alert(JSON.stringify(data));
                 $("#inputName").val(data.NAMA);
                 $("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+                $('#inputDate').val(data.TGL_LAHIR);
                 $("#textAddress").val(data.ALAMAT);
                 //pageInit();
             },
