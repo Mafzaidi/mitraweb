@@ -32,30 +32,31 @@
     $(function() {
         $('#datetimepicker1').datetimepicker();
     });
-
     var _URL = window.URL || window.webkitURL;
+
     $("#btnSearch").on("click", function(e) {
         var mr = $("#inputMR").val();
         //alert(user);
         $.ajax({
-            type : "POST",
-            dataType:'json',
-            url : "<?= base_url(); ?>medrec/Medrec_func/getDataMR",
-            data :{ 
-                    mr : mr
-                    },
-            success : function(data){
-                alert(JSON.stringify(data));
-                pageInit();
+            type: "POST",
+            dataType: 'json',
+            url: "<?= base_url(); ?>medrec/Medrec_func/getDataMR",
+            data: {
+                mr: mr
             },
-            error : function(data){
-                alert(JSON.stringify(data));
-                alert(2);
+            success: function(data) {
+                //alert(JSON.stringify(data));
+                $("#inputName").val(data.NAMA);
+                $("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+                $("#textAddress").val(data.ALAMAT);
                 //pageInit();
-            }				
+            },
+            error: function(data) {
+                alert(JSON.stringify(data));
+                //pageInit();
+            }
         });
     });
-
 </script>
 
 </body>

@@ -6,22 +6,29 @@ class M_ora_medrec extends CI_Model
     {
         parent::__construct();
 
-        $this->oracle_db=$this->load->database('oracle',true);
-        $this->mysql_db=$this->load->database('default',true);
+        $this->oracle_db = $this->load->database('oracle', true);
+        $this->mysql_db = $this->load->database('default', true);
     }
 
     function getMedrec($mr)
     {
         $sql = "SELECT
                     A.MR,
-                    A.NAMA
+                    A.NAMA,
+                    NVL(A.TEMPAT_LAHIR,'-') AS TEMPAT_LAHIR, 
+                    A.TGL_LAHIR,
+                    CASE WHEN A.ALAMAT = '' THEN '-'
+                    ELSE
+                        (A.ALAMAT || ' RT.' || A.RT || ' RW.' || A.RW || ' ' || A.KELURAHAN || ' ' || A.KECAMATAN || ' ' || A.KOTA) 
+                    END AS ALAMAT 
+
                 FROM
                     HIS_MANAGER.MS_MEDREC A
                 WHERE
-                    A.MR = '" . $mr . "'";
+                    SUBSTR(A.MR,4) = '" . $mr . "'";
 
         $query = $this->oracle_db->query($sql);
-        $result = $query->result();
-        return $result;
+        $row = $query->row();
+        return $row;
     }
 }
