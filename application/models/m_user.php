@@ -15,11 +15,15 @@ class M_user extends CI_Model
 									a.first_name, 
 									a.last_name,
                                     a.email,
-                                    a.is_admin
+                                    a.role_id,
+                                    b.role_name
 								 FROM
-                                    mitraweb.ms_user_m a
+                                    mitraweb.ms_user_m a,
+                                    mitraweb.ms_role_m b
 								 WHERE
-									(a.email = '" . $username . "'
+                                    a.role_id = b.role_id
+                                    AND a.is_active = 'Y'
+									AND (a.email = '" . $username . "'
                                     OR UPPER(a.username) = UPPER('" . $username . "'))
 									AND a.password = '" . $password . "'");
 

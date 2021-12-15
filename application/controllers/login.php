@@ -34,6 +34,8 @@ class Login extends CI_Controller
 					'email' => $login->email,
 					'first_name' => $login->first_name,
 					'last_name' => $login->last_name,
+					'role_id' => $login->role_id,
+					'role_name' => $login->role_name,
 					'status' => 'login'
 				);
 
@@ -47,5 +49,10 @@ class Login extends CI_Controller
 			/*echo "<script>alert('User & Password Harus diisi '); javascript:history.back();</script>";
 			exit();*/
 		}
+	}
+
+	function logout(){
+		$this->session->sess_destroy();
+		redirect(base_url('login'));
 	}
 }
