@@ -7,7 +7,12 @@ class M_user extends CI_Model
         return $this->db->get_where($table, $where);
     }
 
-    function loginUser($username, $password)
+    function getUser($table, $where)
+    {
+        return $this->db->get_where($table, $where);
+    }
+
+    function loginUser($username)
     {
         $query = $this->db->query("SELECT
 									a.user_id, 
@@ -17,16 +22,14 @@ class M_user extends CI_Model
                                     a.email,
                                     a.role_id,
                                     b.role_name,
-                                    c.dept_id
+                                    a.dept_id
 								 FROM
-                                    mitraweb.ms_user_m a,
-                                    JOIN mitraweb.ms_role_m b ON a.role_id = b.role_id ,
-                                    JOIN mitraweb.ms_user_d_dept c ON a.user_id = c.user_id
+                                    mitraweb.ms_user_m a
+                                    JOIN mitraweb.ms_role_m b ON a.role_id = b.role_id
 								 WHERE
-                                    AND a.is_active = 'Y'
+                                    a.is_active = 'Y'
 									AND (a.email = '" . $username . "'
-                                    OR UPPER(a.username) = UPPER('" . $username . "'))
-									AND a.password = '" . $password . "'");
+                                    OR UPPER(a.username) = UPPER('" . $username . "'))");
 
         $row = $query->row();
         return $row;

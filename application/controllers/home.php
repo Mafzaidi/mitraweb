@@ -13,10 +13,13 @@ class Home extends CI_Controller
 
     public function index()
     {
+		$this->load->helper(array('path'));
         $sess_id = $this->session->userdata('user_id');
 
 	   if(!empty($sess_id))
-	   {             
+	   {
+			include (APPPATH."controllers/menu_control.php");
+			             
             $data['tittle'] = "Home";
             $this->load->view('templates/v_sidebar',$data);
             $this->load->view('templates/v_topbar');

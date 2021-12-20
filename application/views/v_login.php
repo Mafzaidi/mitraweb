@@ -21,15 +21,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <head>
 	<meta charset="utf-8">
-	<title>::Login::</title>
+	<title>::<?= $tittle; ?>::</title>
 </head>
 
 <body>
 	<div class="container-fluid">
 		<div class="row justify-content-center align-items-center vh-100">
 			<div class="col-12 col-sm-6 col-md-5">
-				<form class="form-container needs-validation" action="<?php echo base_url('login/user_login'); ?>" method="post" novalidate>
+				<form class="form-container needs-validation" action="<?php echo base_url('auth'); ?>" method="post" novalidate>
 					<h2 class="text-center">LOGIN</h2>
+
+					<?= $this->session->flashdata('message'); ?>
 
 					<div class="form-group">
 						<label for="email">Username</label>

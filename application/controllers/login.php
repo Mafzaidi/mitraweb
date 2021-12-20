@@ -36,6 +36,7 @@ class Login extends CI_Controller
 					'last_name' => $login->last_name,
 					'role_id' => $login->role_id,
 					'role_name' => $login->role_name,
+					'dept_id' => $login->dept_id,
 					'status' => 'login'
 				);
 
