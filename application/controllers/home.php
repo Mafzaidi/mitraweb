@@ -18,20 +18,20 @@ class Home extends CI_Controller
 
 	   if(!empty($sess_id))
 	   {
-			include (APPPATH."controllers/menu_control.php");
-			             
-            $data['tittle'] = "Home";
-            $this->load->view('templates/v_sidebar',$data);
-            $this->load->view('templates/v_topbar');
-            $this->load->view('templates/v_content');
-            $this->load->view('templates/v_footer');
+			include (APPPATH.'controllers/menu_control.php');
+			echo $menu;
+            // $data['tittle'] = "Home";
+            // $this->load->view('templates/v_sidebar',$data);
+            // $this->load->view('templates/v_topbar');
+            // $this->load->view('templates/v_content');
+            // $this->load->view('templates/v_footer');
 	   }else{
 
 			//$this->session->set_userdata(array('msg'=>'')); 
 			//load the login page
 			//$this->load->view('login/index');
 			// echo "<script>alert('your session has expired');</script>"; 
-			redirect(base_url('login'));
+			redirect(base_url('auth'));
 	   } 
     }
 }
