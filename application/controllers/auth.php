@@ -51,6 +51,7 @@ class Auth extends CI_Controller
                             'role_id' => $login->role_id,
                             'role_name' => $login->role_name,
                             'dept_id' => $login->dept_id,
+                            'dept_name' => $login->dept_name,
                             'status' => 'login'
                         );
 
