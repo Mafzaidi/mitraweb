@@ -19,12 +19,11 @@ class Home extends CI_Controller
 	   if(!empty($sess_id))
 	   {
 			include (APPPATH.'controllers/menu_control.php');
-			echo $menu;
-            // $data['tittle'] = "Home";
-            // $this->load->view('templates/v_sidebar',$data);
-            // $this->load->view('templates/v_topbar');
-            // $this->load->view('templates/v_content');
-            // $this->load->view('templates/v_footer');
+            $data['tittle'] = "Home";
+            $this->load->view('templates/v_sidebar',$data);
+            $this->load->view('templates/v_topbar');
+            //$this->load->view('templates/v_content', $menu);
+            $this->load->view('templates/v_footer');
 	   }else{
 
 			//$this->session->set_userdata(array('msg'=>'')); 
