@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller
+class Index extends CI_Controller
 {
 
     public function __construct()
@@ -19,20 +19,13 @@ class Home extends CI_Controller
 	   if(!empty($sess_id))
 	   {
 			include (APPPATH.'controllers/menu_control.php');
-		
-			$data['user'] = $this->mu->getUserInfo($sess_id);
             $data['tittle'] = "Home";
-
             $this->load->view('templates/v_sidebar',$data);
-            $this->load->view('templates/v_topbar', $data);
-            $this->load->view('v_home', $data);
+            $this->load->view('templates/v_topbar');
+            $this->load->view('templates/v_content');
             $this->load->view('templates/v_footer');
 	   }else{
 			redirect(base_url('auth'));
 	   } 
     }
-
-	function page(){	
-		echo "test";
-	}
 }

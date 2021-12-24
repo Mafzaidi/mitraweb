@@ -139,6 +139,17 @@ div#content-wrapper.sidebar-hidden .sidebar {
 	background-color: rgb(27, 80, 82) !important;
 } */
 
+.sidebar .nav-item .nav-link .img-profile,
+.topbar .nav-item .nav-link .img-profile {
+	height: 2rem;
+	width: 2rem;
+	background-color: #f8f9fc;
+}
+
+.topbar.navbar-dark .navbar-nav .nav-item .nav-link {
+	color: #f8f9fc;
+}
+
 @media (min-width: 768px) {
 	.sidebar {
 		width: 14rem !important;

@@ -2,7 +2,7 @@
 <footer class="navbar bg-dark text-light mt-auto">
     <div class="container">
         <div class="copyright text-center mx-auto">
-            <span>Copyright © Mitra Keluarga 2021</span>
+            <span>Copyright © Mitra Keluarga <?= date('Y'); ?></span>
         </div>
     </div>
 </footer>

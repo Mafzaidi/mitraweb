@@ -8,9 +8,10 @@ Class M_control extends CI_Model
                 FROM
                 (
                     SELECT
-                        a.*
+                        a.*, ifnull(b.alias,'') AS alias
                     FROM
-                        ms_menu_m a
+                        mitraweb.ms_menu_m a
+                        LEFT JOIN mitraweb.ms_dept_m b ON a.dept_id = b.dept_id
                     WHERE
                         (a.dept_id = '".$dept."' OR IFNULL(a.dept_id,'') ='')
                         AND a.is_active = 'Y'
