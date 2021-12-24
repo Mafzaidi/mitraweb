@@ -1,11 +1,7 @@
 <?php 
 Class M_control extends CI_Model
 {
-	function __construct()
-	{
-		parent::__construct();
-	}	
-
+	
     function listMenu($dept, $parent, $type){		
 		$sql = "SELECT
                     b.*, ifnull(c.menu_id,'') as parent_id, ifnull(c.menu_tittle,'') as parent_name 

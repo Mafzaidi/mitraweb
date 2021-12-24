@@ -22,8 +22,8 @@ class Home extends CI_Controller
             $data['tittle'] = "Home";
             $this->load->view('templates/v_sidebar',$data);
             $this->load->view('templates/v_topbar');
-            $this->load->view('templates/v_content');
-            $this->load->view('templates/v_footer');
+            $this->load->view('v_home');
+            $this->load->view('templates/v_footer',$data);
 	   }else{
 
 			//$this->session->set_userdata(array('msg'=>'')); 
