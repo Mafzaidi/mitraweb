@@ -44,14 +44,8 @@ class Auth extends CI_Controller
                         
                         $data_session = array(
                             'user_id' => $login->user_id,
-                            'username' => $login->username,
-                            'email' => $login->email,
-                            'first_name' => $login->first_name,
-                            'last_name' => $login->last_name,
                             'role_id' => $login->role_id,
-                            'role_name' => $login->role_name,
                             'dept_id' => $login->dept_id,
-                            'dept_name' => $login->dept_name,
                             'status' => 'login'
                         );
 
@@ -83,7 +77,14 @@ class Auth extends CI_Controller
 	}
 
 	function logout(){
-		$this->session->sess_destroy();
+		$this->session->unset_userdata('user_id');
+		$this->session->unset_userdata('role_id');
+		$this->session->unset_userdata('dept_id');
+		$this->session->set_userdata('status','logout');
+        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+        You have been logged out!
+        </div>');
+
 		redirect(base_url('auth'));
 	}
 }

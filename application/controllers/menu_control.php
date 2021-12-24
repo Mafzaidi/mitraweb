@@ -13,7 +13,7 @@
         $check = $this->mc->checkParent($p->menu_id);
 
         if(count($check) > 0) {
-            $menu.='<li class="nav-item">' . anchor('medrec/' . $p->link, '
+            $menu.='<li class="nav-item">' . anchor($p->alias . '/' . $p->link, '
                 <i class="' . $p->icon . '"></i>
                 <span>' . $p->menu_tittle . '</span>
                 ', array('class' => 'nav-link collapsed', 
@@ -31,7 +31,7 @@
             $type2 = '2';
             $menuChild = $this->mc->listMenu($dept, $parent2, $type2);
             foreach ($menuChild as $c) {
-                $menu.='<li class="list-group-item">' . anchor('medrec/'.strtolower($c->parent_name).'/'.$c->link, 
+                $menu.='<li class="list-group-item">' . anchor($p->alias . '/'.strtolower(preg_replace('/\s+/', '-', $c->parent_name)).'/'.$c->link, 
                 '<i class="' . $c->icon . '"></i><span>' . $c->menu_tittle . '</span>',
                 array('class' => 'collapse-item')
             );
@@ -42,7 +42,7 @@
             $menu.='</div>'; // collapse
 		    $menu.= '</li>'; // nav-item
         } else {
-            $menu.='<li class="nav-item">' . anchor('medrec/' . $p->link, '
+            $menu.='<li class="nav-item">' . anchor($p->alias . '/' . $p->link, '
                 <i class="' . $p->icon . '"></i>
                 <span>' . $p->menu_tittle . '</span>', array('class' => 'nav-link')
                                     );
