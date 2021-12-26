@@ -16,23 +16,37 @@ class Medrec extends CI_Controller
     {
         $sess_id = $this->session->userdata('user_id');
 
-	   if(!empty($sess_id))
-	   {
-			// include (APPPATH.'controllers/menu_control.php');
-		
-			// $data['user'] = $this->mu->getUserInfo($sess_id);
+        if(!empty($sess_id))
+        {
+            include (APPPATH.'controllers/menu_control.php');
+            echo "test";
+            // $data['user'] = $this->mu->getUserInfo($sess_id);
             // $data['tittle'] = "Home";
 
             // $this->load->view('templates/v_sidebar',$data);
             // $this->load->view('templates/v_topbar', $data);
-            // $this->load->view('v_home', $data);
+            // $this->load->view('medrec/mr_loan', $data);
             // $this->load->view('templates/v_footer');
-	   }else{
-			redirect(base_url('auth'));
-	   } 
+        }else{
+            redirect(base_url('auth'));
+        } 
     }
 
-    function form() {
-        echo "test";
+    function form_application($param) {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            include (APPPATH.'controllers/menu_control.php');
+            $page = str_replace('-', '_', $param);
+            $data['user'] = $this->mu->getUserInfo($sess_id);
+            $data['tittle'] = "Home";
+
+            $this->load->view('templates/v_sidebar',$data);
+            $this->load->view('templates/v_topbar', $data);
+            $this->load->view('medrec/' . $page, $data);
+            $this->load->view('templates/v_footer');
+        }else{
+            redirect(base_url('auth'));
+        }
     }
 }

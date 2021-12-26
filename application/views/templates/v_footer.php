@@ -3,6 +3,7 @@
     <div class="container">
         <div class="copyright text-center mx-auto">
             <span>Copyright © Mitra Keluarga <?= date('Y'); ?></span>
+			<input type="hidden" id="baseUrl" value="<?php echo base_url(); ?>">
         </div>
     </div>
 </footer>
@@ -32,33 +33,37 @@
 
     var _URL = window.URL || window.webkitURL;
     $("#datetimepicker4").datetimepicker({
-        format: "dd.mm.yyyy",
+        format: "DD.MM.yyyy"
+    });
+	$("#returnPickerDate").datetimepicker({
+        format: "DD.MM.yyyy"
     });
 
-    $("#btnSearch").on("click", function (e) {
-		var mr = $("#inputMR").val();
-		//alert(user);
-		$.ajax({
-			type: "POST",
-			dataType: "json",
-			url: "<?= base_url(); ?>medrec/Medrec_func/getDataMR",
-			data: {
-				mr: mr,
-			},
-			success: function (data) {
-				//alert(JSON.stringify(data));
-				$("#inputName").val(data.NAMA);
-				$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
-				$("#inputDate").val(data.TGL_LAHIR);
-				$("#textAddress").val(data.ALAMAT);
-				//pageInit();
-			},
-			error: function (data) {
-				alert(JSON.stringify(data));
-				//pageInit();
-			},
-		});
-	});
+
+    // $("#btnSearch").on("click", function (e) {
+	// 	var mr = $("#inputMR").val();
+	// 	//alert(user);
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		dataType: "json",
+	// 		url: "<?= base_url(); ?>functions/Medrec_func/getDataMR",
+	// 		data: {
+	// 			mr: mr,
+	// 		},
+	// 		success: function (data) {
+	// 			//alert(JSON.stringify(data));
+	// 			$("#inputName").val(data.NAMA);
+	// 			$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+	// 			$("#inputDate").val(data.TGL_LAHIR);
+	// 			$("#textAddress").val(data.ALAMAT);
+	// 			//pageInit();
+	// 		},
+	// 		error: function (data) {
+	// 			alert(JSON.stringify(data));
+	// 			//pageInit();
+	// 		},
+	// 	});
+	// });
 
 </script>
 </body>
