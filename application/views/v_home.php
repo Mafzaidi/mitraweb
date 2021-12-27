@@ -9,7 +9,7 @@
             <div class="card-body">
                 <h5 class="card-title">Profile</h5>
                 <p class="card-text">Hi, I'm <?= ucwords($user['first_name']) .' ' . ucwords($user['last_name']) . '.'; ?></p>
-                <p class="card-text"><small class="text-muted">i'm from <?= ucwords(strtolower($user['dept_name'])); ?> department.</small></p>
+                <p class="card-text"><small class="text-muted">I'm from <?= ucwords(strtolower($user['dept_name'])); ?> department.</small></p>
                 <footer class="blockquote-footer">Active since <?= date('d F Y', strtotime($user['created_date'])); ?></footer>
             </div>
             </div>
