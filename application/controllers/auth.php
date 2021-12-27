@@ -12,14 +12,22 @@ class Auth extends CI_Controller
 
 	public function index()
 	{
-        $this->form_validation->set_rules('username', 'Username', 'trim|required');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $sess_id = $this->session->userdata('user_id');
 
-        if($this->form_validation->run() == false) {
-            $data['tittle'] = 'Login Page';
-            $this->load->view('v_login', $data);
-        } else {
-            $this->_login();
+        if(!empty($sess_id))
+        {
+            redirect(base_url('home'));
+        } 
+        else {          
+            $this->form_validation->set_rules('username', 'Username', 'trim|required');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required');
+
+            if($this->form_validation->run() == false) {
+                $data['tittle'] = 'Login Page';
+                $this->load->view('v_login', $data);
+            } else {
+                $this->_login();
+            }
         }
 	}
 
