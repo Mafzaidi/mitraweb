@@ -108,5 +108,22 @@
 	$(".submit").click(function(){
 	return false;
 	})
+
+	// Autocomplete
+
+	$( "#inputBorrower" ).autocomplete({
+		source: function(request, response) {
+            $.ajax({
+				url:  base_url + "functions/Medrec_func/getName",
+				dataType: "jsonp",
+				data: {
+					q: request.term
+				},
+				success: function(data) {
+					response(data);
+				}
+            });
+		}
+    });
 	
 })(jQuery); // End of use strict

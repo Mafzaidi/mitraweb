@@ -1,5 +1,5 @@
 <div class="container-fluid p-5">
-    <h1 class="h3 mb-4 text-gray-800"><?='Welcome <b>' .ucwords($user['username']) . '</b>..!';?></h1>
+    <h1 class="h3 mb-4 text-gray-800"><?='Welcome <b>' . ucwords($user['first_name']) .' ' . ucwords($user['last_name']) . ' !!</b>';?></h1>
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row no-gutters">
             <div class="col-md-4">

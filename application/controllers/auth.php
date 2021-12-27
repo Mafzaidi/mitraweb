@@ -8,6 +8,7 @@ class Auth extends CI_Controller
 		parent::__construct();
 		$this->load->model('m_user', 'mu');
         $this->load->library('form_validation');
+        $this->oracle_db = $this->load->database('oracle', true);
 	}
 
 	public function index()
@@ -15,7 +16,7 @@ class Auth extends CI_Controller
         $sess_id = $this->session->userdata('user_id');
 
         if(!empty($sess_id))
-        {
+        {   
             redirect(base_url('home'));
         } 
         else {          
@@ -46,26 +47,34 @@ class Auth extends CI_Controller
             // there is user
                 if ($user['is_active'] == 'Y') {
                 //  user is active
-                    if (password_verify($password, $user['password'])) {
+                    // if (password_verify($password, $user['password'])) {
                     // password verify
+                        include (APPPATH.'controllers/functions/Ora_auth.php');
 				        $login = $this->mu->loginUser($username);
-                        
-                        $data_session = array(
-                            'user_id' => $login->user_id,
-                            'role_id' => $login->role_id,
-                            'dept_id' => $login->dept_id,
-                            'status' => 'login'
-                        );
 
-                        $this->session->set_userdata($data_session);
-                        redirect(base_url('home'));
-
-                    } else {
-                        $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                        Wrong password!
-                        </div>');
-                        redirect('auth');
-                    }
+                        if (!$connect) {
+                            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                            Wrong password!
+                            </div>');
+                            redirect('auth');
+                        } else {
+                            $data_session = array(
+                                'user_id' => $login->user_id,
+                                'role_id' => $login->role_id,
+                                'dept_id' => $login->dept_id,
+                                'status' => 'login'
+                            );
+    
+                            $this->session->set_userdata($data_session);
+                            redirect(base_url('home'));    
+                        }
+                                              
+                    // } else {
+                    //     $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                    //     Wrong password!
+                    //     </div>');
+                    //     redirect('auth');
+                    // }
                 } else {
                     $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
                     User is not active!

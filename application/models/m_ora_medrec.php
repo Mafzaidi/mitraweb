@@ -31,4 +31,22 @@ class M_ora_medrec extends CI_Model
         $row = $query->row();
         return $row;
     }
+
+    function getName($name)
+    {
+        $sql = "SELECT  
+                    A.NAMA_KAR, 
+                    A.NO_KAR, 
+                    A.BAGIAN
+                FROM 
+                    MS_KARYAWAN A
+                WHERE 
+                    A.SHOW_ITEM='1'
+                    AND A.NAMA_KAR LIKE '" . $name . "'||'%'
+                ORDER BY A.NAMA_KAR ASC";
+
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+    }
 }

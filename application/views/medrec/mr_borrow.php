@@ -95,7 +95,7 @@
                                         <div class="form-row align-items-center">
                                             <div class="col-md col-lg-10">
                                                 <label class="sr-only" for="inputBorrower">Borrower's name</label>
-                                                <input type="text" class="form-control mb-2 mr-sm-2" id="inputBorrower" placeholder="Type the borrower" name="borrower" disabled />
+                                                <input type="text" class="form-control mb-2 mr-sm-2" id="inputBorrower" name="borrower" value=" <?=ucwords($user['first_name']) .' ' . ucwords($user['last_name']) ?>" disabled />
                                             </div>
                                         </div>
 
