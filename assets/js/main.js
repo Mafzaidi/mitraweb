@@ -1,11 +1,4 @@
 (function ($) {
-	"use strict"; // Start of use strict
-	var base_url = $("#baseUrl").val();
-
-	$("#sidebarToggle").on("click", function () {
-		$("#content-wrapper").toggleClass("sidebar-hidden");
-	});
-
 	// Close any open menu accordions when window is resized below 768px
 	$(window).resize(function () {
 		if ($(window).width() < 768) {
@@ -15,31 +8,6 @@
 			// });
 			$(".sidebar .collapse").collapse("hide");
 		}
-	});
-
-	$("#btnSearch").on("click", function (e) {
-		var mr = $("#inputMR").val();
-		//alert(user);
-		$.ajax({
-			type: "POST",
-			dataType: "json",
-			url: base_url + "functions/Medrec_func/getDataMR",
-			data: {
-				mr: mr,
-			},
-			success: function (data) {
-				//alert(JSON.stringify(data));
-				$("#inputName").val(data.NAMA);
-				$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
-				$("#inputDate").val(data.TGL_LAHIR);
-				$("#textAddress").val(data.ALAMAT);
-				//pageInit();
-			},
-			error: function (data) {
-				alert(JSON.stringify(data));
-				//pageInit();
-			},
-		});
 	});
 
 	// multiple step form
@@ -106,39 +74,32 @@
 		);
 	});
 
-	$(".radio-group .radio").click(function () {
-		$(this).parent().find(".radio").removeClass("selected");
-		$(this).addClass("selected");
-	});
-
 	$(".submit").click(function () {
-		return false;
-	});
+		current_fs = $(this).parent();
+		next_fs = $(this).parent().next();
 
-	// Autocomplete
+		//Add Class Active
+		$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
-	$("#inputBorrower").autocomplete({
-		source: function (request, response) {
-			$.ajax({
-				url: base_url + "functions/Medrec_func/getDataEmployee",
-				dataType: "json",
-				data: {
-					search: request.term,
+		//show the next fieldset
+		next_fs.show();
+		//hide the current fieldset with style
+		current_fs.animate(
+			{ opacity: 0 },
+			{
+				step: function (now) {
+					// for making fielset appear animation
+					opacity = 1 - now;
+
+					current_fs.css({
+						display: "none",
+						position: "relative",
+					});
+					next_fs.css({ opacity: opacity });
 				},
-				success: function (data) {
-					response(data);
-					// alert(JSON.stringify(data));
-				},
-			});
-		},
-		select: function (event, ui) {
-			// Set selection
-			$("#inputBorrower").val(ui.item.label); // display the selected text
-			return false;
-		},
-		focus: function (event, ui) {
-			$("#inputBorrower").val(ui.item.label);
-			return false;
-		},
+				duration: 600,
+			}
+		);
 	});
+	
 })(jQuery); // End of use strict

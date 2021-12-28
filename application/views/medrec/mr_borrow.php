@@ -75,7 +75,7 @@
                                         <div class="form-card">
                                             <div class="form-row">
                                                 <div class="form-group col-lg">
-                                                    <label for="inputName">Department</label>
+                                                    <label for="inputDept">Department</label>
                                                     <input type="text" name="dept" class="form-control" id="inputDept" placeholder="Department" disabled />
                                                 </div>
                                             </div>
@@ -122,7 +122,7 @@
 
                                 </div>
                                 <button class="previous btn btn-light">Previous</button>
-                                <button class="next btn btn-primary">Next</button>
+                                <button class="submit btn btn-primary" id="confirmBtn" data-toggle="modal" data-target="#logoutModal">Confirm</button>
                             </fieldset>
 
                             <fieldset>

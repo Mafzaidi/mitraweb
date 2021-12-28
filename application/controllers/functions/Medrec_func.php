@@ -32,9 +32,9 @@ class Medrec_func extends CI_Controller
         $records = $this->mr->getEmployee($search);
 
         foreach($records as $row ){
-            $response[] = array("value"=>$row->NO_KAR,"label"=>$row->NAMA_KAR);
-         }
-         $data = $response;
+            $response[] = array("id"=>$row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
+        }
+        $data = $response;
         echo json_encode($data);
     }
 

@@ -39,10 +39,11 @@ class M_ora_medrec extends CI_Model
                     A.NO_KAR, 
                     A.BAGIAN
                 FROM 
-                    MS_KARYAWAN A
+                    HIS_MANAGER.MS_KARYAWAN A
                 WHERE 
                     A.SHOW_ITEM = '1'
                     AND A.NAMA_KAR LIKE UPPER('" . $search . "'||'%')
+                    AND ROWNUM <= 5
                 ORDER BY A.NAMA_KAR ASC";
 
         $query = $this->oracle_db->query($sql);

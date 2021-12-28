@@ -16,6 +16,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- Year picker plugin-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/date-time-picker/build/css/bootstrap-datetimepicker.min.css'); ?>">
+
+    <!-- Jquery ui -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/css/jquery-ui.min.css'); ?>">
 </head>
 
 <body>
@@ -29,41 +32,5 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <!-- <img src="<?php echo base_url('assets/images/brand/mitra-logo.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
                 <!-- <hr class="sidebar-divider my-0"> -->
                 <?= $menu; ?>
-                <!-- <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        <i class="fas fa-align-justify"></i>
-                        <span>Form</span>
-                    </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#sidebarMenu">
-                        <div class="card bg-white py-2 rounded">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <a class="collapse-item" href="#"><i class="fas fa-file-alt"></i><span>Peminjaman Medrec</span></a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a class="collapse-item" href="#"><i class="fas fa-file-alt"></i><span>Pemakaian Alat</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Link</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Link</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Link</span>
-                    </a>
-                </li> -->
             </ul>
             <!-- End of Sidebar -->

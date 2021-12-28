@@ -1,0 +1,66 @@
+(function ($) {
+	"use strict"; // Start of use strict
+
+    var _URL = window.URL || window.webkitURL;
+	var base_url = $("#baseUrl").val();
+    
+    $("#datetimepicker4").datetimepicker({
+        format: "DD.MM.yyyy"
+    });
+	$("#returnPickerDate").datetimepicker({
+        format: "DD.MM.yyyy"
+    });
+
+	$("#sidebarToggle").on("click", function () {
+		$("#content-wrapper").toggleClass("sidebar-hidden");
+	});
+
+    $("#btnSearch").on("click", function (e) {
+		var mr = $("#inputMR").val();
+		//alert(user);
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/getDataMR",
+			data: {
+				mr: mr,
+			},
+			success: function (data) {
+				//alert(JSON.stringify(data));
+				$("#inputName").val(data.NAMA);
+				$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+				$("#inputDate").val(data.TGL_LAHIR);
+				$("#textAddress").val(data.ALAMAT);
+				//pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				//pageInit();
+			},
+		});
+	});
+    
+	$("#inputBorrower").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: base_url + "functions/Medrec_func/getDataEmployee",
+				type: 'post',
+				dataType: "json",
+				data: {
+					search: request.term,
+				},
+				success: function (data) {
+					response(data);
+					//alert(JSON.stringify(data));
+				},
+			});
+		},
+		select: function (event, ui) {
+			// Set selection
+			$("#inputBorrower").val(ui.item.label); // display the selected text
+			$("#inputDept").val(ui.item.dept); // display the selected text
+			return false;
+		},
+	});
+
+})(jQuery); // End of use strict
