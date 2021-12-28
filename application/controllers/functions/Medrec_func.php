@@ -25,4 +25,17 @@ class Medrec_func extends CI_Controller
         $data = $result;
         echo json_encode($data);
     }
+
+    function getDataEmployee()
+    {
+        $search = $this->input->post('search');
+        $records = $this->mr->getEmployee($search);
+
+        foreach($records as $row ){
+            $response[] = array("value"=>$row->NO_KAR,"label"=>$row->NAMA_KAR);
+         }
+         $data = $response;
+        echo json_encode($data);
+    }
+
 }

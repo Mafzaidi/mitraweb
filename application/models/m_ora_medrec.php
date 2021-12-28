@@ -32,7 +32,7 @@ class M_ora_medrec extends CI_Model
         return $row;
     }
 
-    function getName($name)
+    function getEmployee($search)
     {
         $sql = "SELECT  
                     A.NAMA_KAR, 
@@ -41,12 +41,12 @@ class M_ora_medrec extends CI_Model
                 FROM 
                     MS_KARYAWAN A
                 WHERE 
-                    A.SHOW_ITEM='1'
-                    AND A.NAMA_KAR LIKE '" . $name . "'||'%'
+                    A.SHOW_ITEM = '1'
+                    AND A.NAMA_KAR LIKE UPPER('" . $search . "'||'%')
                 ORDER BY A.NAMA_KAR ASC";
 
         $query = $this->oracle_db->query($sql);
-        $row = $query->row();
-        return $row;
+        $result = $query->result();
+        return $result;
     }
 }

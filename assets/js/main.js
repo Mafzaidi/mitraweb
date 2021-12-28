@@ -1,6 +1,6 @@
 (function ($) {
 	"use strict"; // Start of use strict
-	var base_url = $('#baseUrl').val();
+	var base_url = $("#baseUrl").val();
 
 	$("#sidebarToggle").on("click", function () {
 		$("#content-wrapper").toggleClass("sidebar-hidden");
@@ -47,8 +47,7 @@
 	var current_fs, next_fs, previous_fs; //fieldsets
 	var opacity;
 
-	$(".next").click(function(){
-
+	$(".next").click(function () {
 		current_fs = $(this).parent();
 		next_fs = $(this).parent().next();
 
@@ -58,72 +57,88 @@
 		//show the next fieldset
 		next_fs.show();
 		//hide the current fieldset with style
-		current_fs.animate({opacity: 0}, {
-		step: function(now) {
-		// for making fielset appear animation
-		opacity = 1 - now;
+		current_fs.animate(
+			{ opacity: 0 },
+			{
+				step: function (now) {
+					// for making fielset appear animation
+					opacity = 1 - now;
 
-		current_fs.css({
-		'display': 'none',
-		'position': 'relative'
-		});
-		next_fs.css({'opacity': opacity});
-		},
-		duration: 600
-		});
+					current_fs.css({
+						display: "none",
+						position: "relative",
+					});
+					next_fs.css({ opacity: opacity });
+				},
+				duration: 600,
+			}
+		);
 	});
 
-	$(".previous").click(function(){
+	$(".previous").click(function () {
+		current_fs = $(this).parent();
+		previous_fs = $(this).parent().prev();
 
-	current_fs = $(this).parent();
-	previous_fs = $(this).parent().prev();
+		//Remove class active
+		$("#progressbar li")
+			.eq($("fieldset").index(current_fs))
+			.removeClass("active");
 
-	//Remove class active
-	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+		//show the previous fieldset
+		previous_fs.show();
 
-	//show the previous fieldset
-	previous_fs.show();
+		//hide the current fieldset with style
+		current_fs.animate(
+			{ opacity: 0 },
+			{
+				step: function (now) {
+					// for making fielset appear animation
+					opacity = 1 - now;
 
-	//hide the current fieldset with style
-	current_fs.animate({opacity: 0}, {
-	step: function(now) {
-	// for making fielset appear animation
-	opacity = 1 - now;
-
-	current_fs.css({
-	'display': 'none',
-	'position': 'relative'
+					current_fs.css({
+						display: "none",
+						position: "relative",
+					});
+					previous_fs.css({ opacity: opacity });
+				},
+				duration: 600,
+			}
+		);
 	});
-	previous_fs.css({'opacity': opacity});
-	},
-	duration: 600
-	});
+
+	$(".radio-group .radio").click(function () {
+		$(this).parent().find(".radio").removeClass("selected");
+		$(this).addClass("selected");
 	});
 
-	$('.radio-group .radio').click(function(){
-	$(this).parent().find('.radio').removeClass('selected');
-	$(this).addClass('selected');
+	$(".submit").click(function () {
+		return false;
 	});
-
-	$(".submit").click(function(){
-	return false;
-	})
 
 	// Autocomplete
 
-	$( "#inputBorrower" ).autocomplete({
-		source: function(request, response) {
-            $.ajax({
-				url:  base_url + "functions/Medrec_func/getName",
-				dataType: "jsonp",
+	$("#inputBorrower").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: base_url + "functions/Medrec_func/getDataEmployee",
+				dataType: "json",
 				data: {
-					q: request.term
+					search: request.term,
 				},
-				success: function(data) {
+				success: function (data) {
 					response(data);
-				}
-            });
-		}
-    });
-	
+					// alert(JSON.stringify(data));
+				},
+			});
+		},
+		select: function (event, ui) {
+			// Set selection
+			$("#inputBorrower").val(ui.item.label); // display the selected text
+			return false;
+		},
+		focus: function (event, ui) {
+			$("#inputBorrower").val(ui.item.label);
+			return false;
+		},
+	});
 })(jQuery); // End of use strict
