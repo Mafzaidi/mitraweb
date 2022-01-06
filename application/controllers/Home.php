@@ -9,6 +9,7 @@ class Home extends CI_Controller
 			parent::__construct();
 			$this->load->library('session');        
     		$this->load->model('m_user','mu');
+			$this->load->library('modal_variables');
 	}
 
     public function index()
@@ -19,9 +20,12 @@ class Home extends CI_Controller
 	   if(!empty($sess_id))
 	   {
 			include (APPPATH.'controllers/menu_control.php');
-		
+			$params = 'logout';
+			$modals = $this->modal_variables->getModalVariables($params);
+
 			$data['user'] = $this->mu->getUserInfo($sess_id);
-            $data['tittle'] = "Home";
+            $data['tittle'] = 'Home';
+			$data['modal'] = $modals['modal'];
 
             $this->load->view('templates/v_sidebar',$data);
             $this->load->view('templates/v_topbar', $data);
