@@ -122,7 +122,7 @@
 
                                 </div>
                                 <button class="previous btn btn-light">Previous</button>
-                                <button class="submit btn btn-primary" id="confirmBtn" data-toggle="modal" data-target="#logoutModal">Confirm</button>
+                                <button class="submit btn btn-primary" id="confirmBtn" data-toggle="modal" data-target="#<?= $modal; ?>">Confirm</button>
                             </fieldset>
 
                             <fieldset>

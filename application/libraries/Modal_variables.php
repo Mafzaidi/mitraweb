@@ -3,11 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Modal_variables {
 	
 	public $modal_variables;
+	private $variables;
 	private $tittle;
 	private $message;
 	private $button;
+	private $link;
 	private $action;
-	private $modal;
 
 	protected $CI;
 	
@@ -21,20 +22,25 @@ class Modal_variables {
 		$tittle = '';
 		$message = '';
 		$button = '';
+		$link = '';
 		$action = '';
-		$modal = '';
 
 		if ($params == 'logout') {
-			$modal = $params;
+			$tittle = 'Ready to Leave?';
+			$message = 'Select "Logout" below if you are ready to end your current session.';
+			$button = 'yesno';
+			$link = 'auth/logout';
+			$action = $params;
 		}
 
-		$this->modal_variables=array(
+		$this->modal_variables = array(
 			'tittle' => $tittle,
 			'message' => $message,
 			'button' => $button,
-			'action' => $action,
-			'modal' => $modal
+			'link' => $link,
+			'action' => $action
 		);
+		
 		return $this->modal_variables;
 	}
 }

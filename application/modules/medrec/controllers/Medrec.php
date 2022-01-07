@@ -8,7 +8,8 @@ class Medrec extends CI_Controller
 	{
 			parent::__construct();
 			$this->load->library('session');     
-    		$this->load->model('m_user','mu');   
+    		$this->load->model('m_user','mu');
+			$this->load->library('modal_variables');
 	}
 
 	public function index()
@@ -18,15 +19,7 @@ class Medrec extends CI_Controller
 
         if(!empty($sess_id))
         {
-            include (APPPATH.'controllers/menu_control.php');
-            echo "test";
-            // $data['user'] = $this->mu->getUserInfo($sess_id);
-            // $data['tittle'] = "Home";
-
-            // $this->load->view('templates/v_sidebar',$data);
-            // $this->load->view('templates/v_topbar', $data);
-            // $this->load->view('medrec/mr_loan', $data);
-            // $this->load->view('templates/v_footer');
+            
         }else{
             redirect(base_url('auth'));
         } 
@@ -37,9 +30,13 @@ class Medrec extends CI_Controller
         if(!empty($sess_id))
         {
             include (APPPATH.'controllers/menu_control.php');
+			$params = 'logout';
+			$modals = $this->modal_variables->getModalVariables($params);
+
             $page = str_replace('-', '_', $param);
             $data['user'] = $this->mu->getUserInfo($sess_id);
             $data['tittle'] = "Home";
+			$data['modal'] = $modals['modal'];
 
             $this->load->view('templates/v_sidebar',$data);
             $this->load->view('templates/v_topbar', $data);
