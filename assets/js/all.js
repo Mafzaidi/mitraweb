@@ -1,21 +1,21 @@
 (function ($) {
 	"use strict"; // Start of use strict
 
-    var _URL = window.URL || window.webkitURL;
+	var _URL = window.URL || window.webkitURL;
 	var base_url = $("#baseUrl").val();
-    
-    $("#datetimepicker4").datetimepicker({
-        format: "DD.MM.yyyy"
-    });
+
+	$("#datetimepicker4").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
 	$("#returnPickerDate").datetimepicker({
-        format: "DD.MM.yyyy"
-    });
+		format: "DD.MM.yyyy",
+	});
 
 	$("#sidebarToggle").on("click", function () {
 		$("#content-wrapper").toggleClass("sidebar-hidden");
 	});
 
-    $("#btnSearch").on("click", function (e) {
+	$("#btnSearch").on("click", function (e) {
 		var mr = $("#inputMR").val();
 		//alert(user);
 		$.ajax({
@@ -39,12 +39,12 @@
 			},
 		});
 	});
-    
+
 	$("#inputBorrower").autocomplete({
 		source: function (request, response) {
 			$.ajax({
 				url: base_url + "functions/Medrec_func/getDataEmployee",
-				type: 'post',
+				type: "post",
 				dataType: "json",
 				data: {
 					search: request.term,
@@ -63,4 +63,23 @@
 		},
 	});
 
+	$("#save_mr_borrow").click(function () {
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/saveMrBorrow",
+			data: {
+				mr: mr,
+			},
+			success: function (data) {
+				//alert(JSON.stringify(data));
+				$(".submit").click();
+				//pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				//pageInit();
+			},
+		});
+	});
 })(jQuery); // End of use strict

@@ -29,14 +29,13 @@ class Medrec extends CI_Controller
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
         {
+			$params = array('logout','save');
             include (APPPATH.'controllers/menu_control.php');
-			$params = 'logout';
-			$modals = $this->modal_variables->getModalVariables($params);
+			include (APPPATH.'controllers/modal_control.php');
 
             $page = str_replace('-', '_', $param);
             $data['user'] = $this->mu->getUserInfo($sess_id);
             $data['tittle'] = "Home";
-			$data['modal'] = $modals['modal'];
 
             $this->load->view('templates/v_sidebar',$data);
             $this->load->view('templates/v_topbar', $data);

@@ -3,7 +3,6 @@
     <div class="row justify-content-center mt-0">
         <div class="col-lg text-center">
             <div class="card p-2">
-                <p>Fill all form field to go to next step</p>
                 <div class="row">
                     <div class="col-md-12 mx-0">
                         <div id="msform">
@@ -20,7 +19,7 @@
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
                                             <label class="sr-only" for="inputMR">Medical Record Number</label>
-                                            <input type="text" class="form-control mb-2 mr-sm-2" id="inputMR" placeholder="Type medrec" name="mr" />
+                                            <input type="number" class="form-control mb-2 mr-sm-2" id="inputMR" placeholder="Type medrec" name="mr" min="0" step="1" data-bind="value:replyNumber"/>
                                         </div>
                                         <div class="col-auto">
                                             <button type="submit" class="btn btn-primary mb-2" id="btnSearch">Find</button>
@@ -122,10 +121,11 @@
 
                                 </div>
                                 <button class="previous btn btn-light">Previous</button>
-                                <button class="submit btn btn-primary" id="confirmBtn" data-toggle="modal" data-target="#<?= $modal; ?>">Confirm</button>
+                                <button class="btn btn-primary" id="confirmBtn" data-toggle="modal" data-target="#save">Confirm</button>
+                                <button class="submit d-none">Next</button>
                             </fieldset>
 
-                            <fieldset>
+                            <fieldset id="borrowComplete">
                                 <div class="form-card">
                                     <h2 class="fs-title text-center">Success !</h2> <br><br>
                                     <div class="success-checkmark">
