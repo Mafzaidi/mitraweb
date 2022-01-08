@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Roboto:wght@700&display=swap');
+
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif; /* your font family here! */
+    font-weight: bold;
+}
+.fa-e:before {
+    font-family: 'Montserrat', sans-serif; /* your font family here! */
+    font-weight: bold;
+    content: 'E';
+    color:rgb(243, 243, 243) ;
+    background-color: rgb(27, 80, 82);
+    padding: 5px 10px;
+    border: 2px solid rgb(243, 243, 243);
+    border-radius: 3px;
+}
