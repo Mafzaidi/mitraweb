@@ -38,4 +38,16 @@ class Medrec_func extends CI_Controller
         echo json_encode($data);
     }
 
+    function saveMrBorrow()
+    {
+        $search = $this->input->post('search');
+        $records = $this->mr->getEmployee($search);
+
+        foreach($records as $row ){
+            $response[] = array("id"=>$row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
+        }
+        $data = $response;
+        echo json_encode($data);
+    }
+
 }
