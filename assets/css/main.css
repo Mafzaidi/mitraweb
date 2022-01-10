@@ -368,3 +368,22 @@ label.error {
 .form-control:focus + label.error {
 	visibility: hidden;
 }
+
+/* table div */
+.tb {
+	font-size: 0.75rem
+}
+.tb-header {
+	background-color: #17a2b8;
+	color: #fff;
+	font-weight: 500;
+	box-sizing: border-box;
+}
+
+.tb-header .col{
+	padding: 10px;
+	border-right: 1px solid #fff;
+}
+.odd {
+	background-color: #f8f9fa;
+}
