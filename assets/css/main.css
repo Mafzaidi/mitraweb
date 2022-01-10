@@ -231,25 +231,27 @@ div#content-wrapper.sidebar-hidden .sidebar {
 
 /* multiple step form */
 
-#msform {
+#brwForm {
 	text-align: center;
 	position: relative;
 	margin-top: 20px;
 }
 
-#msform fieldset .form-card {
+fieldset .form-card {
 	position: relative;
 }
 
-#msform fieldset {
+fieldset {
 	position: relative;
 }
-
-#msform fieldset:not(:first-of-type) {
+.tab {
 	display: none;
 }
+.current {
+	display: block;
+}
 
-#msform fieldset .form-card {
+fieldset .form-card {
 	text-align: left;
 	color: #9e9e9e;
 }
@@ -344,4 +346,25 @@ select.list-dt:focus {
 #progressbar li.active:before,
 #progressbar li.active:after {
 	background: skyblue;
+}
+
+/* Validate */
+label.error {
+	position: absolute;
+	border-radius: 2px;
+	background-color: #fff;
+	padding: 4px 25px 4px 10px;
+	bottom: calc((100% - 20px) / 2);
+	right: 2px;
+	margin: auto;
+	color: #c80000;
+	border: +1px solid #c80000;
+	border-radius: 2px;
+	font-size: 13px;
+	line-height: 1.4;
+	text-align: left;
+}
+
+.form-control:focus + label.error {
+	visibility: hidden;
 }

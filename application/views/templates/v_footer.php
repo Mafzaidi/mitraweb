@@ -24,7 +24,7 @@
 		<!-- Jquery UI -->
 		<script src="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/jquery-ui.min.js'); ?>"></script>
 		<!-- Jquery Validation -->
-		<script src="<?php echo base_url('assets/vendor/validation/jquery.validate.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/vendor/jquery-validation/jquery.validate.min.js'); ?>"></script>
 		<!-- datetimepicker jquery -->
 		<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 		<!-- main.js -->

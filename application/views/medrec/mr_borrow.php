@@ -5,7 +5,7 @@
             <div class="card p-2">
                 <div class="row">
                     <div class="col-md-12 mx-0">
-                        <div id="msform">
+                        <form id="brwForm">
                             <!-- progressbar -->
                             <ul class="px-3" id="progressbar">
                                 <li class="active" id="search"><strong>Find</strong></li>
@@ -14,12 +14,12 @@
                             </ul> 
                             
                             <!-- fieldsets -->
-                            <fieldset>
+                            <fieldset class="tab current">
                                 <div class="form-card">
                                     <div class="form-row align-items-center">
                                         <div class="col-auto">
-                                            <label class="sr-only" for="inputMR">Medical Record Number</label>
-                                            <input type="number" class="form-control mb-2 mr-sm-2" id="inputMR" placeholder="Type medrec" name="mr" min="0" step="1" data-bind="value:replyNumber"/>
+                                            <label class="sr-only" for="mr">Medical Record Number</label>
+                                            <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="Type medrec" name="mr" />
                                         </div>
                                         <div class="col-auto">
                                             <button type="submit" class="btn btn-primary mb-2" id="btnSearch">Find</button>
@@ -54,11 +54,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="next btn btn-primary">Next</button>
+                                <button class="next btn btn-primary" >Next</button>
                             </fieldset>
                             
                             <!-- fieldset 2 -->
-                            <fieldset>
+                            <fieldset class="tab">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <h5 class="card-title text-left mb-3">
@@ -121,11 +121,11 @@
 
                                 </div>
                                 <button class="previous btn btn-light">Previous</button>
-                                <button class="btn btn-primary" id="confirmBtn" data-toggle="modal" data-target="#save">Confirm</button>
+                                <button class="btn btn-primary" id="confirmBtn">Confirm</button>
                                 <button class="submit d-none">Next</button>
                             </fieldset>
 
-                            <fieldset id="borrowComplete">
+                            <fieldset class="tab" id="borrowComplete">
                                 <div class="form-card">
                                     <h2 class="fs-title text-center">Success !</h2> <br><br>
                                     <div class="success-checkmark">
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                             </fieldset>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
