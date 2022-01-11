@@ -76,7 +76,7 @@ $query_builder = TRUE;
 
 $db['oracle'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.2.252:1521/uat',
+	'hostname' => '192.168.2.251:1521/rsmk',
 	'username' => 'HIS_MANAGER',
 	'password' => 'his_system',
 	'database' => 'HIS_MANAGER',

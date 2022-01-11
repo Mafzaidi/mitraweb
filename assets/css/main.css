@@ -412,6 +412,9 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 .tb {
 	font-size: 0.75rem;
 	flex-wrap: wrap;
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    max-width: none !important;
 }
 
 .tb .row {
@@ -434,4 +437,20 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 }
 .odd {
 	background-color: #f8f9fa;
+}
+
+div.dataTables_info {
+    padding-top: 0.85em;
+}
+
+div.dataTables_paginate {
+    margin: 0;
+    white-space: nowrap;
+    text-align: right;
+}
+
+div.dataTables_paginate ul.pagination {
+    margin: 2px 0;
+    white-space: nowrap;
+    justify-content: flex-end;
 }
