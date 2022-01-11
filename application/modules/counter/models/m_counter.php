@@ -13,7 +13,7 @@ class M_counter extends CI_Model
     function getMonitor()
     {
         $sql = "SELECT 
-                    PP.*
+                    ROW_NUMBER() OVER (ORDER BY PP.JAM DESC ) AS RNUM, PP.*
                 FROM 
                 (
                     SELECT 
@@ -29,7 +29,8 @@ class M_counter extends CI_Model
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                     AND B1.MR=X.MR
                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                    --AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                    AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                             ),0
                         ) AS JML_DOKTER,
                         NVL(
@@ -43,7 +44,8 @@ class M_counter extends CI_Model
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                     AND B1.MR=X.MR
                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                    --AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                    AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                     AND B1.MR||B1.DOKTER_ID IN (
                                         SELECT 
                                             A1.PASIEN_ID||A1.DOKTER_ID 
@@ -51,7 +53,8 @@ class M_counter extends CI_Model
                                             FRM_RESEP_DOKTER_MS A1 
                                         WHERE 
                                             A1.PASIEN_ID = B1.MR 
-                                            AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                            --AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                            AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                     AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                 
@@ -80,7 +83,9 @@ class M_counter extends CI_Model
                             MS_MEDREC B, 
                             MS_HIS_DOKTER C,
                             ANTAR_MR D
-                        WHERE TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                        WHERE 
+                            --TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                            TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                             AND A.MR=D.A_MR(+)
                             AND A.NO_TR_LAMA=D.A_STRUK(+)
                             AND A.TIPE_RAWAT = 'P'

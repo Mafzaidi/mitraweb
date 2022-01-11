@@ -370,19 +370,67 @@ label.error {
 }
 
 /* table div */
-.tb {
-	font-size: 0.75rem
+div.dataTables_wrapper {
+	box-sizing: border-box;
+	width: 100%;
 }
+div.dataTables_length label {
+	font-weight: normal;
+	text-align: left;
+	white-space: nowrap;
+}
+
+div.dataTables_filter {
+	text-align: right;
+}
+
+div.dataTables_filter label {
+	font-weight: normal;
+	white-space: nowrap;
+	text-align: left;
+}
+
+label {
+	display: inline-block;
+	margin-bottom: 0.5rem;
+}
+
+div.dataTables_filter input {
+	margin-left: 0.5em;
+	display: inline-block;
+	width: auto;
+}
+
+div.dataTables_wrapper > div.row > div[class^="col-"]:first-child {
+	padding-left: 0;
+}
+
+div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
+	padding-right: 0;
+}
+
+.tb {
+	font-size: 0.75rem;
+	flex-wrap: wrap;
+}
+
+.tb .row {
+	margin: 0;
+}
+
 .tb-header {
 	background-color: #17a2b8;
 	color: #fff;
 	font-weight: 500;
-	box-sizing: border-box;
 }
 
-.tb-header .col{
-	padding: 10px;
+.tb-header [class*="col"] {
 	border-right: 1px solid #fff;
+	padding: 0.75rem;
+}
+
+.tb-body [class*="col"] {
+	padding: 0.75rem;
 }
 .odd {
 	background-color: #f8f9fa;

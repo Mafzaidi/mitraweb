@@ -45,24 +45,26 @@ class Counter extends CI_Controller
             $tb.= '<div class="tb">';
             $tb.= '<div class="tb-header">';
             $tb.= '<div class="row">';
-            $tb.= '<div class="col">MEDREC</div>';
-            $tb.= '<div class="col">PASIEN</div>';
-            $tb.= '<div class="col">DOKTER</div>';
-            $tb.= '<div class="col">NO URUT</div>';
-            $tb.= '<div class="col">NO STRUK</div>';
-            $tb.= '<div class="col">JAM</div>';
+            $tb.= '<div class="col-md-1">NO.</div>';
+            $tb.= '<div class="col-md-1">MEDREC</div>';
+            $tb.= '<div class="col-md-3">PASIEN</div>';
+            $tb.= '<div class="col-md-3">DOKTER</div>';
+            $tb.= '<div class="col-md-1">NO URUT</div>';
+            $tb.= '<div class="col-md-1">NO STRUK</div>';
+            $tb.= '<div class="col-md-2">JAM</div>';
             $tb.= '</div>';      
             $tb.= '</div>'; 
             
             $tb.= '<div class="tb-body">';
             foreach($monitor as $pm) {
             $tb.= '<div class="row border-bottom ' . ($i%2 ? 'odd':'even') . '">';
-            $tb.= '<div class="col">' . $pm->PID . '</div>';
-            $tb.= '<div class="col">' . $pm->PASIEN . '</div>';
-            $tb.= '<div class="col">' . $pm->DOKTER . '</div>';
-            $tb.= '<div class="col">' . $pm->NO_URUT . '</div>';
-            $tb.= '<div class="col">' . $pm->NO_BUKTI . '</div>';
-            $tb.= '<div class="col">' . $pm->JAM . '</div>';
+            $tb.= '<div class="col-md-1">' . $pm->RNUM . '</div>';
+            $tb.= '<div class="col-md-1">' . $pm->PID . '</div>';
+            $tb.= '<div class="col-md-3">' . $pm->PASIEN . '</div>';
+            $tb.= '<div class="col-md-3">' . $pm->DOKTER . '</div>';
+            $tb.= '<div class="col-md-1">' . $pm->NO_URUT . '</div>';
+            $tb.= '<div class="col-md-1">' . $pm->NO_BUKTI . '</div>';
+            $tb.= '<div class="col-md-2">' . $pm->JAM . '</div>';
             $tb.= '</div>';
             $i++;
             }   
