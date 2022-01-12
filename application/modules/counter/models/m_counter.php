@@ -30,7 +30,7 @@ class M_counter extends CI_Model
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                     AND B1.MR=X.MR
                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                     --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                             ),0
                         ) AS JML_DOKTER,
@@ -45,7 +45,7 @@ class M_counter extends CI_Model
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                     AND B1.MR=X.MR
                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                     --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                     AND B1.MR||B1.DOKTER_ID IN (
                                         SELECT 
@@ -54,7 +54,7 @@ class M_counter extends CI_Model
                                             FRM_RESEP_DOKTER_MS A1 
                                         WHERE 
                                             A1.PASIEN_ID = B1.MR 
-                                            AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
+                                            AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
                                             --AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                     AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
@@ -72,7 +72,7 @@ class M_counter extends CI_Model
                                     AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                     AND B1.JH_DONE_STATUS <> '03'
                                     AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                    AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
                             )
                         ,0) AS SELESAI
                     FROM(
@@ -96,7 +96,7 @@ class M_counter extends CI_Model
                             MS_MEDREC B, 
                             MS_HIS_DOKTER C
                         WHERE 
-                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
+                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
                             --TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                             AND A.MR=B.MR
                             AND A.DOKTER_ID=C.DOKTER_ID
@@ -139,7 +139,7 @@ class M_counter extends CI_Model
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                         --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                 ),0
                             ) AS JML_DOKTER,
@@ -154,7 +154,7 @@ class M_counter extends CI_Model
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                         --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                         AND B1.MR||B1.DOKTER_ID IN (
                                             SELECT 
@@ -163,7 +163,7 @@ class M_counter extends CI_Model
                                                 FRM_RESEP_DOKTER_MS A1 
                                             WHERE 
                                                 A1.PASIEN_ID = B1.MR 
-                                                AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
+                                                AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
                                                 --AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                         AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
@@ -181,7 +181,7 @@ class M_counter extends CI_Model
                                         AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                         AND B1.JH_DONE_STATUS <> '03'
                                         AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                        AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
+                                        AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
                                 )
                             ,0) AS SELESAI
                         FROM(
@@ -205,7 +205,7 @@ class M_counter extends CI_Model
                                 MS_MEDREC B, 
                                 MS_HIS_DOKTER C
                             WHERE 
-                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
                                 --TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                                 AND A.MR=B.MR
                                 AND A.DOKTER_ID=C.DOKTER_ID
@@ -242,7 +242,7 @@ class M_counter extends CI_Model
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                     AND B1.MR=X.MR
                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                     --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                             ),0
                         ) AS JML_DOKTER,
@@ -257,7 +257,7 @@ class M_counter extends CI_Model
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                     AND B1.MR=X.MR
                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                     --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                     AND B1.MR||B1.DOKTER_ID IN (
                                         SELECT 
@@ -266,7 +266,7 @@ class M_counter extends CI_Model
                                             FRM_RESEP_DOKTER_MS A1 
                                         WHERE 
                                             A1.PASIEN_ID = B1.MR 
-                                            AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
+                                            AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
                                             --AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                     AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
@@ -284,7 +284,7 @@ class M_counter extends CI_Model
                                     AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                     AND B1.JH_DONE_STATUS <> '03'
                                     AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                    AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
                             )
                         ,0) AS SELESAI
                     FROM(
@@ -308,7 +308,7 @@ class M_counter extends CI_Model
                             MS_MEDREC B, 
                             MS_HIS_DOKTER C
                         WHERE 
-                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
+                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
                             --TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                             AND A.MR=B.MR
                             AND A.DOKTER_ID=C.DOKTER_ID

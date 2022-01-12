@@ -1,8 +1,8 @@
 <?php
-    $batal = '';
+    $batal = 'N';
     $jml_dr = 0;
-    $resep = '';
-    $selesai = '';
+    $resep = 'N';
+    $selesai = 'N';
     $per_page = '';
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){

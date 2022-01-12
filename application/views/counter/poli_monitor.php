@@ -11,7 +11,21 @@
 <!-- datetimepicker jquery -->
 <script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 
-<div class="container-fluid" id="grad1">
+<div class="container-fluid py-3" id="table_wrapper">
+    <ul class="nav nav-tabs">
+    <li class="nav-item bg-nav-cool">
+        <a class="nav-link active" href="#">Belum ke Dokter</a>
+    </li>
+    <li class="nav-item bg-nav-gloom">
+        <a class="nav-link" href="#">Sudah dari Dokter</a>
+    </li>
+    <li class="nav-item bg-nav-cure">
+        <a class="nav-link" href="#">Selesai Berobat</a>
+    </li>
+    <li class="nav-item bg-nav-dizzy">
+        <a class="nav-link" href="#">Batal</a>
+    </li>
+    </ul>
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -87,4 +101,28 @@
     </div>
 </div>
 
-<script src="<?php echo base_url('assets/js/counter.js'); ?>"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+		var _URL = window.URL || window.webkitURL;
+	});
+
+   $("#select_pageSize").on("change", function () {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: base_url + "functions/Medrec_func/saveMrBorrow",
+            data: {
+                mr: mr,
+            },
+            success: function (data) {
+                //alert(JSON.stringify(data));
+                $(".submit").click();
+                //pageInit();
+            },
+            error: function (data) {
+                alert(JSON.stringify(data));
+                //pageInit();
+            },
+        });
+    });
+</script>
