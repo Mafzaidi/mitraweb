@@ -1,3 +1,16 @@
+
+<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/moment.js'); ?>"></script>
+
+<!-- Jquery UI -->
+<script src="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/jquery-ui.min.js'); ?>"></script>
+<!-- Jquery Validation -->
+<script src="<?php echo base_url('assets/vendor/jquery-validation/jquery.validate.min.js'); ?>"></script>
+<!-- datetimepicker jquery -->
+<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+
 <div class="container-fluid" id="grad1">
     <div class="card">
         <div class="card-body">
@@ -6,7 +19,8 @@
                     <div class="dataTables_length" id="dataTable_length">
                         <label>
                             Show 
-                            <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                            <select name="dataTable_length" id="select_pageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="">ALL</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -32,7 +46,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-5">
                     <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                        Showing 1 to 10 of 57 entries
+                        Showing <?= $num1; ?> to <?= $num2; ?> of <?= $rows; ?> entries
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-7">
@@ -72,3 +86,5 @@
         </div>
     </div>
 </div>
+
+<script src="<?php echo base_url('assets/js/counter.js'); ?>"></script>

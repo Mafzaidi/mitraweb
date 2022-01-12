@@ -21,7 +21,7 @@ class Counter extends CI_Controller
 
         if(!empty($sess_id))
         {
-            
+            //
         }else{
             redirect(base_url('auth'));
         } 
