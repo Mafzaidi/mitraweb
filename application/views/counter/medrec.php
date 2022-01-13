@@ -1,10 +1,13 @@
-<div class="container-fluid py-3">
+<div class="container-fluid py-3" id="searchMr">
     <div class="card">
-        <div class="card-header border-bottom-0 bg-info text-white">
+        <div class="d-flex card-header border-bottom-0 bg-info bg-dark-text">
             Filter Pencarian Medrec
+            <button class="filter-toggler ml-auto" id="searchMrFilterToggler" data-toggle="collapse" data-target="#filterMr">
+                <i class="fas fa-angle-double-up"></i>
+            </button>
         </div>
-        <div class="formFilter-wrapper p-3">
-            <div class="row">
+        <div class="formFilter-wrapper collapse show" id="filterMr">
+            <div class="row p-3">
                 <div class="col">
                     <div class="form-group row mb-2">
                         <label for="inputTextMr" class="col-sm-4 col-form-label-sm pr-0 mb-2">Medrec</label>
@@ -51,50 +54,43 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group row mb-0">
+            <div class="form-group row px-3 mb-0">
                 <div class="col-sm-10 ">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary search">Search</button>
                 </div>
             </div>
         </div>
         <div class="formData-wrapper p-3">
-            <form>
+            <div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputEmail4">Email</label>
-                         <input type="email" class="form-control" id="inputEmail4">
+                    <div class="form-group col-md-6 mb-2">
+                        <label for="inputDataMr" class="col-form-label-sm mb-1">Medrec</label>
+                         <input type="text" class="form-control form-control-sm" id="inputDataMr" readonly>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="inputPassword4">Password</label>
-                        <input type="password" class="form-control" id="inputPassword4">
+                        <label for="inputDataName" class="col-form-label-sm mb-1">Nama</label>
+                        <input type="text" class="form-control form-control-sm" id="inputDataName" readonly>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                </div>
-                <div class="form-group">
-                    <label for="inputAddress2">Address 2</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                <div class="form-group mb-2">
+                    <label for="inputDataAddress" class="col-form-label-sm mb-1">Alamat</label>
+                    <input type="text" class="form-control form-control-sm" id="inputDataAddress" readonly>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="inputCity">City</label>
-                        <input type="text" class="form-control" id="inputCity">
+                    <div class="form-group col-md-4 mb-2">
+                        <label for="inputDataCity" class="col-form-label-sm mb-1">Kota</label>
+                        <input type="text" class="form-control form-control-sm" id="inputDataCity" readonly>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="inputState">State</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                        </select>
+                    <div class="form-group col-md-4 mb-2">
+                        <label for="inputDataRegency" class="col-form-label-sm mb-1">Kecamatan</label>
+                        <input type="text" class="form-control form-control-sm" id="inputDataRegency" readonly>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip">
+                    <div class="form-group col-md-4 mb-2">
+                        <label for="inputDataDistrict" class="col-form-label-sm mb-1">Kecamatan</label>
+                        <input type="text" class="form-control form-control-sm" id="inputDataDistrict" readonly>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>

@@ -15,6 +15,10 @@
 		$("#content-wrapper").toggleClass("sidebar-hidden");
 	});
 
+	$("#searchMrFilterToggler").on("click", function () {
+		$("#searchMr").toggleClass("filter-hidden");
+	});
+
 	$(document).ready(function () {
 		var val = {
 			// Specify validation rules
