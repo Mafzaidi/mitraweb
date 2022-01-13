@@ -7,7 +7,12 @@
 	$("#datetimepicker4").datetimepicker({
 		format: "DD.MM.yyyy",
 	});
+
 	$("#returnPickerDate").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#birthDateTime_picker").datetimepicker({
 		format: "DD.MM.yyyy",
 	});
 
@@ -44,62 +49,62 @@
 	});
 
 	// ***************************************************************************************************
-	// $(document).ready(function () {
-	// 	$("#brwForm").validate({
-	// 		// initialize plugin
-	// 		// your rules & options,
-	// 		focusInvalid: false,
-	// 		rules: {
-	// 			mr: "required",
-	// 		},
-	// 		submitHandler: function (form) {
-	// 			// your ajax would go here
-	// 			var mr = $("#mr").val();
-	// 			$.ajax({
-	// 				type: "POST",
-	// 				dataType: "json",
-	// 				url: base_url + "functions/Medrec_func/getDataMR",
-	// 				data: {
-	// 					mr: mr,
-	// 				},
-	// 				success: function (data) {
-	// 					//alert(JSON.stringify(data));
-	// 					$("#inputName").val(data.NAMA);
-	// 					$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
-	// 					$("#inputDate").val(data.TGL_LAHIR);
-	// 					$("#textAddress").val(data.ALAMAT);
-	// 					$("#brwForm .next").prop("disabled", false);
+	$(document).ready(function () {
+		$("#brwForm").validate({
+			// initialize plugin
+			// your rules & options,
+			focusInvalid: false,
+			rules: {
+				mr: "required",
+			},
+			submitHandler: function (form) {
+				// your ajax would go here
+				var mr = $("#mr").val();
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: base_url + "functions/Medrec_func/getDataMR",
+					data: {
+						mr: mr,
+					},
+					success: function (data) {
+						//alert(JSON.stringify(data));
+						$("#inputName").val(data.NAMA);
+						$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+						$("#inputDate").val(data.TGL_LAHIR);
+						$("#textAddress").val(data.ALAMAT);
+						$("#brwForm .next").prop("disabled", false);
 
-	// 					$("#save_mr_borrow").click(function () {
-	// 						$.ajax({
-	// 							type: "POST",
-	// 							dataType: "json",
-	// 							url: base_url + "functions/Medrec_func/saveMrBorrow",
-	// 							data: {
-	// 								mr: mr,
-	// 							},
-	// 							success: function (data) {
-	// 								//alert(JSON.stringify(data));
-	// 								$(".submit").click();
-	// 								//pageInit();
-	// 							},
-	// 							error: function (data) {
-	// 								alert(JSON.stringify(data));
-	// 								//pageInit();
-	// 							},
-	// 						});
-	// 					});
-	// 					//pageInit();
-	// 				},
-	// 				error: function (data) {
-	// 					//alert(JSON.stringify(data));
-	// 					//pageInit();
-	// 				},
-	// 			});
-	// 			return false; // blocks regular submit since you have ajax
-	// 		},
-	// 	});
-	// });
+						$("#save_mr_borrow").click(function () {
+							$.ajax({
+								type: "POST",
+								dataType: "json",
+								url: base_url + "functions/Medrec_func/saveMrBorrow",
+								data: {
+									mr: mr,
+								},
+								success: function (data) {
+									//alert(JSON.stringify(data));
+									$(".submit").click();
+									//pageInit();
+								},
+								error: function (data) {
+									alert(JSON.stringify(data));
+									//pageInit();
+								},
+							});
+						});
+						//pageInit();
+					},
+					error: function (data) {
+						//alert(JSON.stringify(data));
+						//pageInit();
+					},
+				});
+				return false; // blocks regular submit since you have ajax
+			},
+		});
+	});
 	// ***************************************************************************************************
 
 	$("#inputBorrower").autocomplete({
@@ -125,17 +130,30 @@
 		},
 	});
 
-	$("#save_mr_borrow").click(function () {
+	$("#btnSearchMr").click(function () {
+		var mr = $("#inputTextMr").val();
+		var name = $("#inputTextName").val();
+		var birth_date = $("#inputBirthDate").val();
+		var telp = $("#inputTextTelp").val();
+		var address = $("#inputTextAddress").val();
+		var parent = $("#inputTextParent").val();
+
 		$.ajax({
 			type: "POST",
 			dataType: "json",
-			url: base_url + "functions/Medrec_func/saveMrBorrow",
+			url: base_url + "functions/Counter_func/searchMedrec",
 			data: {
 				mr: mr,
+				name: name,
+				birth_date: birth_date,
+				telp: telp,
+				address: address,
+				parent: parent,
 			},
 			success: function (data) {
 				//alert(JSON.stringify(data));
-				$(".submit").click();
+				$('#mrModal .modal-body').append(data['html']);
+				$('#mrModal').modal('show');
 				//pageInit();
 			},
 			error: function (data) {

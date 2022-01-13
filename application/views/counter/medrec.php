@@ -24,9 +24,9 @@
                     <div class="form-group row mb-2">
                         <label for="inputBirthPlace" class="col-sm-4 col-form-label-sm pr-0 mb-2">Tanggal Lahir</label>
                         <div class="col-sm-8 pl-0">
-                            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input form-control-sm" data-target="#datetimepicker4" id="inputDate" placeholder="tanggal lahir"/>
-                                <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                            <div class="input-group date" id="birthDateTime_picker" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input form-control-sm" data-target="#birthDateTime_picker" id="inputBirthDate" placeholder="tanggal lahir"/>
+                                <div class="input-group-append" data-target="#birthDateTime_picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
@@ -35,28 +35,28 @@
                 </div>
                 <div class="col">
                     <div class="form-group row mb-2">
-                        <label for="inputTextMr" class="col-sm-4 col-form-label-sm pr-0 mb-2">No. Telp/HP</label>
+                        <label for="inputTextTelp" class="col-sm-4 col-form-label-sm pr-0 mb-2">No. Telp/HP</label>
                         <div class="col-sm-8 pl-0">
-                            <input type="text" class="form-control form-control-sm" id="inputTextMr" placeholder="no HP/Telp">
+                            <input type="text" class="form-control form-control-sm" id="inputTextTelp" placeholder="no HP/Telp">
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label for="inputTextName" class="col-sm-4 col-form-label-sm pr-0 mb-2">Alamat</label>
+                        <label for="inputTextAddress" class="col-sm-4 col-form-label-sm pr-0 mb-2">Alamat</label>
                         <div class="col-sm-8 pl-0">
-                            <input type="text" class="form-control form-control-sm" id="inputTextName" placeholder="alamat">
+                            <input type="text" class="form-control form-control-sm" id="inputTextAddress" placeholder="alamat">
                         </div>
                     </div>
                     <div class="form-group row mb-2">
-                        <label for="inputTextName" class="col-sm-4 col-form-label-sm pr-0 mb-2">Nama Ayah</label>
+                        <label for="inputTextParent" class="col-sm-4 col-form-label-sm pr-0 mb-2">Orang Tua</label>
                         <div class="col-sm-8 pl-0">
-                            <input type="text" class="form-control form-control-sm" id="inputTextName" placeholder="nama ayah">
+                            <input type="text" class="form-control form-control-sm" id="inputTextParent" placeholder="orang tua">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group row px-3 mb-0">
                 <div class="col-sm-10 ">
-                <button type="submit" class="btn btn-primary search">Search</button>
+                <button type="submit" class="btn btn-primary search" id="btnSearchMr">Search</button>
                 </div>
             </div>
         </div>
@@ -94,3 +94,24 @@
         </div>
     </div>
 </div>
+<!-- Logout Modal-->
+ <div class="modal fade" id="mrModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Data Medrec</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="#">Select</a>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -329,4 +329,52 @@ class M_counter extends CI_Model
         $result = $query->result();
         return $result;
     }
+
+    function getRecordsMedrec($mr, $name, $birth_date, $telp, $address, $parent)
+    {
+        $sql = "SELECT
+                    A.MR,
+                    A.NAMA,
+                    NVL(A.TEMPAT_LAHIR,'-') AS TEMPAT_LAHIR, 
+                    TO_CHAR(A.TGL_LAHIR,'DD/MM/YYYY') AS TGL_LAHIR,
+                    CASE WHEN A.ALAMAT = '' THEN '-'
+                    ELSE
+                        (A.ALAMAT || ' RT.' || A.RT || ' RW.' || A.RW) 
+                    END AS ALAMAT,
+                    A.KOTA,
+                    A.KECAMATAN, 
+                    A.KELURAHAN,
+                    A.BIN_BINTI, 
+                    A.NAMA_ORG_TUA, 
+                    A.NO_TELP, 
+                    A.NO_HP
+                FROM
+                    HIS_MANAGER.MS_MEDREC A
+                WHERE
+                    SUBSTR(A.MR,4) LIKE '" . $mr . "' || '%' AND
+                    A.NAMA LIKE '" . $name . "' || '%' AND
+                    A.TGL_LAHIR = TO_DATE('" . $birth_date . "','DD.MM.YYYY') AND
+                    (
+                        (A.NO_TELP LIKE '" . $telp . "' || '%' OR A.NO_TELP IS NULL) OR  
+                        (A.NO_HP LIKE '" . $telp . "' || '%' OR A.NO_HP IS NULL)
+                    ) AND
+                    (
+                        A.ALAMAT LIKE '" . $address . "' || '%' OR 
+                        A.KELURAHAN LIKE '" . $address . "' || '%' OR 
+                        A.KECAMATAN LIKE '" . $address . "' || '%' OR 
+                        A.KOTA LIKE '" . $address . "' || '%'
+                    ) AND
+                    (
+                        (A.BIN_BINTI LIKE '" . $parent . "' || '%' OR A.BIN_BINTI IS NULL) OR 
+                        (A.NAMA_ORG_TUA LIKE '" . $parent . "' || '%' OR A.NAMA_ORG_TUA IS NULL)
+                    ) AND
+                    A.SHOW_ITEM = '1'
+                    AND SUBSTR(A.MR,4,1) IN ('0','1','2','3','4','5','6','7','8','9')
+                    "; 
+
+        $query = $this->oracle_db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
 }
