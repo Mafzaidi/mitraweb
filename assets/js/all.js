@@ -120,4 +120,25 @@
 			return false;
 		},
 	});
+
+	$("#save_mr_borrow").click(function () {
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/saveMrBorrow",
+			data: {
+				mr: mr,
+			},
+			success: function (data) {
+				//alert(JSON.stringify(data));
+				$(".submit").click();
+				//pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				//pageInit();
+			},
+		});
+	});
+
 })(jQuery); // End of use strict
