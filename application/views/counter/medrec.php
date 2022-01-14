@@ -95,9 +95,9 @@
     </div>
 </div>
 <!-- Logout Modal-->
- <div class="modal fade" id="mrModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ <div class="modal fade" id="myDynamicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Data Medrec</h5>
@@ -110,7 +110,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="#">Select</a>
+                <a class="btn btn-submit btn-primary" href="#">Select</a>
             </div>
         </div>
     </div>
