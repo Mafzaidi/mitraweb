@@ -333,7 +333,7 @@ class M_counter extends CI_Model
     function getRecordsMedrec($mr, $name, $birth_date, $telp, $address, $parent)
     {
         $sql = "SELECT
-                    A.MR,
+                    SUBSTR(A.MR,4) AS MR,
                     A.NAMA,
                     NVL(A.TEMPAT_LAHIR,'-') AS TEMPAT_LAHIR, 
                     TO_CHAR(A.TGL_LAHIR,'DD/MM/YYYY') AS TGL_LAHIR,

@@ -104,6 +104,10 @@
 				return false; // blocks regular submit since you have ajax
 			},
 		});
+
+		$("#inputTextMr").inputFilter(function(value) {
+			return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+		});
 	});
 	// ***************************************************************************************************
 
@@ -152,8 +156,8 @@
 			},
 			success: function (data) {
 				//alert(JSON.stringify(data));
-				$('#mrModal .modal-body').append(data['html']);
-				$('#mrModal').modal('show');
+				$('#myDynamicModal .modal-body').append(data['html']);
+				$('#myDynamicModal').modal('show');
 				//pageInit();
 			},
 			error: function (data) {
@@ -163,4 +167,24 @@
 		});
 	});
 
+	
+	// Modal function
+	$('#myDynamicModal').on('hidden.bs.modal', function (event) {
+		$('#myDynamicModal .modal-body').html("");
+	});
+
+	$('#myDynamicModal').on('shown.bs.modal', function (event) {
+		pageInit();
+	});
+
+	function pageInit() {
+		$('.input-check').on('change', function() {
+			$('.input-check').not(this).prop('checked', false);
+		});
+
+		$(".btn-submit").click(function () {
+			alert($('.input-check').prop('checked'));
+		});
+	};
+	
 })(jQuery); // End of use strict

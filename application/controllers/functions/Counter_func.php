@@ -46,10 +46,9 @@ class Counter_func extends CI_Controller
 
         $tb.= '<div class="tb-header">';
         $tb.= '<div class="row">';
-        $tb.= '<div class="col-md-2">MEDREC</div>';
-        $tb.= '<div class="col-md-2">NAMA</div>';
+        $tb.= '<div class="col-md-3">MEDREC</div>';
+        $tb.= '<div class="col-md-3">NAMA</div>';
         $tb.= '<div class="col-md-2">TGL LAHIR</div>';
-        $tb.= '<div class="col-md-2">NO HP</div>';
         $tb.= '<div class="col-md-4">ALAMAT</div>';;
         $tb.= '</div>';      
         $tb.= '</div>'; 
@@ -67,11 +66,12 @@ class Counter_func extends CI_Controller
             //                 "village"=>$row->KELURAHAN
             //             );
             $tb.= '<div class="row border-bottom ' . ($i%2 ? 'odd':'even') . '">';
-            $tb.= '<div class="col-md-2">' . $row->MR . '</div>';
-            $tb.= '<div class="col-md-2">' . $row->NAMA . '</div>';
-            $tb.= '<div class="col-md-2">' . $row->TGL_LAHIR . '</div>';
-            $tb.= '<div class="col-md-2">' . $row->NO_HP . '</div>';
-            $tb.= '<div class="col-md-4">' . $row->ALAMAT . '</div>';
+            $tb.= '<div class="col-md-3 py-1">';
+            $tb.= '<input class="input-check" type="checkbox" value="' . $row->MR . '" id="' . $row->MR . '"><label for="' . $row->MR . '">' . $row->MR . '</label>';
+            $tb.= '</div>';
+            $tb.= '<div class="col-md-3 py-1">' . $row->NAMA . '</div>';
+            $tb.= '<div class="col-md-2 py-1">' . $row->TGL_LAHIR . '</div>';
+            $tb.= '<div class="col-md-4 py-1">' . $row->ALAMAT . '</div>';
             $tb.= '</div>';
             $i++;
         }    
