@@ -4,7 +4,7 @@ $uri = end($this->uri->segments);
 $modal_html ='';
 
 foreach($modal as $m) {
-    $modal_html.= '<div class="modal fade" id="' . $m->action . '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    $modal_html.= '<div class="modal fade" id="' . $m->action . ' data-backdrop="static" " tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
     $modal_html.= '<div class="modal-dialog" role="document">';
     $modal_html.= '<div class="modal-content">';
     $modal_html.= '<div class="modal-header">';
