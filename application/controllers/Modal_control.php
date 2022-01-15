@@ -2,10 +2,9 @@
 $modal = $this->modal_variables->getModalVariables($params);
 $uri = end($this->uri->segments);
 $modal_html ='';
-
 foreach($modal as $m) {
-    $modal_html.= '<div class="modal fade" id="' . $m->action . ' data-backdrop="static" " tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
-    $modal_html.= '<div class="modal-dialog" role="document">';
+    $modal_html.= '<div class="modal fade" id="myDynamicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    $modal_html.= '<div class="modal-dialog ' . $m->size . '" role="document">';
     $modal_html.= '<div class="modal-content">';
     $modal_html.= '<div class="modal-header">';
     $modal_html.= '<h5 class="modal-title" id="exampleModalLabel">' . $m->tittle . '</h5>';
@@ -26,7 +25,7 @@ foreach($modal as $m) {
             $modal_html.= '<button id="' . $m->action . '_' . str_replace('-', '_', $uri) . '" class="btn btn-primary" type="button" data-dismiss="modal">' . ucwords($m->action) . '</button>';
         }
     } else {
-        $modal_html.= '<button class="btn btn-primary" type="button" data-dismiss="modal">OK</button>';
+        $modal_html.= '<button id="' . $m->action . '' . str_replace('-', '_', $uri) . '" class="btn btn-primary" type="button">OK</button>';
     }
     $modal_html.= '</div>';
     $modal_html.= '</div>';

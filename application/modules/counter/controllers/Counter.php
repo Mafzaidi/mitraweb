@@ -31,7 +31,7 @@ class Counter extends CI_Controller
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
         {
-			$params = array('logout','save');
+			$params = array('show');
             include (APPPATH.'controllers/menu_control.php');
 			include (APPPATH.'controllers/modal_control.php');
 
