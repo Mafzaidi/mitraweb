@@ -5,11 +5,12 @@ class Modal_variables {
 	public $modal_variables;
 	private $arrModals;
 	private $objModals;
-	private $tittle;
-	private $message;
-	private $button;
-	private $link;
-	private $action;
+	public $tittle;
+	public $message;
+	public $button;
+	public $link;
+	public $action;
+	public $size;
 
 	protected $CI;
 	
@@ -27,6 +28,7 @@ class Modal_variables {
 		$this->button = '';
 		$this->link = '';
 		$this->action = '';
+		$this->size = '';
 
 		foreach($params as $value){
 			if ($value == 'logout') {
@@ -35,18 +37,21 @@ class Modal_variables {
 				$this->button = 'yesno';
 				$this->link = 'auth/logout';
 				$this->action = $value;
+				$this->size = '';
 			} elseif ($value == 'save') {
 				$this->tittle = 'Confirmation';
 				$this->message = 'Are you sure want to save this data?';
 				$this->button = 'yesno';
 				$this->link = 'auth/logout';
 				$this->action = $value;
+				$this->size = '';
 			} else {
 				$this->tittle = '';
 				$this->message = '';
 				$this->button = '';
 				$this->link = '';
-				$this->action = '';
+				$this->action = 'select';
+				$this->size = 'modal-xl';
 			}
 
 			$this->arrModals = array(
@@ -54,7 +59,8 @@ class Modal_variables {
 				'message' => $this->message,
 				'button' => $this->button,
 				'link' => $this->link,
-				'action' => $this->action
+				'action' => $this->action,
+				'size' => $this->size
 			);
 
 			$this->objModals = (object) $this->arrModals;

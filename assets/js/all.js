@@ -182,8 +182,26 @@
 			$('.input-check').not(this).prop('checked', false);
 		});
 
-		$(".btn-submit").click(function () {
-			alert($('.input-check').prop('checked'));
+		$("#selectmedrec").click(function () {
+			$.each($(".input-check:checked"), function(){
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: base_url + "functions/Medrec_func/saveMrBorrow",
+					data: {
+						mr: mr,
+					},
+					success: function (data) {
+						//alert(JSON.stringify(data));
+						$(".submit").click();
+						//pageInit();
+					},
+					error: function (data) {
+						alert(JSON.stringify(data));
+						//pageInit();
+					},
+				});
+			});
 		});
 	};
 	
