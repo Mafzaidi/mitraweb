@@ -82,4 +82,26 @@ class Counter_func extends CI_Controller
         $data['html'] = $tb;
         echo json_encode($data);
     }
+
+    function getMedrec() 
+	{
+        $mr = $this->input->post('mr');
+        $get = $this->mctr->getRowMedrec($mr);
+
+        $result = array(
+            'mr' => $get->MR,
+            'nama' => $get->NAMA,
+            'tempat_lahir' => $get->TEMPAT_LAHIR,
+            'tgl_lahir' => $get->TGL_LAHIR,
+            'telp' => $get->NO_TELP,
+            'hp' => $get->NO_HP,
+            'alamat' => $get->ALAMAT,
+            'kota' => $get->KOTA,
+            'kecamatan' => $get->KECAMATAN,
+            'kelurahan' => $get->KELURAHAN
+        );
+
+        $data = $result;
+        echo json_encode($data);
+    }
 }

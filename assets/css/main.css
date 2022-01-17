@@ -315,6 +315,7 @@ select.list-dt:focus {
 
 #progressbar .active {
 	color: #000000;
+	box-sizing: border-box;
 }
 
 #progressbar li {
@@ -323,6 +324,12 @@ select.list-dt:focus {
 	width: 33.333333333%;
 	float: left;
 	position: relative;
+	text-align: center;
+}
+
+#progressbar li:before {
+	text-align: center;
+	align-items: center;
 }
 
 #progressbar #search:before {

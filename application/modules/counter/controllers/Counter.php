@@ -31,9 +31,15 @@ class Counter extends CI_Controller
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
         {
-			$params = array('show');
+            
+            $params = array('');
+            $this->modal_variables->modalTittle = 'Data Medrec';
+            $this->modal_variables->modalSize = 'modal-xl';
+            $this->modal_variables->modalAction = 'select';
+            $this->modal_variables->modalButton = 'yesno';
+
+            include (APPPATH.'controllers/modal_control.php');
             include (APPPATH.'controllers/menu_control.php');
-			include (APPPATH.'controllers/modal_control.php');
 
             if($this->uri->segment(3) <> ''){  
                 if ($param == str_replace('-', '_',$this->uri->segment(3))) {

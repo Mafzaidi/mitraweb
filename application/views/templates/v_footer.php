@@ -27,6 +27,8 @@
 		<script src="<?php echo base_url('assets/vendor/jquery-validation/jquery.validate.min.js'); ?>"></script>
 		<!-- datetimepicker jquery -->
 		<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
+		<!-- masked input jquery -->
+		<script src="<?php echo base_url('assets/vendor/masked-input/jquery-maskedinput.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/js/all.js'); ?>"></script>

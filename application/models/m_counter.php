@@ -377,4 +377,33 @@ class M_counter extends CI_Model
         return $result;
     }
 
+    function getRowMedrec($mr)
+    {
+        $sql = "SELECT
+                    SUBSTR(A.MR,4) AS MR,
+                    A.NAMA,
+                    NVL(A.TEMPAT_LAHIR,'-') AS TEMPAT_LAHIR, 
+                    TO_CHAR(A.TGL_LAHIR,'DD/MM/YYYY') AS TGL_LAHIR,
+                    CASE WHEN A.ALAMAT = '' THEN '-'
+                    ELSE
+                        (A.ALAMAT || ' RT.' || A.RT || ' RW.' || A.RW) 
+                    END AS ALAMAT,
+                    A.KOTA,
+                    A.KECAMATAN, 
+                    A.KELURAHAN,
+                    A.BIN_BINTI, 
+                    A.NAMA_ORG_TUA, 
+                    A.NO_TELP, 
+                    A.NO_HP
+                FROM
+                    HIS_MANAGER.MS_MEDREC A
+                WHERE
+                    SUBSTR(A.MR,4) = '" . $mr . "' AND
+                    A.SHOW_ITEM = '1'
+                    "; 
+        
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+    }
 }

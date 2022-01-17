@@ -5,12 +5,24 @@ class Modal_variables {
 	public $modal_variables;
 	private $arrModals;
 	private $objModals;
+
 	public $tittle;
+	public $modalTittle ='';
+
 	public $message;
+	public $modalMessage ='';
+
 	public $button;
+	public $modalButton ='';
+
 	public $link;
+	public $modalLink ='';
+
 	public $action;
+	public $modalAction ='';
+
 	public $size;
+	public $modalSize ='';
 
 	protected $CI;
 	
@@ -46,12 +58,12 @@ class Modal_variables {
 				$this->action = $value;
 				$this->size = '';
 			} else {
-				$this->tittle = '';
-				$this->message = '';
-				$this->button = '';
-				$this->link = '';
-				$this->action = 'select';
-				$this->size = 'modal-xl';
+				$this->tittle = $this->modalTittle;
+				$this->message = $this->modalMessage;
+				$this->button = $this->modalButton;
+				$this->link = $this->modalLink;
+				$this->action = $this->modalAction;
+				$this->size = $this->modalSize;
 			}
 
 			$this->arrModals = array(

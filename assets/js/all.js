@@ -50,12 +50,16 @@
 
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		pageInit();
+
 		$("#brwForm").validate({
 			// initialize plugin
 			// your rules & options,
 			focusInvalid: false,
 			rules: {
 				mr: "required",
+				borrower: "required",
+				necessity: "required",
 			},
 			submitHandler: function (form) {
 				// your ajax would go here
@@ -71,44 +75,34 @@
 						//alert(JSON.stringify(data));
 						$("#inputName").val(data.NAMA);
 						$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
-						$("#inputDate").val(data.TGL_LAHIR);
+						$("#inputBirthDate").val(data.TGL_LAHIR);
 						$("#textAddress").val(data.ALAMAT);
 						$("#brwForm .next").prop("disabled", false);
 
-						$("#save_mr_borrow").click(function () {
-							$.ajax({
-								type: "POST",
-								dataType: "json",
-								url: base_url + "functions/Medrec_func/saveMrBorrow",
-								data: {
-									mr: mr,
-								},
-								success: function (data) {
-									//alert(JSON.stringify(data));
-									$(".submit").click();
-									//pageInit();
-								},
-								error: function (data) {
-									alert(JSON.stringify(data));
-									//pageInit();
-								},
-							});
+						$("#confirmBrwBtn").click(function () {
+							$("#myDynamicModal").modal("show");
 						});
-						//pageInit();
+						pageInit();
 					},
 					error: function (data) {
 						//alert(JSON.stringify(data));
-						//pageInit();
+						pageInit();
 					},
 				});
+
+				// $("#confirmBrwBtn").click(function () {
+				// 	$("#myDynamicModal").modal("show");
+				// });
+
 				return false; // blocks regular submit since you have ajax
 			},
 		});
 
-		$("#inputTextMr").inputFilter(function(value) {
-			return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+		$("#inputTextMr").inputFilter(function (value) {
+			return /^\d*$/.test(value); // Allow digits only, using a RegExp
 		});
 	});
+
 	// ***************************************************************************************************
 
 	$("#inputBorrower").autocomplete({
@@ -156,8 +150,8 @@
 			},
 			success: function (data) {
 				//alert(JSON.stringify(data));
-				$('#myDynamicModal .modal-body').append(data['html']);
-				$('#myDynamicModal').modal('show');
+				$("#myDynamicModal .modal-body").append(data["html"]);
+				$("#myDynamicModal").modal("show");
 				//pageInit();
 			},
 			error: function (data) {
@@ -167,33 +161,43 @@
 		});
 	});
 
-	
 	// Modal function
-	$('#myDynamicModal').on('hidden.bs.modal', function (event) {
-		$('#myDynamicModal .modal-body').html("");
+	$("#myDynamicModal").on("hidden.bs.modal", function (event) {
+		$("#myDynamicModal .modal-body").html("");
 	});
 
-	$('#myDynamicModal').on('shown.bs.modal', function (event) {
-		pageInit();
-	});
-
-	function pageInit() {
-		$('.input-check').on('change', function() {
-			$('.input-check').not(this).prop('checked', false);
+	$("#myDynamicModal").on("shown.bs.modal", function (event) {
+		$(".input-check").on("change", function () {
+			$(".input-check").not(this).prop("checked", false);
 		});
 
-		$("#selectmedrec").click(function () {
-			$.each($(".input-check:checked"), function(){
+		$("#selectMedrec").click(function () {
+			$.each($(".input-check:checked"), function () {
+				var mr = $(this).val();
 				$.ajax({
 					type: "POST",
 					dataType: "json",
-					url: base_url + "functions/Medrec_func/saveMrBorrow",
+					url: base_url + "functions/Counter_func/getMedrec",
 					data: {
 						mr: mr,
 					},
 					success: function (data) {
 						//alert(JSON.stringify(data));
-						$(".submit").click();
+						$("#inputDataMr").val(data.mr);
+						$("#inputDataName").val(data.nama);
+						$("#inputDataAddress").val(data.alamat);
+						$("#inputDataCity").val(data.kota);
+						$("#inputDataRegency").val(data.kecamatan);
+						$("#inputDataDistrict").val(data.kelurahan);
+						$("#inputDataBirthPlace").val(data.tempat_lahir);
+						$("#inputDataBirthDate").val(data.tgl_lahir);
+						if (data.hp !== "") {
+							$("#inputDataTelp").val(data.hp);
+						} else if (data.hp == "" && data.telp !== "") {
+							$("#inputDataTelp").val(data.telp);
+						} else {
+							$("#inputDataTelp").val("");
+						}
 						//pageInit();
 					},
 					error: function (data) {
@@ -203,6 +207,25 @@
 				});
 			});
 		});
-	};
-	
+	});
+
+	function pageInit() {
+		$(".date-validate").mask("99.99.9999");
+		$(".date-validate").change(function () {
+			if (
+				$(this).val().substring(0, 2) > 12 ||
+				$(this).val().substring(0, 2) == "00"
+			) {
+				alert("Iregular Month Format");
+				return false;
+			}
+			if (
+				$(this).val().substring(3, 5) > 31 ||
+				$(this).val().substring(0, 2) == "00"
+			) {
+				alert("Iregular Date Format");
+				return false;
+			}
+		});
+	}
 })(jQuery); // End of use strict

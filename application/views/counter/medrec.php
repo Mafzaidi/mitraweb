@@ -25,7 +25,7 @@
                         <label for="inputBirthPlace" class="col-sm-4 col-form-label-sm pr-0 mb-2">Tanggal Lahir</label>
                         <div class="col-sm-8 pl-0">
                             <div class="input-group date" id="birthDateTime_picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input form-control-sm" data-target="#birthDateTime_picker" id="inputBirthDate" placeholder="tanggal lahir"/>
+                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" data-target="#birthDateTime_picker" id="inputBirthDate" placeholder="DD.MM.YYYY" maxlength="10" />
                                 <div class="input-group-append" data-target="#birthDateTime_picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -63,13 +63,28 @@
         <div class="formData-wrapper p-3">
             <div>
                 <div class="form-row">
-                    <div class="form-group col-md-6 mb-2">
+                    <div class="form-group col-md-4 mb-2">
                         <label for="inputDataMr" class="col-form-label-sm mb-1">Medrec</label>
                          <input type="text" class="form-control form-control-sm" id="inputDataMr" readonly>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-8">
                         <label for="inputDataName" class="col-form-label-sm mb-1">Nama</label>
                         <input type="text" class="form-control form-control-sm" id="inputDataName" readonly>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 mb-2">
+                        <label for="inputDataBirthPlace" class="col-form-label-sm mb-1">Tempat Lahir</label>
+                         <input type="text" class="form-control form-control-sm" id="inputDataBirthPlace" readonly>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputDataBirthDate" class="col-form-label-sm mb-1">Tanggal Lahir</label>
+                        <input type="text" class="form-control form-control-sm" id="inputDataBirthDate" readonly>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="inputDataTelp" class="col-form-label-sm mb-1">No. Telp/HP</label>
+                        <input type="text" class="form-control form-control-sm" id="inputDataTelp" readonly>
                     </div>
                 </div>
                 <div class="form-group mb-2">
@@ -86,7 +101,7 @@
                         <input type="text" class="form-control form-control-sm" id="inputDataRegency" readonly>
                     </div>
                     <div class="form-group col-md-4 mb-2">
-                        <label for="inputDataDistrict" class="col-form-label-sm mb-1">Kecamatan</label>
+                        <label for="inputDataDistrict" class="col-form-label-sm mb-1">Kelurahan</label>
                         <input type="text" class="form-control form-control-sm" id="inputDataDistrict" readonly>
                     </div>
                 </div>

@@ -22,10 +22,10 @@ foreach($modal as $m) {
             );
         } else {
             $modal_html.= '<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>';
-            $modal_html.= '<button id="' . $m->action . '_' . str_replace('-', '_', $uri) . '" class="btn btn-primary" type="button" data-dismiss="modal">' . ucwords($m->action) . '</button>';
+            $modal_html.= '<button id="' . $m->action . '' . str_replace('-', '_', ucwords($uri)) . '" class="btn btn-primary" type="button" data-dismiss="modal">' . ucwords($m->action) . '</button>';
         }
     } else {
-        $modal_html.= '<button id="' . $m->action . '' . str_replace('-', '_', $uri) . '" class="btn btn-primary" type="button">OK</button>';
+        $modal_html.= '<button id="' . $m->action . '' . str_replace('-', '_', ucwords($uri)) . '" class="btn btn-primary" type="button">OK</button>';
     }
     $modal_html.= '</div>';
     $modal_html.= '</div>';
