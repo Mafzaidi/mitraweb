@@ -1,29 +1,17 @@
 
-<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/moment.js'); ?>"></script>
-
-<!-- Jquery UI -->
-<script src="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/jquery-ui.min.js'); ?>"></script>
-<!-- Jquery Validation -->
-<script src="<?php echo base_url('assets/vendor/jquery-validation/jquery.validate.min.js'); ?>"></script>
-<!-- datetimepicker jquery -->
-<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-
-<div class="container-fluid py-3" id="table_wrapper">
-    <ul class="nav nav-tabs">
+<div class="container-fluid table_wrapper py-3" id="polimon_wrapper">
+    <ul class="nav nav-tabs" id="tab_polimon">
     <li class="nav-item bg-nav-cool">
-        <a class="nav-link active" href="#">Belum ke Dokter</a>
+        <a class="nav-link active" data-toggle=tab id="t1" href="#" >Belum ke Dokter</a>
     </li>
     <li class="nav-item bg-nav-gloom">
-        <a class="nav-link" href="#">Sudah dari Dokter</a>
+        <a class="nav-link" data-toggle=tab id="t2" href="#">Sudah dari Dokter</a>
     </li>
     <li class="nav-item bg-nav-cure">
-        <a class="nav-link" href="#">Selesai Berobat</a>
+        <a class="nav-link" data-toggle=tab id="t3" href="#">Selesai Berobat</a>
     </li>
     <li class="nav-item bg-nav-dizzy">
-        <a class="nav-link" href="#">Batal</a>
+        <a class="nav-link" data-toggle=tab id="t4" href="#">Batal</a>
     </li>
     </ul>
     <div class="card">
@@ -53,7 +41,7 @@
                 </div>
             </div>
             <div class="row">  
-                <div class="col-sm-12">             
+                <div class="col-sm-12" id="dataPolimon">             
                     <?= $polimon; ?>
                 </div>
             </div>                
@@ -100,29 +88,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-		var _URL = window.URL || window.webkitURL;
-	});
-
-   $("#select_pageSize").on("change", function () {
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            url: base_url + "functions/Medrec_func/saveMrBorrow",
-            data: {
-                mr: mr,
-            },
-            success: function (data) {
-                //alert(JSON.stringify(data));
-                $(".submit").click();
-                //pageInit();
-            },
-            error: function (data) {
-                alert(JSON.stringify(data));
-                //pageInit();
-            },
-        });
-    });
-</script>

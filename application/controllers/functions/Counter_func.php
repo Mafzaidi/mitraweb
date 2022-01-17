@@ -22,7 +22,15 @@ class Counter_func extends CI_Controller
         $records = $this->mctr->getMonitor($batal, $jml_dr, $resep, $selesai, $pagestart, $per_page);
 
         foreach($records as $row ){
-            $response[] = array("id"=>$row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
+            $response[] = array(
+                                "no"=>$row->RNUM, 
+                                "medrec"=>$row->PID, 
+                                "pasien"=>$row->PASIEN,
+                                "dokter"=>$row->DOKTER,
+                                "no_urut"=>$row->NO_URUT,
+                                "no_struk"=>$row->NO_BUKTI,
+                                "jam"=>$row->JAM
+                            );
         }
 
         $data = $response;

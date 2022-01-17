@@ -3,10 +3,10 @@
     $jml_dr = 0;
     $resep = 'N';
     $selesai = 'N';
-    $per_page = '';
+    $per_page = 10;
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
-            $pagestart = $this->uri->segment(4) + 1;
+            $pagestart = $this->uri->segment(4) + 1;    
         } else {
             $pagestart = 1;
         }
@@ -51,14 +51,14 @@
     $config['total_rows'] = $countrows;
     $config['per_page'] = $per_page;
 
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
+    $config['full_tag_close']   = '</ul></nav></div>';
     $config['first_link']       = 'First';
     $config['last_link']        = 'Last';
     $config['next_link']        = 'Next';
     $config['prev_link']        = 'Prev';
     $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
     $config['prev_tag_close']  = '</span></li></li>';
-    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-    $config['full_tag_close']   = '</ul></nav></div>';
     $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
     $config['num_tag_close']    = '</span></li>';
     $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
