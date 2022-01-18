@@ -3,7 +3,7 @@
     $jml_dr = 0;
     $resep = 'N';
     $selesai = 'N';
-    $per_page = 10;
+    $per_page = '';
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
             $pagestart = $this->uri->segment(4) + 1;    
@@ -18,7 +18,7 @@
     $tb = '';
     $tb.= '<div class="tb">';
 
-    $tb.= '<div class="tb-header">';
+    $tb.= '<div class="tb-header bg-cool">';
     $tb.= '<div class="row">';
     $tb.= '<div class="col-md-1">NO.</div>';
     $tb.= '<div class="col-md-1">MEDREC</div>';

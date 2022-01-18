@@ -432,6 +432,16 @@ label.error {
 	color: #4a68ca;
 }
 
+.table_wrapper .nav-tabs .nav-item.bg-nav-love .nav-link:not(.active) {
+	background-color: #f84cdb;
+	border-color: #f84cdb #f84cdb #fff !important;
+	color: #fff;
+}
+
+.table_wrapper .nav-tabs .nav-item.bg-nav-love .nav-link.active {
+	color: #f84cdb;
+}
+
 .table_wrapper .nav-tabs .nav-item.bg-nav-cure .nav-link:not(.active) {
 	background-color: #20c997;
 	border-color: #20c997 #20c997 #fff !important;
@@ -500,9 +510,24 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 }
 
 .tb-header {
-	background-color: #17a2b8;
 	color: #fff;
 	font-weight: 500;
+}
+
+.bg-cool {
+	background-color: #17a2b8;
+}
+
+.bg-love {
+	background-color: #f84cdb;
+}
+
+.bg-cure {
+	background-color: #20c997;
+}
+
+.bg-dizzy {
+	background-color: #ff9c4a;
 }
 
 .tb-header [class*="col"] {

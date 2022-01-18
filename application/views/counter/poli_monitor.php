@@ -4,7 +4,7 @@
     <li class="nav-item bg-nav-cool">
         <a class="nav-link active" data-toggle=tab id="t1" href="#" >Belum ke Dokter</a>
     </li>
-    <li class="nav-item bg-nav-gloom">
+    <li class="nav-item bg-nav-love">
         <a class="nav-link" data-toggle=tab id="t2" href="#">Sudah dari Dokter</a>
     </li>
     <li class="nav-item bg-nav-cure">
@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="row">  
-                <div class="col-sm-12" id="dataPolimon">             
+                <div class="col-sm-12" id="data_polimon">             
                     <?= $polimon; ?>
                 </div>
             </div>                

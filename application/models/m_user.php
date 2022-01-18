@@ -2,6 +2,14 @@
 
 class M_user extends CI_Model
 {
+    function __construct()
+    {
+        parent::__construct();
+
+        $this->oracle_db = $this->load->database('oracle', true);
+        $this->mysql_db = $this->load->database('default', true);
+    }
+
     function countUser($table, $where)
     {
         return $this->db->get_where($table, $where);
@@ -33,6 +41,26 @@ class M_user extends CI_Model
 									AND (a.email = '" . $username . "'
                                     OR UPPER(a.username) = UPPER('" . $username . "'))");
 
+        $row = $query->row();
+        return $row;
+    }
+
+    function getDataUser($username)
+    {
+        $sql = "SELECT
+                    A.NO_KAR, 
+                    A.NAMA_KAR,
+                    A.BAGIAN, 
+                    A.KD_BAGIAN,
+                    A.STRUK_ORG_ID,
+                    A.DEPT_ID
+                    FROM
+                    HIS_MANAGER.MS_KARYAWAN A
+                    WHERE
+                    A.SHOW_ITEM = '1'
+                    AND A.NO_KAR = '" . $username . "'";
+                    
+        $query = $this->oracle_db->query($sql);
         $row = $query->row();
         return $row;
     }

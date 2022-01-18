@@ -2,7 +2,7 @@
 Class M_control extends CI_Model
 {
 	
-    function listMenu($dept, $parent, $type){		
+    function listMenu($kd_bagian, $parent, $type){		
 		$sql = "SELECT
                     b.*, ifnull(c.menu_id,'') as parent_id, ifnull(c.menu_tittle,'') as parent_name 
                 FROM
@@ -13,7 +13,7 @@ Class M_control extends CI_Model
                         mitraweb.ms_menu_m a
                         LEFT JOIN mitraweb.ms_dept_m b ON a.dept_id = b.dept_id
                     WHERE
-                        (a.dept_id = '".$dept."' OR IFNULL(a.dept_id,'') ='')
+                        (b.kd_bagian = '".$kd_bagian."' OR IFNULL(a.dept_id,'') ='')
                         AND a.is_active = 'Y'
                     ) b 
                     LEFT JOIN ms_menu_m c ON b.parent = c.menu_id
