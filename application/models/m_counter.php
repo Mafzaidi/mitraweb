@@ -29,13 +29,13 @@ class M_counter extends CI_Model
                                     SELECT 
                                         COUNT(*) 
                                     FROM 
-                                        MS_TRANS_OP B1 
+                                        HIS_MANAGER.MS_TRANS_OP B1 
                                     WHERE
                                         B1.TIPE_RAWAT = 'P'
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                 ),0
                             ) AS JML_DOKTER,
                             NVL(
@@ -43,13 +43,13 @@ class M_counter extends CI_Model
                                     SELECT 
                                         CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS RESEP
                                     FROM 
-                                        MS_TRANS_OP B1 
+                                        HIS_MANAGER.MS_TRANS_OP B1 
                                     WHERE
                                         B1.TIPE_RAWAT = 'P'
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                         AND B1.MR||B1.DOKTER_ID IN (
                                             SELECT 
                                                 A1.PASIEN_ID||A1.DOKTER_ID 
@@ -57,7 +57,7 @@ class M_counter extends CI_Model
                                                 FRM_RESEP_DOKTER_MS A1 
                                             WHERE 
                                                 A1.PASIEN_ID = B1.MR 
-                                                AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                                AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                         AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                                     
@@ -68,13 +68,13 @@ class M_counter extends CI_Model
                                     SELECT
                                         CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS SELESAI 
                                     FROM
-                                        FRM_TRANS_MS B1
+                                        HIS_MANAGER.FRM_TRANS_MS B1
                                     WHERE
                                         B1.JH_MR = X.MR
                                         AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                         AND B1.JH_DONE_STATUS <> '03'
                                         AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                        AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
+                                        AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
                                 )
                             ,0) AS SELESAI
                         FROM(
@@ -85,7 +85,7 @@ class M_counter extends CI_Model
                                 A.NO_URUT, 
                                 A.NO_TR_LAMA NO_BUKTI, 
                                 TO_CHAR(A.CREATED_DATE,'HH24:MI:SS') JAM,
-                                SUBSTR(A.MR,4,6) PID, 
+                                SUBSTR(A.MR,4) PID, 
                                 C.DOKTER_ID,
                                 CASE 
                                 WHEN 
@@ -94,11 +94,11 @@ class M_counter extends CI_Model
                                 ELSE 'N' 
                                 END AS BATAL           
                             FROM 
-                                MS_TRANS_OP A, 
-                                MS_MEDREC B, 
-                                MS_HIS_DOKTER C
+                                HIS_MANAGER.MS_TRANS_OP A, 
+                                HIS_MANAGER.MS_MEDREC B, 
+                                HIS_MANAGER.MS_HIS_DOKTER C
                             WHERE 
-                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                 AND A.MR=B.MR
                                 AND A.DOKTER_ID=C.DOKTER_ID
                                 AND A.TIPE_RAWAT = 'P'
@@ -139,13 +139,13 @@ class M_counter extends CI_Model
                                         SELECT 
                                             COUNT(*) 
                                         FROM 
-                                            MS_TRANS_OP B1 
+                                            HIS_MANAGER.MS_TRANS_OP B1 
                                         WHERE
                                             B1.TIPE_RAWAT = 'P'
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     ),0
                                 ) AS JML_DOKTER,
                                 NVL(
@@ -153,21 +153,21 @@ class M_counter extends CI_Model
                                         SELECT 
                                             CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS RESEP
                                         FROM 
-                                            MS_TRANS_OP B1 
+                                            HIS_MANAGER.MS_TRANS_OP B1 
                                         WHERE
                                             B1.TIPE_RAWAT = 'P'
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                             AND B1.MR||B1.DOKTER_ID IN (
                                                 SELECT 
                                                     A1.PASIEN_ID||A1.DOKTER_ID 
                                                 FROM 
-                                                    FRM_RESEP_DOKTER_MS A1 
+                                                    HIS_MANAGER.FRM_RESEP_DOKTER_MS A1 
                                                 WHERE 
                                                     A1.PASIEN_ID = B1.MR 
-                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                             AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                                         
@@ -178,13 +178,13 @@ class M_counter extends CI_Model
                                         SELECT
                                             CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS SELESAI 
                                         FROM
-                                            FRM_TRANS_MS B1
+                                            HIS_MANAGER.FRM_TRANS_MS B1
                                         WHERE
                                             B1.JH_MR = X.MR
                                             AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                             AND B1.JH_DONE_STATUS <> '03'
                                             AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
                                     )
                                 ,0) AS SELESAI
                             FROM(
@@ -195,7 +195,7 @@ class M_counter extends CI_Model
                                     A.NO_URUT, 
                                     A.NO_TR_LAMA NO_BUKTI, 
                                     TO_CHAR(A.CREATED_DATE,'HH24:MI:SS') JAM,
-                                    SUBSTR(A.MR,4,6) PID, 
+                                    SUBSTR(A.MR,4) PID, 
                                     C.DOKTER_ID,
                                     CASE 
                                     WHEN 
@@ -204,11 +204,11 @@ class M_counter extends CI_Model
                                     ELSE 'N' 
                                     END AS BATAL           
                                 FROM 
-                                    MS_TRANS_OP A, 
-                                    MS_MEDREC B, 
-                                    MS_HIS_DOKTER C
+                                    HIS_MANAGER.MS_TRANS_OP A, 
+                                    HIS_MANAGER.MS_MEDREC B, 
+                                    HIS_MANAGER.MS_HIS_DOKTER C
                                 WHERE 
-                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'
@@ -244,13 +244,13 @@ class M_counter extends CI_Model
                                         SELECT 
                                             COUNT(*) 
                                         FROM 
-                                            MS_TRANS_OP B1 
+                                            HIS_MANAGER.MS_TRANS_OP B1 
                                         WHERE
                                             B1.TIPE_RAWAT = 'P'
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     ),0
                                 ) AS JML_DOKTER,
                                 NVL(
@@ -258,21 +258,21 @@ class M_counter extends CI_Model
                                         SELECT 
                                             CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS RESEP
                                         FROM 
-                                            MS_TRANS_OP B1 
+                                            HIS_MANAGER.MS_TRANS_OP B1 
                                         WHERE
                                             B1.TIPE_RAWAT = 'P'
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112' AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                             AND B1.MR||B1.DOKTER_ID IN (
                                                 SELECT 
                                                     A1.PASIEN_ID||A1.DOKTER_ID 
                                                 FROM 
-                                                    FRM_RESEP_DOKTER_MS A1 
+                                                    HIS_MANAGER.FRM_RESEP_DOKTER_MS A1
                                                 WHERE 
                                                     A1.PASIEN_ID = B1.MR 
-                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                             AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                                         
@@ -283,13 +283,13 @@ class M_counter extends CI_Model
                                         SELECT
                                             CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END AS SELESAI 
                                         FROM
-                                            FRM_TRANS_MS B1
+                                            HIS_MANAGER.FRM_TRANS_MS B1
                                         WHERE
                                             B1.JH_MR = X.MR
                                             AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                             AND B1.JH_DONE_STATUS <> '03'
                                             AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
                                     )
                                 ,0) AS SELESAI
                             FROM(
@@ -300,7 +300,7 @@ class M_counter extends CI_Model
                                     A.NO_URUT, 
                                     A.NO_TR_LAMA NO_BUKTI, 
                                     TO_CHAR(A.CREATED_DATE,'HH24:MI:SS') JAM,
-                                    SUBSTR(A.MR,4,6) PID, 
+                                    SUBSTR(A.MR,4) PID, 
                                     C.DOKTER_ID,
                                     CASE 
                                     WHEN 
@@ -309,11 +309,11 @@ class M_counter extends CI_Model
                                     ELSE 'N' 
                                     END AS BATAL           
                                 FROM 
-                                    MS_TRANS_OP A, 
-                                    MS_MEDREC B, 
-                                    MS_HIS_DOKTER C
+                                    HIS_MANAGER.MS_TRANS_OP A, 
+                                    HIS_MANAGER.MS_MEDREC B, 
+                                    HIS_MANAGER.MS_HIS_DOKTER C
                                 WHERE 
-                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'

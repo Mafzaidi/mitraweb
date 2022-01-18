@@ -8,6 +8,7 @@ class Counter_func extends CI_Controller
         parent::__construct();
         $this->load->model('m_counter','mctr');
         $this->load->library('modal_variables');
+        $this->load->library('pagination');
     }
 
     public function getDataPolimon() 
@@ -36,8 +37,39 @@ class Counter_func extends CI_Controller
                             );
         }
 
-       
-        echo json_encode(array("response" => $response, "count" => $countrecords));
+        $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
+        $config['total_rows'] = $countrecords;
+        $config['per_page'] = $per_page;
+    
+        $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
+        $config['full_tag_close']   = '</ul></nav></div>';
+        $config['first_link']       = 'First';
+        $config['last_link']        = 'Last';
+        $config['next_link']        = 'Next';
+        $config['prev_link']        = 'Prev';
+        $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close']  = '</span></li></li>';
+        $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close']    = '</span></li>';
+        $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+        $config['cur_tag_close']    = '</span></li>';
+        $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close']  = '</span></li>';
+        $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close']  = '</span></li>';
+        
+        $this->pagination->initialize($config);
+        $num1 = $page_start;
+        if($this->uri->segment(3) <> ''){
+            if($this->uri->segment(4) <> ''){
+                $num2 = ($page_start + $per_page)-1;
+            } else {
+                $num2 = $countrecords;
+            }
+        }
+        echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links()));
 	}
 
     function searchMedrec() 
