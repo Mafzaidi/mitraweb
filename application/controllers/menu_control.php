@@ -3,6 +3,7 @@
     $this->load->model('m_control', 'mc');
 
     $dept = $this->session->userdata('dept_id');
+    $kd_bagian = $this->session->userdata('kd_bagian');
     $parent = '';
     $type ='1';
     $uri2 = $this->uri->segment(2);
@@ -11,7 +12,7 @@
     $collapse = '';
     $attrib_parent = array();
 
-    $menuParent = $this->mc->listMenu($dept, $parent, $type);
+    $menuParent = $this->mc->listMenu($kd_bagian, $parent, $type);
     $menu = "";
     foreach($menuParent as $p) {
         $check = $this->mc->checkParent($p->menu_id);
@@ -53,7 +54,7 @@
             
             $parent2 = $p->menu_id;
             $type2 = '2';
-            $menuChild = $this->mc->listMenu($dept, $parent2, $type2);
+            $menuChild = $this->mc->listMenu($kd_bagian, $parent2, $type2);
             foreach ($menuChild as $c) {
                 // $menu.='<span>' . $uri_child . ' ' . $c->link . '</span>';
                 if ($uri3 <> '' && $uri3 == $c->link){

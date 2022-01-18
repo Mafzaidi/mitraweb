@@ -36,7 +36,6 @@ class M_counter extends CI_Model
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
                                         AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
-                                        --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                 ),0
                             ) AS JML_DOKTER,
                             NVL(
@@ -51,7 +50,6 @@ class M_counter extends CI_Model
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
                                         AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
-                                        --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                         AND B1.MR||B1.DOKTER_ID IN (
                                             SELECT 
                                                 A1.PASIEN_ID||A1.DOKTER_ID 
@@ -60,7 +58,6 @@ class M_counter extends CI_Model
                                             WHERE 
                                                 A1.PASIEN_ID = B1.MR 
                                                 AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
-                                                --AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                         AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                                     
@@ -102,7 +99,6 @@ class M_counter extends CI_Model
                                 MS_HIS_DOKTER C
                             WHERE 
                                 TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
-                                --TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                                 AND A.MR=B.MR
                                 AND A.DOKTER_ID=C.DOKTER_ID
                                 AND A.TIPE_RAWAT = 'P'
@@ -123,7 +119,7 @@ class M_counter extends CI_Model
         return $row_count;
     }
 
-    function getMonitor($batal, $jml_dr, $resep, $selesai, $pagestart, $per_page)
+    function getMonitor($batal, $jml_dr, $resep, $selesai, $page_start, $per_page)
     {
         if ($per_page <> '')
         {
@@ -150,7 +146,6 @@ class M_counter extends CI_Model
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
                                             AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
-                                            --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                     ),0
                                 ) AS JML_DOKTER,
                                 NVL(
@@ -165,7 +160,6 @@ class M_counter extends CI_Model
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
                                             AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
-                                            --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                             AND B1.MR||B1.DOKTER_ID IN (
                                                 SELECT 
                                                     A1.PASIEN_ID||A1.DOKTER_ID 
@@ -174,7 +168,6 @@ class M_counter extends CI_Model
                                                 WHERE 
                                                     A1.PASIEN_ID = B1.MR 
                                                     AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
-                                                    --AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                             AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                                         
@@ -216,7 +209,6 @@ class M_counter extends CI_Model
                                     MS_HIS_DOKTER C
                                 WHERE 
                                     TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
-                                    --TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'
@@ -231,8 +223,8 @@ class M_counter extends CI_Model
                             AND PP.SELESAI LIKE '" . $selesai . "'||'%'
                     ) XX
                     WHERE 
-                        XX.RNUM >= " . ($pagestart) . "
-                        AND XX.RNUM <= " . (($pagestart-1) + $per_page) . "
+                        XX.RNUM >= " . ($page_start) . "
+                        AND XX.RNUM <= " . (($page_start-1) + $per_page) . "
                     ORDER BY XX.JAM DESC, XX.MR, XX.DOKTER";
 
         } else {
@@ -259,7 +251,6 @@ class M_counter extends CI_Model
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
                                             AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
-                                            --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                     ),0
                                 ) AS JML_DOKTER,
                                 NVL(
@@ -274,7 +265,6 @@ class M_counter extends CI_Model
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
                                             AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
-                                            --AND TO_CHAR(B1.CREATED_DATE,'DDMMYYYY') = 01122021
                                             AND B1.MR||B1.DOKTER_ID IN (
                                                 SELECT 
                                                     A1.PASIEN_ID||A1.DOKTER_ID 
@@ -283,7 +273,6 @@ class M_counter extends CI_Model
                                                 WHERE 
                                                     A1.PASIEN_ID = B1.MR 
                                                     AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
-                                                    --AND TO_CHAR(A1.CREATED_DATE,'DDMMYYYY') = 01122021)
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112'  
                                             AND B1.DEPT_ID NOT IN ('1120201000','1120401000'))
                                                         
@@ -325,7 +314,6 @@ class M_counter extends CI_Model
                                     MS_HIS_DOKTER C
                                 WHERE 
                                     TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
-                                    --TO_CHAR(A.CREATED_DATE,'DDMMYYYY') = 01122021
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'

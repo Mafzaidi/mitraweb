@@ -16,10 +16,13 @@ class Counter_func extends CI_Controller
         $jml_dr = $this->input->post('jml_dr');
         $resep = $this->input->post('resep');
         $selesai = $this->input->post('selesai');
-        $pagestart = $this->input->post('pagestart');
+        $page_start = $this->input->post('page_start');
         $per_page = $this->input->post('per_page');
+
+        // var_dump($per_page, $page_start);
         
-        $records = $this->mctr->getMonitor($batal, $jml_dr, $resep, $selesai, $pagestart, $per_page);
+        $countrecords =  $this->mctr->getRowcountMonitor($batal, $jml_dr, $resep, $selesai);
+        $records = $this->mctr->getMonitor($batal, $jml_dr, $resep, $selesai, $page_start, $per_page);
 
         foreach($records as $row ){
             $response[] = array(
@@ -33,8 +36,8 @@ class Counter_func extends CI_Controller
                             );
         }
 
-        $data = $response;
-        echo json_encode($data);
+       
+        echo json_encode(array("response" => $response, "count" => $countrecords));
 	}
 
     function searchMedrec() 

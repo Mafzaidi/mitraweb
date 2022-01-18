@@ -3,7 +3,7 @@
     $jml_dr = 0;
     $resep = 'N';
     $selesai = 'N';
-    $per_page = '';
+    $per_page = 10;
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
             $pagestart = $this->uri->segment(4) + 1;    

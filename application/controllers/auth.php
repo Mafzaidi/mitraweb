@@ -43,41 +43,52 @@ class Auth extends CI_Controller
 
 		if ($username <> '' && $password <> '') {
 			$user = $this->mu->getUser('ms_user_m', ['username' => $username])->row_array();
+            // check mysql user
 			if ($user) {
-            // there is user
-                if ($user['is_active'] == 'Y') {
-                //  user is active
-                    // if (password_verify($password, $user['password'])) {
-                    // password verify
-                        include (APPPATH.'controllers/functions/Ora_auth.php');
-				        $login = $this->mu->loginUser($username);
-
-                        if (!$connect) {
+                $userOra = $this->mu->getDataOra('MS_KARYAWAN', ['NO_KAR' => $username])->row_array();
+                // check ora user
+                if ($userOra) {
+                    // there is user
+                    if ($user['is_active'] == 'Y') {
+                        //  user is active
+                            // if (password_verify($password, $user['password'])) {
+                            // password verify
+                                include (APPPATH.'controllers/functions/Ora_auth.php');
+                                $login = $this->mu->loginUser($username);
+                                $dataOra = $this->mu->getDataUser($username);
+                                if (!$connect) {
+                                    $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                                    Wrong password!
+                                    </div>');
+                                    redirect('auth');
+                                } else {
+                                    $data_session = array(
+                                        'user_id' => $login->user_id,
+                                        'role_id' => $login->role_id,
+                                        'dept_id' => $login->dept_id,
+                                        'kd_bagian' => $dataOra->KD_BAGIAN,
+                                        'status' => 'login'
+                                    );
+            
+                                    $this->session->set_userdata($data_session);
+                                    redirect(base_url('home'));    
+                                }
+                                                    
+                            // } else {
+                            //     $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                            //     Wrong password!
+                            //     </div>');
+                            //     redirect('auth');
+                            // }
+                        } else {
                             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                            Wrong password!
+                            User is not active!
                             </div>');
                             redirect('auth');
-                        } else {
-                            $data_session = array(
-                                'user_id' => $login->user_id,
-                                'role_id' => $login->role_id,
-                                'dept_id' => $login->dept_id,
-                                'status' => 'login'
-                            );
-    
-                            $this->session->set_userdata($data_session);
-                            redirect(base_url('home'));    
                         }
-                                              
-                    // } else {
-                    //     $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                    //     Wrong password!
-                    //     </div>');
-                    //     redirect('auth');
-                    // }
                 } else {
                     $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                    User is not active!
+                    Username is not registered!
                     </div>');
                     redirect('auth');
                 }

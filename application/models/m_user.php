@@ -20,6 +20,11 @@ class M_user extends CI_Model
         return $this->db->get_where($table, $where);
     }
 
+    function getDataOra($table, $where)
+    {
+        return $this->oracle_db->get_where($table, $where);
+    }
+
     function loginUser($username)
     {
         $query = $this->db->query("SELECT
