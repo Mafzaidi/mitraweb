@@ -501,8 +501,8 @@
 
 	var timer = new RecurringTimer(function () {
 		//alert("Done!");
-		// console.log("start");
-		refreshPolimon();
+		//console.log(top.location.pathname);
+		//refreshPolimon();
 		pageInit();
 	}, 5000);
 
