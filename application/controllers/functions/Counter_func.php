@@ -87,7 +87,7 @@ class Counter_func extends CI_Controller
         $tb = '';
         $tb.= '<div class="tb">';
 
-        $tb.= '<div class="tb-header">';
+        $tb.= '<div class="tb-header bg-cool">';
         $tb.= '<div class="row">';
         $tb.= '<div class="col-md-3">MEDREC</div>';
         $tb.= '<div class="col-md-3">NAMA</div>';
