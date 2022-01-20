@@ -3,6 +3,9 @@
 
 	var _URL = window.URL || window.webkitURL;
 	var base_url = $("#baseUrl").val();
+	var current_url = $(location).attr("href");
+	var segments = current_url.split("/");
+	var sixth_segment = segments[6];
 
 	$("#datetimepicker4").datetimepicker({
 		format: "DD.MM.yyyy",
@@ -50,6 +53,8 @@
 
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		pageInit();
+
 		$("#brwForm").validate({
 			// initialize plugin
 			// your rules & options,
@@ -157,11 +162,11 @@
 					//alert(JSON.stringify(data));
 					$("#myDynamicModal .modal-body").append(data["html"]);
 					$("#myDynamicModal").modal("show");
-					//pageInit();
+					pageInit();
 				},
 				error: function (data) {
 					alert(JSON.stringify(data));
-					//pageInit();
+					pageInit();
 				},
 			});
 		});
@@ -172,339 +177,364 @@
 		});
 
 		$("#myDynamicModal").on("shown.bs.modal", function (event) {
-			pageInit();
-		});
+			$("#selectMedrec").click(function () {
+				$.each($(".input-check:checked"), function () {
+					var mr = $(this).val();
+					$.ajax({
+						type: "POST",
+						dataType: "json",
+						url: base_url + "functions/Counter_func/getMedrec",
+						data: {
+							mr: mr,
+						},
+						success: function (data) {
+							//alert(JSON.stringify(data));
+							$("#inputDataMr").val(data.mr);
+							$("#inputDataName").val(data.nama);
+							$("#inputDataAddress").val(data.alamat);
+							$("#inputDataCity").val(data.kota);
+							$("#inputDataRegency").val(data.kecamatan);
+							$("#inputDataDistrict").val(data.kelurahan);
+							$("#inputDataBirthPlace").val(data.tempat_lahir);
+							$("#inputDataBirthDate").val(data.tgl_lahir);
+							if (data.hp !== "") {
+								$("#inputDataTelp").val(data.hp);
+							} else if (data.hp == "" && data.telp !== "") {
+								$("#inputDataTelp").val(data.telp);
+							} else {
+								$("#inputDataTelp").val("");
+							}
+							pageInit();
+						},
+						error: function (data) {
+							alert(JSON.stringify(data));
+							pageInit();
+						},
+					});
+				});
+			});
 
-		// Polimon
-
-		$("#tab_polimon a[data-toggle=tab]").click(function (e) {
-			//e.preventDefault();
-
-			if (this.id == "t1") {
-				var batal = "N";
-				var jml_dr = 0;
-				var resep = "N";
-				var selesai = "N";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-cool";
-			} else if (this.id == "t2") {
-				var batal = "N";
-				var jml_dr = 0;
-				var resep = "Y";
-				var selesai = "N";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-love";
-			} else if (this.id == "t3") {
-				var batal = "N";
-				var jml_dr = 0;
-				var resep = "Y";
-				var selesai = "Y";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-cure";
-			} else if (this.id == "t4") {
-				var batal = "Y";
-				var jml_dr = 0;
-				var resep = "N";
-				var selesai = "N";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-dizzy";
-			}
-
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: func_url,
-				data: {
-					batal: batal,
-					jml_dr: jml_dr,
-					resep: resep,
-					selesai: selesai,
-					page_start: page_start,
-					per_page: per_page,
-				},
-				success: function (data) {
-					//alert(JSON.stringify(data));
-					var rcount = data.response.length;
-					var tb = "";
-					tb += '<div class="tb">';
-
-					tb += '<div class="tb-header ' + bg_color + '">';
-					tb += '<div class="row">';
-					tb += '<div class="col-md-1">NO.</div>';
-					tb += '<div class="col-md-1">MEDREC</div>';
-					tb += '<div class="col-md-3">PASIEN</div>';
-					tb += '<div class="col-md-3">DOKTER</div>';
-					tb += '<div class="col-md-1">NO URUT</div>';
-					tb += '<div class="col-md-1">NO STRUK</div>';
-					tb += '<div class="col-md-2">JAM</div>';
-					tb += "</div>";
-					tb += "</div>";
-
-					tb += '<div class="tb-body">';
-					for (var i = 0; i < rcount; i++) {
-						var oddEven = "";
-						if (i % 2 == 0) {
-							oddEven = "even";
-						} else {
-							oddEven = "odd";
-						}
-						tb += '<div class="row border-bottom ' + oddEven + '">';
-						tb += '<div class="col-md-1">' + data.response[i].no + "</div>";
-						tb += '<div class="col-md-1">' + data.response[i].medrec + "</div>";
-						tb += '<div class="col-md-3">' + data.response[i].pasien + "</div>";
-						tb += '<div class="col-md-3">' + data.response[i].dokter + "</div>";
-						tb +=
-							'<div class="col-md-1">' + data.response[i].no_urut + "</div>";
-						tb +=
-							'<div class="col-md-1">' + data.response[i].no_struk + "</div>";
-						tb += '<div class="col-md-2">' + data.response[i].jam + "</div>";
-						tb += "</div>";
-					}
-
-					tb += "</div>";
-
-					tb += "</div>";
-
-					var num1 = page_start;
-					if (per_page !== "") {
-						if (per_page > data.count) {
-							var num2 = data.count;
-						} else {
-							var num2 = per_page;
-						}
-					} else {
-						var num2 = data.count;
-					}
-					var total = data.count;
-
-					$("#data_polimon").html("");
-					$("#data_polimon").html(tb);
-
-					$("#dataTable_info").html("");
-					$("#dataTable_info").html(
-						"Showing " +
-							num1 +
-							" " +
-							"to" +
-							" " +
-							num2 +
-							" " +
-							"of" +
-							" " +
-							total
-					);
-
-					$("#pages_polimon").html("");
-					$("#pages_polimon").html(data.pagination);
-
-					pageInit();
-				},
-				error: function (data) {
-					alert(JSON.stringify(data));
-					//pageInit();
-				},
+			$(".input-check").on("change", function () {
+				$(".input-check").not(this).prop("checked", false);
 			});
 		});
 
-		$("#select_pageSize").on("change", function () {
-			var cond = $("#tab_polimon .nav-link.active").attr("id");
+		$("#inputTextName").keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+		//autoLoad_polimon();
+		if (segments[6] !== "" && segments[6] == "poli-monitor") {
+			autoLoad_polimon();
+		}
+	});
 
-			if (cond == "t1") {
-				var batal = "N";
-				var jml_dr = 0;
-				var resep = "N";
-				var selesai = "N";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-cool";
-			} else if (cond == "t2") {
-				var batal = "N";
-				var jml_dr = 0;
-				var resep = "Y";
-				var selesai = "N";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-love";
-			} else if (cond == "t3") {
-				var batal = "N";
-				var jml_dr = 0;
-				var resep = "Y";
-				var selesai = "Y";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-cure";
-			} else if (cond == "t4") {
-				var batal = "Y";
-				var jml_dr = 0;
-				var resep = "N";
-				var selesai = "N";
-				var page_start = 1;
-				var per_page = $("#select_pageSize option:selected").val();
-				var func_url = base_url + "functions/Counter_func/getDataPolimon";
-				var bg_color = "bg-dizzy";
-			}
-			//alert(cond);
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: func_url,
-				data: {
-					batal: batal,
-					jml_dr: jml_dr,
-					resep: resep,
-					selesai: selesai,
-					page_start: page_start,
-					per_page: per_page,
-				},
-				success: function (data) {
-					//alert(JSON.stringify(data));
-					var rcount = data.response.length;
-					var tb = "";
-					tb += '<div class="tb">';
+	// Polimon
+	$("#tab_polimon a[data-toggle=tab]").click(function (e) {
+		//e.preventDefault();
 
-					tb += '<div class="tb-header ' + bg_color + '">';
-					tb += '<div class="row">';
-					tb += '<div class="col-md-1">NO.</div>';
-					tb += '<div class="col-md-1">MEDREC</div>';
-					tb += '<div class="col-md-3">PASIEN</div>';
-					tb += '<div class="col-md-3">DOKTER</div>';
-					tb += '<div class="col-md-1">NO URUT</div>';
-					tb += '<div class="col-md-1">NO STRUK</div>';
-					tb += '<div class="col-md-2">JAM</div>';
-					tb += "</div>";
-					tb += "</div>";
+		if (this.id == "t1") {
+			var batal = "N";
+			var jml_dr = 0;
+			var resep = "N";
+			var selesai = "N";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-cool";
+		} else if (this.id == "t2") {
+			var batal = "N";
+			var jml_dr = 0;
+			var resep = "Y";
+			var selesai = "N";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-love";
+		} else if (this.id == "t3") {
+			var batal = "N";
+			var jml_dr = 0;
+			var resep = "Y";
+			var selesai = "Y";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-cure";
+		} else if (this.id == "t4") {
+			var batal = "Y";
+			var jml_dr = 0;
+			var resep = "N";
+			var selesai = "N";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-dizzy";
+		}
 
-					tb += '<div class="tb-body">';
-					for (var i = 0; i < rcount; i++) {
-						var oddEven = "";
-						if (i % 2 == 0) {
-							oddEven = "even";
-						} else {
-							oddEven = "odd";
-						}
-						tb += '<div class="row border-bottom ' + oddEven + '">';
-						tb += '<div class="col-md-1">' + data.response[i].no + "</div>";
-						tb += '<div class="col-md-1">' + data.response[i].medrec + "</div>";
-						tb += '<div class="col-md-3">' + data.response[i].pasien + "</div>";
-						tb += '<div class="col-md-3">' + data.response[i].dokter + "</div>";
-						tb +=
-							'<div class="col-md-1">' + data.response[i].no_urut + "</div>";
-						tb +=
-							'<div class="col-md-1">' + data.response[i].no_struk + "</div>";
-						tb += '<div class="col-md-2">' + data.response[i].jam + "</div>";
-						tb += "</div>";
-					}
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: func_url,
+			data: {
+				batal: batal,
+				jml_dr: jml_dr,
+				resep: resep,
+				selesai: selesai,
+				page_start: page_start,
+				per_page: per_page,
+			},
+			success: function (data) {
+				//alert(JSON.stringify(data));
+				var rcount = data.response.length;
+				var tb = "";
+				tb += '<div class="tb">';
 
-					tb += "</div>";
+				tb += '<div class="tb-header ' + bg_color + '">';
+				tb += '<div class="row">';
+				tb += '<div class="col-md-1">NO.</div>';
+				tb += '<div class="col-md-1">MEDREC</div>';
+				tb += '<div class="col-md-3">PASIEN</div>';
+				tb += '<div class="col-md-3">DOKTER</div>';
+				tb += '<div class="col-md-1">NO URUT</div>';
+				tb += '<div class="col-md-1">NO STRUK</div>';
+				tb += '<div class="col-md-2">JAM</div>';
+				tb += "</div>";
+				tb += "</div>";
 
-					tb += "</div>";
-
-					var num1 = page_start;
-					if (per_page !== "") {
-						if (per_page > data.count) {
-							var num2 = data.count;
-						} else {
-							var num2 = per_page;
-						}
+				tb += '<div class="tb-body">';
+				for (var i = 0; i < rcount; i++) {
+					var oddEven = "";
+					if (i % 2 == 0) {
+						oddEven = "even";
 					} else {
-						var num2 = data.count;
+						oddEven = "odd";
 					}
-					var total = data.count;
+					tb += '<div class="row border-bottom ' + oddEven + '">';
+					tb += '<div class="col-md-1">' + data.response[i].no + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].medrec + "</div>";
+					tb += '<div class="col-md-3">' + data.response[i].pasien + "</div>";
+					tb += '<div class="col-md-3">' + data.response[i].dokter + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_urut + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_struk + "</div>";
+					tb += '<div class="col-md-2">' + data.response[i].jam + "</div>";
+					tb += "</div>";
+				}
 
-					$("#data_polimon").html("");
-					$("#data_polimon").html(tb);
+				tb += "</div>";
 
-					$("#dataTable_info").html("");
-					$("#dataTable_info").html(
-						"Showing " +
-							num1 +
-							" " +
-							"to" +
-							" " +
-							num2 +
-							" " +
-							"of" +
-							" " +
-							total
-					);
+				tb += "</div>";
 
-					$("#pages_polimon").html("");
-					$("#pages_polimon").html(data.pagination);
+				var num1 = page_start;
+				if (per_page !== "") {
+					if (per_page > data.count) {
+						var num2 = data.count;
+					} else {
+						var num2 = per_page;
+					}
+				} else {
+					var num2 = data.count;
+				}
+				var total = data.count;
 
-					pageInit();
-				},
-				error: function (data) {
-					alert(JSON.stringify(data));
-					//pageInit();
-				},
-			});
+				$("#data_polimon").html("");
+				$("#data_polimon").html(tb);
+
+				$("#dataTable_info").html("");
+				$("#dataTable_info").html(
+					"Showing " + num1 + " " + "to" + " " + num2 + " " + "of" + " " + total
+				);
+
+				$("#pages_polimon").html("");
+				$("#pages_polimon").html(data.pagination);
+
+				pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				//pageInit();
+			},
 		});
 	});
+
+	$("#select_pageSize").on("change", function () {
+		var cond = $("#tab_polimon .nav-link.active").attr("id");
+
+		if (cond == "t1") {
+			var batal = "N";
+			var jml_dr = 0;
+			var resep = "N";
+			var selesai = "N";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-cool";
+		} else if (cond == "t2") {
+			var batal = "N";
+			var jml_dr = 0;
+			var resep = "Y";
+			var selesai = "N";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-love";
+		} else if (cond == "t3") {
+			var batal = "N";
+			var jml_dr = 0;
+			var resep = "Y";
+			var selesai = "Y";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-cure";
+		} else if (cond == "t4") {
+			var batal = "Y";
+			var jml_dr = 0;
+			var resep = "N";
+			var selesai = "N";
+			var page_start = 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url = base_url + "functions/Counter_func/getDataPolimon";
+			var bg_color = "bg-dizzy";
+		}
+		//alert(cond);
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: func_url,
+			data: {
+				batal: batal,
+				jml_dr: jml_dr,
+				resep: resep,
+				selesai: selesai,
+				page_start: page_start,
+				per_page: per_page,
+			},
+			success: function (data) {
+				//alert(JSON.stringify(data));
+				var rcount = data.response.length;
+				var tb = "";
+				tb += '<div class="tb">';
+
+				tb += '<div class="tb-header ' + bg_color + '">';
+				tb += '<div class="row">';
+				tb += '<div class="col-md-1">NO.</div>';
+				tb += '<div class="col-md-1">MEDREC</div>';
+				tb += '<div class="col-md-3">PASIEN</div>';
+				tb += '<div class="col-md-3">DOKTER</div>';
+				tb += '<div class="col-md-1">NO URUT</div>';
+				tb += '<div class="col-md-1">NO STRUK</div>';
+				tb += '<div class="col-md-2">JAM</div>';
+				tb += "</div>";
+				tb += "</div>";
+
+				tb += '<div class="tb-body">';
+				for (var i = 0; i < rcount; i++) {
+					var oddEven = "";
+					if (i % 2 == 0) {
+						oddEven = "even";
+					} else {
+						oddEven = "odd";
+					}
+					tb += '<div class="row border-bottom ' + oddEven + '">';
+					tb += '<div class="col-md-1">' + data.response[i].no + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].medrec + "</div>";
+					tb += '<div class="col-md-3">' + data.response[i].pasien + "</div>";
+					tb += '<div class="col-md-3">' + data.response[i].dokter + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_urut + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_struk + "</div>";
+					tb += '<div class="col-md-2">' + data.response[i].jam + "</div>";
+					tb += "</div>";
+				}
+
+				tb += "</div>";
+
+				tb += "</div>";
+
+				var num1 = page_start;
+				if (per_page !== "") {
+					if (per_page > data.count) {
+						var num2 = data.count;
+					} else {
+						var num2 = per_page;
+					}
+				} else {
+					var num2 = data.count;
+				}
+				var total = data.count;
+
+				$("#data_polimon").html("");
+				$("#data_polimon").html(tb);
+
+				$("#dataTable_info").html("");
+				$("#dataTable_info").html(
+					"Showing " + num1 + " " + "to" + " " + num2 + " " + "of" + " " + total
+				);
+
+				$("#pages_polimon").html("");
+				$("#pages_polimon").html(data.pagination);
+
+				pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				//pageInit();
+			},
+		});
+	});
+
 	$("#polimon_wrapper .nav-link").click(function () {
 		$("#polimon_wrapper .nav-link").removeClass("active");
 		$(this).addClass("active");
 	});
 
-	function RecurringTimer(callback, delay) {
-		var timerId,
-			start,
-			remaining = delay;
-
-		this.pause = function () {
-			window.clearTimeout(timerId);
-			remaining -= new Date() - start;
-		};
-
-		var resume = function () {
-			start = new Date();
-			timerId = window.setTimeout(function () {
+	function autoLoad_polimon() {
+		function RecurringTimer(callback, delay) {
+			var timerId,
+				start,
 				remaining = delay;
-				resume();
-				callback();
-			}, remaining);
-		};
 
-		this.resume = resume;
+			this.pause = function () {
+				window.clearTimeout(timerId);
+				remaining -= new Date() - start;
+			};
 
-		this.resume();
+			var resume = function () {
+				start = new Date();
+				timerId = window.setTimeout(function () {
+					remaining = delay;
+					resume();
+					callback();
+				}, remaining);
+			};
+
+			this.resume = resume;
+
+			this.resume();
+		}
+
+		function Timer(callback, delay) {
+			var timerId,
+				start,
+				remaining = delay;
+
+			this.pause = function () {
+				window.clearTimeout(timerId);
+				remaining -= new Date() - start;
+			};
+
+			this.resume = function () {
+				start = new Date();
+				window.clearTimeout(timerId);
+				timerId = window.setTimeout(callback, remaining);
+			};
+
+			this.resume();
+		}
+
+		var timer = new RecurringTimer(function () {
+			console.log(sixth_segment);
+			refreshPolimon();
+		}, 5000);
 	}
-
-	function Timer(callback, delay) {
-		var timerId,
-			start,
-			remaining = delay;
-
-		this.pause = function () {
-			window.clearTimeout(timerId);
-			remaining -= new Date() - start;
-		};
-
-		this.resume = function () {
-			start = new Date();
-			window.clearTimeout(timerId);
-			timerId = window.setTimeout(callback, remaining);
-		};
-
-		this.resume();
-	}
-
-	var timer = new RecurringTimer(function () {
-		//alert("Done!");
-		//console.log(top.location.pathname);
-		//refreshPolimon();
-		pageInit();
-	}, 5000);
 
 	function refreshPolimon() {
 		// console.log("1");
@@ -624,27 +654,36 @@
 				$("#pages_polimon").html("");
 				$("#pages_polimon").html(data.pagination);
 
-				// pageInit();
+				pageInit();
 			},
 			error: function (data) {
 				alert(JSON.stringify(data));
-				//pageInit();
+				pageInit();
 			},
 		});
 	}
 
 	function pageInit() {
-		$(".input-check").on("change", function () {
-			$(".input-check").not(this).prop("checked", false);
-		});
-
-		$("#selectmedrec").click(function () {
-			$.each($(".input-check:checked"), function () {
-				alert($(this).val());
-			});
+		$(".date-validate").mask("99.99.9999");
+		$(".date-validate").change(function () {
+			if (
+				$(this).val().substring(0, 2) > 12 ||
+				$(this).val().substring(0, 2) == "00"
+			) {
+				alert("Iregular Month Format");
+				return false;
+			}
+			if (
+				$(this).val().substring(3, 5) > 31 ||
+				$(this).val().substring(0, 2) == "00"
+			) {
+				alert("Iregular Date Format");
+				return false;
+			}
 		});
 	}
-	// $('#polimon-pagination').on('click','a',function(e){
-	// 	e.preventDefault();
-	// });
+
+	$("#polimon-pagination").on("click", "a", function (e) {
+		e.preventDefault();
+	});
 })(jQuery); // End of use strict
