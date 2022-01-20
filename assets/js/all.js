@@ -349,7 +349,39 @@
 				pageInit();
 			},
 			error: function (data) {
-				alert(JSON.stringify(data));
+				//alert(JSON.stringify(data));
+				//console.log(data);
+				if (data == 'undefined') {
+					var tb = "";
+					tb += '<div class="tb">';
+
+					tb += '<div class="tb-header ' + bg_color + '">';
+					tb += '<div class="row">';
+					tb += '<div class="col-md-1">NO.</div>';
+					tb += '<div class="col-md-1">MEDREC</div>';
+					tb += '<div class="col-md-3">PASIEN</div>';
+					tb += '<div class="col-md-3">DOKTER</div>';
+					tb += '<div class="col-md-1">NO URUT</div>';
+					tb += '<div class="col-md-1">NO STRUK</div>';
+					tb += '<div class="col-md-2">JAM</div>';
+					tb += "</div>";
+					tb += "</div>";
+
+					tb += '<div class="tb-body">';
+					tb += '<div class="row">';
+					tb += '<div class="col-md-12">No Data Found</div>';
+					tb += "</div>";
+					tb += "</div>";
+
+					tb += "</div>";
+
+					$("#data_polimon").html("");
+					$("#data_polimon").html(tb);
+
+					$("#dataTable_info").html(
+						"Showing 0 to 0 of 0"
+					);
+				}
 				//pageInit();
 			},
 		});
