@@ -2,8 +2,12 @@
 
     $this->load->model('m_control', 'mc');
 
-    $dept = $this->session->userdata('dept_id');
     $kd_bagian = $this->session->userdata('kd_bagian');
+    if ($kd_bagian <> '') {
+        $dept = $this->session->userdata('kd_bagian');
+    } else {
+        $dept = $this->session->userdata('dept_id');
+    }
     $parent = '';
     $type ='1';
     $uri2 = $this->uri->segment(2);
@@ -11,8 +15,11 @@
     $cls_child = '';
     $collapse = '';
     $attrib_parent = array();
-
-    $menuParent = $this->mc->listMenu($kd_bagian, $parent, $type);
+    if ($kd_bagian <> '') {
+        $menuParent = $this->mc->listMenu($dept, $parent, $type);
+    } else {
+        $menuParent = $this->mc->listMenu($dept, $parent, $type);
+    }
     $menu = "";
     foreach($menuParent as $p) {
         $check = $this->mc->checkParent($p->menu_id);
@@ -54,7 +61,11 @@
             
             $parent2 = $p->menu_id;
             $type2 = '2';
-            $menuChild = $this->mc->listMenu($kd_bagian, $parent2, $type2);
+            if ($kd_bagian <> '') {
+                $menuChild = $this->mc->listMenu($dept, $parent2, $type2);
+            } else {
+                $menuChild = $this->mc->listMenu($dept, $parent2, $type2);
+            }
             foreach ($menuChild as $c) {
                 // $menu.='<span>' . $uri_child . ' ' . $c->link . '</span>';
                 if ($uri3 <> '' && $uri3 == $c->link){

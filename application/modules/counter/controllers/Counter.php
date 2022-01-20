@@ -27,7 +27,7 @@ class Counter extends CI_Controller
         } 
     }
 
-    function fitures($param) {
+    function features($param) {
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
         {
