@@ -4,7 +4,7 @@
 	var _URL = window.URL || window.webkitURL;
 	var base_url = $("#baseUrl").val();
 	var current_url = $(location).attr("href");
-	var segments = current_url.split('/');
+	var segments = current_url.split("/");
 	var sixth_segment = segments[6];
 
 	$("#datetimepicker4").datetimepicker({
@@ -177,7 +177,6 @@
 		});
 
 		$("#myDynamicModal").on("shown.bs.modal", function (event) {
-
 			$("#selectMedrec").click(function () {
 				$.each($(".input-check:checked"), function () {
 					var mr = $(this).val();
@@ -214,17 +213,17 @@
 					});
 				});
 			});
-	
+
 			$(".input-check").on("change", function () {
 				$(".input-check").not(this).prop("checked", false);
 			});
 		});
 
-		$('#inputTextName').keyup(function(){
+		$("#inputTextName").keyup(function () {
 			$(this).val($(this).val().toUpperCase());
 		});
 		//autoLoad_polimon();
-		if (segments[6] !== '' && segments[6] == 'poli-monitor'){
+		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 			autoLoad_polimon();
 		}
 	});
@@ -314,10 +313,8 @@
 					tb += '<div class="col-md-1">' + data.response[i].medrec + "</div>";
 					tb += '<div class="col-md-3">' + data.response[i].pasien + "</div>";
 					tb += '<div class="col-md-3">' + data.response[i].dokter + "</div>";
-					tb +=
-						'<div class="col-md-1">' + data.response[i].no_urut + "</div>";
-					tb +=
-						'<div class="col-md-1">' + data.response[i].no_struk + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_urut + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_struk + "</div>";
 					tb += '<div class="col-md-2">' + data.response[i].jam + "</div>";
 					tb += "</div>";
 				}
@@ -343,16 +340,7 @@
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
-					"Showing " +
-						num1 +
-						" " +
-						"to" +
-						" " +
-						num2 +
-						" " +
-						"of" +
-						" " +
-						total
+					"Showing " + num1 + " " + "to" + " " + num2 + " " + "of" + " " + total
 				);
 
 				$("#pages_polimon").html("");
@@ -483,10 +471,8 @@
 					tb += '<div class="col-md-1">' + data.response[i].medrec + "</div>";
 					tb += '<div class="col-md-3">' + data.response[i].pasien + "</div>";
 					tb += '<div class="col-md-3">' + data.response[i].dokter + "</div>";
-					tb +=
-						'<div class="col-md-1">' + data.response[i].no_urut + "</div>";
-					tb +=
-						'<div class="col-md-1">' + data.response[i].no_struk + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_urut + "</div>";
+					tb += '<div class="col-md-1">' + data.response[i].no_struk + "</div>";
 					tb += '<div class="col-md-2">' + data.response[i].jam + "</div>";
 					tb += "</div>";
 				}
@@ -512,16 +498,7 @@
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
-					"Showing " +
-						num1 +
-						" " +
-						"to" +
-						" " +
-						num2 +
-						" " +
-						"of" +
-						" " +
-						total
+					"Showing " + num1 + " " + "to" + " " + num2 + " " + "of" + " " + total
 				);
 
 				$("#pages_polimon").html("");
@@ -542,7 +519,6 @@
 	});
 
 	function autoLoad_polimon() {
-		
 		function RecurringTimer(callback, delay) {
 			var timerId,
 				start,
@@ -566,7 +542,7 @@
 
 			this.resume();
 		}
-		
+
 		function Timer(callback, delay) {
 			var timerId,
 				start,
@@ -590,7 +566,6 @@
 			console.log(sixth_segment);
 			refreshPolimon();
 		}, 5000);
-
 	}
 
 	function refreshPolimon() {
@@ -721,7 +696,6 @@
 	}
 
 	function pageInit() {
-
 		$(".date-validate").mask("99.99.9999");
 		$(".date-validate").change(function () {
 			if (
@@ -739,15 +713,9 @@
 				return false;
 			}
 		});
-
-		
-		$('#polimon-pagination').on('click','a',function(e){
-			e.preventDefault();
-		});
-
 	}
-	
-	$('#polimon-pagination').on('click','a',function(e){
+
+	$("#polimon-pagination").on("click", "a", function (e) {
 		e.preventDefault();
 	});
 })(jQuery); // End of use strict
