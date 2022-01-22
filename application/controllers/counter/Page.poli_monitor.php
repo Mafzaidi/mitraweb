@@ -7,13 +7,18 @@
     $ada_lab = '';
     $ada_rad = '';
     $per_page = '';
+    $page_start = 1;
+
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
-            $pagestart = $this->uri->segment(4) + 1;    
+            if($this->uri->segment(5) <> ''){
+                $page_start = $this->uri->segment(5) + 1;  
+            }  
         } else {
-            $pagestart = 1;
+            $page_start = 1;
         }
     }
+    // var_dump($this->uri->segment(5));
     $countrows =  $this->mctr->getRowcountMonitor(
                                                     $ctr_batal, 
                                                     $ctr_selesai, 
@@ -31,7 +36,7 @@
                                         $ada_resep, 
                                         $ada_lab, 
                                         $ada_rad, 
-                                        $pagestart, 
+                                        $page_start, 
                                         $per_page
                                     );
     
@@ -72,7 +77,7 @@
         $tb.= '<div class="col-md-1">' . $pm->NO_URUT . '</div>';
         $tb.= '<div class="col-md-1">' . $pm->NO_BUKTI . '</div>';
         $tb.= '<div class="col-md-2">' . $pm->JAM_DAFTAR . '</div>';
-        $tb.= '<div class="col-md-1"><button>LIHAT</button></div>';
+        $tb.= '<div class="col-md-1"><button type="button" class="btn btn-primary btn-sm">Lihat</button></div>';
         $tb.= '</div>';
         $i++;
     }   
@@ -80,6 +85,7 @@
 
     $tb.= '</div>';
 
+    //$config['base_url'] = base_url('functions/Counter_func/getDataPolimon');
     $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
     $config['total_rows'] = $countrows;
     $config['per_page'] = $per_page;
@@ -104,10 +110,13 @@
     $config['last_tag_close']  = '</span></li>';
     
     $this->pagination->initialize($config);
-    $num1 = $pagestart;
+    $num1 = $page_start;
+    $num2 = $countrows;
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
-            $num2 = ($pagestart + $per_page)-1;
+            if($this->uri->segment(5) <> ''){
+                $num2 = ($page_start + $this->uri->segment(5))-1;
+            }
         } else {
             $num2 = $countrows;
         }

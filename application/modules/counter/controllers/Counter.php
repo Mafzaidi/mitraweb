@@ -44,7 +44,7 @@ class Counter extends CI_Controller
             if($this->uri->segment(3) <> ''){  
                 if ($param == str_replace('-', '_',$this->uri->segment(3))) {
                     if ($param == "poli_monitor") {
-                        require_once(APPPATH."controllers/counter/page.".$param.".php");  
+                        require_once(APPPATH."controllers/counter/page.".$param.".php");
                     }
                 }
             }
