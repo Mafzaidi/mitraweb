@@ -13,17 +13,36 @@ class Counter_func extends CI_Controller
 
     public function getDataPolimon() 
 	{
-        $batal = $this->input->post('batal');
+        $ctr_batal = $this->input->post('ctr_batal');
+        $ctr_selesai = $this->input->post('ctr_selesai');
         $jml_dr = $this->input->post('jml_dr');
-        $resep = $this->input->post('resep');
-        $selesai = $this->input->post('selesai');
+        $dr_selesai = $this->input->post('dr_selesai');
+        $ada_resep = $this->input->post('ada_resep');
+        $ada_lab = $this->input->post('ada_lab');
+        $ada_rad = $this->input->post('ada_rad');
         $page_start = $this->input->post('page_start');
         $per_page = $this->input->post('per_page');
-
-        // var_dump($per_page, $page_start);
         
-        $countrecords =  $this->mctr->getRowcountMonitor($batal, $jml_dr, $resep, $selesai);
-        $records = $this->mctr->getMonitor($batal, $jml_dr, $resep, $selesai, $page_start, $per_page);
+        $countrecords =  $this->mctr->getRowcountMonitor(
+                                                        $ctr_batal, 
+                                                        $ctr_selesai, 
+                                                        $jml_dr, 
+                                                        $dr_selesai, 
+                                                        $ada_resep, 
+                                                        $ada_lab, 
+                                                        $ada_rad
+                                                    );
+        $records = $this->mctr->getMonitor(
+                                        $ctr_batal, 
+                                        $ctr_selesai, 
+                                        $jml_dr, 
+                                        $dr_selesai, 
+                                        $ada_resep, 
+                                        $ada_lab, 
+                                        $ada_rad, 
+                                        $page_start, 
+                                        $per_page
+                                    );
 
         foreach($records as $row ){
             $response[] = array(
@@ -33,14 +52,17 @@ class Counter_func extends CI_Controller
                                 "dokter"=>$row->DOKTER,
                                 "no_urut"=>$row->NO_URUT,
                                 "no_struk"=>$row->NO_BUKTI,
-                                "jam"=>$row->JAM
+                                "jam_daftar"=>$row->JAM_DAFTAR,
+                                "ctr_batal"=>$row->COUNTER_BATAL,
+                                "ctr_selesai"=>$row->COUNTER_SELESAI,
+                                "dr_selesai"=>$row->DOKTER_SELESAI
                             );
         }
 
-        $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
+        $config['base_url'] = base_url('functions/Counter_func/getDataPolimon');
         $config['total_rows'] = $countrecords;
         $config['per_page'] = $per_page;
-    
+        
         $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
         $config['full_tag_close']   = '</ul></nav></div>';
         $config['first_link']       = 'First';
@@ -59,6 +81,7 @@ class Counter_func extends CI_Controller
         $config['first_tag_close'] = '</span></li>';
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tag_close']  = '</span></li>';
+        
         
         $this->pagination->initialize($config);
         $num1 = $page_start;
