@@ -351,7 +351,7 @@
 			error: function (data) {
 				//alert(JSON.stringify(data));
 				//console.log(data);
-				if (data == "undefined") {
+				if (data == 'undefined') {
 					var tb = "";
 					tb += '<div class="tb">';
 
@@ -378,7 +378,9 @@
 					$("#data_polimon").html("");
 					$("#data_polimon").html(tb);
 
-					$("#dataTable_info").html("Showing 0 to 0 of 0");
+					$("#dataTable_info").html(
+						"Showing 0 to 0 of 0"
+					);
 				}
 				//pageInit();
 			},
@@ -562,7 +564,7 @@
 
 		var timer = new RecurringTimer(function () {
 			console.log(sixth_segment);
-			// refreshPolimon();
+			refreshPolimon();
 		}, 5000);
 	}
 

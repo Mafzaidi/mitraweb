@@ -530,6 +530,22 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	background-color: #ff9c4a;
 }
 
+.bg-warning-2 {
+	background-color: #ffe494 !important;
+}
+
+.bg-danger-2 {
+	background-color: #ff9aa4 !important;
+}
+
+.bg-success-2 {
+	background-color: #a8ffbc !important;
+}
+
+.bg-primary-2 {
+	background-color: #76b8ff !important;
+}
+
 .tb-header [class*="col"] {
 	border-right: 1px solid #fff;
 	padding: 0.75rem;

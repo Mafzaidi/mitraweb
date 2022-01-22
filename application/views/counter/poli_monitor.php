@@ -1,19 +1,19 @@
 
 <div class="container-fluid table_wrapper py-3" id="polimon_wrapper">
-    <ul class="nav nav-tabs" id="tab_polimon">
-    <li class="nav-item bg-nav-cool">
-        <a class="nav-link active" data-toggle=tab id="t1" href="#" >Belum ke Dokter</a>
-    </li>
-    <li class="nav-item bg-nav-love">
-        <a class="nav-link" data-toggle=tab id="t2" href="#">Sudah dari Dokter</a>
-    </li>
-    <li class="nav-item bg-nav-cure">
-        <a class="nav-link" data-toggle=tab id="t3" href="#">Selesai Berobat</a>
-    </li>
-    <li class="nav-item bg-nav-dizzy">
-        <a class="nav-link" data-toggle=tab id="t4" href="#">Batal</a>
-    </li>
-    </ul>
+    <!-- <ul class="nav nav-tabs" id="tab_polimon">
+        <li class="nav-item bg-nav-cool">
+            <a class="nav-link active" data-toggle=tab id="t1" href="#" >Belum ke Dokter</a>
+        </li>
+        <li class="nav-item bg-nav-love">
+            <a class="nav-link" data-toggle=tab id="t2" href="#">Sudah dari Dokter</a>
+        </li>
+        <li class="nav-item bg-nav-cure">
+            <a class="nav-link" data-toggle=tab id="t3" href="#">Selesai Berobat</a>
+        </li>
+        <li class="nav-item bg-nav-dizzy">
+            <a class="nav-link" data-toggle=tab id="t4" href="#">Batal</a>
+        </li>
+    </ul> -->
     <div class="card">
         <div class="card-body">
             <div class="row">

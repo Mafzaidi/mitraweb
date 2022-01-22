@@ -1,9 +1,12 @@
 <?php
-    $batal = 'N';
+    $ctr_batal = '';
+    $ctr_selesai= '';
     $jml_dr = 0;
-    $resep = 'N';
-    $selesai = 'N';
-    $per_page = 10;
+    $dr_selesai = '';
+    $ada_resep = '';
+    $ada_lab = '';
+    $ada_rad = '';
+    $per_page = '';
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
             $pagestart = $this->uri->segment(4) + 1;    
@@ -11,8 +14,26 @@
             $pagestart = 1;
         }
     }
-    $countrows =  $this->mctr->getRowcountMonitor($batal, $jml_dr, $resep, $selesai);
-    $rows = $this->mctr->getMonitor($batal, $jml_dr, $resep, $selesai, $pagestart, $per_page);
+    $countrows =  $this->mctr->getRowcountMonitor(
+                                                    $ctr_batal, 
+                                                    $ctr_selesai, 
+                                                    $jml_dr, 
+                                                    $dr_selesai, 
+                                                    $ada_resep, 
+                                                    $ada_lab, 
+                                                    $ada_rad
+                                                );
+    $rows = $this->mctr->getMonitor(
+                                        $ctr_batal, 
+                                        $ctr_selesai, 
+                                        $jml_dr, 
+                                        $dr_selesai, 
+                                        $ada_resep, 
+                                        $ada_lab, 
+                                        $ada_rad, 
+                                        $pagestart, 
+                                        $per_page
+                                    );
     
     $i= 0;
     $tb = '';
@@ -22,26 +43,38 @@
     $tb.= '<div class="row">';
     $tb.= '<div class="col-md-1">NO.</div>';
     $tb.= '<div class="col-md-1">MEDREC</div>';
-    $tb.= '<div class="col-md-3">PASIEN</div>';
+    $tb.= '<div class="col-md-2">PASIEN</div>';
     $tb.= '<div class="col-md-3">DOKTER</div>';
     $tb.= '<div class="col-md-1">NO URUT</div>';
     $tb.= '<div class="col-md-1">NO STRUK</div>';
-    $tb.= '<div class="col-md-2">JAM</div>';
+    $tb.= '<div class="col-md-2">JAM DAFTAR</div>';
+    $tb.= '<div class="col-md-1">DETAIL</div>';
     $tb.= '</div>';      
     $tb.= '</div>'; 
 
     $tb.= '<div class="tb-body">';
     foreach($rows as $pm) {
-    $tb.= '<div class="row border-bottom ' . ($i%2 ? 'odd':'even') . '">';
-    $tb.= '<div class="col-md-1">' . $pm->RNUM . '</div>';
-    $tb.= '<div class="col-md-1">' . $pm->PID . '</div>';
-    $tb.= '<div class="col-md-3">' . $pm->PASIEN . '</div>';
-    $tb.= '<div class="col-md-3">' . $pm->DOKTER . '</div>';
-    $tb.= '<div class="col-md-1">' . $pm->NO_URUT . '</div>';
-    $tb.= '<div class="col-md-1">' . $pm->NO_BUKTI . '</div>';
-    $tb.= '<div class="col-md-2">' . $pm->JAM . '</div>';
-    $tb.= '</div>';
-    $i++;
+        $statuscls = '';
+        if ($pm->COUNTER_BATAL == 'Y') {
+            $statuscls = 'bg-danger-2';
+        } else if ($pm->COUNTER_SELESAI == 'Y') {
+            $statuscls = 'bg-success-2';
+        } else if ($pm->DOKTER_SELESAI == 'Y') {
+            $statuscls = 'bg-warning-2';
+        } else {
+            $statuscls = 'bg-primary-2';
+        }
+        $tb.= '<div class="row border-bottom ' . $statuscls . ' ' . ($i%2 ? 'odd-row':'even-row') . '">';
+        $tb.= '<div class="col-md-1">' . $pm->RNUM . '</div>';
+        $tb.= '<div class="col-md-1">' . $pm->PID . '</div>';
+        $tb.= '<div class="col-md-2">' . $pm->PASIEN . '</div>';
+        $tb.= '<div class="col-md-3">' . $pm->DOKTER . '</div>';
+        $tb.= '<div class="col-md-1">' . $pm->NO_URUT . '</div>';
+        $tb.= '<div class="col-md-1">' . $pm->NO_BUKTI . '</div>';
+        $tb.= '<div class="col-md-2">' . $pm->JAM_DAFTAR . '</div>';
+        $tb.= '<div class="col-md-1"><button>LIHAT</button></div>';
+        $tb.= '</div>';
+        $i++;
     }   
     $tb.= '</div>'; 
 
