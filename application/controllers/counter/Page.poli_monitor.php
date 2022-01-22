@@ -6,7 +6,7 @@
     $ada_resep = '';
     $ada_lab = '';
     $ada_rad = '';
-    $per_page = '';
+    $per_page = 10;
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
             $pagestart = $this->uri->segment(4) + 1;    

@@ -713,7 +713,7 @@
 		});
 	}
 
-	$("#polimon-pagination").on("click", "a", function (e) {
-		e.preventDefault();
-	});
+	// $("#polimon-pagination").on("click", "a", function (e) {
+	// 	e.preventDefault();
+	// });
 })(jQuery); // End of use strict
