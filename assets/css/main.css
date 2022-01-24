@@ -155,6 +155,38 @@ button.search:before {
 	font-weight: 900;
 }
 
+.sort-filter::after {
+	margin-right: 0.5rem;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	font-size: 0.875rem;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	box-sizing: border-box;
+}
+
+.text-light .sort-filter::after {
+	color: rgba(238, 238, 238, 0.671);
+}
+
+.sort-filter:hover::after {
+	cursor: pointer;
+}
+
+.text-light .sort-filter:hover::after {
+	color: #fff;
+}
+
+.sort-filter.desc::after {
+	content: "\f160";
+}
+
+.sort-filter.asc::after {
+	content: "\f885";
+}
+
 .fa-e:before {
 	font-family: "Montserrat", sans-serif; /* your font family here! */
 	font-weight: bold;
@@ -572,4 +604,29 @@ div.dataTables_paginate ul.pagination {
 	margin: 2px 0;
 	white-space: nowrap;
 	justify-content: flex-end;
+}
+
+.color-indicator::before {
+	content: "";
+	width: 10px;
+	height: 10px;
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+	display: inline-flex;
+}
+
+.color-indicator.blue::before {
+	background-color: blue;
+}
+
+.color-indicator.orange::before {
+	background-color: orange;
+}
+
+.color-indicator.green::before {
+	background-color: green;
+}
+
+.color-indicator.red::before {
+	background-color: red;
 }

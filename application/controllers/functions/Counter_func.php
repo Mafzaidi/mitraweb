@@ -11,7 +11,7 @@ class Counter_func extends CI_Controller
         $this->load->library('pagination');
     }
 
-    public function getDataPolimon() 
+    public function getDataPolimon($pageno = 0) 
 	{
         $ctr_batal = $this->input->post('ctr_batal');
         $ctr_selesai = $this->input->post('ctr_selesai');
@@ -22,6 +22,11 @@ class Counter_func extends CI_Controller
         $ada_rad = $this->input->post('ada_rad');
         $page_start = $this->input->post('page_start');
         $per_page = $this->input->post('per_page');
+        $search = $this->input->post('search');
+
+        if($pageno != 0) {
+            $pageno = ($pageno-1) * $per_page;
+        }
         
         $countrecords =  $this->mctr->getRowcountMonitor(
                                                         $ctr_batal, 
@@ -30,7 +35,8 @@ class Counter_func extends CI_Controller
                                                         $dr_selesai, 
                                                         $ada_resep, 
                                                         $ada_lab, 
-                                                        $ada_rad
+                                                        $ada_rad,
+                                                        $search
                                                     );
         $records = $this->mctr->getMonitor(
                                         $ctr_batal, 
@@ -41,7 +47,8 @@ class Counter_func extends CI_Controller
                                         $ada_lab, 
                                         $ada_rad, 
                                         $page_start, 
-                                        $per_page
+                                        $per_page,
+                                        $search
                                     );
 
         foreach($records as $row ){
@@ -55,12 +62,15 @@ class Counter_func extends CI_Controller
                                 "jam_daftar"=>$row->JAM_DAFTAR,
                                 "ctr_batal"=>$row->COUNTER_BATAL,
                                 "ctr_selesai"=>$row->COUNTER_SELESAI,
-                                "dr_selesai"=>$row->DOKTER_SELESAI
+                                "dr_selesai"=>$row->DOKTER_SELESAI,
+                                "mr"=>$row->MR,
+                                "dokter_id"=>$row->DOKTER_ID
                             );
         }
 
-        $config['base_url'] = base_url('functions/Counter_func/getDataPolimon');
+        $config['base_url'] = base_url('functions/getDataPolimon/' . $pageno);
         $config['total_rows'] = $countrecords;
+        $config['use_page_numbers'] = TRUE;
         $config['per_page'] = $per_page;
         
         $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
@@ -82,17 +92,18 @@ class Counter_func extends CI_Controller
         $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
         $config['last_tag_close']  = '</span></li>';
         
-        
         $this->pagination->initialize($config);
         $num1 = $page_start;
-        if($this->uri->segment(3) <> ''){
-            if($this->uri->segment(4) <> ''){
-                $num2 = ($page_start + $per_page)-1;
-            } else {
-                $num2 = $countrecords;
-            }
-        }
-        echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links()));
+        $num2 = $page_start + $per_page;
+        // $num2 = $countrecords;
+        // if($this->uri->segment(3) <> ''){
+        //     if($this->uri->segment(4) <> ''){
+        //         $num2 = ($per_page + $this->uri->segment(4));
+        //     } else {
+        //         $num2 = $countrecords;
+        //     }
+        // }
+        echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2));
 	}
 
     function searchMedrec() 

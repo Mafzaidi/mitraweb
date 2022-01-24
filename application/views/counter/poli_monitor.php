@@ -15,6 +15,53 @@
         </li>
     </ul> -->
     <div class="card">
+        <div class="d-flex card-header border-bottom-0 bg-white justify-content-between pb-0">
+            <h5 class="card-title mb-0">POLI MONITORING</h5>                  
+            <div class="dropdown">
+                <button class="btn btn-sm ml-auto dropdown-toggle" type="button" id="dropdownFilterPolimon" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-filter"></i>
+                </button>
+                <div class="dropdown-menu form-check form-check-inline" aria-labelledby="dropdownFilterPolimon">
+                    <li class="dropdown-item">
+                        <input class="form-check-input" type="checkbox" value="" id="allCheck" name="checkfilter">
+                        <label class="form-check-label" for="allCheck">
+                            Select all
+                        </label>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-item form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Y" id="counterCheck" name="checkfilter">
+                        <label class="form-check-label" for="counterCheck">
+                            Daftar Counter
+                        </label>
+                    </li>
+                    <li class="dropdown-item form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Y" id="consultCheck" name="checkfilter">
+                        <label class="form-check-label" for="consultCheck">
+                            Dokter Selesai
+                        </label>
+                    </li>
+                    <li class="dropdown-item form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Y" id="finishCheck" name="checkfilter">
+                        <label class="form-check-label" for="finishCheck">
+                            Counter Selesai
+                        </label>
+                    </li>
+                    <li class="dropdown-item form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="Y" id="cancelCheck" name="checkfilter">
+                        <label class="form-check-label" for="cancelCheck">
+                            Batal
+                        </label>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <div class="row px-3">
+                        <div class="col">
+                            <button type="submit" id="submitFilterPolimon" class="btn btn-sm btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
@@ -35,9 +82,17 @@
                     <div id="dataTable_filter" class="dataTables_filter">
                         <label>
                             Search:
-                            <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable">
+                            <input type="search" class="form-control form-control-sm text-uppercase" id="inputSearchPolimon" placeholder="" aria-controls="dataTable">
                         </label>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <span class="color-indicator blue">Counter daftar</span>
+                    <span class="color-indicator orange">Dokter selesai</span>
+                    <span class="color-indicator green">Counter selesai</span>
+                    <span class="color-indicator red">Counter batal</span>
                 </div>
             </div>
             <div class="row">  

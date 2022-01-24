@@ -8,12 +8,11 @@
     $ada_rad = '';
     $per_page = '';
     $page_start = 1;
+    $search = '';
 
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
-            if($this->uri->segment(5) <> ''){
-                $page_start = $this->uri->segment(5) + 1;  
-            }  
+            $page_start = $this->uri->segment(4) + 1;
         } else {
             $page_start = 1;
         }
@@ -26,7 +25,8 @@
                                                     $dr_selesai, 
                                                     $ada_resep, 
                                                     $ada_lab, 
-                                                    $ada_rad
+                                                    $ada_rad,
+                                                    $search
                                                 );
     $rows = $this->mctr->getMonitor(
                                         $ctr_batal, 
@@ -37,25 +37,24 @@
                                         $ada_lab, 
                                         $ada_rad, 
                                         $page_start, 
-                                        $per_page
+                                        $per_page,
+                                        $search
                                     );
     
     $i= 0;
     $tb = '';
-    $tb.= '<div class="tb">';
+    $tb.= '<div class="tb" id="polimonTable">';
 
-    $tb.= '<div class="tb-header bg-cool">';
-    $tb.= '<div class="row">';
-    $tb.= '<div class="col-md-1">NO.</div>';
-    $tb.= '<div class="col-md-1">MEDREC</div>';
-    $tb.= '<div class="col-md-2">PASIEN</div>';
-    $tb.= '<div class="col-md-3">DOKTER</div>';
-    $tb.= '<div class="col-md-1">NO URUT</div>';
-    $tb.= '<div class="col-md-1">NO STRUK</div>';
-    $tb.= '<div class="col-md-2">JAM DAFTAR</div>';
-    $tb.= '<div class="col-md-1">DETAIL</div>';
-    $tb.= '</div>';      
-    $tb.= '</div>'; 
+    $tb.= '<div class="tb-header bg-cool text-light row">';
+    $tb.= '<div class="col-md-1 tb-label sort-col">NO.<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-1 tb-label sort-col">NO URUT<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-1 tb-label sort-col">NO STRUK<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-2 tb-label sort-col">JAM DAFTAR<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-1 tb-label sort-col">DETAIL</div>';
+    $tb.= '</div>';
 
     $tb.= '<div class="tb-body">';
     foreach($rows as $pm) {
@@ -69,15 +68,15 @@
         } else {
             $statuscls = 'bg-primary-2';
         }
-        $tb.= '<div class="row border-bottom ' . $statuscls . ' ' . ($i%2 ? 'odd-row':'even-row') . '">';
-        $tb.= '<div class="col-md-1">' . $pm->RNUM . '</div>';
-        $tb.= '<div class="col-md-1">' . $pm->PID . '</div>';
-        $tb.= '<div class="col-md-2">' . $pm->PASIEN . '</div>';
-        $tb.= '<div class="col-md-3">' . $pm->DOKTER . '</div>';
-        $tb.= '<div class="col-md-1">' . $pm->NO_URUT . '</div>';
-        $tb.= '<div class="col-md-1">' . $pm->NO_BUKTI . '</div>';
-        $tb.= '<div class="col-md-2">' . $pm->JAM_DAFTAR . '</div>';
-        $tb.= '<div class="col-md-1"><button type="button" class="btn btn-primary btn-sm">Lihat</button></div>';
+        $tb.= '<div class="row tb-row border-bottom ' . $statuscls . ' ' . ($i%2 ? 'odd-row':'even-row') . '">';
+        $tb.= '<div class="col-md-1 tb-cell">' . $pm->RNUM . '</div>';
+        $tb.= '<div class="col-md-1 tb-cell">' . $pm->PID . '</div>';
+        $tb.= '<div class="col-md-2 tb-cell">' . $pm->PASIEN . '</div>';
+        $tb.= '<div class="col-md-3 tb-cell">' . $pm->DOKTER . '</div>';
+        $tb.= '<div class="col-md-1 tb-cell">' . $pm->NO_URUT . '</div>';
+        $tb.= '<div class="col-md-1 tb-cell">' . $pm->NO_BUKTI . '</div>';
+        $tb.= '<div class="col-md-2 tb-cell">' . $pm->JAM_DAFTAR . '</div>';
+        $tb.= '<div class="col-md-1 tb-cell"><button type="button" class="btn btn-primary btn-sm btn-detail-polimon" mr="' . $pm->MR . '" dr="' . $pm->DOKTER_ID . '">Lihat</button></div>';
         $tb.= '</div>';
         $i++;
     }   
@@ -114,9 +113,7 @@
     $num2 = $countrows;
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
-            if($this->uri->segment(5) <> ''){
-                $num2 = ($page_start + $this->uri->segment(5))-1;
-            }
+            $num2 = ($per_page + $this->uri->segment(4));
         } else {
             $num2 = $countrows;
         }
