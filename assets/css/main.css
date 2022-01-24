@@ -156,10 +156,10 @@ button.search:before {
 }
 
 .sort-filter::after {
-	margin-right: 0.5rem;
+	margin-right: 0.35rem;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	font-size: 0.875rem;
+	font-size: 0.775rem;
 	position: absolute;
 	right: 0;
 	top: 50%;

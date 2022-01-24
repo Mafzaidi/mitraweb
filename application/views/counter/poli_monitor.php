@@ -22,33 +22,33 @@
                     <i class="fas fa-filter"></i>
                 </button>
                 <div class="dropdown-menu form-check form-check-inline" aria-labelledby="dropdownFilterPolimon">
-                    <li class="dropdown-item">
+                    <!-- <li class="dropdown-item">
                         <input class="form-check-input" type="checkbox" value="" id="allCheck" name="checkfilter">
                         <label class="form-check-label" for="allCheck">
                             Select all
                         </label>
                     </li>
-                    <li class="dropdown-divider"></li>
+                    <li class="dropdown-divider"></li> -->
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="Y" id="counterCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="Y" id="counterCheck" name="checkfilter">
                         <label class="form-check-label" for="counterCheck">
                             Daftar Counter
                         </label>
                     </li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="Y" id="consultCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="Y" id="consultCheck" name="checkfilter">
                         <label class="form-check-label" for="consultCheck">
                             Dokter Selesai
                         </label>
                     </li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="Y" id="finishCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="Y" id="finishCheck" name="checkfilter">
                         <label class="form-check-label" for="finishCheck">
                             Counter Selesai
                         </label>
                     </li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" value="Y" id="cancelCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="Y" id="cancelCheck" name="checkfilter">
                         <label class="form-check-label" for="cancelCheck">
                             Batal
                         </label>

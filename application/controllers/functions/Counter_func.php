@@ -94,7 +94,11 @@ class Counter_func extends CI_Controller
         
         $this->pagination->initialize($config);
         $num1 = $page_start;
-        $num2 = $page_start + $per_page;
+        if ($per_page != '') { 
+            $num2 = $page_start + $per_page;
+        } else {
+            $num2 = $countrecords;
+        }
         // $num2 = $countrecords;
         // if($this->uri->segment(3) <> ''){
         //     if($this->uri->segment(4) <> ''){

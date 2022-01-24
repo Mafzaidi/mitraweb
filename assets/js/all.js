@@ -79,6 +79,10 @@
 		$("#searchMr").toggleClass("filter-hidden");
 	});
 
+	$(".input-check").on("change", function () {
+		$(".input-check").not(this).prop("checked", false);
+	});
+
 	$(document).ready(function () {
 		var val = {
 			// Specify validation rules
@@ -335,6 +339,22 @@
 			// console.log(sixth_segment);
 			refreshPolimon();
 		}, 5000);
+
+		$("#inputSearchPolimon").focus(function(){
+			timer.pause();
+		});
+
+		$("#dropdownFilterPolimon").focus(function(){
+			timer.pause();
+		});
+
+		$("#inputSearchPolimon").focusout(function(){
+			timer.resume();
+		});
+
+		$("#dropdownFilterPolimon").focusout(function(){
+			timer.resume();
+		});
 	}
 
 	function refreshPolimon() {
@@ -354,19 +374,51 @@
 		var ada_lab = "";
 		var ada_rad = "";
 		var page_start = 1;
-		if (pageselect !== "" && pageselect !== "undefined") {
-			if (pageno !== "" && pageno !== "undefined") {
-				page_start = (pageno - 1) * pageselect + 1;
-			}
-		}
 		var per_page = $("#select_pageSize option:selected").val();
 		var func_url = base_url + "functions/Counter_func/getDataPolimon/";
-		if (pageselect !== "" && pageselect !== "undefined") {
-			if (pageno !== "" && pageno !== "undefined") {
+
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
 				func_url = base_url + "functions/Counter_func/getDataPolimon/" + pageno;
+			} else {
+				pageno = 0;
+				page_start = 1;
+				func_url = base_url + "functions/Counter_func/getDataPolimon/";
 			}
 		}
-		console.log(page_start, per_page, pageno, pageselect);
+		
+		$.each(
+			$(
+				"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
+			),
+			function (i) {
+				// checkFilter.push($(this).val());
+				if ($(this).attr("id") == "counterCheck") {
+					ctr_batal = "N";
+					ctr_selesai = "N";
+					dr_selesai = "N";
+				} else if ($(this).attr("id") == "consultCheck") {
+					ctr_batal = "N";
+					ctr_selesai = "N";
+					dr_selesai = $(this).val();
+				} else if ($(this).attr("id") == "finishCheck") {
+					ctr_batal = "";
+					dr_selesai = "";
+					ctr_selesai = $(this).val();
+				} else if ($(this).attr("id") == "cancelCheck") {
+					dr_selesai = "";
+					ctr_selesai = "";
+					ctr_batal = $(this).val();
+				} else if ($(this).attr("id") == "allCheck") {
+					dr_selesai = "";
+					ctr_batal = "";
+					ctr_selesai = "";
+				}
+			}
+		);
+
+		console.log(page_start, per_page, pageno, pageselect, func_url);
 
 		loadPolimon(
 			search,
@@ -384,6 +436,12 @@
 	}
 
 	$("#select_pageSize").on("change", function () {
+		var pageno = $("#polimon-pagination")
+			.find(".active")
+			.find(".page-link")
+			.html();
+		var pageselect = $("#select_pageSize option:selected").val();
+
 		var search = "";
 		var ctr_batal = "";
 		var ctr_selesai = "";
@@ -395,6 +453,47 @@
 		var page_start = 1;
 		var per_page = $("#select_pageSize option:selected").val();
 		var func_url = base_url + "functions/Counter_func/getDataPolimon/";
+
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
+				func_url = base_url + "functions/Counter_func/getDataPolimon/" + pageno;
+			} else {
+				pageno = 0;
+				page_start = 1;
+				func_url = base_url + "functions/Counter_func/getDataPolimon/";
+			}
+		}
+		
+		$.each(
+			$(
+				"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
+			),
+			function (i) {
+				// checkFilter.push($(this).val());
+				if ($(this).attr("id") == "counterCheck") {
+					ctr_batal = "N";
+					ctr_selesai = "N";
+					dr_selesai = "N";
+				} else if ($(this).attr("id") == "consultCheck") {
+					ctr_batal = "N";
+					ctr_selesai = "N";
+					dr_selesai = $(this).val();
+				} else if ($(this).attr("id") == "finishCheck") {
+					ctr_batal = "";
+					dr_selesai = "";
+					ctr_selesai = $(this).val();
+				} else if ($(this).attr("id") == "cancelCheck") {
+					dr_selesai = "";
+					ctr_selesai = "";
+					ctr_batal = $(this).val();
+				} else if ($(this).attr("id") == "allCheck") {
+					dr_selesai = "";
+					ctr_batal = "";
+					ctr_selesai = "";
+				}
+			}
+		);
 
 		loadPolimon(
 			search,
@@ -429,7 +528,38 @@
 			var per_page = $("#select_pageSize option:selected").val();
 			var func_url =
 				base_url + "functions/Counter_func/getDataPolimon/" + pageno;
-			console.log(func_url);
+
+			$.each(
+				$(
+					"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
+				),
+				function (i) {
+					// checkFilter.push($(this).val());
+					if ($(this).attr("id") == "counterCheck") {
+						ctr_batal = "N";
+						ctr_selesai = "N";
+						dr_selesai = "N";
+					} else if ($(this).attr("id") == "consultCheck") {
+						ctr_batal = "N";
+						ctr_selesai = "N";
+						dr_selesai = $(this).val();
+					} else if ($(this).attr("id") == "finishCheck") {
+						ctr_batal = "";
+						dr_selesai = "";
+						ctr_selesai = $(this).val();
+					} else if ($(this).attr("id") == "cancelCheck") {
+						dr_selesai = "";
+						ctr_selesai = "";
+						ctr_batal = $(this).val();
+					} else if ($(this).attr("id") == "allCheck") {
+						dr_selesai = "";
+						ctr_batal = "";
+						ctr_selesai = "";
+					}
+				}
+			);
+		
+			//console.log(func_url);
 
 			loadPolimon(
 				search,
@@ -488,14 +618,14 @@
 		e.stopPropagation();
 	});
 
-	$("#allCheck").change(function () {
-		var checkboxes = $(this)
-			.closest(".dropdown")
-			.find(":checkbox")
-			.not($(this));
-		checkboxes.prop("checked", $(this).is(":checked"));
-	});
-
+	// $("#allCheck").change(function () {
+	// 	var checkboxes = $(this)
+	// 		.closest(".dropdown")
+	// 		.find(":checkbox")
+	// 		.not($(this));
+	// 	checkboxes.prop("checked", $(this).is(":checked"));
+	// });
+	
 	$("#submitFilterPolimon").on("click", function () {
 		var search = "";
 		var ctr_batal = "";
@@ -553,11 +683,16 @@
 		// console.log(ctr_selesai, ctr_batal, dr_selesai);
 	});
 
+	$(".sort-col").on("click", function () {
+		$(this).toggleClass("asc","desc","");
+	});
+
 	function detail_polimon_click() {
 		$(".btn-detail-polimon").on("click", function () {
 			var mr = $(this).attr("mr");
 			var dokter_id = $(this).attr("dr");
-			console.log(mr, dokter_id);
+
+			// console.log(mr, dokter_id);
 		});
 	}
 
@@ -606,11 +741,11 @@
 				tb +=
 					'<div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>';
 				tb +=
-					'<div class="col-md-1 tb-label sort-col">NO URUT<span class="sort-filter desc"></span></div>';
+					'<div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>';
 				tb +=
-					'<div class="col-md-1 tb-label sort-col">NO STRUK<span class="sort-filter desc"></span></div>';
+					'<div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>';
 				tb +=
-					'<div class="col-md-2 tb-label sort-col">JAM DAFTAR<span class="sort-filter desc"></span></div>';
+					'<div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>';
 				tb += '<div class="col-md-1">DETAIL</div>';
 				tb += "</div>"; // end of tb-header
 
@@ -704,7 +839,7 @@
 			},
 			error: function (data) {
 				// alert(2);
-				alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				if (data.response === null || data.response === undefined) {
 					var tb = "";
 					tb += '<div class="tb">';
@@ -719,11 +854,11 @@
 					tb +=
 						'<div class="col-md-3 sort-col">DOKTER<span class="sort-filter desc"></span></div>';
 					tb +=
-						'<div class="col-md-1 sort-col">NO URUT<span class="sort-filter desc"></span></div>';
+						'<div class="col-md-1 sort-col">URUT<span class="sort-filter desc"></span></div>';
 					tb +=
-						'<div class="col-md-1 sort-col">NO STRUK<span class="sort-filter desc"></span></div>';
+						'<div class="col-md-1 sort-col">STRUK<span class="sort-filter desc"></span></div>';
 					tb +=
-						'<div class="col-md-2 sort-col">JAM DAFTAR<span class="sort-filter desc"></span></div>';
+						'<div class="col-md-2 sort-col">JAM<span class="sort-filter desc"></span></div>';
 					tb += '<div class="col-md-1">DETAIL</div>';
 					tb += "</div>"; // end of tb-header
 

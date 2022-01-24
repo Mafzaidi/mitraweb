@@ -50,9 +50,9 @@
     $tb.= '<div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>';
     $tb.= '<div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>';
     $tb.= '<div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-1 tb-label sort-col">NO URUT<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-1 tb-label sort-col">NO STRUK<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-2 tb-label sort-col">JAM DAFTAR<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>';
+    $tb.= '<div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>';
     $tb.= '<div class="col-md-1 tb-label sort-col">DETAIL</div>';
     $tb.= '</div>';
 
