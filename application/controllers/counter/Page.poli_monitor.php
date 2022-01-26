@@ -1,8 +1,9 @@
 <?php
-    $ctr_batal = '';
-    $ctr_selesai= '';
-    $jml_dr = 0;
+    $ctr_daftar = '';
     $dr_selesai = '';
+    $ctr_selesai= '';
+    $ctr_batal = '';
+    $jml_dr = 0;
     $ada_resep = '';
     $ada_lab = '';
     $ada_rad = '';
@@ -19,24 +20,26 @@
     }
     // var_dump($this->uri->segment(5));
     $countrows =  $this->mctr->getRowcountMonitor(
-                                                    $ctr_batal, 
-                                                    $ctr_selesai, 
-                                                    $jml_dr, 
-                                                    $dr_selesai, 
-                                                    $ada_resep, 
-                                                    $ada_lab, 
+                                                    $ctr_daftar,
+                                                    $dr_selesai,
+                                                    $ctr_selesai,
+                                                    $ctr_batal,
+                                                    $jml_dr,
+                                                    $ada_resep,
+                                                    $ada_lab,
                                                     $ada_rad,
                                                     $search
                                                 );
     $rows = $this->mctr->getMonitor(
-                                        $ctr_batal, 
-                                        $ctr_selesai, 
-                                        $jml_dr, 
-                                        $dr_selesai, 
-                                        $ada_resep, 
-                                        $ada_lab, 
-                                        $ada_rad, 
-                                        $page_start, 
+                                        $ctr_daftar,
+                                        $dr_selesai,
+                                        $ctr_selesai,
+                                        $ctr_batal,
+                                        $jml_dr,
+                                        $ada_resep,
+                                        $ada_lab,
+                                        $ada_rad,
+                                        $page_start,
                                         $per_page,
                                         $search
                                     );
@@ -59,14 +62,15 @@
     $tb.= '<div class="tb-body">';
     foreach($rows as $pm) {
         $statuscls = '';
-        if ($pm->COUNTER_BATAL == 'Y') {
-            $statuscls = 'bg-danger-2';
-        } else if ($pm->COUNTER_SELESAI == 'Y') {
-            $statuscls = 'bg-success-2';
-        } else if ($pm->DOKTER_SELESAI == 'Y') {
-            $statuscls = 'bg-warning-2';
-        } else {
+        if ($pm->STATUS == 'COUNTER DAFTAR') {
             $statuscls = 'bg-primary-2';
+        } else if ($pm->STATUS == 'DOKTER SELESAI') {
+            $statuscls = 'bg-warning-2';
+        } else if ($pm->STATUS == 'COUNTER SELESAI') {
+            $statuscls = 'bg-success-2';
+        } else if ($pm->STATUS == 'COUNTER BATAL') {
+            $statuscls = 'bg-danger-2';
+        } else {
         }
         $tb.= '<div class="row tb-row border-bottom ' . $statuscls . ' ' . ($i%2 ? 'odd-row':'even-row') . '">';
         $tb.= '<div class="col-md-1 tb-cell">' . $pm->RNUM . '</div>';

@@ -13,10 +13,11 @@ class Counter_func extends CI_Controller
 
     public function getDataPolimon($pageno = 0) 
 	{
-        $ctr_batal = $this->input->post('ctr_batal');
-        $ctr_selesai = $this->input->post('ctr_selesai');
-        $jml_dr = $this->input->post('jml_dr');
+        $ctr_daftar = $this->input->post('ctr_daftar');
         $dr_selesai = $this->input->post('dr_selesai');
+        $ctr_selesai = $this->input->post('ctr_selesai');
+        $ctr_batal = $this->input->post('ctr_batal');
+        $jml_dr = $this->input->post('jml_dr');
         $ada_resep = $this->input->post('ada_resep');
         $ada_lab = $this->input->post('ada_lab');
         $ada_rad = $this->input->post('ada_rad');
@@ -29,26 +30,28 @@ class Counter_func extends CI_Controller
         }
         
         $countrecords =  $this->mctr->getRowcountMonitor(
-                                                        $ctr_batal, 
-                                                        $ctr_selesai, 
-                                                        $jml_dr, 
-                                                        $dr_selesai, 
-                                                        $ada_resep, 
-                                                        $ada_lab, 
+                                                        $ctr_daftar,
+                                                        $dr_selesai,
+                                                        $ctr_selesai,
+                                                        $ctr_batal,
+                                                        $jml_dr,
+                                                        $ada_resep,
+                                                        $ada_lab,
                                                         $ada_rad,
                                                         $search
                                                     );
         $records = $this->mctr->getMonitor(
-                                        $ctr_batal, 
-                                        $ctr_selesai, 
-                                        $jml_dr, 
-                                        $dr_selesai, 
-                                        $ada_resep, 
-                                        $ada_lab, 
-                                        $ada_rad, 
-                                        $page_start, 
-                                        $per_page,
-                                        $search
+                                            $ctr_daftar,
+                                            $dr_selesai,
+                                            $ctr_selesai,
+                                            $ctr_batal,
+                                            $jml_dr,
+                                            $ada_resep,
+                                            $ada_lab,
+                                            $ada_rad,
+                                            $page_start,
+                                            $per_page,
+                                            $search
                                     );
 
         foreach($records as $row ){
@@ -63,6 +66,7 @@ class Counter_func extends CI_Controller
                                 "ctr_batal"=>$row->COUNTER_BATAL,
                                 "ctr_selesai"=>$row->COUNTER_SELESAI,
                                 "dr_selesai"=>$row->DOKTER_SELESAI,
+                                "status"=>$row->STATUS,
                                 "mr"=>$row->MR,
                                 "dokter_id"=>$row->DOKTER_ID
                             );

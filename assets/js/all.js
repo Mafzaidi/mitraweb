@@ -340,19 +340,19 @@
 			refreshPolimon();
 		}, 5000);
 
-		$("#inputSearchPolimon").focus(function(){
+		$("#inputSearchPolimon").focus(function () {
 			timer.pause();
 		});
 
-		$("#dropdownFilterPolimon").focus(function(){
+		$("#dropdownFilterPolimon").focus(function () {
 			timer.pause();
 		});
 
-		$("#inputSearchPolimon").focusout(function(){
+		$("#inputSearchPolimon").focusout(function () {
 			timer.resume();
 		});
 
-		$("#dropdownFilterPolimon").focusout(function(){
+		$("#dropdownFilterPolimon").focusout(function () {
 			timer.resume();
 		});
 	}
@@ -387,7 +387,7 @@
 				func_url = base_url + "functions/Counter_func/getDataPolimon/";
 			}
 		}
-		
+
 		$.each(
 			$(
 				"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
@@ -464,7 +464,7 @@
 				func_url = base_url + "functions/Counter_func/getDataPolimon/";
 			}
 		}
-		
+
 		$.each(
 			$(
 				"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
@@ -558,7 +558,7 @@
 					}
 				}
 			);
-		
+
 			//console.log(func_url);
 
 			loadPolimon(
@@ -625,7 +625,7 @@
 	// 		.not($(this));
 	// 	checkboxes.prop("checked", $(this).is(":checked"));
 	// });
-	
+
 	$("#submitFilterPolimon").on("click", function () {
 		var search = "";
 		var ctr_batal = "";
@@ -646,8 +646,6 @@
 				// checkFilter.push($(this).val());
 				if ($(this).attr("id") == "counterCheck") {
 					ctr_batal = "N";
-					ctr_selesai = "N";
-					dr_selesai = "N";
 				} else if ($(this).attr("id") == "consultCheck") {
 					ctr_batal = "N";
 					ctr_selesai = "N";
@@ -668,23 +666,24 @@
 			}
 		);
 		loadPolimon(
-			search,
-			ctr_batal,
-			ctr_selesai,
-			jml_dr,
+			ctr_daftar,
 			dr_selesai,
+			ctr_selesai,
+			ctr_batal,
+			jml_dr,
 			ada_resep,
 			ada_lab,
 			ada_rad,
 			page_start,
 			per_page,
+			search,
 			func_url
 		);
 		// console.log(ctr_selesai, ctr_batal, dr_selesai);
 	});
 
 	$(".sort-col").on("click", function () {
-		$(this).toggleClass("asc","desc","");
+		$(this).toggleClass("asc", "desc", "");
 	});
 
 	function detail_polimon_click() {
@@ -697,16 +696,17 @@
 	}
 
 	function loadPolimon(
-		search,
-		ctr_batal,
-		ctr_selesai,
-		jml_dr,
+		ctr_daftar,
 		dr_selesai,
+		ctr_selesai,
+		ctr_batal,
+		jml_dr,
 		ada_resep,
 		ada_lab,
 		ada_rad,
 		page_start,
 		per_page,
+		search,
 		func_url
 	) {
 		$.ajax({
@@ -714,10 +714,11 @@
 			dataType: "json",
 			url: func_url,
 			data: {
-				ctr_batal: ctr_batal,
-				ctr_selesai: ctr_selesai,
-				jml_dr: jml_dr,
+				ctr_daftar: ctr_daftar,
 				dr_selesai: dr_selesai,
+				ctr_selesai: ctr_selesai,
+				ctr_batal: ctr_batal,
+				jml_dr: jml_dr,
 				ada_resep: ada_resep,
 				ada_lab: ada_lab,
 				ada_rad: ada_rad,
@@ -758,14 +759,15 @@
 						oddEven = "odd-row";
 					}
 					var stat_cls = "";
-					if (data.response[i].ctr_batal == "Y") {
-						stat_cls = "bg-danger-2";
-					} else if (data.response[i].ctr_selesai == "Y") {
-						stat_cls = "bg-success-2";
-					} else if (data.response[i].dr_selesai == "Y") {
-						stat_cls = "bg-warning-2";
-					} else {
+					if (data.response[i].status == "COUNTER DAFTAR") {
 						stat_cls = "bg-primary-2";
+					} else if (data.response[i].status == "DOKTER SELESAI") {
+						stat_cls = "bg-warning-2";
+					} else if (data.response[i].status == "COUNTER SELESAI") {
+						stat_cls = "bg-success-2";
+					} else if (data.response[i].status == "COUNTER BATAL") {
+						stat_cls = "bg-danger-2";
+					} else {
 					}
 					tb +=
 						'<div class="row tb-row border-bottom ' +
