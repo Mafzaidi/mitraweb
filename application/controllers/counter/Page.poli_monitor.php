@@ -46,20 +46,20 @@
     
     $i= 0;
     $tb = '';
-    $tb.= '<div class="tb" id="polimonTable">';
+    // $tb.= '<div class="tb" id="polimonTable">';
 
-    $tb.= '<div class="tb-header bg-cool text-light row">';
-    $tb.= '<div class="col-md-1 tb-label sort-col">NO.<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>';
-    $tb.= '<div class="col-md-1 tb-label sort-col">DETAIL</div>';
-    $tb.= '</div>';
+    // $tb.= '<div class="tb-header bg-cool text-light row">';
+    // $tb.= '<div class="col-md-1 tb-label sort-col">NO.<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>';
+    // $tb.= '<div class="col-md-1 tb-label sort-col">DETAIL</div>';
+    // $tb.= '</div>';
 
-    $tb.= '<div class="tb-body">';
+    // $tb.= '<div class="tb-body">';
     foreach($rows as $pm) {
         $statuscls = '';
         if ($pm->STATUS == 'COUNTER DAFTAR') {
@@ -84,9 +84,9 @@
         $tb.= '</div>';
         $i++;
     }   
-    $tb.= '</div>'; 
+    // $tb.= '</div>'; 
 
-    $tb.= '</div>';
+    // $tb.= '</div>';
 
     //$config['base_url'] = base_url('functions/Counter_func/getDataPolimon');
     $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));

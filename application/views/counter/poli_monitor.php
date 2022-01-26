@@ -96,8 +96,24 @@
                 </div>
             </div>
             <div class="row">  
-                <div class="col-sm-12" id="data_polimon">             
-                    <?= $polimon; ?>
+                <div class="col-sm-12" id="data_polimon">   
+                    <div class="tb" id="polimonTable">
+
+                        <div class="tb-header bg-cool text-light row">
+                            <div class="col-md-1 tb-label sort-col">NO.<span class="sort-filter desc"></span></div>
+                            <div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>
+                            <div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>
+                            <div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>
+                            <div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>
+                            <div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>
+                            <div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>
+                            <div class="col-md-1 tb-label sort-col">DETAIL</div>
+                        </div>
+
+                        <div class="tb-body">  
+                            <?= $polimon; ?>
+                        </div>        
+                    </div>
                 </div>
             </div>                
             <div class="row">

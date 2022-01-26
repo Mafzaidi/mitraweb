@@ -344,12 +344,178 @@ class M_counter extends CI_Model
     )
     {
         if ($per_page <> '') {
-                $sql = "SELECT 
+                $sql = "SELECT
+                            XXX.*
+                        FROM
+                        (
+                            SELECT 
+                                ROW_NUMBER() OVER (ORDER BY XX.JAM_DAFTAR DESC, XX.MR, XX.DOKTER ASC ) AS RNUM,
+                                XX.*
+                            FROM
+                            (
+                                SELECT 
+                                    PP.*,
+                                    CASE 
+                                        WHEN 
+                                            PP.DONE_STATUS LIKE '%0' AND 
+                                            PP.COUNTER_BATAL = 'N' AND
+                                            PP.COUNTER_SELESAI = 'N' AND 
+                                            PP.DOKTER_SELESAI = 'N'
+                                        THEN 'COUNTER DAFTAR'
+                                        WHEN
+                                            PP.DONE_STATUS LIKE '%0' AND 
+                                            PP.COUNTER_BATAL = 'N' AND
+                                            PP.COUNTER_SELESAI = 'N' AND
+                                            PP.DOKTER_SELESAI = 'Y'
+                                        THEN 'DOKTER SELESAI'
+                                        WHEN
+                                            PP.DONE_STATUS LIKE '%3' AND 
+                                            PP.COUNTER_BATAL = 'Y' AND
+                                            (PP.COUNTER_SELESAI = 'N' OR PP.COUNTER_SELESAI = 'Y') AND
+                                            (PP.DOKTER_SELESAI = 'N' OR PP.DOKTER_SELESAI = 'Y')
+                                        THEN 'COUNTER BATAL'
+                                        WHEN
+                                            (PP.DONE_STATUS LIKE '%1' OR PP.DONE_STATUS LIKE '%2') AND 
+                                            PP.COUNTER_BATAL = 'N' AND
+                                            PP.COUNTER_SELESAI = 'Y' AND
+                                            (PP.DOKTER_SELESAI = 'N' OR PP.DOKTER_SELESAI = 'Y')
+                                        THEN 'COUNTER SELESAI'
+                                        ELSE 'NONE'
+                                    END AS STATUS
+                                FROM 
+                                (
+                                    SELECT
+                                        X.*,
+                                        NVL(
+                                            (
+                                                SELECT 
+                                                    COUNT(*) 
+                                                FROM 
+                                                    HIS_MANAGER.MS_TRANS_OP B1 
+                                                WHERE
+                                                    B1.TIPE_RAWAT = 'P'
+                                                    AND (SUBSTR(B1.DEPT_ID,1,3)='112')
+                                                    AND B1.MR=X.MR
+                                                    AND B1.DONE_STATUS NOT LIKE '%3'
+                                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                                    AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
+                                            ),0
+                                        ) AS JML_DOKTER,
+                                        NVL(
+                                            (
+                                                SELECT
+                                                    CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
+                                                FROM
+                                                    FRM_RESEP_DOKTER_MS C1
+                                                WHERE
+                                                    C1.DOKTER_ID = X.DOKTER_ID
+                                                    AND C1.PASIEN_ID = X.MR
+                                                    AND C1.REG_ID IS NULL
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
+                                            )
+                                        ,'') AS DOKTER_SELESAI,
+                                        NVL(
+                                            (
+                                                SELECT
+                                                    CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
+                                                FROM
+                                                    FRM_RESEP_DOKTER_MS C1,
+                                                    FRM_RESEP_DOKTER_DT D1
+                                                WHERE
+                                                    C1.DOKTER_ID = X.DOKTER_ID
+                                                    AND C1.PASIEN_ID = X.MR
+                                                    AND C1.RESEP_ID = D1.RESEP_ID
+                                                    AND C1.REG_ID IS NULL
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
+                                            )
+                                        ,'') AS ADA_RESEP,
+                                        NVL(
+                                            (
+                                                SELECT
+                                                    CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
+                                                FROM
+                                                    FRM_RESEP_DOKTER_MS C1,
+                                                    CO_LAB_DT D1
+                                                WHERE
+                                                    C1.RESEP_ID = D1.RESEP_ID
+                                                    AND C1.PASIEN_ID = X.MR
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
+                                            )
+                                        ,'') AS ADA_LAB,
+                                        NVL(
+                                            (
+                                                SELECT
+                                                    CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
+                                                FROM
+                                                    FRM_RESEP_DOKTER_MS C1,
+                                                    CO_RAD_DT D1
+                                                WHERE
+                                                    C1.RESEP_ID = D1.RESEP_ID
+                                                    AND C1.PASIEN_ID = X.MR
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
+                                            )
+                                        ,'') AS ADA_RAD
+                                    FROM(
+                                        SELECT 
+                                            A.MR, 
+                                            B.NAMA PASIEN, 
+                                            C.NAMA_DR DOKTER, 
+                                            A.NO_URUT, 
+                                            A.NO_TR_LAMA NO_BUKTI, 
+                                            TO_CHAR(A.CREATED_DATE,'HH24:MI:SS') JAM_DAFTAR,
+                                            A.CREATED_DATE,
+                                            TRUNC(A.DAFTAR_TGL) AS DAFTAR_TGL,
+                                            SUBSTR(A.MR,4) PID, 
+                                            C.DOKTER_ID,
+                                            A.DONE_STATUS,
+                                            CASE WHEN A.DONE_STATUS LIKE '%3' THEN 'Y' ELSE 'N' END AS COUNTER_BATAL,
+                                            CASE WHEN (A.DONE_STATUS LIKE '%1' OR A.DONE_STATUS LIKE '%2') THEN 'Y' ELSE 'N' END AS COUNTER_SELESAI                    
+                                        FROM 
+                                            HIS_MANAGER.MS_TRANS_OP A, 
+                                            HIS_MANAGER.MS_MEDREC B, 
+                                            HIS_MANAGER.MS_HIS_DOKTER C
+                                        WHERE 
+                                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND A.MR=B.MR
+                                            AND A.DOKTER_ID=C.DOKTER_ID
+                                            AND A.TIPE_RAWAT = 'P'
+                                            AND(SUBSTR(A.DEPT_ID,1,3)='112')
+                                    )X
+                                )PP
+                            ) XX
+                            WHERE    
+                                XX.JML_DOKTER >= " . $jml_dr . "
+                                AND
+                                    (
+                                        XX.STATUS LIKE '" . $ctr_daftar . "'||'%' OR 
+                                        XX.STATUS LIKE '" . $dr_selesai . "'||'%' OR
+                                        XX.STATUS LIKE '" . $ctr_selesai . "'||'%' OR
+                                        XX.STATUS LIKE '" . $ctr_batal . "'||'%'
+                                    )
+                                AND XX.ADA_RESEP LIKE '" . $ada_resep . "'||'%'
+                                AND XX.ADA_LAB LIKE '" . $ada_lab . "'||'%'
+                                AND XX.ADA_RAD LIKE '" . $ada_rad . "'||'%'
+                                AND (XX.PID LIKE '%'||'" . $search . "'||'%' OR XX.PASIEN LIKE '%'||'" . $search . "'||'%')
+                        ) XXX
+                        WHERE
+                            XXX.RNUM >= " . ($page_start) . "
+                            AND XXX.RNUM <= " . (($page_start-1) + $per_page) . "
+                        ORDER BY XXX.JAM_DAFTAR DESC, XXX.MR, XXX.DOKTER";
+        } else {
+            $sql = "SELECT
+                        XXX.*
+                    FROM
+                    (
+                        SELECT 
+                            ROW_NUMBER() OVER (ORDER BY XX.JAM_DAFTAR DESC, XX.MR, XX.DOKTER ASC ) AS RNUM,
                             XX.*
                         FROM
                         (
                             SELECT 
-                                ROW_NUMBER() OVER (ORDER BY PP.JAM_DAFTAR DESC, PP.MR, PP.DOKTER ASC ) AS RNUM,
                                 PP.*,
                                 CASE 
                                     WHEN 
@@ -393,7 +559,7 @@ class M_counter extends CI_Model
                                                 AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                 AND B1.MR=X.MR
                                                 AND B1.DONE_STATUS NOT LIKE '%3'
-                                                AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                                AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                                 AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
                                         ),0
                                     ) AS JML_DOKTER,
@@ -407,7 +573,7 @@ class M_counter extends CI_Model
                                                 C1.DOKTER_ID = X.DOKTER_ID
                                                 AND C1.PASIEN_ID = X.MR
                                                 AND C1.REG_ID IS NULL
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS DOKTER_SELESAI,
@@ -423,7 +589,7 @@ class M_counter extends CI_Model
                                                 AND C1.PASIEN_ID = X.MR
                                                 AND C1.RESEP_ID = D1.RESEP_ID
                                                 AND C1.REG_ID IS NULL
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS ADA_RESEP,
@@ -437,7 +603,7 @@ class M_counter extends CI_Model
                                             WHERE
                                                 C1.RESEP_ID = D1.RESEP_ID
                                                 AND C1.PASIEN_ID = X.MR
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS ADA_LAB,
@@ -451,7 +617,7 @@ class M_counter extends CI_Model
                                             WHERE
                                                 C1.RESEP_ID = D1.RESEP_ID
                                                 AND C1.PASIEN_ID = X.MR
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS ADA_RAD
@@ -475,7 +641,7 @@ class M_counter extends CI_Model
                                         HIS_MANAGER.MS_MEDREC B, 
                                         HIS_MANAGER.MS_HIS_DOKTER C
                                     WHERE 
-                                        TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                        TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
                                         AND A.MR=B.MR
                                         AND A.DOKTER_ID=C.DOKTER_ID
                                         AND A.TIPE_RAWAT = 'P'
@@ -496,16 +662,38 @@ class M_counter extends CI_Model
                             AND XX.ADA_LAB LIKE '" . $ada_lab . "'||'%'
                             AND XX.ADA_RAD LIKE '" . $ada_rad . "'||'%'
                             AND (XX.PID LIKE '%'||'" . $search . "'||'%' OR XX.PASIEN LIKE '%'||'" . $search . "'||'%')
-                            AND XX.RNUM >= " . ($page_start) . "
-                            AND XX.RNUM <= " . (($page_start-1) + $per_page) . "
-                        ORDER BY XX.JAM_DAFTAR DESC, XX.MR, XX.DOKTER";
-        } else {
-            $sql = "SELECT 
+                    ) XXX
+                    ORDER BY XXX.JAM_DAFTAR DESC, XXX.MR, XXX.DOKTER";
+        }
+
+        $query = $this->oracle_db->query($sql);
+        $result = $query->result();
+        return $result;
+        
+    }
+
+    function getRowcountMonitor(
+        $ctr_daftar,
+        $dr_selesai,
+        $ctr_selesai,
+        $ctr_batal,
+        $jml_dr,
+        $ada_resep,
+        $ada_lab,
+        $ada_rad,
+        $search
+        )
+    {
+        $sql = "SELECT
+                    XXX.*
+                FROM
+                (
+                    SELECT 
+                        ROW_NUMBER() OVER (ORDER BY XX.JAM_DAFTAR DESC, XX.MR, XX.DOKTER ASC ) AS RNUM,
                         XX.*
                     FROM
                     (
                         SELECT 
-                            ROW_NUMBER() OVER (ORDER BY PP.JAM_DAFTAR DESC, PP.MR, PP.DOKTER ASC ) AS RNUM,
                             PP.*,
                             CASE 
                                 WHEN 
@@ -549,7 +737,7 @@ class M_counter extends CI_Model
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
                                             AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
                                     ),0
                                 ) AS JML_DOKTER,
@@ -563,7 +751,7 @@ class M_counter extends CI_Model
                                             C1.DOKTER_ID = X.DOKTER_ID
                                             AND C1.PASIEN_ID = X.MR
                                             AND C1.REG_ID IS NULL
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS DOKTER_SELESAI,
@@ -579,7 +767,7 @@ class M_counter extends CI_Model
                                             AND C1.PASIEN_ID = X.MR
                                             AND C1.RESEP_ID = D1.RESEP_ID
                                             AND C1.REG_ID IS NULL
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS ADA_RESEP,
@@ -593,7 +781,7 @@ class M_counter extends CI_Model
                                         WHERE
                                             C1.RESEP_ID = D1.RESEP_ID
                                             AND C1.PASIEN_ID = X.MR
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS ADA_LAB,
@@ -607,7 +795,7 @@ class M_counter extends CI_Model
                                         WHERE
                                             C1.RESEP_ID = D1.RESEP_ID
                                             AND C1.PASIEN_ID = X.MR
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS ADA_RAD
@@ -631,7 +819,7 @@ class M_counter extends CI_Model
                                     HIS_MANAGER.MS_MEDREC B, 
                                     HIS_MANAGER.MS_HIS_DOKTER C
                                 WHERE 
-                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
+                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'
@@ -641,191 +829,19 @@ class M_counter extends CI_Model
                     ) XX
                     WHERE    
                         XX.JML_DOKTER >= " . $jml_dr . "
-                        AND 
+                        AND
                             (
                                 XX.STATUS LIKE '" . $ctr_daftar . "'||'%' OR 
                                 XX.STATUS LIKE '" . $dr_selesai . "'||'%' OR
                                 XX.STATUS LIKE '" . $ctr_selesai . "'||'%' OR
-                                XX.STATUS LIKE '" . $ctr_batal . "'||'%' 
+                                XX.STATUS LIKE '" . $ctr_batal . "'||'%'
                             )
                         AND XX.ADA_RESEP LIKE '" . $ada_resep . "'||'%'
                         AND XX.ADA_LAB LIKE '" . $ada_lab . "'||'%'
                         AND XX.ADA_RAD LIKE '" . $ada_rad . "'||'%'
                         AND (XX.PID LIKE '%'||'" . $search . "'||'%' OR XX.PASIEN LIKE '%'||'" . $search . "'||'%')
-                    ORDER BY XX.JAM_DAFTAR DESC, XX.MR, XX.DOKTER";
-        }
-
-        $query = $this->oracle_db->query($sql);
-        $result = $query->result();
-        return $result;
-        
-    }
-
-    function getRowcountMonitor(
-        $ctr_daftar,
-        $dr_selesai,
-        $ctr_selesai,
-        $ctr_batal,
-        $jml_dr,
-        $ada_resep,
-        $ada_lab,
-        $ada_rad,
-        $search
-        )
-    {
-        $sql = "SELECT 
-                    XX.*
-                FROM
-                (
-                    SELECT 
-                        ROW_NUMBER() OVER (ORDER BY PP.JAM_DAFTAR DESC, PP.MR, PP.DOKTER ASC ) AS RNUM,
-                        PP.*,
-                        CASE 
-                            WHEN 
-                                PP.DONE_STATUS LIKE '%0' AND 
-                                PP.COUNTER_BATAL = 'N' AND
-                                PP.COUNTER_SELESAI = 'N' AND 
-                                PP.DOKTER_SELESAI = 'N'
-                            THEN 'COUNTER DAFTAR'
-                            WHEN
-                                PP.DONE_STATUS LIKE '%0' AND 
-                                PP.COUNTER_BATAL = 'N' AND
-                                PP.COUNTER_SELESAI = 'N' AND
-                                PP.DOKTER_SELESAI = 'Y'
-                            THEN 'DOKTER SELESAI'
-                            WHEN
-                                PP.DONE_STATUS LIKE '%3' AND 
-                                PP.COUNTER_BATAL = 'Y' AND
-                                (PP.COUNTER_SELESAI = 'N' OR PP.COUNTER_SELESAI = 'Y') AND
-                                (PP.DOKTER_SELESAI = 'N' OR PP.DOKTER_SELESAI = 'Y')
-                            THEN 'COUNTER BATAL'
-                            WHEN
-                                (PP.DONE_STATUS LIKE '%1' OR PP.DONE_STATUS LIKE '%2') AND 
-                                PP.COUNTER_BATAL = 'N' AND
-                                PP.COUNTER_SELESAI = 'Y' AND
-                                (PP.DOKTER_SELESAI = 'N' OR PP.DOKTER_SELESAI = 'Y')
-                            THEN 'COUNTER SELESAI'
-                            ELSE 'NONE'
-                        END AS STATUS
-                    FROM 
-                    (
-                        SELECT
-                            X.*,
-                            NVL(
-                                (
-                                    SELECT 
-                                        COUNT(*) 
-                                    FROM 
-                                        HIS_MANAGER.MS_TRANS_OP B1 
-                                    WHERE
-                                        B1.TIPE_RAWAT = 'P'
-                                        AND (SUBSTR(B1.DEPT_ID,1,3)='112')
-                                        AND B1.MR=X.MR
-                                        AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
-                                        AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
-                                ),0
-                            ) AS JML_DOKTER,
-                            NVL(
-                                (
-                                    SELECT
-                                        CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
-                                    FROM
-                                        FRM_RESEP_DOKTER_MS C1
-                                    WHERE
-                                        C1.DOKTER_ID = X.DOKTER_ID
-                                        AND C1.PASIEN_ID = X.MR
-                                        AND C1.REG_ID IS NULL
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
-                                )
-                            ,'') AS DOKTER_SELESAI,
-                            NVL(
-                                (
-                                    SELECT
-                                        CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
-                                    FROM
-                                        FRM_RESEP_DOKTER_MS C1,
-                                        FRM_RESEP_DOKTER_DT D1
-                                    WHERE
-                                        C1.DOKTER_ID = X.DOKTER_ID
-                                        AND C1.PASIEN_ID = X.MR
-                                        AND C1.RESEP_ID = D1.RESEP_ID
-                                        AND C1.REG_ID IS NULL
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
-                                )
-                            ,'') AS ADA_RESEP,
-                            NVL(
-                                (
-                                    SELECT
-                                        CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
-                                    FROM
-                                        FRM_RESEP_DOKTER_MS C1,
-                                        CO_LAB_DT D1
-                                    WHERE
-                                        C1.RESEP_ID = D1.RESEP_ID
-                                        AND C1.PASIEN_ID = X.MR
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
-                                )
-                            ,'') AS ADA_LAB,
-                            NVL(
-                                (
-                                    SELECT
-                                        CASE WHEN COUNT(*) > 0 THEN 'Y' ELSE 'N' END
-                                    FROM
-                                        FRM_RESEP_DOKTER_MS C1,
-                                        CO_RAD_DT D1
-                                    WHERE
-                                        C1.RESEP_ID = D1.RESEP_ID
-                                        AND C1.PASIEN_ID = X.MR
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
-                                        AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
-                                )
-                            ,'') AS ADA_RAD
-                        FROM(
-                            SELECT 
-                                A.MR, 
-                                B.NAMA PASIEN, 
-                                C.NAMA_DR DOKTER, 
-                                A.NO_URUT, 
-                                A.NO_TR_LAMA NO_BUKTI, 
-                                TO_CHAR(A.CREATED_DATE,'HH24:MI:SS') JAM_DAFTAR,
-                                A.CREATED_DATE,
-                                TRUNC(A.DAFTAR_TGL) AS DAFTAR_TGL,
-                                SUBSTR(A.MR,4) PID, 
-                                C.DOKTER_ID,
-                                A.DONE_STATUS,
-                                CASE WHEN A.DONE_STATUS LIKE '%3' THEN 'Y' ELSE 'N' END AS COUNTER_BATAL,
-                                CASE WHEN (A.DONE_STATUS LIKE '%1' OR A.DONE_STATUS LIKE '%2') THEN 'Y' ELSE 'N' END AS COUNTER_SELESAI                    
-                            FROM 
-                                HIS_MANAGER.MS_TRANS_OP A, 
-                                HIS_MANAGER.MS_MEDREC B, 
-                                HIS_MANAGER.MS_HIS_DOKTER C
-                            WHERE 
-                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
-                                AND A.MR=B.MR
-                                AND A.DOKTER_ID=C.DOKTER_ID
-                                AND A.TIPE_RAWAT = 'P'
-                                AND(SUBSTR(A.DEPT_ID,1,3)='112')
-                        )X
-                    )PP
-                ) XX
-                WHERE    
-                    XX.JML_DOKTER >= " . $jml_dr . "
-                    AND 
-                        (
-                            XX.STATUS LIKE '" . $ctr_daftar . "'||'%' OR 
-                            XX.STATUS LIKE '" . $dr_selesai . "'||'%' OR
-                            XX.STATUS LIKE '" . $ctr_selesai . "'||'%' OR
-                            XX.STATUS LIKE '" . $ctr_batal . "'||'%' 
-                        )
-                    AND XX.ADA_RESEP LIKE '" . $ada_resep . "'||'%'
-                    AND XX.ADA_LAB LIKE '" . $ada_lab . "'||'%'
-                    AND XX.ADA_RAD LIKE '" . $ada_rad . "'||'%'
-                    AND (XX.PID LIKE '%'||'" . $search . "'||'%' OR XX.PASIEN LIKE '%'||'" . $search . "'||'%')
-                ORDER BY XX.JAM_DAFTAR DESC, XX.MR, XX.DOKTER";
+                ) XXX
+                ORDER BY XXX.JAM_DAFTAR DESC, XXX.MR, XXX.DOKTER";
 
         $query = $this->oracle_db->query($sql);
         $row_count = $query->num_rows();
