@@ -152,7 +152,7 @@ class Counter_func extends CI_Controller
             //             );
             $tb.= '<div class="row border-bottom ' . ($i%2 ? 'odd':'even') . '">';
             $tb.= '<div class="col-md-3 py-1">';
-            $tb.= '<input class="input-check" type="checkbox" value="' . $row->MR . '" id="' . $row->MR . '"><label for="' . $row->MR . '">' . $row->MR . '</label>';
+            $tb.= '<input class="input-single-check" type="checkbox" value="' . $row->MR . '" id="' . $row->MR . '"><label for="' . $row->MR . '">' . $row->MR . '</label>';
             $tb.= '</div>';
             $tb.= '<div class="col-md-3 py-1">' . $row->NAMA . '</div>';
             $tb.= '<div class="col-md-2 py-1">' . $row->TGL_LAHIR . '</div>';

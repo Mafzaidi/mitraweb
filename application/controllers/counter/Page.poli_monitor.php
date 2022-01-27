@@ -10,6 +10,10 @@
     $per_page = '';
     $page_start = 1;
     $search = '';
+    $check_ctr_daftar = '';
+    $check_dr_selesai = '';
+    $check_ctr_selesai = '';
+    $check_ctr_batal = '';
 
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
@@ -46,30 +50,21 @@
     
     $i= 0;
     $tb = '';
-    // $tb.= '<div class="tb" id="polimonTable">';
 
-    // $tb.= '<div class="tb-header bg-cool text-light row">';
-    // $tb.= '<div class="col-md-1 tb-label sort-col">NO.<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>';
-    // $tb.= '<div class="col-md-1 tb-label sort-col">DETAIL</div>';
-    // $tb.= '</div>';
-
-    // $tb.= '<div class="tb-body">';
     foreach($rows as $pm) {
         $statuscls = '';
         if ($pm->STATUS == 'COUNTER DAFTAR') {
             $statuscls = 'bg-primary-2';
+            $check_ctr_daftar = $pm->STATUS;
         } else if ($pm->STATUS == 'DOKTER SELESAI') {
             $statuscls = 'bg-warning-2';
+            $check_dr_selesai = $pm->STATUS;
         } else if ($pm->STATUS == 'COUNTER SELESAI') {
             $statuscls = 'bg-success-2';
+            $check_ctr_selesai = $pm->STATUS;
         } else if ($pm->STATUS == 'COUNTER BATAL') {
             $statuscls = 'bg-danger-2';
+            $check_ctr_batal = $pm->STATUS;
         } else {
         }
         $tb.= '<div class="row tb-row border-bottom ' . $statuscls . ' ' . ($i%2 ? 'odd-row':'even-row') . '">';
@@ -84,11 +79,7 @@
         $tb.= '</div>';
         $i++;
     }   
-    // $tb.= '</div>'; 
 
-    // $tb.= '</div>';
-
-    //$config['base_url'] = base_url('functions/Counter_func/getDataPolimon');
     $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
     $config['total_rows'] = $countrows;
     $config['per_page'] = $per_page;
@@ -126,5 +117,9 @@
     $data['rows'] = $countrows;
     $data['num1'] = $num1;
     $data['num2'] = $num2;
+    $data['val_ctr_daftar'] = $check_ctr_daftar;
+    $data['val_dr_selesai'] = $check_dr_selesai;
+    $data['val_ctr_selesai'] = $check_ctr_selesai;
+    $data['val_ctr_batal'] = $check_ctr_batal;
     $data['polimon'] = $tb;
 ?>

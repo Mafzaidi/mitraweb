@@ -79,8 +79,8 @@
 		$("#searchMr").toggleClass("filter-hidden");
 	});
 
-	$(".input-check").on("change", function () {
-		$(".input-check").not(this).prop("checked", false);
+	$(".input-single-check").on("change", function () {
+		$(".input-single-check").not(this).prop("checked", false);
 	});
 
 	$(document).ready(function () {
@@ -232,7 +232,7 @@
 
 		$("#myDynamicModal").on("shown.bs.modal", function (event) {
 			$("#selectMedrec").click(function () {
-				$.each($(".input-check:checked"), function () {
+				$.each($(".input-single-check:checked"), function () {
 					var mr = $(this).val();
 					$.ajax({
 						type: "POST",
@@ -268,8 +268,8 @@
 				});
 			});
 
-			$(".input-check").on("change", function () {
-				$(".input-check").not(this).prop("checked", false);
+			$(".input-single-check").on("change", function () {
+				$(".input-single-check").not(this).prop("checked", false);
 			});
 		});
 
@@ -337,7 +337,7 @@
 
 		var timer = new RecurringTimer(function () {
 			// console.log(sixth_segment);
-			refreshPolimon();
+			// refreshPolimon();
 		}, 5000);
 
 		$("#inputSearchPolimon").focus(function () {
@@ -356,7 +356,6 @@
 			timer.resume();
 		});
 
-		
 		// $('.sort-col').toggle(function(){
 		// 	$(this).addClass('asc');
 		// 	timer.pause();
@@ -430,7 +429,7 @@
 					ctr_daftar = "NONE";
 					dr_selesai = "NONE";
 					ctr_selesai = "NONE";
-					ctr_batal = "COUNTER BATAL"
+					ctr_batal = "COUNTER BATAL";
 				} else if ($(this).attr("id") == "allCheck") {
 					ctr_daftar = "";
 					dr_selesai = "";
@@ -514,7 +513,7 @@
 					ctr_daftar = "NONE";
 					dr_selesai = "NONE";
 					ctr_selesai = "NONE";
-					ctr_batal = "COUNTER BATAL"
+					ctr_batal = "COUNTER BATAL";
 				} else if ($(this).attr("id") == "allCheck") {
 					ctr_daftar = "";
 					dr_selesai = "";
@@ -560,41 +559,38 @@
 			var func_url =
 				base_url + "functions/Counter_func/getDataPolimon/" + pageno;
 
-			$.each(
+			if (
 				$(
-					"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
-				),
-				function (i) {
-					// checkFilter.push($(this).val());
-					if ($(this).attr("id") == "counterCheck") {
-						ctr_daftar = "COUNTER DAFTAR";
-						dr_selesai = "NONE";
-						ctr_selesai = "NONE";
-						ctr_batal = "NONE";
-					} else if ($(this).attr("id") == "consultCheck") {
-						ctr_daftar = "NONE";
-						dr_selesai = "DOKTER SELESAI";
-						ctr_selesai = "NONE";
-						ctr_batal = "NONE";
-					} else if ($(this).attr("id") == "finishCheck") {
-						ctr_daftar = "NONE";
-						dr_selesai = "NONE";
-						ctr_selesai = "COUNTER SELESAI";
-						ctr_batal = "NONE";
-					} else if ($(this).attr("id") == "cancelCheck") {
-						ctr_daftar = "NONE";
-						dr_selesai = "NONE";
-						ctr_selesai = "NONE";
-						ctr_batal = "COUNTER BATAL"
-					} else if ($(this).attr("id") == "allCheck") {
-						ctr_daftar = "";
-						dr_selesai = "";
-						ctr_batal = "";
-						ctr_selesai = "";
+					"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
+				).length
+			) {
+				ctr_daftar = "";
+				dr_selesai = "";
+				ctr_selesai = "";
+				ctr_batal = "";
+			} else {
+				$.each(
+					$(
+						"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
+					),
+					function (i) {
+						// checkFilter.push($(this).val());
+						if ($(this).attr("id") == "allCheck") {
+							if ($(this).attr("id") == "counterCheck") {
+								ctr_daftar = $(this).val();
+							} else if ($(this).attr("id") == "consultCheck") {
+								dr_selesai = $(this).val();
+							} else if ($(this).attr("id") == "finishCheck") {
+								ctr_selesai = $(this).val();
+							} else if ($(this).attr("id") == "cancelCheck") {
+								ctr_batal = $(this).val();
+							}
+						}
 					}
-				}
-			);
+				);
+			}
 
+			// alert(ctr_daftar, dr_selesai, ctr_selesai, ctr_batal);
 			loadPolimon(
 				ctr_daftar,
 				dr_selesai,
@@ -655,13 +651,13 @@
 		e.stopPropagation();
 	});
 
-	// $("#allCheck").change(function () {
-	// 	var checkboxes = $(this)
-	// 		.closest(".dropdown")
-	// 		.find(":checkbox")
-	// 		.not($(this));
-	// 	checkboxes.prop("checked", $(this).is(":checked"));
-	// });
+	$("#allCheck").change(function () {
+		var checkboxes = $(this)
+			.closest(".dropdown")
+			.find(":checkbox")
+			.not($(this));
+		checkboxes.prop("checked", $(this).is(":checked"));
+	});
 
 	$("#submitFilterPolimon").on("click", function () {
 		var ctr_daftar = "";
@@ -676,39 +672,39 @@
 		var per_page = "";
 		var search = "";
 		var func_url = base_url + "functions/Counter_func/getDataPolimon/";
-		$.each(
+
+		if (
 			$(
-				"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
-			),
-			function (i) {
-				if ($(this).attr("id") == "counterCheck") {
-					ctr_daftar = "COUNTER DAFTAR";
-					dr_selesai = "NONE";
-					ctr_selesai = "NONE";
-					ctr_batal = "NONE";
-				} else if ($(this).attr("id") == "consultCheck") {
-					ctr_daftar = "NONE";
-					dr_selesai = "DOKTER SELESAI";
-					ctr_selesai = "NONE";
-					ctr_batal = "NONE";
-				} else if ($(this).attr("id") == "finishCheck") {
-					ctr_daftar = "NONE";
-					dr_selesai = "NONE";
-					ctr_selesai = "COUNTER SELESAI";
-					ctr_batal = "NONE";
-				} else if ($(this).attr("id") == "cancelCheck") {
-					ctr_daftar = "NONE";
-					dr_selesai = "NONE";
-					ctr_selesai = "NONE";
-					ctr_batal = "COUNTER BATAL"
-				} else if ($(this).attr("id") == "allCheck") {
-					ctr_daftar = "";
-					dr_selesai = "";
-					ctr_batal = "";
-					ctr_selesai = "";
+				"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
+			).length
+		) {
+			ctr_daftar = "NONE";
+			dr_selesai = "NONE";
+			ctr_selesai = "NONE";
+			ctr_batal = "NONE";
+			$.each(
+				$(
+					"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
+				),
+				function (i) {
+					if ($(this).attr("id") == "counterCheck") {
+						ctr_daftar = $(this).val();
+					} else if ($(this).attr("id") == "consultCheck") {
+						dr_selesai = $(this).val();
+					} else if ($(this).attr("id") == "finishCheck") {
+						ctr_selesai = $(this).val();
+					} else if ($(this).attr("id") == "cancelCheck") {
+						ctr_batal = $(this).val();
+					}
 				}
-			}
-		);
+			);
+		} else {
+			ctr_daftar = "";
+			dr_selesai = "";
+			ctr_selesai = "";
+			ctr_batal = "";
+		}
+
 		loadPolimon(
 			ctr_daftar,
 			dr_selesai,
@@ -723,7 +719,7 @@
 			search,
 			func_url
 		);
-		// console.log(ctr_selesai, ctr_batal, dr_selesai);
+		console.log(ctr_daftar, dr_selesai, ctr_selesai, ctr_batal);
 	});
 
 	function detail_polimon_click() {
@@ -749,7 +745,6 @@
 		search,
 		func_url
 	) {
-		
 		var tb = "";
 
 		$.ajax({
@@ -861,7 +856,6 @@
 			error: function (data) {
 				// alert(JSON.stringify(data));
 				if (data.response === null || data.response === undefined) {
-
 					tb += '<div class="row">';
 					tb +=
 						'<div class="col-md-12 bg-danger-2 text-center">NO DATA FOUND</div>';

@@ -35,7 +35,7 @@ class M_counter extends CI_Model
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                 ),0
                             ) AS JML_DOKTER,
                             NVL(
@@ -49,7 +49,7 @@ class M_counter extends CI_Model
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                         AND B1.MR=X.MR
                                         AND B1.DONE_STATUS NOT LIKE '%3'
-                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                        AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                         AND B1.MR||B1.DOKTER_ID IN (
                                             SELECT 
                                                 A1.PASIEN_ID||A1.DOKTER_ID 
@@ -57,7 +57,7 @@ class M_counter extends CI_Model
                                                 FRM_RESEP_DOKTER_MS A1 
                                             WHERE 
                                                 A1.PASIEN_ID = B1.MR 
-                                                AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                                AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
                                         AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                     
                                 )
@@ -73,7 +73,7 @@ class M_counter extends CI_Model
                                         AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                         AND B1.JH_DONE_STATUS <> '03'
                                         AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                        AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
+                                        AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
                                 )
                             ,0) AS SELESAI
                         FROM(
@@ -97,7 +97,7 @@ class M_counter extends CI_Model
                                 HIS_MANAGER.MS_MEDREC B, 
                                 HIS_MANAGER.MS_HIS_DOKTER C
                             WHERE 
-                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                 AND A.MR=B.MR
                                 AND A.DOKTER_ID=C.DOKTER_ID
                                 AND A.TIPE_RAWAT = 'P'
@@ -143,7 +143,7 @@ class M_counter extends CI_Model
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     ),0
                                 ) AS JML_DOKTER,
                                 NVL(
@@ -157,7 +157,7 @@ class M_counter extends CI_Model
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                             AND B1.MR||B1.DOKTER_ID IN (
                                                 SELECT 
                                                     A1.PASIEN_ID||A1.DOKTER_ID 
@@ -165,7 +165,7 @@ class M_counter extends CI_Model
                                                     HIS_MANAGER.FRM_RESEP_DOKTER_MS A1 
                                                 WHERE 
                                                     A1.PASIEN_ID = B1.MR 
-                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                         
                                     )
@@ -181,7 +181,7 @@ class M_counter extends CI_Model
                                             AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                             AND B1.JH_DONE_STATUS <> '03'
                                             AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
                                     )
                                 ,0) AS SELESAI
                             FROM(
@@ -205,7 +205,7 @@ class M_counter extends CI_Model
                                     HIS_MANAGER.MS_MEDREC B, 
                                     HIS_MANAGER.MS_HIS_DOKTER C
                                 WHERE 
-                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'
@@ -246,7 +246,7 @@ class M_counter extends CI_Model
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     ),0
                                 ) AS JML_DOKTER,
                                 NVL(
@@ -260,7 +260,7 @@ class M_counter extends CI_Model
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                             AND B1.MR||B1.DOKTER_ID IN (
                                                 SELECT 
                                                     A1.PASIEN_ID||A1.DOKTER_ID 
@@ -268,7 +268,7 @@ class M_counter extends CI_Model
                                                     HIS_MANAGER.FRM_RESEP_DOKTER_MS A1
                                                 WHERE 
                                                     A1.PASIEN_ID = B1.MR 
-                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE))
+                                                    AND TRUNC(A1.CREATED_DATE)=TRUNC(SYSDATE-1))
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                         
                                     )
@@ -284,7 +284,7 @@ class M_counter extends CI_Model
                                             AND B1.JH_DOKTER_ID = X.DOKTER_ID
                                             AND B1.JH_DONE_STATUS <> '03'
                                             AND B1.JH_JENIS_JUAL IN ('1','2','3','4')
-                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.JH_CREATED_DATE)=TRUNC(SYSDATE-1)
                                     )
                                 ,0) AS SELESAI
                             FROM(
@@ -308,7 +308,7 @@ class M_counter extends CI_Model
                                     HIS_MANAGER.MS_MEDREC B, 
                                     HIS_MANAGER.MS_HIS_DOKTER C
                                 WHERE 
-                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'
@@ -397,7 +397,7 @@ class M_counter extends CI_Model
                                                     AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                     AND B1.MR=X.MR
                                                     AND B1.DONE_STATUS NOT LIKE '%3'
-                                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                                    AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                                     AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
                                             ),0
                                         ) AS JML_DOKTER,
@@ -411,7 +411,7 @@ class M_counter extends CI_Model
                                                     C1.DOKTER_ID = X.DOKTER_ID
                                                     AND C1.PASIEN_ID = X.MR
                                                     AND C1.REG_ID IS NULL
-                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                     AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                             )
                                         ,'') AS DOKTER_SELESAI,
@@ -427,7 +427,7 @@ class M_counter extends CI_Model
                                                     AND C1.PASIEN_ID = X.MR
                                                     AND C1.RESEP_ID = D1.RESEP_ID
                                                     AND C1.REG_ID IS NULL
-                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                     AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                             )
                                         ,'') AS ADA_RESEP,
@@ -441,7 +441,7 @@ class M_counter extends CI_Model
                                                 WHERE
                                                     C1.RESEP_ID = D1.RESEP_ID
                                                     AND C1.PASIEN_ID = X.MR
-                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                     AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                             )
                                         ,'') AS ADA_LAB,
@@ -455,7 +455,7 @@ class M_counter extends CI_Model
                                                 WHERE
                                                     C1.RESEP_ID = D1.RESEP_ID
                                                     AND C1.PASIEN_ID = X.MR
-                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                    AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                     AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                             )
                                         ,'') AS ADA_RAD
@@ -479,7 +479,7 @@ class M_counter extends CI_Model
                                             HIS_MANAGER.MS_MEDREC B, 
                                             HIS_MANAGER.MS_HIS_DOKTER C
                                         WHERE 
-                                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                            TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                             AND A.MR=B.MR
                                             AND A.DOKTER_ID=C.DOKTER_ID
                                             AND A.TIPE_RAWAT = 'P'
@@ -559,7 +559,7 @@ class M_counter extends CI_Model
                                                 AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                 AND B1.MR=X.MR
                                                 AND B1.DONE_STATUS NOT LIKE '%3'
-                                                AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                                AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                                 AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
                                         ),0
                                     ) AS JML_DOKTER,
@@ -573,7 +573,7 @@ class M_counter extends CI_Model
                                                 C1.DOKTER_ID = X.DOKTER_ID
                                                 AND C1.PASIEN_ID = X.MR
                                                 AND C1.REG_ID IS NULL
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS DOKTER_SELESAI,
@@ -589,7 +589,7 @@ class M_counter extends CI_Model
                                                 AND C1.PASIEN_ID = X.MR
                                                 AND C1.RESEP_ID = D1.RESEP_ID
                                                 AND C1.REG_ID IS NULL
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS ADA_RESEP,
@@ -603,7 +603,7 @@ class M_counter extends CI_Model
                                             WHERE
                                                 C1.RESEP_ID = D1.RESEP_ID
                                                 AND C1.PASIEN_ID = X.MR
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS ADA_LAB,
@@ -617,7 +617,7 @@ class M_counter extends CI_Model
                                             WHERE
                                                 C1.RESEP_ID = D1.RESEP_ID
                                                 AND C1.PASIEN_ID = X.MR
-                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                                AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                                 AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                         )
                                     ,'') AS ADA_RAD
@@ -641,7 +641,7 @@ class M_counter extends CI_Model
                                         HIS_MANAGER.MS_MEDREC B, 
                                         HIS_MANAGER.MS_HIS_DOKTER C
                                     WHERE 
-                                        TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                        TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                         AND A.MR=B.MR
                                         AND A.DOKTER_ID=C.DOKTER_ID
                                         AND A.TIPE_RAWAT = 'P'
@@ -737,7 +737,7 @@ class M_counter extends CI_Model
                                             AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3'
-                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
+                                            AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE-1)
                                             AND TRUNC(B1.DAFTAR_TGL) = TRUNC(X.DAFTAR_TGL)
                                     ),0
                                 ) AS JML_DOKTER,
@@ -751,7 +751,7 @@ class M_counter extends CI_Model
                                             C1.DOKTER_ID = X.DOKTER_ID
                                             AND C1.PASIEN_ID = X.MR
                                             AND C1.REG_ID IS NULL
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS DOKTER_SELESAI,
@@ -767,7 +767,7 @@ class M_counter extends CI_Model
                                             AND C1.PASIEN_ID = X.MR
                                             AND C1.RESEP_ID = D1.RESEP_ID
                                             AND C1.REG_ID IS NULL
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS ADA_RESEP,
@@ -781,7 +781,7 @@ class M_counter extends CI_Model
                                         WHERE
                                             C1.RESEP_ID = D1.RESEP_ID
                                             AND C1.PASIEN_ID = X.MR
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS ADA_LAB,
@@ -795,7 +795,7 @@ class M_counter extends CI_Model
                                         WHERE
                                             C1.RESEP_ID = D1.RESEP_ID
                                             AND C1.PASIEN_ID = X.MR
-                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE)
+                                            AND TRUNC(C1.CREATED_DATE) = TRUNC(SYSDATE-1)
                                             AND TRUNC(C1.CREATED_DATE) = TRUNC(X.CREATED_DATE)
                                     )
                                 ,'') AS ADA_RAD
@@ -819,7 +819,7 @@ class M_counter extends CI_Model
                                     HIS_MANAGER.MS_MEDREC B, 
                                     HIS_MANAGER.MS_HIS_DOKTER C
                                 WHERE 
-                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE)
+                                    TRUNC(A.CREATED_DATE)=TRUNC(SYSDATE-1)
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'

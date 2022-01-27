@@ -21,34 +21,34 @@
                 <button class="btn btn-sm ml-auto dropdown-toggle" type="button" id="dropdownFilterPolimon" data-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-filter"></i>
                 </button>
-                <div class="dropdown-menu form-check form-check-inline" aria-labelledby="dropdownFilterPolimon">
-                    <!-- <li class="dropdown-item">
+                <ul class="dropdown-menu form-check form-check-inline" aria-labelledby="dropdownFilterPolimon">
+                    <li class="dropdown-item">
                         <input class="form-check-input" type="checkbox" value="" id="allCheck" name="checkfilter">
                         <label class="form-check-label" for="allCheck">
                             Select all
                         </label>
                     </li>
-                    <li class="dropdown-divider"></li> -->
+                    <li class="dropdown-divider"></li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="Y" id="counterCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="<?= $val_ctr_daftar ?: 'NONE'; ?>" id="counterCheck" name="checkfilter">
                         <label class="form-check-label" for="counterCheck">
                             Daftar Counter
                         </label>
                     </li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="Y" id="consultCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="<?= $val_dr_selesai ?: 'NONE'; ?>" id="consultCheck" name="checkfilter">
                         <label class="form-check-label" for="consultCheck">
                             Dokter Selesai
                         </label>
                     </li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="Y" id="finishCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="<?= $val_ctr_selesai ?: 'NONE'; ?>" id="finishCheck" name="checkfilter">
                         <label class="form-check-label" for="finishCheck">
                             Counter Selesai
                         </label>
                     </li>
                     <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="Y" id="cancelCheck" name="checkfilter">
+                        <input class="form-check-input input-check" type="checkbox" value="<?= $val_ctr_batal ?: 'NONE'; ?>" id="cancelCheck" name="checkfilter">
                         <label class="form-check-label" for="cancelCheck">
                             Batal
                         </label>
@@ -59,7 +59,7 @@
                             <button type="submit" id="submitFilterPolimon" class="btn btn-sm btn-primary">Submit</button>
                         </div>
                     </div>
-                </div>
+                </ul>
             </div>
         </div>
         <div class="card-body">
