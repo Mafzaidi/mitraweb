@@ -24,9 +24,9 @@
                     <div class="form-group row mb-2">
                         <label for="inputBirthPlace" class="col-sm-4 col-form-label-sm pr-0 mb-2">Tanggal Lahir</label>
                         <div class="col-sm-8 pl-0">
-                            <div class="input-group date" id="birthDateTime_picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" data-target="#birthDateTime_picker" id="inputBirthDate" placeholder="DD.MM.YYYY" maxlength="10" />
-                                <div class="input-group-append" data-target="#birthDateTime_picker" data-toggle="datetimepicker">
+                            <div class="input-group date" id="birthDate_picker" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" data-target="#birthDate_picker" id="inputBirthDate" placeholder="DD.MM.YYYY" maxlength="10" />
+                                <div class="input-group-append" data-target="#birthDate_picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>

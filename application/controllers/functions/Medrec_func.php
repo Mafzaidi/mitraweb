@@ -32,7 +32,7 @@ class Medrec_func extends CI_Controller
         $records = $this->mr->getEmployee($search);
 
         foreach($records as $row ){
-            $response[] = array("id"=>$row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
+            $response[] = array("id"=>'PLAY_' . $row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
         }
         $data = $response;
         echo json_encode($data);
@@ -40,14 +40,17 @@ class Medrec_func extends CI_Controller
 
     function saveMrBorrow()
     {
-        $search = $this->input->post('search');
-        $records = $this->mr->getEmployee($search);
+        $medrec = $this->input->post('medrec');
+        $nokar_peminjam = $this->input->post('nokar_peminjam');
+        $keperluan = $this->input->post('keperluan');
+        $dept_peminjam = $this->input->post('dept_peminjam');
 
-        foreach($records as $row ){
-            $response[] = array("id"=>$row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
-        }
-        $data = $response;
-        echo json_encode($data);
+        $created_by = $this->input->post('created_by');
+        $diserahkan_oleh = $this->input->post('diserahkan_oleh');
+        $tgl_janji_kembali = $this->input->post('tgl_janji_kembali');
+        $catatan = $this->input->post('catatan');
+
+        $trans_id = $this->mr->getTransPinjamMR();
     }
 
 }

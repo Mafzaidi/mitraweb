@@ -62,4 +62,25 @@ class Counter extends CI_Controller
             redirect(base_url('auth'));
         }
     }
+
+    function reports($param) {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+			$params = array('save');
+            include (APPPATH.'controllers/menu_control.php');
+			include (APPPATH.'controllers/modal_control.php');
+
+            $page = str_replace('-', '_', $param);
+            $data['user'] = $this->mu->getUserInfo($sess_id);
+            $data['tittle'] = "Polimon Report";
+
+            $this->load->view('templates/v_sidebar',$data);
+            $this->load->view('templates/v_topbar', $data);
+            $this->load->view('counter/' . $page, $data);
+            $this->load->view('templates/v_footer');
+        }else{
+            redirect(base_url('auth'));
+        }
+    }
 }

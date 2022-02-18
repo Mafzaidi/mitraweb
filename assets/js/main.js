@@ -64,10 +64,50 @@
 			form.navigateTo(curIndex() + 1);
 		});
 
+		form.find('.submit').on('click', function(e){
+            if(typeof args.beforeSubmit !== 'undefined' && typeof args.beforeSubmit !== 'function')
+                args.beforeSubmit(form, this);
+                /*check if args.submit is set false if not then form.submit is not gonna run, if not set then will run by default*/        
+            if(typeof args.submit === 'undefined' || (typeof args.submit === 'boolean' && args.submit)){
+                form.submit();
+            }
+            return form;
+        });
+
 		form.find(".previous").click(function (event) {
 			event.preventDefault();
 			form.navigateTo(curIndex() - 1);
 		});
+
+		form.find(".confirm").click(function (event) {
+			event.preventDefault();
+			if (
+				"validations" in args &&
+				typeof args.validations === "object" &&
+				!$.isArray(args.validations)
+			) {
+				if (
+					!("noValidate" in args) ||
+					(typeof args.noValidate === "boolean" && !args.noValidate)
+				) {
+					form.validate(args.validations);
+					if (form.valid() == true) {
+						$('#myDynamicModal').modal('show');
+						return true;
+					}
+					return false;
+				}
+			}
+			return form;
+		});
+
+		 /*By default navigate to the tab 0, if it is being set using defaultStep property*/
+		 typeof args.defaultStep === 'number' ? form.navigateTo(args.defaultStep) : null;
+		 form.noValidate = function() {
+	 
+		 }
+		 return form;
+
 		// $(".next").click(function (event) {
 		// 	event.preventDefault();
 		// 	current_fs = $(this).parent();

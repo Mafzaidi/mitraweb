@@ -11,26 +11,21 @@
                 </ul> 
             </div>
         </div>
-        <div class="row">
+        <div class="row px-3">
             <div class="col-md-12 mx-0">
-                <form id="formSearchBrw">
-                    <div class="form-card">
-                        <div class="form-row align-items-center">
-                            <div class="col-auto">
-                                <label class="sr-only" for="mr">Medical Record Number</label>
-                                <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="Type medrec" name="mr" />
-                            </div>
-                            <div class="col-auto">
-                                <button type="" class="btn btn-primary mb-2" id="btnSearchBrw">Find</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <form id="brwForm">
-                    
+                <form id="formBrwMr">              
                     <!-- fieldsets -->
                     <fieldset class="tab current">
-                        <div class="form-card">
+                        <div class="form-card">                           
+                            <div class="form-row align-items-center">
+                                <div class="col-auto">
+                                    <label class="sr-only" for="mr">Medical Record Number</label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="Type medrec" name="mr" />
+                                </div>
+                                <div class="col-auto">
+                                    <button type="" class="btn btn-primary mb-2" id="btnSearchBrw">Find</button>
+                                </div>
+                            </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -60,7 +55,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="next btn btn-primary" >Next</button>
+                        <button class="next btn btn-primary" disabled>Next</button>
                     </fieldset>
                     
                     <!-- fieldset 2 -->
@@ -68,25 +63,25 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <h5 class="card-title text-left mb-3">
-                                    Borrower
+                                    Peminjam
                                 </h5>
                                 <div class="form-row align-items-center">
                                     <div class="col-md col-lg-10">
-                                        <label class="sr-only" for="inputBorrower">Borrower's name</label>
-                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inputBorrower" placeholder="Type the borrower" name="borrower" />
+                                        <label class="sr-only" for="inputBorrower"></label>
+                                        <input type="text" name="borrower" class="form-control mb-2 mr-sm-2" id="inputBorrower" placeholder="Type the borrower" />
                                     </div>
                                 </div>
 
                                 <div class="form-card">
                                     <div class="form-row">
                                         <div class="form-group col-lg">
-                                            <label for="inputDept">Department</label>
+                                            <label for="inputDept">Departemen</label>
                                             <input type="text" name="dept" class="form-control" id="inputDept" placeholder="Department" disabled />
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-lg">
-                                            <label for="inputNecsty">Necessity</label>
+                                            <label for="inputNecsty">Keperluan</label>
                                             <input type="text" name="necessity" class="form-control" id="inputNecsty" placeholder="Necessity" />
                                         </div>
                                     </div>
@@ -95,22 +90,22 @@
 
                             <div class="col-lg-6">
                                 <h5 class="card-title text-left mb-3">
-                                    Lender
+                                    Diserahkan Oleh
                                 </h5>
                                 <div class="form-row align-items-center">
                                     <div class="col-md col-lg-10">
-                                        <label class="sr-only" for="inputBorrower">Borrower's name</label>
-                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inputBorrower" name="borrower" value=" <?=ucwords($user['first_name']) .' ' . ucwords($user['last_name']) ?>" disabled />
+                                        <label class="sr-only" for="inputBorrower"></label>
+                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inputBorrower" name="lender" value=" <?=ucwords($user['first_name']) .' ' . ucwords($user['last_name']) ?>" nokar="<?= 'PLAY_' . $user['username'] ?>" disabled />
                                     </div>
                                 </div>
 
                                 <div class="form-card">
                                     <div class="form-row">
                                         <div class="form-group col-auto">
-                                        <label for="inputReturnDate">Return Date</label>
-                                            <div class="input-group date" id="returnPickerDate" data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input date-validate" data-target="#returnPickerDate" id="inputDate" />
-                                                <div class="input-group-append" data-target="#returnPickerDate" data-toggle="datetimepicker">
+                                            <label for="inputReturnDate">Tanggal Pengembalian</label>
+                                            <div class="input-group date" id="returnDate_picker" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input date-validate" data-target="#returnDate_picker" id="inputReturnDate" placeholder="DD.MM.YYYY" maxlength="10" />
+                                                <div class="input-group-append" data-target="#returnDate_picker" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
                                             </div>
@@ -118,7 +113,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-lg">
-                                            <label for="inputDescBrw">Description</label>
+                                            <label for="inputDescBrw">Catatan</label>
                                             <input type="text" name="descBrw" class="form-control" id="inputDescBrw" placeholder="Description" />
                                         </div>
                                     </div>
@@ -127,7 +122,7 @@
 
                         </div>
                         <button class="previous btn btn-light">Previous</button>
-                        <button class="submit btn btn-primary" id="confirmBrwBtn" >Confirm</button>
+                        <button class="confirm btn btn-primary" id="confirmBrwBtn" >Confirm</button>
                         <!-- <button class="submit d-none">Next</button> -->
                     </fieldset>
 

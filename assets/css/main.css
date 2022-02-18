@@ -287,7 +287,7 @@ button.search:before {
 
 /* multiple step form */
 
-#brwForm {
+#formBrwMr {
 	text-align: center;
 	position: relative;
 	margin-top: 20px;
@@ -629,4 +629,36 @@ div.dataTables_paginate ul.pagination {
 
 .color-indicator.red::before {
 	background-color: red;
+}
+
+.btn.excel {
+	background-color: rgb(3, 126, 3) !important;
+	color: #fff;
+}
+
+.btn.excel:hover {
+	background-color: rgb(1, 87, 1) !important;
+}
+
+.btn.pdf {
+	background-color: rgb(223, 5, 5) !important;
+	color: #fff;
+}
+
+.btn.pdf:hover {
+	background-color: rgb(163, 4, 4) !important;
+}
+
+button.excel:before {
+	content: "\f1c3";
+	margin-right: 0.5rem;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
+button.pdf:before {
+	content: "\f1c1";
+	margin-right: 0.5rem;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
 }

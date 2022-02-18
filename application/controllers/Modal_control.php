@@ -3,7 +3,7 @@ $modal = $this->modal_variables->getModalVariables($params);
 $uri = end($this->uri->segments);
 $modal_html ='';
 foreach($modal as $m) {
-    $modal_html.= '<div class="modal fade" id="myDynamicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
+    $modal_html.= '<div class="modal fade ' .  $m->action  . '" id="myDynamicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">';
     $modal_html.= '<div class="modal-dialog ' . $m->size . '" role="document">';
     $modal_html.= '<div class="modal-content">';
     $modal_html.= '<div class="modal-header">';

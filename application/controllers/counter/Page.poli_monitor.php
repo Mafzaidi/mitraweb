@@ -73,9 +73,8 @@
         $tb.= '<div class="col-md-2 tb-cell">' . $pm->PASIEN . '</div>';
         $tb.= '<div class="col-md-3 tb-cell">' . $pm->DOKTER . '</div>';
         $tb.= '<div class="col-md-1 tb-cell">' . $pm->NO_URUT . '</div>';
-        $tb.= '<div class="col-md-1 tb-cell">' . $pm->NO_BUKTI . '</div>';
+        $tb.= '<div class="col-md-2 tb-cell">' . $pm->NO_BUKTI . '</div>';
         $tb.= '<div class="col-md-2 tb-cell">' . $pm->JAM_DAFTAR . '</div>';
-        $tb.= '<div class="col-md-1 tb-cell"><button type="button" class="btn btn-primary btn-sm btn-detail-polimon" mr="' . $pm->MR . '" dr="' . $pm->DOKTER_ID . '">Lihat</button></div>';
         $tb.= '</div>';
         $i++;
     }   

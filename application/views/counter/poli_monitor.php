@@ -88,11 +88,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-md-8">
                     <span class="color-indicator blue">Counter daftar</span>
                     <span class="color-indicator orange">Dokter selesai</span>
                     <span class="color-indicator green">Counter selesai</span>
                     <span class="color-indicator red">Counter batal</span>
+                </div>
+                <div class="col-md-4 text-right">
+                    <span class="d-none" id="pausedTag">Paused&nbsp;<i class="fas fa-ban"></i>&nbsp;</span>
+                    <button type="submit" id="btnStartPausePolimon" class="btn btn-sm btn-primary" style="width:100px;";>Pause</button>
                 </div>
             </div>
             <div class="row">  
@@ -105,9 +109,8 @@
                             <div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>
                             <div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>
                             <div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>
-                            <div class="col-md-1 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>
+                            <div class="col-md-2 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>
                             <div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>
-                            <div class="col-md-1 tb-label sort-col">DETAIL</div>
                         </div>
 
                         <div class="tb-body">  

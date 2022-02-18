@@ -16,9 +16,13 @@
 			</div>
 			<!-- End Of Wrapper -->
 
+		<!-- Js jquery -->	
 		<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
+		<!-- Js bootstrap -->
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
+		<!-- Js popper -->
 		<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
+		<!-- Js moment -->
 		<script src="<?php echo base_url('assets/js/moment.js'); ?>"></script>
 
 		<!-- Jquery UI -->

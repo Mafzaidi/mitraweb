@@ -50,4 +50,16 @@ class M_ora_medrec extends CI_Model
         $result = $query->result();
         return $result;
     }
+
+    function getTransPinjamMR()
+    {
+        $sql = "SELECT  
+                    SUBSTR(TO_CHAR(SEQ_PINJAM_MR.nextval, '000000'),2) AS NOMOR
+                FROM 
+                    DUAL";
+
+        $query = $this->oracle_db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
 }
