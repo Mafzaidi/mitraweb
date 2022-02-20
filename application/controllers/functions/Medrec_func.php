@@ -50,7 +50,30 @@ class Medrec_func extends CI_Controller
         $tgl_janji_kembali = $this->input->post('tgl_janji_kembali');
         $catatan = $this->input->post('catatan');
 
-        $trans_id = $this->mr->getTransPinjamMR();
+        $data[] = array(
+            "medrec"=>$medrec,
+            "nokar_peminjam"=>$nokar_peminjam,
+            "keperluan"=>$keperluan,
+            "dept_peminjam"=>$dept_peminjam,
+            "created_by"=>$created_by,
+            "diserahkan_oleh"=>$diserahkan_oleh,
+            "tgl_janji_kembali"=>$tgl_janji_kembali,
+            "catatan"=>$catatan
+        );
+
+        // $get = $this->mr->getTransPinjamMR();
+
+        $insert = $this->mr->savePinjamMR( 
+                                            $medrec,
+                                            $nokar_peminjam,
+                                            $keperluan,
+                                            $dept_peminjam,
+                                            $created_by,
+                                            $diserahkan_oleh,
+                                            $tgl_janji_kembali,
+                                            $catatan
+                                        );
+        // echo json_encode($data);
     }
 
 }

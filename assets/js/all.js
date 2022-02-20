@@ -140,11 +140,10 @@
 							var keperluan = $("#inputNecsty").val();
 							var dept_peminjam = $("#inputDept").val();
 
-							var created_by = $("#inputBorrower").attr("nokar");
-							var diserahkan_oleh = $("#inputBorrower").val();
+							var created_by = $("#inputLender").attr("nokar");
+							var diserahkan_oleh = $("#inputLender").val();
 							var tgl_janji_kembali = $("#inputReturnDate").val();
 							var catatan = $("#inputDescBrw").val();
-
 							$.ajax({
 								type: "POST",
 								dataType: "json",
@@ -160,12 +159,12 @@
 									catatan: catatan,
 								},
 								success: function (data) {
-									//alert(JSON.stringify(data));
-									$(".submit").click();
+									alert(JSON.stringify(data));
+									$(".next").click();
 									//pageInit();
 								},
 								error: function (data) {
-									alert(JSON.stringify(data));
+									// alert(JSON.stringify(data));
 									//pageInit();
 								},
 							});

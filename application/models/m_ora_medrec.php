@@ -54,12 +54,56 @@ class M_ora_medrec extends CI_Model
     function getTransPinjamMR()
     {
         $sql = "SELECT  
-                    SUBSTR(TO_CHAR(SEQ_PINJAM_MR.nextval, '000000'),2) AS NOMOR
+                    SUBSTR(TO_CHAR(EDP_MANAGER.SEQ_PINJAM_MR.nextval, '000000'),2) AS NOMOR
                 FROM 
                     DUAL";
 
         $query = $this->oracle_db->query($sql);
-        $result = $query->result();
-        return $result;
+        $row = $query->row();
+        return $row;
+    }
+
+    function savePinjamMR(
+        $medrec,
+        $nokar_peminjam,
+        $keperluan,
+        $dept_peminjam,
+        $created_by,
+        $diserahkan_oleh,
+        $tgl_janji_kembali,
+        $catatan
+    )
+    {
+        $sql = "INSERT INTO  EDP_MANAGER.PINJAM_MR
+                    (
+                        MR, 
+                        NOKAR_PEMINJAM, 
+                        KEPERLUAN, 
+                        DEPT_PEMINJAM, 
+                        CREATED_DATE, 
+                        CREATED_BY, 
+                        DISERAHKAN_OLEH, 
+                        TGL_JANJI_KEMBALI, 
+                        CATATAN, 
+                        TRANS_PINJAM_MR
+                    )
+                VALUES
+                    (
+                        $medrec,
+                        $nokar_peminjam,
+                        $keperluan,
+                        $dept_peminjam,
+                        SYSDATE,
+                        $created_by,
+                        $diserahkan_oleh,
+                        $tgl_janji_kembali,
+                        $catatan,
+                        (SELECT  
+                            'TR' || SUBSTR(TO_CHAR(EDP_MANAGER.SEQ_PINJAM_MR.nextval, '000000'),2) AS NOMOR
+                        FROM 
+                            DUAL)
+                    )
+                ";
+        $query = $this->oracle_db->query($sql);
     }
 }
