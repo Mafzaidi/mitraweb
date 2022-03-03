@@ -73,7 +73,7 @@ class Medrec_func extends CI_Controller
                                             $tgl_janji_kembali,
                                             $catatan
                                         );
-        // echo json_encode($data);
+        echo json_encode($insert);
     }
 
 }

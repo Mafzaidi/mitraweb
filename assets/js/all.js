@@ -72,14 +72,14 @@
 	$(document).ready(function () {
 		var val = {
 			// Specify validation rules
-			rules: {				
+			rules: {
 				mr: "required",
 				borrower: "required",
 				dept: "required",
 				necessity: "required",
 				lender: "required",
 				date_picker: "required",
-				descBrw: "required"
+				descBrw: "required",
 			},
 			// Specify validation error messages
 			messages: {
@@ -96,7 +96,7 @@
 			},
 			validations: val,
 		});
-		
+
 		$("#formBrwMr").validate({
 			// initialize plugin
 			// your rules & options,
@@ -108,7 +108,7 @@
 				necessity: "required",
 				lender: "required",
 				date_picker: "required",
-				descBrw: "required"
+				descBrw: "required",
 			},
 			submitHandler: function (form) {
 				// your ajax would go here
@@ -128,14 +128,13 @@
 						$("#textAddress").val(data.ALAMAT);
 						$("#formBrwMr .next").prop("disabled", false);
 
-						$('#returnDate_picker').datetimepicker({
-							"date": today,
-							"format": "DD.MM.yyyy",
+						$("#returnDate_picker").datetimepicker({
+							date: today,
+							format: "DD.MM.yyyy",
 						});
 
 						$("#saveMr_borrow").click(function () {
-							
-							var medrec = $("#mr").val();
+							var medrec = "20-" + $("#mr").val();
 							var nokar_peminjam = $("#inputBorrower").attr("nokar");
 							var keperluan = $("#inputNecsty").val();
 							var dept_peminjam = $("#inputDept").val();
@@ -204,7 +203,7 @@
 				// Set selection
 				$("#inputBorrower").val(ui.item.label); // display the selected text
 				$("#inputDept").val(ui.item.dept); // display the selected text
-				$("#inputBorrower").attr("nokar",ui.item.id)
+				$("#inputBorrower").attr("nokar", ui.item.id);
 				return false;
 			},
 		});
@@ -244,8 +243,7 @@
 
 		// Modal function
 		$("#myDynamicModal").on("hidden.bs.modal", function (event) {
-			if($(this).hasClass("save")){
-
+			if ($(this).hasClass("save")) {
 			} else {
 				$("#myDynamicModal .modal-body").html("");
 			}
@@ -378,9 +376,9 @@
 		});
 
 		$("#btnStartPausePolimon").on("click", function () {
-			 //alert($(this).html());
+			//alert($(this).html());
 			//timer.pause();
-			if ($(this).html() == "Pause"){
+			if ($(this).html() == "Pause") {
 				timer.pause();
 				$(this).removeClass("btn-primary");
 				$(this).addClass("btn-danger");
@@ -592,37 +590,37 @@
 			var func_url =
 				base_url + "functions/Counter_func/getDataPolimon/" + pageno;
 
-				if (
+			if (
+				$(
+					"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
+				).length
+			) {
+				ctr_daftar = "NONE";
+				dr_selesai = "NONE";
+				ctr_selesai = "NONE";
+				ctr_batal = "NONE";
+				$.each(
 					$(
-						"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
-					).length
-				) {
-					ctr_daftar = "NONE";
-					dr_selesai = "NONE";
-					ctr_selesai = "NONE";
-					ctr_batal = "NONE";
-					$.each(
-						$(
-							"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
-						),
-						function (i) {
-							if ($(this).attr("id") == "counterCheck") {
-								ctr_daftar = $(this).val();
-							} else if ($(this).attr("id") == "consultCheck") {
-								dr_selesai = $(this).val();
-							} else if ($(this).attr("id") == "finishCheck") {
-								ctr_selesai = $(this).val();
-							} else if ($(this).attr("id") == "cancelCheck") {
-								ctr_batal = $(this).val();
-							}
+						"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
+					),
+					function (i) {
+						if ($(this).attr("id") == "counterCheck") {
+							ctr_daftar = $(this).val();
+						} else if ($(this).attr("id") == "consultCheck") {
+							dr_selesai = $(this).val();
+						} else if ($(this).attr("id") == "finishCheck") {
+							ctr_selesai = $(this).val();
+						} else if ($(this).attr("id") == "cancelCheck") {
+							ctr_batal = $(this).val();
 						}
-					);
-				} else {
-					ctr_daftar = "";
-					dr_selesai = "";
-					ctr_selesai = "";
-					ctr_batal = "";
-				}
+					}
+				);
+			} else {
+				ctr_daftar = "";
+				dr_selesai = "";
+				ctr_selesai = "";
+				ctr_batal = "";
+			}
 
 			// alert(ctr_daftar, dr_selesai, ctr_selesai, ctr_batal);
 			loadPolimon(
