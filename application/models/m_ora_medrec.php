@@ -71,7 +71,8 @@ class M_ora_medrec extends CI_Model
         $created_by,
         $diserahkan_oleh,
         $tgl_janji_kembali,
-        $catatan
+        $catatan,
+        $trans_pinjam
     )
     {
         $data[] = array(
