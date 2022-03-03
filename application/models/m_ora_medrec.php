@@ -71,7 +71,8 @@ class M_ora_medrec extends CI_Model
         $created_by,
         $diserahkan_oleh,
         $tgl_janji_kembali,
-        $catatan
+        $catatan,
+        $trans_pinjam
     )
     {
         $sql = "INSERT INTO  EDP_MANAGER.PINJAM_MR
@@ -98,10 +99,7 @@ class M_ora_medrec extends CI_Model
                         $diserahkan_oleh,
                         $tgl_janji_kembali,
                         $catatan,
-                        (SELECT  
-                            'TR' || SUBSTR(TO_CHAR(EDP_MANAGER.SEQ_PINJAM_MR.nextval, '000000'),2) AS NOMOR
-                        FROM 
-                            DUAL)
+                        $trans_pinjam
                     )
                 ";
         $query = $this->oracle_db->query($sql);

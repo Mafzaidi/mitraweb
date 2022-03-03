@@ -9,6 +9,7 @@ class Home extends CI_Controller
 			parent::__construct();
 			$this->load->library('session');        
     		$this->load->model('m_user','mu');
+			$this->load->model('m_ora_global', 'org');
 			$this->load->library('modal_variables');
 	}
 
@@ -24,6 +25,7 @@ class Home extends CI_Controller
 			include (APPPATH.'controllers/modal_control.php');
 
 			$data['user'] = $this->mu->getUserInfo($sess_id);
+			// $data['local_code'] = $this->mu->getLocalCode();
             $data['tittle'] = 'Home';
 
             $this->load->view('templates/v_sidebar',$data);

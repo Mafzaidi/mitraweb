@@ -75,7 +75,7 @@ class M_counter extends CI_Model
                                                     HIS_MANAGER.MS_TRANS_OP B1 
                                                 WHERE
                                                     B1.TIPE_RAWAT = 'P'
-                                                    AND (SUBSTR(B1.DEPT_ID,1,3)='112')
+                                                    --AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                     AND B1.MR=X.MR
                                                     AND B1.DONE_STATUS NOT LIKE '%3%'
                                                     AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
@@ -164,7 +164,7 @@ class M_counter extends CI_Model
                                             AND A.MR=B.MR
                                             AND A.DOKTER_ID=C.DOKTER_ID
                                             AND A.TIPE_RAWAT = 'P'
-                                            AND(SUBSTR(A.DEPT_ID,1,3)='112')
+                                            --AND(SUBSTR(A.DEPT_ID,1,3)='112')
                                     )X
                                 )PP
                             ) XX
@@ -237,7 +237,7 @@ class M_counter extends CI_Model
                                                 HIS_MANAGER.MS_TRANS_OP B1 
                                             WHERE
                                                 B1.TIPE_RAWAT = 'P'
-                                                AND (SUBSTR(B1.DEPT_ID,1,3)='112')
+                                                --AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                                 AND B1.MR=X.MR
                                                 AND B1.DONE_STATUS NOT LIKE '%3%'
                                                 AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
@@ -326,7 +326,7 @@ class M_counter extends CI_Model
                                         AND A.MR=B.MR
                                         AND A.DOKTER_ID=C.DOKTER_ID
                                         AND A.TIPE_RAWAT = 'P'
-                                        AND(SUBSTR(A.DEPT_ID,1,3)='112')
+                                        --AND(SUBSTR(A.DEPT_ID,1,3)='112')
                                 )X
                             )PP
                         ) XX
@@ -415,7 +415,7 @@ class M_counter extends CI_Model
                                             HIS_MANAGER.MS_TRANS_OP B1 
                                         WHERE
                                             B1.TIPE_RAWAT = 'P'
-                                            AND (SUBSTR(B1.DEPT_ID,1,3)='112')
+                                            --AND (SUBSTR(B1.DEPT_ID,1,3)='112')
                                             AND B1.MR=X.MR
                                             AND B1.DONE_STATUS NOT LIKE '%3%'
                                             AND TRUNC(B1.CREATED_DATE)=TRUNC(SYSDATE)
@@ -504,7 +504,7 @@ class M_counter extends CI_Model
                                     AND A.MR=B.MR
                                     AND A.DOKTER_ID=C.DOKTER_ID
                                     AND A.TIPE_RAWAT = 'P'
-                                    AND(SUBSTR(A.DEPT_ID,1,3)='112')
+                                    --AND(SUBSTR(A.DEPT_ID,1,3)='112')
                             )X
                         )PP
                     ) XX
