@@ -40,46 +40,51 @@ class Medrec_func extends CI_Controller
 
     function saveMrBorrow()
     {
-        $medrec = $this->input->post('medrec');
-        $nokar_peminjam = $this->input->post('nokar_peminjam');
-        $keperluan = $this->input->post('keperluan');
-        $dept_peminjam = $this->input->post('dept_peminjam');
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $lokasi_id = $this->session->userdata('lokasi_id');
+            $medrec = $this->input->post('medrec');
+            $nokar_peminjam = $this->input->post('nokar_peminjam');
+            $keperluan = $this->input->post('keperluan');
+            $dept_peminjam = $this->input->post('dept_peminjam');
 
-        $created_by = $this->input->post('created_by');
-        $diserahkan_oleh = $this->input->post('diserahkan_oleh');
-        $tgl_janji_kembali = $this->input->post('tgl_janji_kembali');
-        $catatan = $this->input->post('catatan');
+            $created_by = $this->input->post('created_by');
+            $diserahkan_oleh = $this->input->post('diserahkan_oleh');
+            $tgl_janji_kembali = $this->input->post('tgl_janji_kembali');
+            $catatan = $this->input->post('catatan');
 
-        $get = $this->mr->getTransPinjamMR();
-        $result = array(
-            'TRANSID' => 'TR' . $get->NOMOR
-        );
+            $get = $this->mr->getTransPinjamMR();
+            $result = array(
+                'TRANSID' => 'TR' . $get->NOMOR
+            );
 
-        $data[] = array(
-            "medrec"=>$medrec,
-            "nokar_peminjam"=>$nokar_peminjam,
-            "keperluan"=>$keperluan,
-            "dept_peminjam"=>$dept_peminjam,
-            "created_by"=>$created_by,
-            "diserahkan_oleh"=>$diserahkan_oleh,
-            "tgl_janji_kembali"=>$tgl_janji_kembali,
-            "catatan"=>$catatan,
-            "trans_pinjam"=>$result['TRANSID']
-        );
+            $data[] = array(
+                "medrec"=>$lokasi_id . $medrec,
+                "nokar_peminjam"=>$nokar_peminjam,
+                "keperluan"=>$keperluan,
+                "dept_peminjam"=>$dept_peminjam,
+                "created_by"=>$created_by,
+                "diserahkan_oleh"=>$diserahkan_oleh,
+                "tgl_janji_kembali"=>$tgl_janji_kembali,
+                "catatan"=>$catatan,
+                "trans_pinjam"=>$result['TRANSID']
+            );
 
-        // $get = $this->mr->getTransPinjamMR();
-
-        $insert = $this->mr->savePinjamMR( 
-                                            $medrec,
-                                            $nokar_peminjam,
-                                            $keperluan,
-                                            $dept_peminjam,
-                                            $created_by,
-                                            $diserahkan_oleh,
-                                            $tgl_janji_kembali,
-                                            $catatan
-                                        );
-        echo json_encode($insert);
+            // $insert = $this->mr->savePinjamMR( 
+            //                                     $medrec,
+            //                                     $nokar_peminjam,
+            //                                     $keperluan,
+            //                                     $dept_peminjam,
+            //                                     $created_by,
+            //                                     $diserahkan_oleh,
+            //                                     $tgl_janji_kembali,
+            //                                     $catatan
+            //                                 );
+            echo json_encode($data);
+        }else{
+            redirect(base_url('auth'));
+        }
     }
 
 }

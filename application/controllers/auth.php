@@ -7,6 +7,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('m_user', 'mu');
+        $this->load->model('m_ora_global', 'mglobal');
         $this->load->library('form_validation');
         $this->oracle_db = $this->load->database('oracle', true);
 	}
@@ -57,6 +58,8 @@ class Auth extends CI_Controller
                                     include (APPPATH.'controllers/functions/Ora_auth.php');
                                     $login = $this->mu->loginUser($username);
                                     $dataOra = $this->mu->getDataUser($username);
+                                    $localcode = $this->mglobal->getLocalCode();
+                                    // $currSession = $this->mglobal->getCurrentSess();
                                     if (!$connect) {
                                         $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
                                         Wrong password!
@@ -68,6 +71,8 @@ class Auth extends CI_Controller
                                             'role_id' => $login->role_id,
                                             'dept_id' => $login->dept_id,
                                             'kd_bagian' => $dataOra->KD_BAGIAN,
+                                            'lokasi_id' => $localcode->LOKASI_ID,
+                                            // 'ora_session' => $currSession->SESS_ID,
                                             'status' => 'login'
                                         );
                 
@@ -101,11 +106,13 @@ class Auth extends CI_Controller
                             // include (APPPATH.'controllers/functions/Ora_auth.php');
                             $login = $this->mu->loginUser($username);
                             // $dataOra = $this->mu->getDataUser($username);
+                            $localcode = $this->mglobal->getLocalCode();
                             $data_session = array(
                                 'user_id' => $login->user_id,
                                 'role_id' => $login->role_id,
                                 'dept_id' => $login->dept_id,
                                 'kd_bagian' => '',
+                                'lokasi_id' => $localcode->LOKASI_ID,
                                 'status' => 'login'
                             );
     
