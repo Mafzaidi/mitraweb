@@ -59,6 +59,7 @@ class Auth extends CI_Controller
                                     $login = $this->mu->loginUser($username);
                                     $dataOra = $this->mu->getDataUser($username);
                                     $localcode = $this->mglobal->getLocalCode();
+                                    // $currSession = $this->mglobal->getCurrentSess();
                                     if (!$connect) {
                                         $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
                                         Wrong password!
@@ -71,6 +72,7 @@ class Auth extends CI_Controller
                                             'dept_id' => $login->dept_id,
                                             'kd_bagian' => $dataOra->KD_BAGIAN,
                                             'lokasi_id' => $localcode->LOKASI_ID,
+                                            // 'ora_session' => $currSession->SESS_ID,
                                             'status' => 'login'
                                         );
                 

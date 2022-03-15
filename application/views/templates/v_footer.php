@@ -5,6 +5,7 @@
 									<span>Copyright © Mitra Keluarga <?= date('Y'); ?></span>
 									<input type="hidden" id="baseUrl" value="<?php echo base_url(); ?>">
 									<input type="hidden" id="lokasiID" value="<?= $this->session->userdata('lokasi_id'); ?>">
+									<input type="hidden" id="lokasiID" value="<?= $this->session->userdata('ora_session'); ?>">
 								</div>
 							</div>
 						</footer>

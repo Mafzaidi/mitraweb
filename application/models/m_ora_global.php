@@ -26,4 +26,15 @@ class M_ora_global extends CI_Model
         $row = $query->row();
         return $row;
     }
+
+    function getCurrentSess()
+    {
+        $sql = "SELECT
+                    sys_context('USERENV','SID') AS SESS_ID
+                FROM dual;";
+
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+    }
 }
