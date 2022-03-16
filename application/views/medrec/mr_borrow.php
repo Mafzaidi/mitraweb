@@ -128,7 +128,7 @@
 
                     <fieldset class="tab" id="borrowComplete">
                         <div class="form-card">
-                            <h2 class="fs-title text-center">Success !</h2> <br><br>
+                            <h2 class="fs-title text-center">Berhasil !</h2> <br><br>
                             <div class="success-checkmark">
                                 <div class="check-icon">
                                     <span class="icon-line line-tip"></span>
@@ -139,7 +139,7 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
-                                    <h5>You Have Successfully Signed Up</h5>
+                                    <h5>Data telah tersimpan</h5>
                                 </div>
                             </div>
                         </div>

@@ -90,16 +90,16 @@ class M_ora_medrec extends CI_Model
                     )
                 VALUES
                     (
-                        $medrec,
-                        $nokar_peminjam,
-                        $keperluan,
-                        $dept_peminjam,
+                        '" . $medrec . "',
+                        '" . $nokar_peminjam . "',
+                        '" . $keperluan . "',
+                        '" . $dept_peminjam . "',
                         SYSDATE,
-                        $created_by,
-                        $diserahkan_oleh,
-                        $tgl_janji_kembali,
-                        $catatan,
-                        $trans_pinjam
+                        '" . $created_by . "',
+                        '" . $diserahkan_oleh . "',
+                        TO_DATE('" . $tgl_janji_kembali . "','DD.MM.RRRR'),
+                        '" . $catatan . "',
+                        '" . $trans_pinjam . "'
                     )
                 ";
         $query = $this->oracle_db->query($sql);
