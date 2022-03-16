@@ -58,7 +58,8 @@ class Medrec_func extends CI_Controller
             $result = array(
                 'TRANSID' => 'TR' . $get->NOMOR
             );
-
+            $trans_pinjam = $result['TRANSID'];
+            
             $data[] = array(
                 "medrec"=>$lokasi_id . $medrec,
                 "nokar_peminjam"=>$nokar_peminjam,
@@ -68,7 +69,7 @@ class Medrec_func extends CI_Controller
                 "diserahkan_oleh"=>$diserahkan_oleh,
                 "tgl_janji_kembali"=>$tgl_janji_kembali,
                 "catatan"=>$catatan,
-                "trans_pinjam"=>$result['TRANSID']
+                "trans_pinjam"=>$trans_pinjam
             );
 
             $insert = $this->mr->savePinjamMR( 
@@ -79,7 +80,12 @@ class Medrec_func extends CI_Controller
                                                 $created_by,
                                                 $diserahkan_oleh,
                                                 $tgl_janji_kembali,
+<<<<<<< HEAD
                                                 $catatan
+=======
+                                                $catatan,
+                                                $trans_pinjam
+>>>>>>> 84948f969589f4ff2af90afc699bb45c425ec3f6
                                             );
             echo json_encode($data);
         }else{

@@ -78,7 +78,6 @@
 				dept: "required",
 				necessity: "required",
 				lender: "required",
-				date_picker: "required",
 				descBrw: "required",
 			},
 			// Specify validation error messages
@@ -107,7 +106,6 @@
 				dept: "required",
 				necessity: "required",
 				lender: "required",
-				date_picker: "required",
 				descBrw: "required",
 			},
 			submitHandler: function (form) {
