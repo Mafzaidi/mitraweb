@@ -134,7 +134,7 @@
 						});
 
 						$("#saveMr_borrow").click(function () {
-							var medrec = "20-" + $("#mr").val();
+							var medrec = $("#mr").val();
 							var nokar_peminjam = $("#inputBorrower").attr("nokar");
 							var keperluan = $("#inputNecsty").val();
 							var dept_peminjam = $("#inputDept").val();

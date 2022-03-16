@@ -71,16 +71,16 @@ class Medrec_func extends CI_Controller
                 "trans_pinjam"=>$result['TRANSID']
             );
 
-            // $insert = $this->mr->savePinjamMR( 
-            //                                     $medrec,
-            //                                     $nokar_peminjam,
-            //                                     $keperluan,
-            //                                     $dept_peminjam,
-            //                                     $created_by,
-            //                                     $diserahkan_oleh,
-            //                                     $tgl_janji_kembali,
-            //                                     $catatan
-            //                                 );
+            $insert = $this->mr->savePinjamMR( 
+                                                $medrec,
+                                                $nokar_peminjam,
+                                                $keperluan,
+                                                $dept_peminjam,
+                                                $created_by,
+                                                $diserahkan_oleh,
+                                                $tgl_janji_kembali,
+                                                $catatan
+                                            );
             echo json_encode($data);
         }else{
             redirect(base_url('auth'));
