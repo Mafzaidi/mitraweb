@@ -80,12 +80,8 @@ class Medrec_func extends CI_Controller
                                                 $created_by,
                                                 $diserahkan_oleh,
                                                 $tgl_janji_kembali,
-<<<<<<< HEAD
-                                                $catatan
-=======
                                                 $catatan,
                                                 $trans_pinjam
->>>>>>> 84948f969589f4ff2af90afc699bb45c425ec3f6
                                             );
             echo json_encode($data);
         }else{
