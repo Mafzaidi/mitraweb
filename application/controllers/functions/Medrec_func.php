@@ -44,7 +44,7 @@ class Medrec_func extends CI_Controller
         if(!empty($sess_id))
         {
             $lokasi_id = $this->session->userdata('lokasi_id');
-            $medrec = $this->input->post('medrec');
+            $medrec = $lokasi_id . $this->input->post('medrec');
             $nokar_peminjam = $this->input->post('nokar_peminjam');
             $keperluan = $this->input->post('keperluan');
             $dept_peminjam = $this->input->post('dept_peminjam');
@@ -61,7 +61,7 @@ class Medrec_func extends CI_Controller
             $trans_pinjam = $result['TRANSID'];
             
             $data[] = array(
-                "medrec"=>$lokasi_id . $medrec,
+                "medrec"=>$medrec,
                 "nokar_peminjam"=>$nokar_peminjam,
                 "keperluan"=>$keperluan,
                 "dept_peminjam"=>$dept_peminjam,
