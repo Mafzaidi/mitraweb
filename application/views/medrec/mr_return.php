@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="back btn btn-primary">Back</button>
+                        <button class="submit btn btn-primary">Back</button>
                     </fieldset>
                 </form>
             </div>

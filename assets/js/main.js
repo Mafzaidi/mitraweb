@@ -19,12 +19,12 @@
 		var progress = $("#progressbar li");
 
 		form.navigateTo = function (i) {
-			atTheEnd = i >= fieldset.length - 1;
 			fieldset.removeClass("current").eq(i).addClass("current");
 			form.find(".previous").toggle(i > 0);
 			atTheEnd = i >= fieldset.length - 1;
 			form.find(".next").toggle(!atTheEnd);
 			form.find(".submit").toggle(atTheEnd);
+			form.find(".back").toggle(i > 0);
 			fixStepIndicator(curIndex());
 			return form;
 		};
@@ -103,8 +103,14 @@
 				typeof args.submit === "undefined" ||
 				(typeof args.submit === "boolean" && args.submit)
 			) {
+				// console.log("atTheEnd=" + atTheEnd);
 				form.submit();
 			}
+			return form;
+		});
+
+		form.find(".back").on("click", function (e) {
+			console.log("atThefirst=" + atThefirst);
 			return form;
 		});
 

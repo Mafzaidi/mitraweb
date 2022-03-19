@@ -291,6 +291,7 @@ button.search:before {
 	text-align: center;
 	position: relative;
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 fieldset .form-card {

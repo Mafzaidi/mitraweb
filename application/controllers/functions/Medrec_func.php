@@ -44,7 +44,7 @@ class Medrec_func extends CI_Controller
         if(!empty($sess_id))
         {
             $lokasi_id = $this->session->userdata('lokasi_id');
-            $medrec = $this->input->post('medrec');
+            $medrec = $lokasi_id . $this->input->post('medrec');
             $nokar_peminjam = $this->input->post('nokar_peminjam');
             $keperluan = $this->input->post('keperluan');
             $dept_peminjam = $this->input->post('dept_peminjam');
@@ -58,8 +58,8 @@ class Medrec_func extends CI_Controller
             $result = array(
                 'TRANSID' => 'TR' . $get->NOMOR
             );
-            $trans_pinjam = $result['TRANSID'];
-            
+            // $trans_pinjam = $result['TRANSID'];
+            $trans_pinjam = '';
             $data[] = array(
                 "medrec"=>$lokasi_id . $medrec,
                 "nokar_peminjam"=>$nokar_peminjam,
@@ -72,17 +72,17 @@ class Medrec_func extends CI_Controller
                 "trans_pinjam"=>$trans_pinjam
             );
 
-            $insert = $this->mr->savePinjamMR( 
-                                                $medrec,
-                                                $nokar_peminjam,
-                                                $keperluan,
-                                                $dept_peminjam,
-                                                $created_by,
-                                                $diserahkan_oleh,
-                                                $tgl_janji_kembali,
-                                                $catatan,
-                                                $trans_pinjam
-                                            );
+            // $insert = $this->mr->savePinjamMR( 
+            //                                     $medrec,
+            //                                     $nokar_peminjam,
+            //                                     $keperluan,
+            //                                     $dept_peminjam,
+            //                                     $created_by,
+            //                                     $diserahkan_oleh,
+            //                                     $tgl_janji_kembali,
+            //                                     $catatan,
+            //                                     $trans_pinjam
+            //                                 );
             echo json_encode($data);
         }else{
             redirect(base_url('auth'));
