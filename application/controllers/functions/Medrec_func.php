@@ -58,8 +58,8 @@ class Medrec_func extends CI_Controller
             $result = array(
                 'TRANSID' => 'TR' . $get->NOMOR
             );
-            $trans_pinjam = $result['TRANSID'];
-            
+            // $trans_pinjam = $result['TRANSID'];
+            $trans_pinjam = '';
             $data[] = array(
                 "medrec"=>$medrec,
                 "nokar_peminjam"=>$nokar_peminjam,

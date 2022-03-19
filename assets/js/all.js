@@ -69,11 +69,6 @@
 	$("#toDateRpt_picker").datetimepicker({
 		format: "DD.MM.yyyy",
 	});
-	
-	$('#returnDate_picker').datetimepicker({
-		"date": today,
-		"format": "DD.MM.yyyy",
-	});
 
 	// $("#returnDate_picker").datetimepicker({
 	// 	format: "DD.MM.yyyy",
@@ -98,45 +93,45 @@
 	// ***************************************************************************************************
 	$(document).ready(function () {
 		var val = {
-			// Specify validation rules
-			rules: {				
+			focusInvalid: false,
+			rules: {
 				mr: {
 					required: true,
-                    minlength: 6,
-                    maxlength: 7,
-                    digits: true
+					minlength: 6,
+					maxlength: 7,
+					digits: true,
 				},
 				borrower: "required",
 				dept: "required",
 				necessity: "required",
 				lender: "required",
-				descBrw: "required"
+				descBrw: "required",
 			},
-			// Specify validation error messages
 			messages: {
-				mr:{
-                    required:   "Medrec harus di isi",
-                    minlength:  "Minimal 6 digit angka",
-                    maxlength:  "Maksimal 7 digit angkat",
-                    digits:     "Hanya angka diperbolehkan"
-                },
+				mr: {
+					required: "Medrec harus di isi",
+					minlength: "Please enter minimum 6 digit mobile number",
+					maxlength: "Please enter maximum 7 digit mobile number",
+					digits: "Only numbers are allowed in this field",
+				},
 				borrower: {
-                    required: "Nama peminjam harus di isi",
+					required: "Peminjam harus di isi",
 				},
 				dept: {
-                    required: "Departemen peminjam harus di isi",
+					required: "Departemen harus di isi",
 				},
 				necessity: {
-                    required: "Keperluan peminjam harus di isi",
+					required: "Keperluan harus di isi",
 				},
 				lender: {
-                    required: "Pemberi pinjam harus di isi",
+					required: "Pemberi pinjam harus di isi",
 				},
 				descBrw: {
-                    required: "Catatan pinjam harus di isi",
+					required: "Keterangan harus di isi",
 				},
 			},
 		};
+
 		$("#formBrwMr").multiStepForm({
 			// defaultStep:0,
 			beforeSubmit: function (form, submit) {
@@ -146,23 +141,46 @@
 			},
 			validations: val,
 		});
-		
+
 		$("#formBrwMr").validate({
 			// initialize plugin
 			// your rules & options,
 			focusInvalid: false,
-			rules: {				
+			rules: {
 				mr: {
 					required: true,
-                    minlength: 6,
-                    maxlength: 7,
-                    digits: true
+					minlength: 6,
+					maxlength: 7,
+					digits: true,
 				},
 				borrower: "required",
 				dept: "required",
 				necessity: "required",
 				lender: "required",
-				descBrw: "required"
+				descBrw: "required",
+			},
+			messages: {
+				mr: {
+					required: "Medrec harus di isi",
+					minlength: "Masukkan minimal 6 digit angka",
+					maxlength: "Masukkan maksimal 7 digit angka",
+					digits: "Hanya angka di perbolehkan",
+				},
+				borrower: {
+					required: "Peminjam harus di isi",
+				},
+				dept: {
+					required: "Departemen harus di isi",
+				},
+				necessity: {
+					required: "Keperluan harus di isi",
+				},
+				lender: {
+					required: "Pemberi pinjam harus di isi",
+				},
+				descBrw: {
+					required: "Keterangan harus di isi",
+				},
 			},
 			// Specify validation error messages
 			messages: {
@@ -190,6 +208,7 @@
 			},
 			submitHandler: function (form) {
 				// your ajax would go here
+
 				var mr = $("#mr").val();
 				$.ajax({
 					type: "POST",
@@ -200,53 +219,18 @@
 					},
 					success: function (data) {
 						//alert(JSON.stringify(data));
+
 						$("#inputName").val(data.NAMA);
 						$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
 						$("#inputReturnDate").val(data.TGL_LAHIR);
 						$("#textAddress").val(data.ALAMAT);
 						$("#formBrwMr .next").prop("disabled", false);
 
-						$('#returnDate_picker').datetimepicker({
-							"date": today,
-							"format": "DD.MM.yyyy",
+						$("#returnDate_picker").datetimepicker({
+							date: today,
+							format: "DD.MM.yyyy",
 						});
 
-						$("#saveMr_borrow").click(function () {
-							
-							var medrec = $("#mr").val();
-							var nokar_peminjam = $("#inputBorrower").attr("nokar");
-							var keperluan = $("#inputNecsty").val();
-							var dept_peminjam = $("#inputDept").val();
-
-							var created_by = $("#inputLender").attr("nokar");
-							var diserahkan_oleh = $("#inputLender").val();
-							var tgl_janji_kembali = $("#inputReturnDate").val();
-							var catatan = $("#inputDescBrw").val();
-							$.ajax({
-								type: "POST",
-								dataType: "json",
-								url: base_url + "functions/Medrec_func/saveMrBorrow",
-								data: {
-									medrec: medrec,
-									nokar_peminjam: nokar_peminjam,
-									keperluan: keperluan,
-									dept_peminjam: dept_peminjam,
-									created_by: created_by,
-									diserahkan_oleh: diserahkan_oleh,
-									tgl_janji_kembali: tgl_janji_kembali,
-									catatan: catatan,
-								},
-								success: function (data) {
-									alert(JSON.stringify(data));
-									$(".next").click();
-									//pageInit();
-								},
-								error: function (data) {
-									// alert(JSON.stringify(data));
-									//pageInit();
-								},
-							});
-						});
 						pageInit();
 					},
 					error: function (data) {
@@ -257,6 +241,59 @@
 				});
 				return false; // blocks regular submit since you have ajax
 			},
+		});
+
+		$("#saveMr_borrow").click(function () {
+			var medrec = $("#mr").val();
+			var nokar_peminjam = $("#inputBorrower").attr("nokar");
+			var keperluan = $("#inputNecsty").val();
+			var dept_peminjam = $("#inputDept").val();
+
+			var created_by = $("#inputLender").attr("nokar");
+			var diserahkan_oleh = $("#inputLender").val();
+			var tgl_janji_kembali = $("#inputReturnDate").val();
+			var catatan = $("#inputDescBrw").val();
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base_url + "functions/Medrec_func/saveMrBorrow",
+				data: {
+					medrec: medrec,
+					nokar_peminjam: nokar_peminjam,
+					keperluan: keperluan,
+					dept_peminjam: dept_peminjam,
+					created_by: created_by,
+					diserahkan_oleh: diserahkan_oleh,
+					tgl_janji_kembali: tgl_janji_kembali,
+					catatan: catatan,
+				},
+				success: function (data) {
+					alert(JSON.stringify(data));
+					$(".next").click();
+
+					$("#mr").val("");
+					$("#inputName").val("");
+					$("#inputBirthPlace").val("");
+					$("#inputReturnDate").val("");
+					$("#textAddress").val("");
+					$("#formBrwMr .next").prop("disabled", true);
+
+					$("#inputBorrower").val("");
+					$("#inputNecsty").val("");
+					$("#inputDept").val("");
+					$("#inputDescBrw").val("");
+
+					$("#returnDate_picker").datetimepicker({
+						date: today,
+						format: "DD.MM.yyyy",
+					});
+					pageInit();
+				},
+				error: function (data) {
+					// alert(JSON.stringify(data));
+					pageInit();
+				},
+			});
 		});
 
 		$("#inputTextMr").inputFilter(function (value) {
@@ -283,7 +320,7 @@
 				// Set selection
 				$("#inputBorrower").val(ui.item.label); // display the selected text
 				$("#inputDept").val(ui.item.dept); // display the selected text
-				$("#inputBorrower").attr("nokar",ui.item.id)
+				$("#inputBorrower").attr("nokar", ui.item.id);
 				return false;
 			},
 		});
@@ -323,8 +360,7 @@
 
 		// Modal function
 		$("#myDynamicModal").on("hidden.bs.modal", function (event) {
-			if($(this).hasClass("save")){
-
+			if ($(this).hasClass("save")) {
 			} else {
 				$("#myDynamicModal .modal-body").html("");
 			}
@@ -457,9 +493,9 @@
 		});
 
 		$("#btnStartPausePolimon").on("click", function () {
-			 //alert($(this).html());
+			//alert($(this).html());
 			//timer.pause();
-			if ($(this).html() == "Pause"){
+			if ($(this).html() == "Pause") {
 				timer.pause();
 				$(this).removeClass("btn-primary");
 				$(this).addClass("btn-danger");
@@ -671,37 +707,37 @@
 			var func_url =
 				base_url + "functions/Counter_func/getDataPolimon/" + pageno;
 
-				if (
+			if (
+				$(
+					"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
+				).length
+			) {
+				ctr_daftar = "NONE";
+				dr_selesai = "NONE";
+				ctr_selesai = "NONE";
+				ctr_batal = "NONE";
+				$.each(
 					$(
-						"#polimon_wrapper .dropdown input[type='checkbox'][name='checkfilter']:checked"
-					).length
-				) {
-					ctr_daftar = "NONE";
-					dr_selesai = "NONE";
-					ctr_selesai = "NONE";
-					ctr_batal = "NONE";
-					$.each(
-						$(
-							"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
-						),
-						function (i) {
-							if ($(this).attr("id") == "counterCheck") {
-								ctr_daftar = $(this).val();
-							} else if ($(this).attr("id") == "consultCheck") {
-								dr_selesai = $(this).val();
-							} else if ($(this).attr("id") == "finishCheck") {
-								ctr_selesai = $(this).val();
-							} else if ($(this).attr("id") == "cancelCheck") {
-								ctr_batal = $(this).val();
-							}
+						"#polimon_wrapper .dropdown input:checkbox[name='checkfilter']:checked"
+					),
+					function (i) {
+						if ($(this).attr("id") == "counterCheck") {
+							ctr_daftar = $(this).val();
+						} else if ($(this).attr("id") == "consultCheck") {
+							dr_selesai = $(this).val();
+						} else if ($(this).attr("id") == "finishCheck") {
+							ctr_selesai = $(this).val();
+						} else if ($(this).attr("id") == "cancelCheck") {
+							ctr_batal = $(this).val();
 						}
-					);
-				} else {
-					ctr_daftar = "";
-					dr_selesai = "";
-					ctr_selesai = "";
-					ctr_batal = "";
-				}
+					}
+				);
+			} else {
+				ctr_daftar = "";
+				dr_selesai = "";
+				ctr_selesai = "";
+				ctr_batal = "";
+			}
 
 			// alert(ctr_daftar, dr_selesai, ctr_selesai, ctr_batal);
 			loadPolimon(

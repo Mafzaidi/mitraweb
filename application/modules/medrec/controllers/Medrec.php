@@ -45,4 +45,5 @@ class Medrec extends CI_Controller
             redirect(base_url('auth'));
         }
     }
+
 }

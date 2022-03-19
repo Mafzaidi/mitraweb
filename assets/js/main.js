@@ -19,11 +19,12 @@
 		var progress = $("#progressbar li");
 
 		form.navigateTo = function (i) {
-			atTheEnd = i >= fieldset.length - 1;
 			fieldset.removeClass("current").eq(i).addClass("current");
 			form.find(".previous").toggle(i > 0);
 			atTheEnd = i >= fieldset.length - 1;
 			form.find(".next").toggle(!atTheEnd);
+			form.find(".submit").toggle(atTheEnd);
+			form.find(".back").toggle(i > 0);
 			fixStepIndicator(curIndex());
 			return form;
 		};
@@ -82,7 +83,7 @@
 				) {
 					form.validate(args.validations);
 					if (form.valid() == true) {
-						$('#myDynamicModal').modal('show');
+						$("#myDynamicModal").modal("show");
 						return true;
 					}
 					return false;
@@ -91,23 +92,34 @@
 			return form;
 		});
 
-		form.find('.submit').on('click', function(e){
-            if(typeof args.beforeSubmit !== 'undefined' && typeof args.beforeSubmit !== 'function')
-                args.beforeSubmit(form, this);
-                /*check if args.submit is set false if not then form.submit is not gonna run, if not set then will run by default*/        
-            if(typeof args.submit === 'undefined' || (typeof args.submit === 'boolean' && args.submit)){
-                form.navigateTo(0);
+		form.find(".submit").on("click", function (e) {
+			if (
+				typeof args.beforeSubmit !== "undefined" &&
+				typeof args.beforeSubmit !== "function"
+			)
+				args.beforeSubmit(form, this);
+			/*check if args.submit is set false if not then form.submit is not gonna run, if not set then will run by default*/
+			if (
+				typeof args.submit === "undefined" ||
+				(typeof args.submit === "boolean" && args.submit)
+			) {
+				// console.log("atTheEnd=" + atTheEnd);
 				form.submit();
-            }
-            return form;
-        });
+			}
+			return form;
+		});
 
-		 /*By default navigate to the tab 0, if it is being set using defaultStep property*/
-		 typeof args.defaultStep === 'number' ? form.navigateTo(args.defaultStep) : null;
-		 form.noValidate = function() {
-	 
-		 }
-		 return form;
+		form.find(".back").on("click", function (e) {
+			console.log("atThefirst=" + atThefirst);
+			return form;
+		});
+
+		/*By default navigate to the tab 0, if it is being set using defaultStep property*/
+		typeof args.defaultStep === "number"
+			? form.navigateTo(args.defaultStep)
+			: null;
+		form.noValidate = function () {};
+		return form;
 
 		// $(".next").click(function (event) {
 		// 	event.preventDefault();
