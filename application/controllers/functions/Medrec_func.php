@@ -61,7 +61,7 @@ class Medrec_func extends CI_Controller
             // $trans_pinjam = $result['TRANSID'];
             $trans_pinjam = '';
             $data[] = array(
-                "medrec"=>$lokasi_id . $medrec,
+                "medrec"=>$medrec,
                 "nokar_peminjam"=>$nokar_peminjam,
                 "keperluan"=>$keperluan,
                 "dept_peminjam"=>$dept_peminjam,
