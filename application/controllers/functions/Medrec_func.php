@@ -72,17 +72,17 @@ class Medrec_func extends CI_Controller
                 "trans_pinjam"=>$trans_pinjam
             );
 
-            $insert = $this->mr->savePinjamMR( 
-                                                $medrec,
-                                                $nokar_peminjam,
-                                                $keperluan,
-                                                $dept_peminjam,
-                                                $created_by,
-                                                $diserahkan_oleh,
-                                                $tgl_janji_kembali,
-                                                $catatan,
-                                                $trans_pinjam
-                                            );
+            // $insert = $this->mr->savePinjamMR( 
+            //                                     $medrec,
+            //                                     $nokar_peminjam,
+            //                                     $keperluan,
+            //                                     $dept_peminjam,
+            //                                     $created_by,
+            //                                     $diserahkan_oleh,
+            //                                     $tgl_janji_kembali,
+            //                                     $catatan,
+            //                                     $trans_pinjam
+            //                                 );
             echo json_encode($data);
         }else{
             redirect(base_url('auth'));

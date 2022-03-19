@@ -29,6 +29,27 @@
 			}
 		});
 
+		$("#datetimepicker4").datetimepicker({
+			format: "DD.MM.yyyy",
+		});
+	
+		$("#birthDate_picker").datetimepicker({
+			format: "DD.MM.yyyy",
+		});
+	
+		$("#fromDateRpt_picker").datetimepicker({
+			format: "DD.MM.yyyy",
+		});
+	
+		$("#toDateRpt_picker").datetimepicker({
+			format: "DD.MM.yyyy",
+		});
+		
+		$('#returnDate_picker').datetimepicker({
+			"date": today,
+			"format": "DD.MM.yyyy",
+		});
+
 		page_polimon_click();
 		detail_polimon_click();
 	}
@@ -48,6 +69,12 @@
 	$("#toDateRpt_picker").datetimepicker({
 		format: "DD.MM.yyyy",
 	});
+	
+	$('#returnDate_picker').datetimepicker({
+		"date": today,
+		"format": "DD.MM.yyyy",
+	});
+
 	// $("#returnDate_picker").datetimepicker({
 	// 	format: "DD.MM.yyyy",
 	// });
@@ -73,7 +100,12 @@
 		var val = {
 			// Specify validation rules
 			rules: {				
-				mr: "required",
+				mr: {
+					required: true,
+                    minlength: 6,
+                    maxlength: 7,
+                    digits: true
+				},
 				borrower: "required",
 				dept: "required",
 				necessity: "required",
@@ -82,8 +114,27 @@
 			},
 			// Specify validation error messages
 			messages: {
-				mr: "Type medical record number",
-				borrower: "Type medical record number",
+				mr:{
+                    required:   "Medrec harus di isi",
+                    minlength:  "Minimal 6 digit angka",
+                    maxlength:  "Maksimal 7 digit angkat",
+                    digits:     "Hanya angka diperbolehkan"
+                },
+				borrower: {
+                    required: "Nama peminjam harus di isi",
+				},
+				dept: {
+                    required: "Departemen peminjam harus di isi",
+				},
+				necessity: {
+                    required: "Keperluan peminjam harus di isi",
+				},
+				lender: {
+                    required: "Pemberi pinjam harus di isi",
+				},
+				descBrw: {
+                    required: "Catatan pinjam harus di isi",
+				},
 			},
 		};
 		$("#formBrwMr").multiStepForm({
@@ -100,13 +151,42 @@
 			// initialize plugin
 			// your rules & options,
 			focusInvalid: false,
-			rules: {
-				mr: "required",
+			rules: {				
+				mr: {
+					required: true,
+                    minlength: 6,
+                    maxlength: 7,
+                    digits: true
+				},
 				borrower: "required",
 				dept: "required",
 				necessity: "required",
 				lender: "required",
 				descBrw: "required"
+			},
+			// Specify validation error messages
+			messages: {
+				mr:{
+                    required:   "Medrec harus di isi",
+                    minlength:  "Minimal 6 digit angka",
+                    maxlength:  "Maksimal 7 digit angkat",
+                    digits:     "Hanya angka diperbolehkan"
+                },
+				borrower: {
+                    required: "Nama peminjam harus di isi",
+				},
+				dept: {
+                    required: "Departemen peminjam harus di isi",
+				},
+				necessity: {
+                    required: "Keperluan peminjam harus di isi",
+				},
+				lender: {
+                    required: "Pemberi pinjam harus di isi",
+				},
+				descBrw: {
+                    required: "Catatan pinjam harus di isi",
+				},
 			},
 			submitHandler: function (form) {
 				// your ajax would go here
@@ -171,7 +251,8 @@
 					},
 					error: function (data) {
 						//alert(JSON.stringify(data));
-						//pageInit();
+						alert("Data tidak ditemukan");
+						pageInit();
 					},
 				});
 				return false; // blocks regular submit since you have ajax

@@ -20,7 +20,7 @@
                             <div class="form-row align-items-center">
                                 <div class="col-auto">
                                     <label class="sr-only" for="mr">Medical Record Number</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="Type medrec" name="mr" />
+                                    <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="ketik nomor medrec" name="mr" />
                                 </div>
                                 <div class="col-auto">
                                     <button type="" class="btn btn-primary mb-2" id="btnSearchBrw">Find</button>
@@ -30,13 +30,13 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="inputName">Name</label>
-                                    <input type="name" class="form-control" id="inputName" placeholder="name" disabled />
+                                    <input type="name" class="form-control" id="inputName" placeholder="nama" disabled />
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-3">
-                                    <label for="inputBirthPlace">Birth Place</label>
-                                    <input type="text" class="form-control" id="inputBirthPlace" placeholder="birth place" disabled />
+                                    <label for="inputBirthPlace">Tempat Lahir</label>
+                                    <input type="text" class="form-control" id="inputBirthPlace" placeholder="tempat lahir" disabled />
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="inputBirthDate">Birth Date</label>
@@ -140,9 +140,9 @@
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
                                     <h5>Data telah tersimpan</h5>
+                                    <button class="submit btn btn-primary" >Back</button>
                                 </div>
-                                <button class="submit btn btn-primary" >Back</button>
-                            </div>
+                            </div>                        
                         </div>
                     </fieldset>
                 </form>

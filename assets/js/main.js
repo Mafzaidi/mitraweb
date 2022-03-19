@@ -96,7 +96,8 @@
                 args.beforeSubmit(form, this);
                 /*check if args.submit is set false if not then form.submit is not gonna run, if not set then will run by default*/        
             if(typeof args.submit === 'undefined' || (typeof args.submit === 'boolean' && args.submit)){
-                form.submit();
+                form.navigateTo(0);
+				form.submit();
             }
             return form;
         });
