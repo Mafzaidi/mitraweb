@@ -22,9 +22,10 @@
 			fieldset.removeClass("current").eq(i).addClass("current");
 			form.find(".previous").toggle(i > 0);
 			atTheEnd = i >= fieldset.length - 1;
+			atTheFirst = i <= 0;
 			form.find(".next").toggle(!atTheEnd);
 			form.find(".submit").toggle(atTheEnd);
-			form.find(".back").toggle(i > 0);
+			form.find(".back").toggle(atTheEnd);
 			fixStepIndicator(curIndex());
 			return form;
 		};
@@ -110,7 +111,19 @@
 		});
 
 		form.find(".back").on("click", function (e) {
-			console.log("atThefirst=" + atThefirst);
+			if (
+				typeof args.beforeSubmit !== "undefined" &&
+				typeof args.beforeSubmit !== "function"
+			)
+				args.beforeSubmit(form, this);
+			/*check if args.submit is set false if not then form.submit is not gonna run, if not set then will run by default*/
+			if (
+				typeof args.submit === "undefined" ||
+				(typeof args.submit === "boolean" && args.submit)
+			) {
+				// console.log("atTheEnd=" + atTheEnd);
+				form.submit();
+			}
 			return form;
 		});
 

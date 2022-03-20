@@ -10,6 +10,7 @@ class Medrec extends CI_Controller
 			$this->load->library('session');     
     		$this->load->model('m_user','mu');
 			$this->load->library('modal_variables');
+            $this->load->library('pagination');
 	}
 
 	public function index()
@@ -33,6 +34,14 @@ class Medrec extends CI_Controller
             include (APPPATH.'controllers/menu_control.php');
 			include (APPPATH.'controllers/modal_control.php');
 
+            if($this->uri->segment(3) <> ''){  
+                if ($param == str_replace('-', '_',$this->uri->segment(3))) {
+                    if ($param == "poli_monitor") {
+                        require_once(APPPATH."controllers/counter/page.".$param.".php");
+                    }
+                }
+            }
+            
             $page = str_replace('-', '_', $param);
             $data['user'] = $this->mu->getUserInfo($sess_id);
             $data['tittle'] = "Home";

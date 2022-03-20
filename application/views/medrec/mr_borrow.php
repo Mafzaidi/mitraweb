@@ -141,10 +141,9 @@
                                 <div class="col-7 text-center">
                                     <h5>Data telah tersimpan</h5>
                                 </div>
-                                <button class="submit btn btn-primary" >Back</button>
                             </div>
                         </div>
-                        <button class="back btn btn-primary">Back</button>
+                        <button class="back btn btn-primary" id="backBrwBtn">Kembali untuk input >></button>
                     </fieldset>
                 </form>
             </div>
