@@ -263,7 +263,7 @@
 					catatan: catatan,
 				},
 				success: function (data) {
-					alert(JSON.stringify(data));
+					// alert(JSON.stringify(data));
 					$(".next").click();
 
 					$("#mr").val("");
@@ -289,6 +289,10 @@
 					pageInit();
 				},
 			});
+		});
+
+		$("#backBrwBtn").on("click", function () {
+			location.reload();
 		});
 
 		$("#inputTextMr").inputFilter(function (value) {
