@@ -44,11 +44,6 @@
 		$("#toDateRpt_picker").datetimepicker({
 			format: "DD.MM.yyyy",
 		});
-		
-		$('#returnDate_picker').datetimepicker({
-			"date": today,
-			"format": "DD.MM.yyyy",
-		});
 
 		page_polimon_click();
 		detail_polimon_click();

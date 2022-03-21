@@ -140,7 +140,6 @@
                             <div class="row justify-content-center">
                                 <div class="col-7 text-center">
                                     <h5>Data telah tersimpan</h5>
-                                    <button class="submit btn btn-primary" >Back</button>
                                 </div>
                             </div>                        
                         </div>

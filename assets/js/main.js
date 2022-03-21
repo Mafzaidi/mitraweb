@@ -92,7 +92,7 @@
 			return form;
 		});
 
-		form.find(".submit").on("click", function (e) {
+		form.find(".submit").on("click", function (event) {
 			if (
 				typeof args.beforeSubmit !== "undefined" &&
 				typeof args.beforeSubmit !== "function"
@@ -109,8 +109,8 @@
 			return form;
 		});
 
-		form.find(".back").on("click", function (e) {
-			console.log("atThefirst=" + atThefirst);
+		form.find(".back").on("click", function (event) {
+			event.preventDefault();
 			return form;
 		});
 
