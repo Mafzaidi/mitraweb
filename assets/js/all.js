@@ -177,30 +177,6 @@
 					required: "Keterangan harus di isi",
 				},
 			},
-			// Specify validation error messages
-			messages: {
-				mr:{
-                    required:   "Medrec harus di isi",
-                    minlength:  "Minimal 6 digit angka",
-                    maxlength:  "Maksimal 7 digit angkat",
-                    digits:     "Hanya angka diperbolehkan"
-                },
-				borrower: {
-                    required: "Nama peminjam harus di isi",
-				},
-				dept: {
-                    required: "Departemen peminjam harus di isi",
-				},
-				necessity: {
-                    required: "Keperluan peminjam harus di isi",
-				},
-				lender: {
-                    required: "Pemberi pinjam harus di isi",
-				},
-				descBrw: {
-                    required: "Catatan pinjam harus di isi",
-				},
-			},
 			submitHandler: function (form) {
 				// your ajax would go here
 
@@ -1044,4 +1020,136 @@
 			}
 		});
 	}
+
+	// -- medrec/mr-return
+	$(".tb-row").click(function() {
+		$(this).addClass('active').siblings().removeClass("active");
+
+		var trans_pinjam_mr = $(this).attr("trans_id");
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/getPinjamMR",
+			data: {
+				trans_pinjam_mr: trans_pinjam_mr,
+			},
+			success: function (data) {
+				// alert(JSON.stringify(data));
+				$("#inputDataMr").val(data.mr);
+				$("#inputDataPatient").val(data.pasien);
+				$("#inputDataBirthPlace").val(data.tempat_lahir);
+				$("#inputDataBirthDate").val(data.tgl_lahir);
+				$("#inputDataAddress").val(data.alamat);
+				$("#inputDataTelp").val(data.no_hp);
+				$("#inputDataBorrower").val(data.peminjam);
+				$("#inputDataLender").val(data.pemberi_pinjam);
+				$("#inputDataNecst").val(data.keperluan);
+				$("#inputDataRtrnDate").val(data.tgl_janji_kembali);
+				pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				pageInit();
+			},
+		});
+	});
+
+	$("#pinjamMrReturn .btn.edit").click(function() {
+		var trans_pinjam = $(this).parent().parent().attr("trans_id");
+		$(this).parent().parent().parent().find(".btn").attr("disabled", true)
+		$(this).parent().find(".cancel").attr("disabled", false)
+		$(this).parent().find(".cancel").removeClass("d-none");
+		$(this).addClass("d-none");
+		// alert(trans_pinjam);
+		$("#divReturnBy").find(".save").attr("trans_id",trans_pinjam);
+		$("#divReturnBy").toggleClass("d-none");
+	});
+
+	$("#pinjamMrReturn .btn.cancel").click(function() {
+		var trans_pinjam = $(this).parent().parent().attr("trans_id");
+		$(this).parent().parent().parent().find(".btn").attr("disabled", false)
+		$(this).parent().find(".edit").removeClass("d-none");
+		$(this).addClass("d-none");
+		// alert(trans_pinjam);
+		$("#divReturnBy").toggleClass("d-none");
+	});
+
+	$("#formReturnBy").validate({
+		focusInvalid: false,
+			rules: {
+				returnBy: "required",
+			},
+			messages: {
+				returnBy: {
+					required: "Nama pengembali harus di isi",
+				},
+			},
+			submitHandler: function (form) {
+				// your ajax would go here
+
+				// var mr = $("#mr").val();
+				// $.ajax({
+				// 	type: "POST",
+				// 	dataType: "json",
+				// 	url: base_url + "functions/Medrec_func/getDataMR",
+				// 	data: {
+				// 		mr: mr,
+				// 	},
+				// 	success: function (data) {
+				// 		//alert(JSON.stringify(data));
+
+				// 		$("#inputName").val(data.NAMA);
+				// 		$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+				// 		$("#inputReturnDate").val(data.TGL_LAHIR);
+				// 		$("#textAddress").val(data.ALAMAT);
+				// 		$("#formBrwMr .next").prop("disabled", false);
+
+				// 		$("#returnDate_picker").datetimepicker({
+				// 			date: today,
+				// 			format: "DD.MM.yyyy",
+				// 		});
+
+				// 		pageInit();
+				// 	},
+				// 	error: function (data) {
+				// 		//alert(JSON.stringify(data));
+				// 		alert("Data tidak ditemukan");
+				// 		pageInit();
+				// 	},
+				// });
+					var trans_pinjam = $(this).attr("trans_id");
+					var nokar = $("#inputReturnBy").attr("nokar");
+					alert(trans_pinjam);
+				return false; // blocks regular submit since you have ajax
+			},
+	});
+
+	// $("#divReturnBy .save").click(function() {
+	// 	var trans_pinjam = $(this).attr("trans_id");
+	// 	var nokar = $("#inputReturnBy").attr("nokar");
+	// 	// alert(trans_pinjam);
+	// });
+
+	$("#inputReturnBy").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: base_url + "functions/Medrec_func/getDataEmployee",
+				type: "post",
+				dataType: "json",
+				data: {
+					search: request.term,
+				},
+				success: function (data) {
+					response(data);
+					//alert(JSON.stringify(data));
+				},
+			});
+		},
+		select: function (event, ui) {
+			// Set selection
+			$("#inputReturnBy").val(ui.item.label); // display the selected text
+			$("#inputReturnBy").attr("nokar", ui.item.nokar);
+			return false;
+		},
+	});
 })(jQuery); // End of use strict

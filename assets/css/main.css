@@ -547,6 +547,15 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	font-weight: 500;
 }
 
+.tb-row.enabled:hover{
+	background-color: #e2f6ff;
+	cursor: pointer;
+}
+
+.tb-row.active .tb-cell{
+	background-color: #e2f6ff;
+}
+
 .bg-cool {
 	background-color: #17a2b8;
 }
@@ -587,6 +596,11 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 .tb-body [class*="col"] {
 	padding: 0.75rem;
 }
+
+.p-rem-50 {
+	padding: 0.5rem !important;
+}
+
 .odd {
 	background-color: #f8f9fa;
 }
@@ -652,14 +666,35 @@ div.dataTables_paginate ul.pagination {
 
 button.excel:before {
 	content: "\f1c3";
-	margin-right: 0.5rem;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 }
 
 button.pdf:before {
 	content: "\f1c1";
-	margin-right: 0.5rem;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
+button.delete:before{
+	content: "\f2ed";
+	font-family: "Font Awesome 5 Free";
+}
+
+button.edit:before{
+	content: "\f304";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 700;
+}
+
+button.save:before{
+	content: "\f0c7";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 700;
+}
+
+button.cancel:before{
+	content: "\f05e";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 }

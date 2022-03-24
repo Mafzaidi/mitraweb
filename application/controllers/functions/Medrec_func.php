@@ -32,7 +32,7 @@ class Medrec_func extends CI_Controller
         $records = $this->mr->getEmployee($search);
 
         foreach($records as $row ){
-            $response[] = array("id"=>'PLAY_' . $row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
+            $response[] = array("id"=>'PLAY_' . $row->NO_KAR, "nokar"=>$row->NO_KAR, "dept"=>$row->BAGIAN, "label"=>$row->NAMA_KAR);
         }
         $data = $response;
         echo json_encode($data);
@@ -86,6 +86,35 @@ class Medrec_func extends CI_Controller
             echo json_encode($data);
         }else{
             redirect(base_url('auth'));
+        }
+    }
+
+    function getPinjamMR()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $trans_pinjam_mr = $this->input->post('trans_pinjam_mr');
+
+            $get = $this->mr->getDataPinjamMR($trans_pinjam_mr);
+
+            $result = array(
+                'mr' => $get->MR,
+                'medrec' => $get->MEDREC,
+                'pasien' => $get->PASIEN,
+                'tempat_lahir' => $get->TEMPAT_LAHIR,
+                'tgl_lahir' => $get->TGL_LAHIR,
+                'no_hp' => $get->NO_HP,
+                'alamat' => $get->ALAMAT,
+                'peminjam' => $get->PEMINJAM,
+                'pemberi_pinjam' => $get->DISERAHKAN_OLEH,
+                'keperluan' => $get->KEPERLUAN,
+                'tgl_janji_kembali' => $get->TGL_JANJI_KEMBALI
+
+            );
+
+        $data = $result;
+        echo json_encode($data);
         }
     }
 

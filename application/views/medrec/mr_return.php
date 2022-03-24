@@ -2,51 +2,7 @@
 <div class="container-fluid table_wrapper py-3" id="polimon_wrapper">
     <div class="card">
         <div class="d-flex card-header border-bottom-0 bg-white justify-content-between pb-0">
-            <h5 class="card-title mb-0">DATA PEMINJAMAN</h5>                  
-            <div class="dropdown">
-                <button class="btn btn-sm ml-auto dropdown-toggle" type="button" id="dropdownFilterPolimon" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-filter"></i>
-                </button>
-                <ul class="dropdown-menu form-check form-check-inline" aria-labelledby="dropdownFilterPolimon">
-                    <li class="dropdown-item">
-                        <input class="form-check-input" type="checkbox" value="" id="allCheck" name="checkfilter">
-                        <label class="form-check-label" for="allCheck">
-                            Select all
-                        </label>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="" id="counterCheck" name="checkfilter">
-                        <label class="form-check-label" for="counterCheck">
-                            Daftar Counter
-                        </label>
-                    </li>
-                    <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="" id="consultCheck" name="checkfilter">
-                        <label class="form-check-label" for="consultCheck">
-                            Dokter Selesai
-                        </label>
-                    </li>
-                    <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="" id="finishCheck" name="checkfilter">
-                        <label class="form-check-label" for="finishCheck">
-                            Counter Selesai
-                        </label>
-                    </li>
-                    <li class="dropdown-item form-check form-check-inline">
-                        <input class="form-check-input input-check" type="checkbox" value="" id="cancelCheck" name="checkfilter">
-                        <label class="form-check-label" for="cancelCheck">
-                            Batal
-                        </label>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <div class="row px-3">
-                        <div class="col">
-                            <button type="submit" id="submitFilterPolimon" class="btn btn-sm btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </ul>
-            </div>
+            <h5 class="card-title mb-0">DATA PEMINJAMAN</h5>     
         </div>
         <div class="card-body">
             <div class="row">
@@ -64,14 +20,6 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6">
-                    <div id="dataTable_filter" class="dataTables_filter">
-                        <label>
-                            Search:
-                            <input type="search" class="form-control form-control-sm text-uppercase" id="inputSearchPolimon" placeholder="" aria-controls="dataTable">
-                        </label>
-                    </div>
-                </div>
             </div>
             <!-- <div class="row">
                 <div class="col-md-8">
@@ -82,22 +30,84 @@
                 </div>
             </div> -->
             <div class="row">  
-                <div class="col-sm-12" id="">   
-                    <div class="tb" id="">
+                <div class="col-sm-6" id="">   
+                    <div class="tb" id="pinjamMrReturn">
 
                         <div class="tb-header bg-cool text-light row">
-                            <div class="col-md-1 tb-label sort-col">NO.<span class="sort-filter desc"></span></div>
-                            <div class="col-md-1 tb-label sort-col">MEDREC<span class="sort-filter desc"></span></div>
-                            <div class="col-md-2 tb-label sort-col">PASIEN<span class="sort-filter desc"></span></div>
-                            <div class="col-md-3 tb-label sort-col">DOKTER<span class="sort-filter desc"></span></div>
-                            <div class="col-md-1 tb-label sort-col">URUT<span class="sort-filter desc"></span></div>
-                            <div class="col-md-2 tb-label sort-col">STRUK<span class="sort-filter desc"></span></div>
-                            <div class="col-md-2 tb-label sort-col">JAM<span class="sort-filter desc"></span></div>
+                            <div class="col-md-1 tb-label p-rem-50">NO</div>
+                            <div class="col-md-2 tb-label p-rem-50">MEDREC</div>
+                            <div class="col-md-3 tb-label p-rem-50">PEMINJAM</div>
+                            <div class="col-md-2 tb-label p-rem-50">TGL KEMBALI</div>
+                            <div class="col-md-4 tb-label p-rem-50 text-center">PILIH</div>
                         </div>
 
                         <div class="tb-body">  
-                            <!-- <?= $polimon; ?> -->
+                            <?= $datarow; ?>
                         </div>        
+                    </div>
+                </div>
+                <div class="col-sm-6" id="">      
+                    <div class="formData-wrapper p-3">
+                        <div class="form-row">
+                            <div class="form-group col-md-4 mb-2">
+                                <label for="inputDataMr" class="col-form-label-sm mb-1">Medrec</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataMr" readonly>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <label for="inputDataPatient" class="col-form-label-sm mb-1">Nama</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataPatient" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 mb-2">
+                                <label for="inputDataBirthPlace" class="col-form-label-sm mb-1">Tempat Lahir</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataBirthPlace" readonly>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputDataBirthDate" class="col-form-label-sm mb-1">Tanggal Lahir</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataBirthDate" readonly>
+                            </div>
+                            
+                            <div class="form-group col-md-4">
+                                <label for="inputDataTelp" class="col-form-label-sm mb-1">No. Telp/HP</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataTelp" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="inputDataAddress" class="col-form-label-sm mb-1">Alamat</label>
+                            <input type="text" class="form-control form-control-sm" id="inputDataAddress" readonly>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 mb-2">
+                                <label for="inputDataBorrower" class="col-form-label-sm mb-1">Peminjam</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataBorrower" readonly>
+                            </div>
+                            <div class="form-group col-md-6 mb-2">
+                                <label for="inputDataLender" class="col-form-label-sm mb-1">Pemberi Pinjam</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataLender" readonly>
+                            </div>
+                        </div>                       
+                        <div class="form-row">
+                            <div class="form-group col-md-8">
+                                <label for="inputDataNecst" class="col-form-label-sm mb-1">Keperluan</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataNecst" readonly>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputDataRtrnDate" class="col-form-label-sm mb-1">Tanggal Janji Kembali</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataRtrnDate" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row d-none" id="divReturnBy">
+                            <form id = "formReturnBy" action="#">
+                                <div class="col-auto">
+                                    <label class="sr-only" for="mr">Medical Record Number</label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2" id="inputReturnBy" placeholder="dikembalikan oleh" name="returnBy">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="" class="btn btn-primary mb-2 save" trans_pinjam="">&nbsp;&nbsp;Save</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>                

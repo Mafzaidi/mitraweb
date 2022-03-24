@@ -41,15 +41,15 @@ class Counter extends CI_Controller
             include (APPPATH.'controllers/modal_control.php');
             include (APPPATH.'controllers/menu_control.php');
             
-            $page = str_replace('-', '_', $param); 
-
             if($this->uri->segment(3) <> ''){  
                 if ($param == str_replace('-', '_',$this->uri->segment(3))) {
-                    if ($param == "mr_return") {
+                    if ($param == "poli_monitor") {
                         require_once(APPPATH."controllers/counter/page.".$param.".php");
                     }
                 }
-            }          
+            }    
+
+            $page = str_replace('-', '_', $param);       
 
             $data['user'] = $this->mu->getUserInfo($sess_id);
             $data['tittle'] = "Home";
