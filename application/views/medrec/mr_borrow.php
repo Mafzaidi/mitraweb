@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="txt3">Klik&nbsp;</span><a href="#" id="backBrwBtn">disini</a><span class="txt3">&nbsp;untuk kembali dan input lainnya.</span>
+                        <span class="txt3">Klik&nbsp;</span><a href="#" id="backBrwBtn">disini</a><span class="txt3">&nbsp;untuk kembali dan input lainnya!</span>
                     </fieldset>
                 </form>
             </div>
