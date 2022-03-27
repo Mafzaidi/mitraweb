@@ -57,7 +57,7 @@ class Auth extends CI_Controller
                                 // password verify
                                     include (APPPATH.'controllers/functions/Ora_auth.php');
                                     $login = $this->mu->loginUser($username);
-                                    $dataOra = $this->mu->getDataUser($username);
+                                    $loginOra = $this->mu->getDataUser($username);
                                     $localcode = $this->mglobal->getLocalCode();
                                     // $currSession = $this->mglobal->getCurrentSess();
                                     if (!$connect) {
@@ -67,10 +67,10 @@ class Auth extends CI_Controller
                                         redirect('auth');
                                     } else {
                                         $data_session = array(
-                                            'user_id' => $login->user_id,
+                                            'user_id' => $loginOra->USERNAME,
                                             'role_id' => $login->role_id,
                                             'dept_id' => $login->dept_id,
-                                            'kd_bagian' => $dataOra->KD_BAGIAN,
+                                            'kd_bagian' => $loginOra->KD_BAGIAN,
                                             'lokasi_id' => $localcode->LOKASI_ID,
                                             // 'ora_session' => $currSession->SESS_ID,
                                             'status' => 'login'

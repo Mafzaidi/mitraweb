@@ -23,7 +23,7 @@
         $tb.= '<div class="col-md-3 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
         $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_JANJI_KEMBALI . '</div>';
         $tb.= '<div class="col-md-4 tb-cell p-rem-50 text-center">
-                <button class="btn bg-success btn-sm edit" ></button>
+                <button class="btn bg-primary btn-sm edit" ></button>
                 <button class="btn btn-danger btn-sm cancel d-none" ></button>
                 <button class="btn btn-danger btn-sm delete"></button>
                 </div>';

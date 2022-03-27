@@ -58,8 +58,7 @@ class Medrec_func extends CI_Controller
             $result = array(
                 'TRANSID' => 'TR' . $get->NOMOR
             );
-            // $trans_pinjam = $result['TRANSID'];
-            $trans_pinjam = '';
+            $trans_pinjam = $result['TRANSID'];
             $data[] = array(
                 "medrec"=>$medrec,
                 "nokar_peminjam"=>$nokar_peminjam,
@@ -72,17 +71,17 @@ class Medrec_func extends CI_Controller
                 "trans_pinjam"=>$trans_pinjam
             );
 
-            // $insert = $this->mr->savePinjamMR( 
-            //                                     $medrec,
-            //                                     $nokar_peminjam,
-            //                                     $keperluan,
-            //                                     $dept_peminjam,
-            //                                     $created_by,
-            //                                     $diserahkan_oleh,
-            //                                     $tgl_janji_kembali,
-            //                                     $catatan,
-            //                                     $trans_pinjam
-            //                                 );
+            $insert = $this->mr->savePinjamMR( 
+                                                $medrec,
+                                                $nokar_peminjam,
+                                                $keperluan,
+                                                $dept_peminjam,
+                                                $created_by,
+                                                $diserahkan_oleh,
+                                                $tgl_janji_kembali,
+                                                $catatan,
+                                                $trans_pinjam
+                                            );
             echo json_encode($data);
         }else{
             redirect(base_url('auth'));
@@ -115,6 +114,32 @@ class Medrec_func extends CI_Controller
 
         $data = $result;
         echo json_encode($data);
+        }
+    }
+
+    function updateReturnMR()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {        
+            $trans_pinjam = $this->input->post('trans_pinjam');
+            $returnBy = 'PLAY_' . $this->input->post('returnBy');
+            $receiveBy = $this->session->userdata('user_id');
+
+            $update = $this->mr->updatePinjamMR( 
+                $trans_pinjam,
+                $returnBy,
+                $receiveBy
+            );
+
+            $data[] = array(
+                "trans_pinjam"=>$trans_pinjam,
+                "returnBy"=>$returnBy,
+                "receiveBy"=>$receiveBy
+            );
+            echo json_encode($data);
+        }else{
+            redirect(base_url('auth'));
         }
     }
 

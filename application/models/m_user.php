@@ -53,6 +53,7 @@ class M_user extends CI_Model
     function getDataUser($username)
     {
         $sql = "SELECT
+                    'PLAY_' || A.NO_KAR AS USERNAME,
                     A.NO_KAR, 
                     A.NAMA_KAR,
                     A.BAGIAN, 

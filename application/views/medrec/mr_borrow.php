@@ -143,7 +143,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="back btn btn-primary" id="backBrwBtn">Kembali untuk input >></button>
+                        <span class="txt3">Klik&nbsp;</span><a href="#" id="backBrwBtn">disini</a><span class="txt3">&nbsp;untuk kembali dan input lainnya.</span>
                     </fieldset>
                 </form>
             </div>

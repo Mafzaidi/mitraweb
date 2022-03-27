@@ -105,6 +105,25 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
+    function updatePinjamMR(
+        $trans_pinjam,
+        $returnBy,
+        $receiveBy
+    )
+    {
+        $sql = "UPDATE 
+                    EDP_MANAGER.PINJAM_MR A
+                SET
+                    A.TGL_AKHIR_KEMBALI = SYSDATE,
+                    A.DIKEMBALIKAN_OLEH = '" . $returnBy . "',
+                    A.PETUGAS_PENERIMA = '" . $receiveBy . "'
+                WHERE
+                    A.TRANS_PINJAM_MR = '" . $trans_pinjam . "'
+                    AND A.TGL_AKHIR_KEMBALI IS NULL
+                ";
+        $query = $this->oracle_db->query($sql);
+    }
+
     function getRowPinjamMR() {
         $sql = "SELECT
                     ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,

@@ -224,6 +224,7 @@
 			var diserahkan_oleh = $("#inputLender").val();
 			var tgl_janji_kembali = $("#inputReturnDate").val();
 			var catatan = $("#inputDescBrw").val();
+			
 			$.ajax({
 				type: "POST",
 				dataType: "json",
@@ -267,7 +268,8 @@
 			});
 		});
 
-		$("#backBrwBtn").on("click", function () {
+		$("#backBrwBtn").on("click", function (e) {
+			e.preventDefault();
 			location.reload();
 		});
 
@@ -1023,7 +1025,7 @@
 
 	// -- medrec/mr-return
 	$(".tb-row").click(function() {
-		$(this).addClass('active').siblings().removeClass("active");
+		$(this).addClass('selected').siblings().removeClass("selected");
 
 		var trans_pinjam_mr = $(this).attr("trans_id");
 		$.ajax({
@@ -1056,13 +1058,18 @@
 
 	$("#pinjamMrReturn .btn.edit").click(function() {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
-		$(this).parent().parent().parent().find(".btn").attr("disabled", true)
-		$(this).parent().find(".cancel").attr("disabled", false)
-		$(this).parent().find(".cancel").removeClass("d-none");
-		$(this).addClass("d-none");
+		$("#myDynamicModal .modal-body").html("");
+		$("#myDynamicModal .modal-title").html("Pengembalian Medrec");
+		// $("#myDynamicModal .modal-body").append(data["html"]);
+		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
+		$("#myDynamicModal").modal("show");
+		// $(this).parent().parent().parent().find(".btn").attr("disabled", true)
+		// $(this).parent().find(".cancel").attr("disabled", false)
+		// $(this).parent().find(".cancel").removeClass("d-none");
+		// $(this).addClass("d-none");
 		// alert(trans_pinjam);
-		$("#divReturnBy").find(".save").attr("trans_id",trans_pinjam);
-		$("#divReturnBy").toggleClass("d-none");
+		// $("#divReturnBy").find(".save").attr("trans_id",trans_pinjam);
+		// $("#divReturnBy").toggleClass("d-none");
 	});
 
 	$("#pinjamMrReturn .btn.cancel").click(function() {
@@ -1072,6 +1079,7 @@
 		$(this).addClass("d-none");
 		// alert(trans_pinjam);
 		$("#divReturnBy").toggleClass("d-none");
+		$("#inputReturnBy").val("");
 	});
 
 	$("#formReturnBy").validate({
@@ -1085,50 +1093,34 @@
 				},
 			},
 			submitHandler: function (form) {
-				// your ajax would go here
-
-				// var mr = $("#mr").val();
-				// $.ajax({
-				// 	type: "POST",
-				// 	dataType: "json",
-				// 	url: base_url + "functions/Medrec_func/getDataMR",
-				// 	data: {
-				// 		mr: mr,
-				// 	},
-				// 	success: function (data) {
-				// 		//alert(JSON.stringify(data));
-
-				// 		$("#inputName").val(data.NAMA);
-				// 		$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
-				// 		$("#inputReturnDate").val(data.TGL_LAHIR);
-				// 		$("#textAddress").val(data.ALAMAT);
-				// 		$("#formBrwMr .next").prop("disabled", false);
-
-				// 		$("#returnDate_picker").datetimepicker({
-				// 			date: today,
-				// 			format: "DD.MM.yyyy",
-				// 		});
-
-				// 		pageInit();
-				// 	},
-				// 	error: function (data) {
-				// 		//alert(JSON.stringify(data));
-				// 		alert("Data tidak ditemukan");
-				// 		pageInit();
-				// 	},
-				// });
-					var trans_pinjam = $(this).attr("trans_id");
-					var nokar = $("#inputReturnBy").attr("nokar");
-					alert(trans_pinjam);
-				return false; // blocks regular submit since you have ajax
+				$("#myDynamicModal").modal("show");
 			},
 	});
 
-	// $("#divReturnBy .save").click(function() {
-	// 	var trans_pinjam = $(this).attr("trans_id");
-	// 	var nokar = $("#inputReturnBy").attr("nokar");
-	// 	// alert(trans_pinjam);
-	// });
+	$("#saveMr_return").click(function() {
+		var trans_pinjam = $("#divReturnBy .save").attr("trans_id");
+		var returnBy = $("#inputReturnBy").attr("returnBy");	
+
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/updateReturnMR",
+			data: {
+				trans_pinjam: trans_pinjam,
+				returnBy: returnBy,
+			},
+			success: function (data) {
+				// alert(JSON.stringify(data));
+				$("#formReturnBy").find(".btn").attr("disabled", true);
+				pageInit();
+			},
+			error: function (data) {
+				// alert(JSON.stringify(data));
+				pageInit();
+			},
+		});
+
+	});
 
 	$("#inputReturnBy").autocomplete({
 		source: function (request, response) {
@@ -1148,7 +1140,7 @@
 		select: function (event, ui) {
 			// Set selection
 			$("#inputReturnBy").val(ui.item.label); // display the selected text
-			$("#inputReturnBy").attr("nokar", ui.item.nokar);
+			$("#inputReturnBy").attr("returnBy", ui.item.nokar);
 			return false;
 		},
 	});

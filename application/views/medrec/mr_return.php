@@ -47,58 +47,58 @@
                     </div>
                 </div>
                 <div class="col-sm-6" id="">      
-                    <div class="formData-wrapper p-3">
-                        <div class="form-row">
-                            <div class="form-group col-md-4 mb-2">
-                                <label for="inputDataMr" class="col-form-label-sm mb-1">Medrec</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataMr" readonly>
+                    <div class="formData-wrapper p-3">                       
+                        <form id="formReturnBy">
+                            <div class="form-row">
+                                <div class="form-group col-md-4 mb-2">
+                                    <label for="inputDataMr" class="col-form-label-sm mb-1">Medrec</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataMr" readonly>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="inputDataPatient" class="col-form-label-sm mb-1">Nama</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataPatient" readonly>
+                                </div>
                             </div>
-                            <div class="form-group col-md-8">
-                                <label for="inputDataPatient" class="col-form-label-sm mb-1">Nama</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataPatient" readonly>
+                            <div class="form-row">
+                                <div class="form-group col-md-4 mb-2">
+                                    <label for="inputDataBirthPlace" class="col-form-label-sm mb-1">Tempat Lahir</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataBirthPlace" readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputDataBirthDate" class="col-form-label-sm mb-1">Tanggal Lahir</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataBirthDate" readonly>
+                                </div>
+                                
+                                <div class="form-group col-md-4">
+                                    <label for="inputDataTelp" class="col-form-label-sm mb-1">No. Telp/HP</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataTelp" readonly>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4 mb-2">
-                                <label for="inputDataBirthPlace" class="col-form-label-sm mb-1">Tempat Lahir</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataBirthPlace" readonly>
+                            <div class="form-group mb-2">
+                                <label for="inputDataAddress" class="col-form-label-sm mb-1">Alamat</label>
+                                <input type="text" class="form-control form-control-sm" id="inputDataAddress" readonly>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputDataBirthDate" class="col-form-label-sm mb-1">Tanggal Lahir</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataBirthDate" readonly>
+                            <div class="form-row">
+                                <div class="form-group col-md-6 mb-2">
+                                    <label for="inputDataBorrower" class="col-form-label-sm mb-1">Peminjam</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataBorrower" readonly>
+                                </div>
+                                <div class="form-group col-md-6 mb-2">
+                                    <label for="inputDataLender" class="col-form-label-sm mb-1">Pemberi Pinjam</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataLender" readonly>
+                                </div>
+                            </div>                       
+                            <div class="form-row">
+                                <div class="form-group col-md-8">
+                                    <label for="inputDataNecst" class="col-form-label-sm mb-1">Keperluan</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataNecst" readonly>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputDataRtrnDate" class="col-form-label-sm mb-1">Tanggal Janji Kembali</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataRtrnDate" readonly>
+                                </div>
                             </div>
-                            
-                            <div class="form-group col-md-4">
-                                <label for="inputDataTelp" class="col-form-label-sm mb-1">No. Telp/HP</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataTelp" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="inputDataAddress" class="col-form-label-sm mb-1">Alamat</label>
-                            <input type="text" class="form-control form-control-sm" id="inputDataAddress" readonly>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 mb-2">
-                                <label for="inputDataBorrower" class="col-form-label-sm mb-1">Peminjam</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataBorrower" readonly>
-                            </div>
-                            <div class="form-group col-md-6 mb-2">
-                                <label for="inputDataLender" class="col-form-label-sm mb-1">Pemberi Pinjam</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataLender" readonly>
-                            </div>
-                        </div>                       
-                        <div class="form-row">
-                            <div class="form-group col-md-8">
-                                <label for="inputDataNecst" class="col-form-label-sm mb-1">Keperluan</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataNecst" readonly>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="inputDataRtrnDate" class="col-form-label-sm mb-1">Tanggal Janji Kembali</label>
-                                <input type="text" class="form-control form-control-sm" id="inputDataRtrnDate" readonly>
-                            </div>
-                        </div>
-                        <div class="form-row d-none" id="divReturnBy">
-                            <form id = "formReturnBy" action="#">
+                            <div class="form-row d-none" id="divReturnBy">
                                 <div class="col-auto">
                                     <label class="sr-only" for="mr">Medical Record Number</label>
                                     <input type="text" class="form-control mb-2 mr-sm-2" id="inputReturnBy" placeholder="dikembalikan oleh" name="returnBy">
@@ -106,8 +106,8 @@
                                 <div class="col-auto">
                                     <button type="" class="btn btn-primary mb-2 save" trans_pinjam="">&nbsp;&nbsp;Save</button>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>                
