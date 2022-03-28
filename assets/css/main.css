@@ -698,3 +698,7 @@ button.cancel:before{
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 }
+
+.ui-front{
+	z-index: 1051 !important;
+}

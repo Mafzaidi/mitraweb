@@ -1058,11 +1058,27 @@
 
 	$("#pinjamMrReturn .btn.edit").click(function() {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
-		$("#myDynamicModal .modal-body").html("");
-		$("#myDynamicModal .modal-title").html("Pengembalian Medrec");
-		// $("#myDynamicModal .modal-body").append(data["html"]);
+		var title = "Pengembalian Medrec";
+		var body = "<div class='form-group row mb-2' id='divReturnBy'>" +
+						"<label class='col-sm-4 col-form-label-sm pr-0 mb-2' for='returnBy'>Nama Pengembali :</label>" +
+						"<div class='col-sm-8 pl-0'>" +
+							"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnBy' placeholder='dikembalikan oleh' name='returnBy'>" +
+						"</div>"; +
+					"</div>";
+		var btn = "<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
+					"<button id='saveMr_return' class='btn btn-primary' type='button'>Simpan</button>";
+		// $('#myDynamicModal').modal({
+		// 	backdrop: false
+		// })
+		$("#myDynamicModal .modal-title").html(title);
+		$("#myDynamicModal .modal-body").html(body);
+		$("#myDynamicModal .modal-footer").html(btn);
+
+		$("#myDynamicModal").find("#saveMr_return").attr("trans_id",trans_pinjam);
 		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
 		$("#myDynamicModal").modal("show");
+		autoCompleteReturnMR();
+
 		// $(this).parent().parent().parent().find(".btn").attr("disabled", true)
 		// $(this).parent().find(".cancel").attr("disabled", false)
 		// $(this).parent().find(".cancel").removeClass("d-none");
@@ -1097,51 +1113,73 @@
 			},
 	});
 
-	$("#saveMr_return").click(function() {
-		var trans_pinjam = $("#divReturnBy .save").attr("trans_id");
-		var returnBy = $("#inputReturnBy").attr("returnBy");	
+	function autoCompleteReturnMR () {
+		$("#myDynamicModal").on("shown.bs.modal", function (event) {	
 
-		$.ajax({
-			type: "POST",
-			dataType: "json",
-			url: base_url + "functions/Medrec_func/updateReturnMR",
-			data: {
-				trans_pinjam: trans_pinjam,
-				returnBy: returnBy,
-			},
-			success: function (data) {
-				// alert(JSON.stringify(data));
-				$("#formReturnBy").find(".btn").attr("disabled", true);
-				pageInit();
-			},
-			error: function (data) {
-				// alert(JSON.stringify(data));
-				pageInit();
-			},
-		});
-
-	});
-
-	$("#inputReturnBy").autocomplete({
-		source: function (request, response) {
-			$.ajax({
-				url: base_url + "functions/Medrec_func/getDataEmployee",
-				type: "post",
-				dataType: "json",
-				data: {
-					search: request.term,
+			$("#inputReturnBy").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: base_url + "functions/Medrec_func/getDataEmployee",
+						type: "post",
+						dataType: "json",
+						data: {
+							search: request.term,
+						},
+						success: function (data) {
+							response(data);
+							//alert(JSON.stringify(data));
+						},
+					});
 				},
-				success: function (data) {
-					response(data);
-					//alert(JSON.stringify(data));
+				select: function (event, ui) {
+					// Set selection
+					$("#inputReturnBy").val(ui.item.label); // display the selected text
+					$("#inputReturnBy").attr("returnBy", ui.item.nokar);
+					return false;
 				},
 			});
-		},
-		select: function (event, ui) {
-			// Set selection
-			$("#inputReturnBy").val(ui.item.label); // display the selected text
-			$("#inputReturnBy").attr("returnBy", ui.item.nokar);
-			return false;
-		},
-	});
+
+			$("#saveMr_return").click(function() {
+				var trans_pinjam = $(this).attr("trans_id");
+				var returnBy = $("#inputReturnBy").attr("returnBy");
+				var loading = "<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";	
+				var succeed = "<div class='success-checkmark'>" +
+									"<div class='check-icon'>" +
+										"<span class='icon-line line-tip'></span>" +
+										"<span class='icon-line line-long'></span>" +
+										"<div class='icon-circle'></div>" +
+										"<div class='icon-fix'></div>" +
+									"</div>" +
+								"</div>" +
+								"<div class='row justify-content-center'>" +
+									"<div class='col-7 text-center'>" +
+										"Data telah tersimpan" +
+									"</div>" +
+								"</div>";
+
+				$("#myDynamicModal .modal-body").html(loading);
+		
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: base_url + "functions/Medrec_func/updateReturnMR",
+					data: {
+						trans_pinjam: trans_pinjam,
+						returnBy: returnBy,
+					},
+					success: function (data) {
+						// alert(JSON.stringify(data));
+						$("#myDynamicModal .modal-body").html(succeed);
+						$("#formReturnBy").find(".btn").attr("disabled", true);
+						pageInit();
+					},
+					error: function (data) {
+						// alert(JSON.stringify(data));
+						pageInit();
+					},
+				});
+		
+			});
+		});
+	};
 })(jQuery); // End of use strict
