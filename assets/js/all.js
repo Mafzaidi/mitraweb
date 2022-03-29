@@ -1077,7 +1077,7 @@
 		$("#myDynamicModal").find("#saveMr_return").attr("trans_id",trans_pinjam);
 		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
 		$("#myDynamicModal").modal("show");
-		autoCompleteReturnMR();
+		saveReturnMR();
 
 		// $(this).parent().parent().parent().find(".btn").attr("disabled", true)
 		// $(this).parent().find(".cancel").attr("disabled", false)
@@ -1098,6 +1098,23 @@
 		$("#inputReturnBy").val("");
 	});
 
+	$("#pinjamMrReturn .btn.delete").click(function() {
+		var trans_pinjam = $(this).parent().parent().attr("trans_id");
+		var title = "Pengembalian Medrec";
+		var body = "Apakah anda yakin ingin menghapus data ini?";
+		var btn = "<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
+					"<button id='deleteMr_return' class='btn btn-danger' type='button'>Hapus</button>";
+
+		$("#myDynamicModal .modal-title").html(title);
+		$("#myDynamicModal .modal-body").html(body);
+		$("#myDynamicModal .modal-footer").html(btn);
+
+		$("#myDynamicModal").find("#deleteMr_return").attr("trans_id",trans_pinjam);
+		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
+		$("#myDynamicModal").modal("show");
+		deleteReturnMR ();
+	});
+
 	$("#formReturnBy").validate({
 		focusInvalid: false,
 			rules: {
@@ -1113,7 +1130,7 @@
 			},
 	});
 
-	function autoCompleteReturnMR () {
+	function saveReturnMR () {
 		$("#myDynamicModal").on("shown.bs.modal", function (event) {	
 
 			$("#inputReturnBy").autocomplete({
@@ -1156,6 +1173,7 @@
 										"Data telah tersimpan" +
 									"</div>" +
 								"</div>";
+				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button'>Hapus</button>";
 
 				$("#myDynamicModal .modal-body").html(loading);
 		
@@ -1170,6 +1188,52 @@
 					success: function (data) {
 						// alert(JSON.stringify(data));
 						$("#myDynamicModal .modal-body").html(succeed);
+						$("#formReturnBy").find(".btn").attr("disabled", true);
+						pageInit();
+					},
+					error: function (data) {
+						// alert(JSON.stringify(data));
+						pageInit();
+					},
+				});
+		
+			});
+		});
+	};
+
+	function deleteReturnMR () {
+		$("#myDynamicModal").on("shown.bs.modal", function (event) {	
+
+			$("#deleteMr_return").click(function() {
+				var trans_pinjam = $(this).attr("trans_id");
+
+				var loading = "<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";	
+				var deleted = "<div class='remove-checkmark'>" +
+									"<div class='check-icon'>" +
+										"<span class='icon-line line-tip'></span>" +
+										"<span class='icon-line line-long'></span>" +
+										"<div class='icon-circle'></div>" +
+										"<div class='icon-fix'></div>" +
+									"</div>" +
+								"</div>" +
+								"<div class='row justify-content-center'>" +
+									"<div class='col-7 text-center'>" +
+										"Data telah dihapus" +
+									"</div>" +
+								"</div>";
+
+				$("#myDynamicModal .modal-body").html(loading);
+		
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: base_url + "functions/Medrec_func/deleteReturnMR",
+					data: {
+						trans_pinjam: trans_pinjam
+					},
+					success: function (data) {
+						alert(JSON.stringify(data));
+						$("#myDynamicModal .modal-body").html(deleted);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
 						pageInit();
 					},

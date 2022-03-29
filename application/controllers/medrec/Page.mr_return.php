@@ -1,9 +1,9 @@
 <?php
-    $per_page = '';
+    $per_page = 10;
     $page_start = 1;
     
     $countrows =  $this->mmr->getRowCountPinjamMR();
-    $rows = $this->mmr->getRowPinjamMR();
+    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page);
     
     $i= 0;
     $tb = '';
@@ -31,11 +31,11 @@
         $i++;
     } 
 
-    $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
+    $config['base_url'] = base_url('medrec/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
     $config['total_rows'] = $countrows;
     $config['per_page'] = $per_page;
 
-    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="mrReturn-pagination">';
     $config['full_tag_close']   = '</ul></nav></div>';
     $config['first_link']       = 'First';
     $config['last_link']        = 'Last';

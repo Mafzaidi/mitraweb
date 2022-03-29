@@ -12,7 +12,7 @@
                             Show 
                             <select name="dataTable_length" id="select_pageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
                                 <option value="">ALL</option>
-                                <option value="10">10</option>
+                                <option value="10" selected>10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
@@ -43,8 +43,19 @@
 
                         <div class="tb-body">  
                             <?= $datarow; ?>
-                        </div>        
+                        </div>       
                     </div>
+                                                         
+                    <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
+                                Showing <?= $num1; ?> to <?= $num2; ?> of <?= $rows; ?> entries
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-7" id="pages_polimon">
+                            <?= $pagination; ?>
+                        </div>
+                    </div> 
                 </div>
                 <div class="col-sm-6" id="">      
                     <div class="formData-wrapper p-3">                       
@@ -109,16 +120,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>                
-            <div class="row">
-                <div class="col-sm-12 col-md-5">
-                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                        <!-- Showing <?= $num1; ?> to <?= $num2; ?> of <?= $rows; ?> entries -->
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-7" id="pages_polimon">
-                    <!-- <?= $pagination; ?> -->
                 </div>
             </div>
         </div>

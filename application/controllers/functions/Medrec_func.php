@@ -143,4 +143,27 @@ class Medrec_func extends CI_Controller
         }
     }
 
+    function deleteReturnMR()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {        
+            $trans_pinjam = $this->input->post('trans_pinjam');
+            $deleteBy = $this->session->userdata('user_id');
+
+            $delete = $this->mr->deletePinjamMR( 
+                $trans_pinjam,
+                $deleteBy
+            );
+
+            $data[] = array(
+                "trans_pinjam"=>$trans_pinjam,
+                "deleteBy"=>$deleteBy
+            );
+            echo json_encode($data);
+        }else{
+            redirect(base_url('auth'));
+        }
+    }
+
 }

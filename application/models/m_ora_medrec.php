@@ -124,33 +124,58 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
-    function getRowPinjamMR() {
-        $sql = "SELECT
-                    ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
-                    A.MR,
-                    SUBSTR(A.MR,4) AS MEDREC,
-                    B.NAMA AS PASIEN,
-                    A.NOKAR_PEMINJAM,
-                    C.NAMA_KAR AS PEMINJAM,
-                    A.DEPT_PEMINJAM,
-                    A.CREATED_DATE,
-                    A.CREATED_BY,
-                    A.DISERAHKAN_OLEH,
-                    A.TGL_JANJI_KEMBALI,
-                    A.PETUGAS_PENERIMA,
-                    A.TGL_AKHIR_KEMBALI,
-                    A.CATATAN,
-                    A.DIKEMBALIKAN_OLEH,
-                    A.TRANS_PINJAM_MR
-                FROM
-                    EDP_MANAGER.PINJAM_MR A,
-                    HIS_MANAGER.MS_MEDREC B,
-                    HIS_MANAGER.MS_KARYAWAN C
+    function deletePinjamMR(
+        $trans_pinjam,
+        $deleteBy
+    )
+    {
+        $sql = "UPDATE 
+                    EDP_MANAGER.PINJAM_MR A
+                SET
+                    A.LAST_UPDATED_DATE = SYSDATE,
+                    A.LAST_UPDATED_BY = '" . $deleteBy . "',
+                    A.SHOW_ITEM = 0
                 WHERE
-                    A.MR = B.MR
-                    AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
-                    AND A.SHOW_ITEM = '1'
-                    AND A.TGL_AKHIR_KEMBALI IS NULL";
+                    A.TRANS_PINJAM_MR = '" . $trans_pinjam . "'
+                    AND A.TGL_AKHIR_KEMBALI IS NULL
+                ";
+        $query = $this->oracle_db->query($sql);
+    }
+
+    function getRowPinjamMR($page_start, $per_page) {
+        $sql = "SELECT
+                    X.*
+                FROM 
+                (
+                    SELECT
+                        ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
+                        A.MR,
+                        SUBSTR(A.MR,4) AS MEDREC,
+                        B.NAMA AS PASIEN,
+                        A.NOKAR_PEMINJAM,
+                        C.NAMA_KAR AS PEMINJAM,
+                        A.DEPT_PEMINJAM,
+                        A.CREATED_DATE,
+                        A.CREATED_BY,
+                        A.DISERAHKAN_OLEH,
+                        A.TGL_JANJI_KEMBALI,
+                        A.PETUGAS_PENERIMA,
+                        A.TGL_AKHIR_KEMBALI,
+                        A.CATATAN,
+                        A.DIKEMBALIKAN_OLEH,
+                        A.TRANS_PINJAM_MR
+                    FROM
+                        EDP_MANAGER.PINJAM_MR A,
+                        HIS_MANAGER.MS_MEDREC B,
+                        HIS_MANAGER.MS_KARYAWAN C
+                    WHERE
+                        A.MR = B.MR
+                        AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
+                        AND A.SHOW_ITEM = '1'
+                        AND A.TGL_AKHIR_KEMBALI IS NULL
+                ) X
+                WHERE X.RNUM >= " . ($page_start) . "
+                    AND X.RNUM <= " . (($page_start-1) + $per_page) . "";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();

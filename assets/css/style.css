@@ -2,7 +2,8 @@
  * Extracted from: SweetAlert
  * Modified by: Istiak Tridip
  */
-.success-checkmark {
+.success-checkmark,
+.remove-checkmark {
 	width: 80px;
 	height: 115px;
 	margin: 0 auto;
@@ -15,7 +16,29 @@
 	box-sizing: content-box;
 	border: 4px solid #4caf50;
 }
+.remove-checkmark .check-icon {
+	width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+    box-sizing: content-box;
+    border: 4px solid #bd2130;
+}
 .success-checkmark .check-icon::before {
+	top: 3px;
+	left: -2px;
+	width: 30px;
+	transform-origin: 100% 50%;
+	border-radius: 100px 0 0 100px;
+}
+.success-checkmark .check-icon::before {
+	top: 3px;
+	left: -2px;
+	width: 30px;
+	transform-origin: 100% 50%;
+	border-radius: 100px 0 0 100px;
+}
+.remove-checkmark .check-icon::before {
 	top: 3px;
 	left: -2px;
 	width: 30px;
@@ -30,8 +53,18 @@
 	border-radius: 0 100px 100px 0;
 	animation: rotate-circle 4.25s ease-in;
 }
+.remove-checkmark .check-icon::after {
+	top: 0;
+	left: 30px;
+	width: 60px;
+	transform-origin: 0 50%;
+	border-radius: 0 100px 100px 0;
+	animation: rotate-circle 4.25s ease-in;
+}
 .success-checkmark .check-icon::before,
-.success-checkmark .check-icon::after {
+.success-checkmark .check-icon::after,
+.remove-checkmark .check-icon::before,
+.remove-checkmark .check-icon::after {
 	content: "";
 	height: 100px;
 	position: absolute;
@@ -46,6 +79,14 @@
 	position: absolute;
 	z-index: 10;
 }
+.remove-checkmark .check-icon .icon-line {
+	height: 5px;
+    background-color: #bd2130;
+    display: block;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+}
 .success-checkmark .check-icon .icon-line.line-tip {
 	top: 46px;
 	left: 14px;
@@ -53,12 +94,26 @@
 	transform: rotate(45deg);
 	animation: icon-line-tip 0.75s;
 }
+.remove-checkmark .check-icon .icon-line.line-tip {
+	top: 40px;
+    left: 16px;
+    width: 47px;
+    transform: rotate(45deg);
+    animation: icon-line-tip 0.75s;
+}
 .success-checkmark .check-icon .icon-line.line-long {
 	top: 38px;
 	right: 8px;
 	width: 47px;
 	transform: rotate(-45deg);
 	animation: icon-line-long 0.75s;
+}
+.remove-checkmark .check-icon .icon-line.line-long {
+	top: 40px;
+    right: 16px;
+    width: 47px;
+    transform: rotate(-45deg);
+    animation: icon-line-long 0.75s;
 }
 .success-checkmark .check-icon .icon-circle {
 	top: -4px;
@@ -71,6 +126,17 @@
 	box-sizing: content-box;
 	border: 4px solid rgba(76, 175, 80, 0.5);
 }
+.remove-checkmark .check-icon .icon-circle {
+	top: -4px;
+    left: -4px;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    box-sizing: content-box;
+    border: 4px solid #dc3545;
+}
 .success-checkmark .check-icon .icon-fix {
 	top: 8px;
 	width: 5px;
@@ -79,6 +145,16 @@
 	height: 85px;
 	position: absolute;
 	transform: rotate(-45deg);
+	background-color: #ffffff;
+}
+.remove-checkmark .check-icon .icon-fix {
+	top: -13px;
+    width: 5px;
+    left: 34px;
+    z-index: 1;
+    height: 105px;
+    position: absolute;
+    transform: rotate(-45deg);
 	background-color: #ffffff;
 }
 
