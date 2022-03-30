@@ -1024,7 +1024,7 @@
 	}
 
 	// -- medrec/mr-return
-	$(".tb-row").click(function() {
+	$("#pinjamMrReturn .tb-row").click(function() {
 		$(this).addClass('selected').siblings().removeClass("selected");
 
 		var trans_pinjam_mr = $(this).attr("trans_id");
@@ -1173,7 +1173,7 @@
 										"Data telah tersimpan" +
 									"</div>" +
 								"</div>";
-				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button'>Hapus</button>";
+				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 				$("#myDynamicModal .modal-body").html(loading);
 		
@@ -1187,8 +1187,10 @@
 					},
 					success: function (data) {
 						// alert(JSON.stringify(data));
+						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(succeed);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
+						loadPinjamMR();
 						pageInit();
 					},
 					error: function (data) {
@@ -1221,6 +1223,7 @@
 										"Data telah dihapus" +
 									"</div>" +
 								"</div>";
+				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 				$("#myDynamicModal .modal-body").html(loading);
 		
@@ -1232,9 +1235,11 @@
 						trans_pinjam: trans_pinjam
 					},
 					success: function (data) {
-						alert(JSON.stringify(data));
+						// alert(JSON.stringify(data));
+						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(deleted);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
+						loadPinjamMR();
 						pageInit();
 					},
 					error: function (data) {
@@ -1246,4 +1251,98 @@
 			});
 		});
 	};
+
+	function loadPinjamMR (page_start,per_page,) {
+		var tb = "";
+
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/loadPinjamMR",
+			data: {
+				page_start: page_start,
+				per_page: per_page,
+			},
+			success: function (data) {
+				//alert(JSON.stringify(data));
+				var rcount = data.response.length;
+
+				// tb += '<div class="tb-body">';
+				for (var i = 0; i < rcount; i++) {
+					var oddEven = "";
+					if (i % 2 == 0) {
+						oddEven = "even";
+					} else {
+						oddEven = "odd";
+					}
+					tb +=
+						'<div class="row tb-row border-bottom ' +
+						oddEven +
+						' enabled" trans_id="' + data.response[i].trans_pinjam + '">';
+					tb +=
+						'<div class="col-md-1 tb-cell p-rem-50">' + data.response[i].no + "</div>";
+					tb +=
+						'<div class="col-md-2 tb-cell p-rem-50">' +
+						data.response[i].medrec +
+						"</div>";
+					tb +=
+						'<div class="col-md-3 tb-cell p-rem-50">' +
+						data.response[i].pasien +
+						"</div>";
+					tb +=
+						'<div class="col-md-2 tb-cell p-rem-50">' +
+						data.response[i].tgl_janji_kembali +
+						"</div>";
+					tb +=
+						'<div class="col-md-4 tb-cell">' +
+						data.response[i].trans_pinjam +
+						"</div>";
+
+					tb += "</div>";
+				}
+
+				var num1 = page_start;
+				if (per_page !== "") {
+					if (per_page > data.count) {
+						var num2 = data.count;
+					} else {
+						var num2 = per_page;
+					}
+				} else {
+					var num2 = data.count;
+				}
+				var total = data.count;
+
+				$("#pinjamMrReturn .tb-body").html("");
+				$("#pinjamMrReturn .tb-body").html(tb);
+
+				$("#dataTable_info").html("");
+				$("#dataTable_info").html(
+					"Showing " + num1 + " " + "to" + " " + num2 + " " + "of" + " " + total
+				);
+
+				$("#pages_polimon").html("");
+				$("#pages_polimon").html(data.pagination);
+
+				pageInit();
+			},
+			error: function (data) {
+				// alert(JSON.stringify(data));
+				if (data.response === null || data.response === undefined) {
+					tb += '<div class="row">';
+					tb +=
+						'<div class="col-md-12 bg-danger-2 text-center">NO DATA FOUND</div>';
+					tb += "</div>";
+					tb += "</div>";
+
+					$("#pinjamMrReturn .tb-body").html("");
+					$("#pinjamMrReturn .tb-body").html(tb);
+
+					$("#dataTable_info").html("");
+					$("#dataTable_info").html("Showing 0 to 0 of 0");
+				}
+				pageInit();
+			},
+		});
+	}
 })(jQuery); // End of use strict

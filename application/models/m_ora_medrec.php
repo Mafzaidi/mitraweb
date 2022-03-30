@@ -142,7 +142,7 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
-    function getRowPinjamMR($page_start, $per_page) {
+    function getRowPinjamMR($page_start, $per_page, $showitem) {
         $sql = "SELECT
                     X.*
                 FROM 
@@ -171,7 +171,7 @@ class M_ora_medrec extends CI_Model
                     WHERE
                         A.MR = B.MR
                         AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
-                        AND A.SHOW_ITEM = '1'
+                        AND A.SHOW_ITEM = '" . $showitem . "'
                         AND A.TGL_AKHIR_KEMBALI IS NULL
                 ) X
                 WHERE X.RNUM >= " . ($page_start) . "
@@ -183,7 +183,7 @@ class M_ora_medrec extends CI_Model
 
     }
 
-    function getRowCountPinjamMR() {
+    function getRowCountPinjamMR($showitem) {
         $sql = "SELECT
                     ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
                     A.MR,
@@ -208,7 +208,7 @@ class M_ora_medrec extends CI_Model
                 WHERE
                     A.MR = B.MR
                     AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
-                    AND A.SHOW_ITEM = '1'
+                    AND A.SHOW_ITEM = '" . $showitem . "'
                     AND A.TGL_AKHIR_KEMBALI IS NULL";
 
         $query = $this->oracle_db->query($sql);

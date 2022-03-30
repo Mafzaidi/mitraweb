@@ -88,6 +88,67 @@ class Medrec_func extends CI_Controller
         }
     }
 
+    function loadPinjamMR($pageno = 0)
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $page_start = $this->input->post('page_start');
+            $per_page = $this->input->post('per_page');
+            if($pageno != 0) {
+                $pageno = ($pageno-1) * $per_page;
+            }
+
+            $countrecords =  $this->mmr->getRowCountPinjamMR();
+            $records = $this->mmr->getRowPinjamMR($page_start, $per_page);
+
+            
+            foreach($records as $row ){
+                $response[] = array(
+                                    "no"=>$row->RNUM, 
+                                    "medrec"=>$row->MEDREC, 
+                                    "pasien"=>$row->PASIEN,
+                                    "tgl_janji_kembali"=>$row->TGL_JANJI_KEMBALI,
+                                    "trans_pinjam"=>$row->TRANS_PINJAM_MR
+                                );
+            }
+
+            $config['base_url'] = base_url('functions/loadPinjamMR/' . $pageno);
+            $config['total_rows'] = $countrecords;
+            $config['use_page_numbers'] = TRUE;
+            $config['per_page'] = $per_page;
+            
+            $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
+            $config['full_tag_close']   = '</ul></nav></div>';
+            $config['first_link']       = 'First';
+            $config['last_link']        = 'Last';
+            $config['next_link']        = 'Next';
+            $config['prev_link']        = 'Prev';
+            $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+            $config['prev_tag_close']  = '</span></li></li>';
+            $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+            $config['num_tag_close']    = '</span></li>';
+            $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+            $config['cur_tag_close']    = '</span></li>';
+            $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+            $config['next_tag_close']  = '</span></li>';
+            $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+            $config['first_tag_close'] = '</span></li>';
+            $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+            $config['last_tag_close']  = '</span></li>';
+            
+            $this->pagination->initialize($config);
+            $num1 = $page_start;
+            if ($per_page != '') { 
+                $num2 = $page_start + $per_page;
+            } else {
+                $num2 = $countrecords;
+            }
+            
+            echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2));
+        }
+    }
+
     function getPinjamMR()
     {
         $sess_id = $this->session->userdata('user_id');
