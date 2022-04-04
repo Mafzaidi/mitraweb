@@ -142,7 +142,17 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
-    function getRowPinjamMR($page_start, $per_page, $showitem) {
+    function getRowPinjamMR($page_start, $per_page, $showitem, $status) {
+        
+        $return_condition ="";
+        if ($status=="all") {           
+            $return_condition ="";
+        } else if ($status=="return") {
+            $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NOT NULL";
+        } else if ($status=="not return") {
+            $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NULL";
+        }
+
         $sql = "SELECT
                     X.*
                 FROM 
@@ -171,11 +181,12 @@ class M_ora_medrec extends CI_Model
                     WHERE
                         A.MR = B.MR
                         AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
-                        AND A.SHOW_ITEM = '" . $showitem . "'
-                        AND A.TGL_AKHIR_KEMBALI IS NULL
+                        AND A.SHOW_ITEM LIKE '" . $showitem . "%'
+                        " . $return_condition . "
                 ) X
                 WHERE X.RNUM >= " . ($page_start) . "
-                    AND X.RNUM <= " . (($page_start-1) + $per_page) . "";
+                    AND X.RNUM <= " . (($page_start-1) + $per_page) . "
+                ORDER BY X.CREATED_DATE ASC";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();
@@ -183,7 +194,16 @@ class M_ora_medrec extends CI_Model
 
     }
 
-    function getRowCountPinjamMR($showitem) {
+    function getRowCountPinjamMR($showitem, $status) {
+        
+        $return_condition ="";
+        if ($status=="all") {           
+            $return_condition ="";
+        } else if ($status=="return") {
+            $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NOT NULL";
+        } else if ($status=="not return") {
+            $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NULL";
+        }
         $sql = "SELECT
                     ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
                     A.MR,
@@ -208,8 +228,8 @@ class M_ora_medrec extends CI_Model
                 WHERE
                     A.MR = B.MR
                     AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
-                    AND A.SHOW_ITEM = '" . $showitem . "'
-                    AND A.TGL_AKHIR_KEMBALI IS NULL";
+                    AND A.SHOW_ITEM LIKE '" . $showitem . "%'
+                    " . $return_condition;
 
         $query = $this->oracle_db->query($sql);
         $row_count = $query->num_rows();

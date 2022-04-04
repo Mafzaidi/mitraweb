@@ -7,6 +7,8 @@ class Medrec_func extends CI_Controller
     {
         parent::__construct();
         $this->load->model('m_ora_medrec', 'mr');
+        $this->load->library('modal_variables');
+        $this->load->library('pagination');
     }
 
     function getDataMR()
@@ -95,12 +97,13 @@ class Medrec_func extends CI_Controller
         {
             $page_start = $this->input->post('page_start');
             $per_page = $this->input->post('per_page');
+            $showitem = 1;
             if($pageno != 0) {
                 $pageno = ($pageno-1) * $per_page;
             }
 
-            $countrecords =  $this->mmr->getRowCountPinjamMR();
-            $records = $this->mmr->getRowPinjamMR($page_start, $per_page);
+            $countrecords =  $this->mr->getRowCountPinjamMR($showitem);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem);
 
             
             foreach($records as $row ){
@@ -120,10 +123,10 @@ class Medrec_func extends CI_Controller
             
             $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
             $config['full_tag_close']   = '</ul></nav></div>';
-            $config['first_link']       = 'First';
-            $config['last_link']        = 'Last';
-            $config['next_link']        = 'Next';
-            $config['prev_link']        = 'Prev';
+            $config['first_link']       = '<i class="fa-solid fa-angles-left"></i>';
+            $config['last_link']        = '<i class="fa-solid fa-angles-right"></i>';
+            $config['next_link']        = '<i class="fa-solid fa-angle-right"></i>';
+            $config['prev_link']        = '<i class="fa-solid fa-angle-left"></i>';
             $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
             $config['prev_tag_close']  = '</span></li></li>';
             $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
@@ -146,6 +149,7 @@ class Medrec_func extends CI_Controller
             }
             
             echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2));
+            // echo json_encode(array("response" => $response, "page_start" => $page_start, "per_page" => $per_page, "showitem" => $showitem, "countrecords" => $countrecords));
         }
     }
 

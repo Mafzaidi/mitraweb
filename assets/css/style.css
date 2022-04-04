@@ -2,6 +2,11 @@
  * Extracted from: SweetAlert
  * Modified by: Istiak Tridip
  */
+ .fa-solid {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 700;
+ }
+
 .success-checkmark,
 .remove-checkmark {
 	width: 80px;

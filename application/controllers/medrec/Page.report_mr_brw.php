@@ -1,8 +1,8 @@
 <?php
     $per_page = 10;
     $page_start = 1;
-    $showitem = 1;
-    $status = "not return";
+    $showitem = "";
+    $status = "all";
     
     $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status);
     $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status);
@@ -25,8 +25,6 @@
         $tb.= '<div class="col-md-4 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
         $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_JANJI_KEMBALI . '</div>';
         $tb.= '<div class="col-md-3 tb-cell p-rem-50 text-center">
-                    <button class="btn bg-primary btn-sm mx-1 text-white edit"></button>
-                    <button class="btn btn-danger btn-sm mx-1 text-white delete"></button>
                 </div>';
         $tb.= '</div>';
         $i++;

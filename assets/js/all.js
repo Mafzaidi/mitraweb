@@ -1024,7 +1024,7 @@
 	}
 
 	// -- medrec/mr-return
-	$("#pinjamMrReturn .tb-row").click(function() {
+	$("#pinjamMrReturn").on("click", ".tb-row", function() {
 		$(this).addClass('selected').siblings().removeClass("selected");
 
 		var trans_pinjam_mr = $(this).attr("trans_id");
@@ -1047,16 +1047,16 @@
 				$("#inputDataLender").val(data.pemberi_pinjam);
 				$("#inputDataNecst").val(data.keperluan);
 				$("#inputDataRtrnDate").val(data.tgl_janji_kembali);
-				pageInit();
+				// pageInit();
 			},
 			error: function (data) {
-				alert(JSON.stringify(data));
-				pageInit();
+				// alert(JSON.stringify(data));
+				// pageInit();
 			},
 		});
 	});
 
-	$("#pinjamMrReturn .btn.edit").click(function() {
+	$("#pinjamMrReturn").on("click", ".edit", function() {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
 		var title = "Pengembalian Medrec";
 		var body = "<div class='form-group row mb-2' id='divReturnBy'>" +
@@ -1088,7 +1088,7 @@
 		// $("#divReturnBy").toggleClass("d-none");
 	});
 
-	$("#pinjamMrReturn .btn.cancel").click(function() {
+	$("#pinjamMrReturn").on("click", ".cancel", function() {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
 		$(this).parent().parent().parent().find(".btn").attr("disabled", false)
 		$(this).parent().find(".edit").removeClass("d-none");
@@ -1098,7 +1098,7 @@
 		$("#inputReturnBy").val("");
 	});
 
-	$("#pinjamMrReturn .btn.delete").click(function() {
+	$("#pinjamMrReturn").on("click", ".delete", function() {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
 		var title = "Pengembalian Medrec";
 		var body = "Apakah anda yakin ingin menghapus data ini?";
@@ -1156,7 +1156,7 @@
 				},
 			});
 
-			$("#saveMr_return").click(function() {
+			$("#saveMr_return").on("click", function() {
 				var trans_pinjam = $(this).attr("trans_id");
 				var returnBy = $("#inputReturnBy").attr("returnBy");
 				var loading = "<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";	
@@ -1175,6 +1175,10 @@
 								"</div>";
 				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
+				var page_start = 1;
+				var per_page = $("#select_pageSize_mr_return option:selected").val();
+				var func_url = base_url + "functions/Medrec_func/loadPinjamMR"
+
 				$("#myDynamicModal .modal-body").html(loading);
 		
 				$.ajax({
@@ -1190,12 +1194,12 @@
 						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(succeed);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
-						loadPinjamMR();
-						pageInit();
+						loadPinjamMR(page_start, per_page, func_url);
+						// pageInit();
 					},
 					error: function (data) {
 						// alert(JSON.stringify(data));
-						pageInit();
+						// pageInit();
 					},
 				});
 		
@@ -1206,7 +1210,7 @@
 	function deleteReturnMR () {
 		$("#myDynamicModal").on("shown.bs.modal", function (event) {	
 
-			$("#deleteMr_return").click(function() {
+			$("#deleteMr_return").on("click", function() {
 				var trans_pinjam = $(this).attr("trans_id");
 
 				var loading = "<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";	
@@ -1225,6 +1229,10 @@
 								"</div>";
 				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
+				var page_start = 1;
+				var per_page = $("#select_pageSize_mr_return option:selected").val();
+				var func_url = base_url + "functions/Medrec_func/loadPinjamMR"
+
 				$("#myDynamicModal .modal-body").html(loading);
 		
 				$.ajax({
@@ -1239,12 +1247,12 @@
 						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(deleted);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
-						loadPinjamMR();
-						pageInit();
+						loadPinjamMR(page_start, per_page, func_url);
+						// pageInit();
 					},
 					error: function (data) {
 						// alert(JSON.stringify(data));
-						pageInit();
+						// pageInit();
 					},
 				});
 		
@@ -1252,22 +1260,22 @@
 		});
 	};
 
-	function loadPinjamMR (page_start,per_page,) {
+	function loadPinjamMR (page_start, per_page, func_url) {
 		var tb = "";
+		console.log(page_start, per_page, func_url);
 
 		$.ajax({
 			type: "POST",
 			dataType: "json",
-			url: base_url + "functions/Medrec_func/loadPinjamMR",
+			url: func_url,
 			data: {
 				page_start: page_start,
 				per_page: per_page,
 			},
 			success: function (data) {
-				//alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				var rcount = data.response.length;
 
-				// tb += '<div class="tb-body">';
 				for (var i = 0; i < rcount; i++) {
 					var oddEven = "";
 					if (i % 2 == 0) {
@@ -1286,7 +1294,7 @@
 						data.response[i].medrec +
 						"</div>";
 					tb +=
-						'<div class="col-md-3 tb-cell p-rem-50">' +
+						'<div class="col-md-4 tb-cell p-rem-50">' +
 						data.response[i].pasien +
 						"</div>";
 					tb +=
@@ -1294,8 +1302,9 @@
 						data.response[i].tgl_janji_kembali +
 						"</div>";
 					tb +=
-						'<div class="col-md-4 tb-cell">' +
-						data.response[i].trans_pinjam +
+						'<div class="col-md-3 tb-cell p-rem-50 text-center">' +
+							'<button class="btn bg-primary btn-sm mx-1 text-white edit"></button>' +
+							'<button class="btn btn-danger btn-sm mx-1 text-white delete"></button>' +
 						"</div>";
 
 					tb += "</div>";
@@ -1318,13 +1327,13 @@
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
-					"Showing " + num1 + " " + "to" + " " + num2 + " " + "of" + " " + total
+					"Tampilkan" + num1 + " " + "ke" + " " + num2 + " " + "dari" + " " + total + " baris"
 				);
 
 				$("#pages_polimon").html("");
 				$("#pages_polimon").html(data.pagination);
 
-				pageInit();
+				// pageInit();
 			},
 			error: function (data) {
 				// alert(JSON.stringify(data));
@@ -1341,7 +1350,7 @@
 					$("#dataTable_info").html("");
 					$("#dataTable_info").html("Showing 0 to 0 of 0");
 				}
-				pageInit();
+				// pageInit();
 			},
 		});
 	}

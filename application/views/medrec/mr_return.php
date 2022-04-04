@@ -9,14 +9,14 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="dataTables_length" id="">
                         <label>
-                            Show 
-                            <select name="dataTable_length" id="select_pageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
-                                <option value="">ALL</option>
+                            Tampilkan 
+                            <select name="dataTable_length" id="select_pageSize_mr_return" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                <option value="">Semua</option>
                                 <option value="10" selected>10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
-                            </select> entries
+                            </select> baris
                         </label>
                     </div>
                 </div>
@@ -36,9 +36,9 @@
                         <div class="tb-header bg-cool text-light row">
                             <div class="col-md-1 tb-label p-rem-50">NO</div>
                             <div class="col-md-2 tb-label p-rem-50">MEDREC</div>
-                            <div class="col-md-3 tb-label p-rem-50">PEMINJAM</div>
+                            <div class="col-md-4 tb-label p-rem-50">PEMINJAM</div>
                             <div class="col-md-2 tb-label p-rem-50">TGL KEMBALI</div>
-                            <div class="col-md-4 tb-label p-rem-50 text-center">PILIH</div>
+                            <div class="col-md-3 tb-label p-rem-50 text-center">PILIH</div>
                         </div>
 
                         <div class="tb-body">  
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
                             <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                Showing <?= $num1; ?> to <?= $num2; ?> of <?= $rows; ?> entries
+                                Tampilkan <?= $num1; ?> ke <?= $num2; ?> dari <?= $rows; ?> baris
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-7" id="pages_polimon">
