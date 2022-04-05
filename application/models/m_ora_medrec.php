@@ -142,7 +142,7 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
-    function getRowPinjamMR($page_start, $per_page, $showitem, $status) {
+    function getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date) {
         
         $return_condition ="";
         if ($status=="all") {           
@@ -153,6 +153,17 @@ class M_ora_medrec extends CI_Model
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NULL";
         }
 
+        $date_condition = "";
+        if(!empty($from_date) && !empty($to_date)) {
+            $date_condition = "AND TRUNC(A.CREATED_DATE) >= TO_DATE('" . $from_date . "','DD.MM.RRRR')
+                                AND TRUNC(A.CREATED_DATE) <= TO_DATE('" . $to_date . "','DD.MM.RRRR')";
+        }
+
+        $page_condition = "";
+        if (isset($per_page) && !empty($per_page)) {
+            $page_condition = "WHERE X.RNUM >= " . ($page_start) . "
+                                AND X.RNUM <= " . (($page_start-1) + $per_page) . "";
+        }
         $sql = "SELECT
                     X.*
                 FROM 
@@ -165,6 +176,7 @@ class M_ora_medrec extends CI_Model
                         A.NOKAR_PEMINJAM,
                         C.NAMA_KAR AS PEMINJAM,
                         A.DEPT_PEMINJAM,
+                        TO_CHAR(A.CREATED_DATE, 'DD.MM.RRRR') AS TGL_PINJAM,
                         A.CREATED_DATE,
                         A.CREATED_BY,
                         A.DISERAHKAN_OLEH,
@@ -183,9 +195,9 @@ class M_ora_medrec extends CI_Model
                         AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
                         AND A.SHOW_ITEM LIKE '" . $showitem . "%'
                         " . $return_condition . "
+                        " . $date_condition . "
                 ) X
-                WHERE X.RNUM >= " . ($page_start) . "
-                    AND X.RNUM <= " . (($page_start-1) + $per_page) . "
+                " . $page_condition . "
                 ORDER BY X.CREATED_DATE ASC";
 
         $query = $this->oracle_db->query($sql);
@@ -194,7 +206,7 @@ class M_ora_medrec extends CI_Model
 
     }
 
-    function getRowCountPinjamMR($showitem, $status) {
+    function getRowCountPinjamMR($showitem, $status, $from_date, $to_date) {
         
         $return_condition ="";
         if ($status=="all") {           
@@ -203,6 +215,12 @@ class M_ora_medrec extends CI_Model
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NOT NULL";
         } else if ($status=="not return") {
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NULL";
+        }
+
+        $date_condition = "";
+        if(!empty($from_date) && !empty($to_date)) {
+            $date_condition = "AND TRUNC(A.CREATED_DATE) >= TO_DATE('" . $from_date . "','DD.MM.RRRR')
+                                AND TRUNC(A.CREATED_DATE) <= TO_DATE('" . $to_date . "','DD.MM.RRRR')";
         }
         $sql = "SELECT
                     ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
@@ -229,7 +247,9 @@ class M_ora_medrec extends CI_Model
                     A.MR = B.MR
                     AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
                     AND A.SHOW_ITEM LIKE '" . $showitem . "%'
-                    " . $return_condition;
+                    " . $return_condition . "
+                    " . $date_condition
+                    ;
 
         $query = $this->oracle_db->query($sql);
         $row_count = $query->num_rows();

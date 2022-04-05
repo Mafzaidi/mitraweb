@@ -1,11 +1,11 @@
 <?php
-    $per_page = 10;
+    $per_page = 100;
     $page_start = 1;
     $showitem = "";
     $status = "all";
     
     $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status);
-    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status);
+    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
     
     $i= 0;
     $tb = '';
@@ -21,11 +21,11 @@
     foreach($rows as $dt) {
         $tb.= '<div class="row tb-row border-bottom ' . ($i%2 ? 'odd':'even') . ' enabled" trans_id="' . $dt->TRANS_PINJAM_MR . '">';
         $tb.= '<div class="col-md-1 tb-cell p-rem-50">' . $dt->RNUM . '</div>';
-        $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->MEDREC . '</div>';
-        $tb.= '<div class="col-md-4 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
+        $tb.= '<div class="col-md-1 tb-cell p-rem-50">' . $dt->MEDREC . '</div>';
+        $tb.= '<div class="col-md-3 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
+        $tb.= '<div class="col-md-3 tb-cell p-rem-50">' . $dt->PEMINJAM . '</div>';
+        $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_PINJAM . '</div>';
         $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_JANJI_KEMBALI . '</div>';
-        $tb.= '<div class="col-md-3 tb-cell p-rem-50 text-center">
-                </div>';
         $tb.= '</div>';
         $i++;
     } 

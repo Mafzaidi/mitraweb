@@ -67,7 +67,7 @@ class Medrec extends CI_Controller
 
             if($this->uri->segment(3) <> ''){  
                 if ($param == str_replace('-', '_',$this->uri->segment(3))) {                   
-                    require_once(APPPATH."controllers/medrec/page.".$param.".php");
+                    // require_once(APPPATH."controllers/medrec/page.".$param.".php");
                 }
             }
             

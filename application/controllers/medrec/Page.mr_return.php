@@ -3,9 +3,11 @@
     $page_start = 1;
     $showitem = 1;
     $status = "not return";
+    $fromDate = "";
+    $toDate = "";
     
-    $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status);
-    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status);
+    $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status, $fromDate, $toDate);
+    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $fromDate, $toDate);
     
     $i= 0;
     $tb = '';

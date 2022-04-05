@@ -97,13 +97,18 @@ class Medrec_func extends CI_Controller
         {
             $page_start = $this->input->post('page_start');
             $per_page = $this->input->post('per_page');
+            $showitem = $this->input->post('showitem');
+            $status = $this->input->post('status');
+            $from_date = $this->input->post('from_date');
+            $to_date = $this->input->post('to_date');
+
             $showitem = 1;
             if($pageno != 0) {
                 $pageno = ($pageno-1) * $per_page;
             }
 
-            $countrecords =  $this->mr->getRowCountPinjamMR($showitem);
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem);
+            $countrecords =  $this->mr->getRowCountPinjamMR($showitem, $status, $from_date, $to_date);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
 
             
             foreach($records as $row ){
@@ -111,7 +116,9 @@ class Medrec_func extends CI_Controller
                                     "no"=>$row->RNUM, 
                                     "medrec"=>$row->MEDREC, 
                                     "pasien"=>$row->PASIEN,
+                                    "peminjam"=>$row->PEMINJAM,
                                     "tgl_janji_kembali"=>$row->TGL_JANJI_KEMBALI,
+                                    "tgl_pinjam"=>$row->TGL_PINJAM,
                                     "trans_pinjam"=>$row->TRANS_PINJAM_MR
                                 );
             }

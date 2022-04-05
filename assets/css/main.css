@@ -668,12 +668,14 @@ button.excel:before {
 	content: "\f1c3";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
+	margin-right: 2px;
 }
 
 button.pdf:before {
 	content: "\f1c1";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
+	margin-right: 2px;
 }
 
 button.delete:before{

@@ -81,6 +81,10 @@
 		$("#searchMr").toggleClass("filter-hidden");
 	});
 
+	$(".filter-toggler").on("click", function () {
+		$(this).parent().parent().toggleClass("filter-hidden");
+	});
+
 	$(".input-single-check").on("change", function () {
 		$(".input-single-check").not(this).prop("checked", false);
 	});
@@ -1178,6 +1182,10 @@
 				var page_start = 1;
 				var per_page = $("#select_pageSize_mr_return option:selected").val();
 				var func_url = base_url + "functions/Medrec_func/loadPinjamMR"
+				var showitem = 1;
+				var status = "not return";
+				var from_date = "";
+				var to_date = "";
 
 				$("#myDynamicModal .modal-body").html(loading);
 		
@@ -1194,7 +1202,7 @@
 						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(succeed);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
-						loadPinjamMR(page_start, per_page, func_url);
+						loadPinjamMR(page_start, per_page, func_url, showitem, status, from_date, to_date);
 						// pageInit();
 					},
 					error: function (data) {
@@ -1232,7 +1240,10 @@
 				var page_start = 1;
 				var per_page = $("#select_pageSize_mr_return option:selected").val();
 				var func_url = base_url + "functions/Medrec_func/loadPinjamMR"
-
+				var showitem = 1;
+				var status = "not return";
+				var from_date = "";
+				var to_date = "";
 				$("#myDynamicModal .modal-body").html(loading);
 		
 				$.ajax({
@@ -1247,7 +1258,7 @@
 						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(deleted);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
-						loadPinjamMR(page_start, per_page, func_url);
+						loadPinjamMR(page_start, per_page, func_url, showitem, status, from_date, to_date);
 						// pageInit();
 					},
 					error: function (data) {
@@ -1260,9 +1271,108 @@
 		});
 	};
 
-	function loadPinjamMR (page_start, per_page, func_url) {
+	
+	//--  medrec/report-mr-brw
+	$("#pinjamMr_wrapper").on("click", ".submit", function() {
+		// alert(1);	
+		var page_start = 1;
+		var per_page = "";
+		var showitem = 1;
+		var status = "not return";
+		var from_date = $("#inputFromDateRpt").val();
+		var to_date = $("#inputToDateRpt").val();
+		console.log(page_start, per_page, showitem, status, from_date, to_date);
+
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/loadPinjamMR",
+			data: {
+				page_start: page_start,
+				per_page: per_page,
+				showitem: showitem,
+				status: status,
+				from_date: from_date,
+				to_date: to_date,
+			},
+			success: function (data) {
+				alert(JSON.stringify(data));
+				var rcount = data.response.length;
+
+				for (var i = 0; i < rcount; i++) {
+					var oddEven = "";
+					if (i % 2 == 0) {
+						oddEven = "even";
+					} else {
+						oddEven = "odd";
+					}
+					tb +=
+						'<div class="row tb-row border-bottom ' +
+						oddEven +
+						' enabled" trans_id="' + data.response[i].trans_pinjam + '">';
+					tb +=
+						'<div class="col-md-1 tb-cell p-rem-50">' + data.response[i].no + "</div>";
+					tb +=
+						'<div class="col-md-1 tb-cell p-rem-50">' +
+						data.response[i].medrec +
+						"</div>";
+					tb +=
+						'<div class="col-md-3 tb-cell p-rem-50">' +
+						data.response[i].pasien +
+						"</div>";
+					tb +=
+						'<div class="col-md-3 tb-cell p-rem-50">' +
+						data.response[i].peminjam +
+						"</div>";
+					tb +=
+						'<div class="col-md-2 tb-cell p-rem-50">' +
+						data.response[i].tgl_pinjam +
+						"</div>";
+					tb +=
+						'<div class="col-md-2 tb-cell p-rem-50">' +
+						data.response[i].tgl_janji_kembali +
+						"</div>";
+
+					tb += "</div>";
+				}
+
+				var num1 = page_start;
+				if (per_page !== "") {
+					if (per_page > data.count) {
+						var num2 = data.count;
+					} else {
+						var num2 = per_page;
+					}
+				} else {
+					var num2 = data.count;
+				}
+				var total = data.count;
+
+				$("#pinjamMrReturn .tb-body").html("");
+				$("#pinjamMrReturn .tb-body").html(tb);
+
+				$("#dataTable_info").html("");
+				$("#dataTable_info").html(
+					"Tampilkan" + num1 + " " + "ke" + " " + num2 + " " + "dari" + " " + total + " baris"
+				);
+
+				$("#pages_polimon").html("");
+				$("#pages_polimon").html(data.pagination);
+
+				// pageInit();
+				// pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+				// pageInit();
+			},
+		});
+		
+	});
+
+	function loadPinjamMR (page_start, per_page, func_url, showitem, status, from_date, to_date) {
 		var tb = "";
-		console.log(page_start, per_page, func_url);
+		// console.log(page_start, per_page, func_url);
 
 		$.ajax({
 			type: "POST",
@@ -1271,6 +1381,10 @@
 			data: {
 				page_start: page_start,
 				per_page: per_page,
+				showitem: showitem,
+				status: status,
+				from_date: from_date,
+				to_date: to_date,
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
@@ -1354,4 +1468,5 @@
 			},
 		});
 	}
+
 })(jQuery); // End of use strict
