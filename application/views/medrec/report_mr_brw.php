@@ -1,7 +1,7 @@
 
-<div class="container-fluid table_wrapper py-3" id="pinjamMr_wrapper">
-    <div class="card">
-        <div class="d-flex card-header border-bottom-0 bg-info bg-dark-text">
+<div class="container-fluid table_wrapper py-3" id="reportPinjamMr_wrapper">
+    <div class="card">0
+        <div class="d-flex card-header border-bottom-0 bg-secondary bg-dark-text">
             Laporan Peminjaman Rekam Medis
             <button class="filter-toggler ml-auto" id="searchMrFilterToggler" data-toggle="collapse" data-target="#filterReportPinjamMr">
                 <i class="fas fa-angle-double-up"></i>
@@ -38,10 +38,10 @@
         </div>
         <div class="card-body" id="reportPinjamMr">
             <div class="row">  
-                <div class="col-sm-12" id="data_polimon">   
-                    <div class="tb" id="">
+                <div class="col-sm-12">   
+                    <div class="tb" id="tbReportPinjamMr">
 
-                        <div class="tb-header bg-dark text-white row">
+                        <div class="tb-header bg-cool text-white row">
                             <div class="col-md-1 tb-label p-rem-50">NO</div>
                             <div class="col-md-1 tb-label p-rem-50">MEDREC</div>
                             <div class="col-md-3 tb-label p-rem-50">PASIEN</div>

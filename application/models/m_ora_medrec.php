@@ -233,7 +233,7 @@ class M_ora_medrec extends CI_Model
                     A.CREATED_DATE,
                     A.CREATED_BY,
                     A.DISERAHKAN_OLEH,
-                    A.TGL_JANJI_KEMBALI,
+                    TO_CHAR(A.TGL_JANJI_KEMBALI,'DD.MM.RRRR') AS TGL_JANJI_KEMBALI,
                     A.PETUGAS_PENERIMA,
                     A.TGL_AKHIR_KEMBALI,
                     A.CATATAN,
@@ -246,7 +246,7 @@ class M_ora_medrec extends CI_Model
                 WHERE
                     A.MR = B.MR
                     AND A.NOKAR_PEMINJAM = 'PLAY_'||C.NO_KAR
-                    AND A.SHOW_ITEM LIKE '" . $showitem . "%'
+                    AND A.SHOW_ITEM LIKE '%' || '" . $showitem . "' || '%'
                     " . $return_condition . "
                     " . $date_condition
                     ;

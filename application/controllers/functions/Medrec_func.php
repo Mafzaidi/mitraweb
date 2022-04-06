@@ -1,5 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Medrec_func extends CI_Controller
 {
@@ -109,8 +111,7 @@ class Medrec_func extends CI_Controller
 
             $countrecords =  $this->mr->getRowCountPinjamMR($showitem, $status, $from_date, $to_date);
             $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
-
-            
+          
             foreach($records as $row ){
                 $response[] = array(
                                     "no"=>$row->RNUM, 
@@ -157,8 +158,64 @@ class Medrec_func extends CI_Controller
             
             echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2));
             // echo json_encode(array("response" => $response, "page_start" => $page_start, "per_page" => $per_page, "showitem" => $showitem, "countrecords" => $countrecords));
+        }else{
+            redirect(base_url('auth'));
         }
     }
+
+    public function createExcel() {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $page_start = $this->input->post('page_start');
+            $per_page = $this->input->post('per_page');
+            $showitem = $this->input->post('showitem');
+            $status = $this->input->post('status');
+            $from_date = $this->input->post('from_date');
+            $to_date = $this->input->post('to_date');
+
+            $fileName = "Laporan Peminjaman Rekam Medis " . $from_date . "-" . $to_date . " .xlsx";  
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'NO');
+            $sheet->setCellValue('B1', 'MEDREC');
+            $sheet->setCellValue('C1', 'NAMA PASIEN');
+            $sheet->setCellValue('D1', 'NAMA PEMINJAM');
+            $sheet->setCellValue('E1', 'TGL JANJI KEMBALI');
+            $sheet->setCellValue('F1', 'TGL PINJAM');       
+            $numrows = 2;
+            foreach ($records as $row){
+                $sheet->setCellValue('A' . $numrows, $row->RNUM);
+                $sheet->setCellValue('B' . $numrows, $row->MEDREC);
+                $sheet->setCellValue('C' . $numrows, $row->PASIEN);
+                $sheet->setCellValue('D' . $numrows, $row->PEMINJAM);
+            $sheet->setCellValue('E' . $numrows, $row->TGL_JANJI_KEMBALI);
+                $sheet->setCellValue('F' . $numrows, $row->TGL_PINJAM);
+                $numrows++;
+            } 
+
+            // foreach($records as $row ){
+            //     $response[] = array(
+            //                         "no"=>$row->RNUM, 
+            //                         "medrec"=>$row->MEDREC, 
+            //                         "pasien"=>$row->PASIEN,
+            //                         "peminjam"=>$row->PEMINJAM,
+            //                         "tgl_janji_kembali"=>$row->TGL_JANJI_KEMBALI,
+            //                         "tgl_pinjam"=>$row->TGL_PINJAM,
+            //                         "trans_pinjam"=>$row->TRANS_PINJAM_MR
+            //                     );
+            // }
+
+            $writer = new Xlsx($spreadsheet);
+            $writer->save("assets/upload/".$fileName);
+            header("Content-Type: application/vnd.ms-excel");
+            // redirect(base_url()."/upload/".$fileName);     
+            // echo json_encode(array("response" => $response));    
+        }else{
+            redirect(base_url('auth'));
+        }     
+    }    
 
     function getPinjamMR()
     {

@@ -1273,15 +1273,16 @@
 
 	
 	//--  medrec/report-mr-brw
-	$("#pinjamMr_wrapper").on("click", ".submit", function() {
+	$("#filterReportPinjamMr").on("click", ".submit", function() {
 		// alert(1);	
 		var page_start = 1;
 		var per_page = "";
 		var showitem = 1;
-		var status = "not return";
+		var status = "all";
 		var from_date = $("#inputFromDateRpt").val();
 		var to_date = $("#inputToDateRpt").val();
-		console.log(page_start, per_page, showitem, status, from_date, to_date);
+		var tb = "";
+		// console.log(page_start, per_page, showitem, status, from_date, to_date);
 
 		$.ajax({
 			type: "POST",
@@ -1296,45 +1297,52 @@
 				to_date: to_date,
 			},
 			success: function (data) {
-				alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
 				var rcount = data.response.length;
-
-				for (var i = 0; i < rcount; i++) {
-					var oddEven = "";
-					if (i % 2 == 0) {
-						oddEven = "even";
-					} else {
-						oddEven = "odd";
+				if (rcount > 0){
+					for (var i = 0; i < rcount; i++) {
+						var oddEven = "";
+						if (i % 2 == 0) {
+							oddEven = "even";
+						} else {
+							oddEven = "odd";
+						}
+						tb +=
+							'<div class="row tb-row border-bottom ' +
+							oddEven +
+							' enabled" trans_id="' + data.response[i].trans_pinjam + '">';
+						tb +=
+							'<div class="col-md-1 tb-cell p-rem-50">' + data.response[i].no + "</div>";
+						tb +=
+							'<div class="col-md-1 tb-cell p-rem-50">' +
+							data.response[i].medrec +
+							"</div>";
+						tb +=
+							'<div class="col-md-3 tb-cell p-rem-50">' +
+							data.response[i].pasien +
+							"</div>";
+						tb +=
+							'<div class="col-md-3 tb-cell p-rem-50">' +
+							data.response[i].peminjam +
+							"</div>";
+						tb +=
+							'<div class="col-md-2 tb-cell p-rem-50">' +
+							data.response[i].tgl_pinjam +
+							"</div>";
+						tb +=
+							'<div class="col-md-2 tb-cell p-rem-50">' +
+							data.response[i].tgl_janji_kembali +
+							"</div>";
+	
+						tb += "</div>";
 					}
+				} else {
+					tb += '<div class="row">';
 					tb +=
-						'<div class="row tb-row border-bottom ' +
-						oddEven +
-						' enabled" trans_id="' + data.response[i].trans_pinjam + '">';
-					tb +=
-						'<div class="col-md-1 tb-cell p-rem-50">' + data.response[i].no + "</div>";
-					tb +=
-						'<div class="col-md-1 tb-cell p-rem-50">' +
-						data.response[i].medrec +
-						"</div>";
-					tb +=
-						'<div class="col-md-3 tb-cell p-rem-50">' +
-						data.response[i].pasien +
-						"</div>";
-					tb +=
-						'<div class="col-md-3 tb-cell p-rem-50">' +
-						data.response[i].peminjam +
-						"</div>";
-					tb +=
-						'<div class="col-md-2 tb-cell p-rem-50">' +
-						data.response[i].tgl_pinjam +
-						"</div>";
-					tb +=
-						'<div class="col-md-2 tb-cell p-rem-50">' +
-						data.response[i].tgl_janji_kembali +
-						"</div>";
-
+						'<div class="col-md-12 bg-danger-2 text-center">TIDAK ADA DATA DITEMUKAN</div>';
 					tb += "</div>";
-				}
+					tb += "</div>";
+				}				
 
 				var num1 = page_start;
 				if (per_page !== "") {
@@ -1348,8 +1356,8 @@
 				}
 				var total = data.count;
 
-				$("#pinjamMrReturn .tb-body").html("");
-				$("#pinjamMrReturn .tb-body").html(tb);
+				$("#tbReportPinjamMr .tb-body").html("");
+				$("#tbReportPinjamMr .tb-body").html(tb);
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
@@ -1363,11 +1371,55 @@
 				// pageInit();
 			},
 			error: function (data) {
-				alert(JSON.stringify(data));
-				// pageInit();
+				// alert(JSON.stringify(data));
+				if (data.response === null || data.response === undefined) {
+					tb += '<div class="row">';
+					tb +=
+						'<div class="col-md-12 bg-danger-2 text-center">TIDAK ADA DATA DITEMUKAN</div>';
+					tb += "</div>";
+					tb += "</div>";
+
+					$("#tbReportPinjamMr .tb-body").html("");
+					$("#tbReportPinjamMr .tb-body").html(tb);
+
+					$("#dataTable_info").html("");
+					$("#dataTable_info").html("Showing 0 to 0 of 0");
+				}
 			},
 		});
 		
+	});
+
+	$("#filterReportPinjamMr").on("click", ".excel", function() {
+		// alert(1);	
+		var page_start = 1;
+		var per_page = "";
+		var showitem = 1;
+		var status = "all";
+		var from_date = $("#inputFromDateRpt").val();
+		var to_date = $("#inputToDateRpt").val();
+		// console.log(page_start, per_page, showitem, status, from_date, to_date);
+
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Medrec_func/createExcel",
+			data: {
+				page_start: page_start,
+				per_page: per_page,
+				showitem: showitem,
+				status: status,
+				from_date: from_date,
+				to_date: to_date,
+			},
+			success: function (data) {
+				alert(JSON.stringify(data));
+				// pageInit();
+			},
+			error: function (data) {
+				alert(JSON.stringify(data));
+			},
+		});
 	});
 
 	function loadPinjamMR (page_start, per_page, func_url, showitem, status, from_date, to_date) {
