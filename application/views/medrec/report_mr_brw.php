@@ -1,6 +1,6 @@
 
 <div class="container-fluid table_wrapper py-3" id="reportPinjamMr_wrapper">
-    <div class="card">0
+    <div class="card">
         <div class="d-flex card-header border-bottom-0 bg-secondary bg-dark-text">
             Laporan Peminjaman Rekam Medis
             <button class="filter-toggler ml-auto" id="searchMrFilterToggler" data-toggle="collapse" data-target="#filterReportPinjamMr">
@@ -13,7 +13,7 @@
                     <div class="form-group row">
                         <div class="col-sm-4">
                             <div class="input-group date" id="fromDateRpt_picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" data-target="#fromDateRpt_picker" id="inputFromDateRpt" placeholder="DD.MM.YYYY" maxlength="10" />
+                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" name="fromDate" data-target="#fromDateRpt_picker" id="inputFromDateRpt" placeholder="DD.MM.YYYY" maxlength="10" />
                                 <div class="input-group-append" data-target="#fromDateRpt_picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group date" id="toDateRpt_picker" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" data-target="#toDateRpt_picker" id="inputToDateRpt" placeholder="DD.MM.YYYY" maxlength="10" />
+                                <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" name="toDate" data-target="#toDateRpt_picker" id="inputToDateRpt" placeholder="DD.MM.YYYY" maxlength="10" />
                                 <div class="input-group-append" data-target="#toDateRpt_picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -32,7 +32,7 @@
                 <div class="col-md-4">
                     <button type="button" class="btn btn-primary btn-sm submit" id="btnPinjamMrSubmit">Submit</button>
                     <button type="button" class="btn btn-sm excel" id="btnPinjamMrExc">Excel</button>
-                    <button type="button" class="btn btn-sm pdf" id="btnPinjamPdf">PDF</button>
+                    <button type="button" class="btn btn-sm pdf" id="btnPinjamMrPdf">PDF</button>
                 </div>
             </div>
         </div>

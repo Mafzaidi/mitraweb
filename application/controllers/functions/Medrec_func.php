@@ -11,6 +11,7 @@ class Medrec_func extends CI_Controller
         $this->load->model('m_ora_medrec', 'mr');
         $this->load->library('modal_variables');
         $this->load->library('pagination');
+        $this->load->helper('download');
     }
 
     function getDataMR()
@@ -174,7 +175,8 @@ class Medrec_func extends CI_Controller
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
 
-            $fileName = "Laporan Peminjaman Rekam Medis " . $from_date . "-" . $to_date . " .xlsx";  
+            $fileName = "Laporan Peminjaman Rekam Medis " . $from_date . "-" . $to_date . " .xlsx";
+            // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
             $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
@@ -182,36 +184,42 @@ class Medrec_func extends CI_Controller
             $sheet->setCellValue('B1', 'MEDREC');
             $sheet->setCellValue('C1', 'NAMA PASIEN');
             $sheet->setCellValue('D1', 'NAMA PEMINJAM');
-            $sheet->setCellValue('E1', 'TGL JANJI KEMBALI');
-            $sheet->setCellValue('F1', 'TGL PINJAM');       
+            $sheet->setCellValue('E1', 'TGL PINJAM');   
+            $sheet->setCellValue('F1', 'TGL JANJI KEMBALI');
+            $sheet->setCellValue('G1', 'KEPERLUAN');
+            $sheet->setCellValue('H1', 'DISERAHKAN OLEH');
+            $sheet->setCellValue('I1', 'TGL PENGEMBALIAN');
+            $sheet->setCellValue('J1', 'DIKEMBALIKAN OLEH');
+            $sheet->setCellValue('K1', 'TRANS ID');
             $numrows = 2;
             foreach ($records as $row){
                 $sheet->setCellValue('A' . $numrows, $row->RNUM);
                 $sheet->setCellValue('B' . $numrows, $row->MEDREC);
                 $sheet->setCellValue('C' . $numrows, $row->PASIEN);
                 $sheet->setCellValue('D' . $numrows, $row->PEMINJAM);
-            $sheet->setCellValue('E' . $numrows, $row->TGL_JANJI_KEMBALI);
-                $sheet->setCellValue('F' . $numrows, $row->TGL_PINJAM);
+                $sheet->setCellValue('E' . $numrows, $row->TGL_PINJAM);
+                $sheet->setCellValue('F' . $numrows, $row->TGL_JANJI_KEMBALI);
+                $sheet->setCellValue('G' . $numrows, $row->KEPERLUAN);
+                $sheet->setCellValue('H' . $numrows, $row->DISERAHKAN_OLEH);
+                $sheet->setCellValue('I' . $numrows, $row->TGL_AKHIR_KEMBALI);
+                $sheet->setCellValue('J' . $numrows, $row->DIKEMBALIKAN_OLEH);
+                $sheet->setCellValue('K' . $numrows, $row->TRANS_PINJAM_MR);
                 $numrows++;
             } 
 
-            // foreach($records as $row ){
-            //     $response[] = array(
-            //                         "no"=>$row->RNUM, 
-            //                         "medrec"=>$row->MEDREC, 
-            //                         "pasien"=>$row->PASIEN,
-            //                         "peminjam"=>$row->PEMINJAM,
-            //                         "tgl_janji_kembali"=>$row->TGL_JANJI_KEMBALI,
-            //                         "tgl_pinjam"=>$row->TGL_PINJAM,
-            //                         "trans_pinjam"=>$row->TRANS_PINJAM_MR
-            //                     );
-            // }
-
             $writer = new Xlsx($spreadsheet);
+            header('Content-Type: application/vnd.ms-excel'); 
+            header('Content-Disposition: attachment;filename="'.$fileName.'"');
+            header('Cache-Control: max-age=0'); 
             $writer->save("assets/upload/".$fileName);
-            header("Content-Type: application/vnd.ms-excel");
-            // redirect(base_url()."/upload/".$fileName);     
-            // echo json_encode(array("response" => $response));    
+            // $writer->save('php://output');
+            $img_upld = base_url("assets/upload/".$fileName);
+            // redirect(base_url("assets/upload"));
+            
+            // $data[] = array(
+            //     "url"=>$img_upld
+            // );
+            // echo json_encode($data);  
         }else{
             redirect(base_url('auth'));
         }     
