@@ -10,6 +10,16 @@
 	var date = new Date();
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
+	$("#fromDateRpt_picker").datetimepicker({
+		date: today,
+		format: "DD.MM.yyyy",
+	});
+
+	$("#toDateRpt_picker").datetimepicker({
+		date: today,
+		format: "DD.MM.yyyy",
+	});
+
 	function pageInit() {
 		$(".date-validate").mask("99.99.9999");
 		$(".date-validate").change(function () {
@@ -32,15 +42,15 @@
 		$("#datetimepicker4").datetimepicker({
 			format: "DD.MM.yyyy",
 		});
-	
+
 		$("#birthDate_picker").datetimepicker({
 			format: "DD.MM.yyyy",
 		});
-	
+
 		$("#fromDateRpt_picker").datetimepicker({
 			format: "DD.MM.yyyy",
 		});
-	
+
 		$("#toDateRpt_picker").datetimepicker({
 			format: "DD.MM.yyyy",
 		});
@@ -228,7 +238,7 @@
 			var diserahkan_oleh = $("#inputLender").val();
 			var tgl_janji_kembali = $("#inputReturnDate").val();
 			var catatan = $("#inputDescBrw").val();
-			
+
 			$.ajax({
 				type: "POST",
 				dataType: "json",
@@ -397,10 +407,8 @@
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 			autoLoad_polimon();
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
-			$("#fromDateRpt_picker").datetimepicker({
-				date: today,
-				format: "DD.MM.yyyy",
-			});
+			var date = new Date();
+			var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 		}
 
 		pageInit();
@@ -1033,8 +1041,8 @@
 	}
 
 	// -- medrec/mr-return
-	$("#pinjamMrReturn").on("click", ".tb-row", function() {
-		$(this).addClass('selected').siblings().removeClass("selected");
+	$("#pinjamMrReturn").on("click", ".tb-row", function () {
+		$(this).addClass("selected").siblings().removeClass("selected");
 
 		var trans_pinjam_mr = $(this).attr("trans_id");
 		$.ajax({
@@ -1065,17 +1073,19 @@
 		});
 	});
 
-	$("#pinjamMrReturn").on("click", ".edit", function() {
+	$("#pinjamMrReturn").on("click", ".edit", function () {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
 		var title = "Pengembalian Medrec";
-		var body = "<div class='form-group row mb-2' id='divReturnBy'>" +
-						"<label class='col-sm-4 col-form-label-sm pr-0 mb-2' for='returnBy'>Nama Pengembali :</label>" +
-						"<div class='col-sm-8 pl-0'>" +
-							"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnBy' placeholder='dikembalikan oleh' name='returnBy'>" +
-						"</div>"; +
-					"</div>";
-		var btn = "<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
-					"<button id='saveMr_return' class='btn btn-primary' type='button'>Simpan</button>";
+		var body =
+			"<div class='form-group row mb-2' id='divReturnBy'>" +
+			"<label class='col-sm-4 col-form-label-sm pr-0 mb-2' for='returnBy'>Nama Pengembali :</label>" +
+			"<div class='col-sm-8 pl-0'>" +
+			"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnBy' placeholder='dikembalikan oleh' name='returnBy'>" +
+			"</div>";
+		+"</div>";
+		var btn =
+			"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
+			"<button id='saveMr_return' class='btn btn-primary' type='button'>Simpan</button>";
 		// $('#myDynamicModal').modal({
 		// 	backdrop: false
 		// })
@@ -1083,7 +1093,7 @@
 		$("#myDynamicModal .modal-body").html(body);
 		$("#myDynamicModal .modal-footer").html(btn);
 
-		$("#myDynamicModal").find("#saveMr_return").attr("trans_id",trans_pinjam);
+		$("#myDynamicModal").find("#saveMr_return").attr("trans_id", trans_pinjam);
 		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
 		$("#myDynamicModal").modal("show");
 		saveReturnMR();
@@ -1097,9 +1107,9 @@
 		// $("#divReturnBy").toggleClass("d-none");
 	});
 
-	$("#pinjamMrReturn").on("click", ".cancel", function() {
+	$("#pinjamMrReturn").on("click", ".cancel", function () {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
-		$(this).parent().parent().parent().find(".btn").attr("disabled", false)
+		$(this).parent().parent().parent().find(".btn").attr("disabled", false);
 		$(this).parent().find(".edit").removeClass("d-none");
 		$(this).addClass("d-none");
 		// alert(trans_pinjam);
@@ -1107,41 +1117,43 @@
 		$("#inputReturnBy").val("");
 	});
 
-	$("#pinjamMrReturn").on("click", ".delete", function() {
+	$("#pinjamMrReturn").on("click", ".delete", function () {
 		var trans_pinjam = $(this).parent().parent().attr("trans_id");
 		var title = "Pengembalian Medrec";
 		var body = "Apakah anda yakin ingin menghapus data ini?";
-		var btn = "<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
-					"<button id='deleteMr_return' class='btn btn-danger' type='button'>Hapus</button>";
+		var btn =
+			"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
+			"<button id='deleteMr_return' class='btn btn-danger' type='button'>Hapus</button>";
 
 		$("#myDynamicModal .modal-title").html(title);
 		$("#myDynamicModal .modal-body").html(body);
 		$("#myDynamicModal .modal-footer").html(btn);
 
-		$("#myDynamicModal").find("#deleteMr_return").attr("trans_id",trans_pinjam);
+		$("#myDynamicModal")
+			.find("#deleteMr_return")
+			.attr("trans_id", trans_pinjam);
 		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
 		$("#myDynamicModal").modal("show");
-		deleteReturnMR ();
+		deleteReturnMR();
 	});
 
 	$("#formReturnBy").validate({
 		focusInvalid: false,
-			rules: {
-				returnBy: "required",
+		rules: {
+			returnBy: "required",
+		},
+		messages: {
+			returnBy: {
+				required: "Nama pengembali harus di isi",
 			},
-			messages: {
-				returnBy: {
-					required: "Nama pengembali harus di isi",
-				},
-			},
-			submitHandler: function (form) {
-				$("#myDynamicModal").modal("show");
-			},
+		},
+		submitHandler: function (form) {
+			$("#myDynamicModal").modal("show");
+		},
 	});
 
-	function saveReturnMR () {
-		$("#myDynamicModal").on("shown.bs.modal", function (event) {	
-
+	function saveReturnMR() {
+		$("#myDynamicModal").on("shown.bs.modal", function (event) {
 			$("#inputReturnBy").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -1165,35 +1177,38 @@
 				},
 			});
 
-			$("#saveMr_return").on("click", function() {
+			$("#saveMr_return").on("click", function () {
 				var trans_pinjam = $(this).attr("trans_id");
 				var returnBy = $("#inputReturnBy").attr("returnBy");
-				var loading = "<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";	
-				var succeed = "<div class='success-checkmark'>" +
-									"<div class='check-icon'>" +
-										"<span class='icon-line line-tip'></span>" +
-										"<span class='icon-line line-long'></span>" +
-										"<div class='icon-circle'></div>" +
-										"<div class='icon-fix'></div>" +
-									"</div>" +
-								"</div>" +
-								"<div class='row justify-content-center'>" +
-									"<div class='col-7 text-center'>" +
-										"Data telah tersimpan" +
-									"</div>" +
-								"</div>";
-				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+				var loading =
+					"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
+				var succeed =
+					"<div class='success-checkmark'>" +
+					"<div class='check-icon'>" +
+					"<span class='icon-line line-tip'></span>" +
+					"<span class='icon-line line-long'></span>" +
+					"<div class='icon-circle'></div>" +
+					"<div class='icon-fix'></div>" +
+					"</div>" +
+					"</div>" +
+					"<div class='row justify-content-center'>" +
+					"<div class='col-7 text-center'>" +
+					"Data telah tersimpan" +
+					"</div>" +
+					"</div>";
+				var btn =
+					"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 				var page_start = 1;
 				var per_page = $("#select_pageSize_mr_return option:selected").val();
-				var func_url = base_url + "functions/Medrec_func/loadPinjamMR"
+				var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
 				var showitem = 1;
 				var status = "not return";
 				var from_date = "";
 				var to_date = "";
 
 				$("#myDynamicModal .modal-body").html(loading);
-		
+
 				$.ajax({
 					type: "POST",
 					dataType: "json",
@@ -1207,7 +1222,15 @@
 						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(succeed);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
-						loadPinjamMR(page_start, per_page, func_url, showitem, status, from_date, to_date);
+						loadPinjamMR(
+							page_start,
+							per_page,
+							func_url,
+							showitem,
+							status,
+							from_date,
+							to_date
+						);
 						// pageInit();
 					},
 					error: function (data) {
@@ -1215,55 +1238,64 @@
 						// pageInit();
 					},
 				});
-		
 			});
 		});
-	};
+	}
 
-	function deleteReturnMR () {
-		$("#myDynamicModal").on("shown.bs.modal", function (event) {	
-
-			$("#deleteMr_return").on("click", function() {
+	function deleteReturnMR() {
+		$("#myDynamicModal").on("shown.bs.modal", function (event) {
+			$("#deleteMr_return").on("click", function () {
 				var trans_pinjam = $(this).attr("trans_id");
 
-				var loading = "<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";	
-				var deleted = "<div class='remove-checkmark'>" +
-									"<div class='check-icon'>" +
-										"<span class='icon-line line-tip'></span>" +
-										"<span class='icon-line line-long'></span>" +
-										"<div class='icon-circle'></div>" +
-										"<div class='icon-fix'></div>" +
-									"</div>" +
-								"</div>" +
-								"<div class='row justify-content-center'>" +
-									"<div class='col-7 text-center'>" +
-										"Data telah dihapus" +
-									"</div>" +
-								"</div>";
-				var btn = "<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+				var loading =
+					"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
+				var deleted =
+					"<div class='remove-checkmark'>" +
+					"<div class='check-icon'>" +
+					"<span class='icon-line line-tip'></span>" +
+					"<span class='icon-line line-long'></span>" +
+					"<div class='icon-circle'></div>" +
+					"<div class='icon-fix'></div>" +
+					"</div>" +
+					"</div>" +
+					"<div class='row justify-content-center'>" +
+					"<div class='col-7 text-center'>" +
+					"Data telah dihapus" +
+					"</div>" +
+					"</div>";
+				var btn =
+					"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 				var page_start = 1;
 				var per_page = $("#select_pageSize_mr_return option:selected").val();
-				var func_url = base_url + "functions/Medrec_func/loadPinjamMR"
+				var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
 				var showitem = 1;
 				var status = "not return";
 				var from_date = "";
 				var to_date = "";
 				$("#myDynamicModal .modal-body").html(loading);
-		
+
 				$.ajax({
 					type: "POST",
 					dataType: "json",
 					url: base_url + "functions/Medrec_func/deleteReturnMR",
 					data: {
-						trans_pinjam: trans_pinjam
+						trans_pinjam: trans_pinjam,
 					},
 					success: function (data) {
 						// alert(JSON.stringify(data));
 						$("#myDynamicModal .modal-footer").html(btn);
 						$("#myDynamicModal .modal-body").html(deleted);
 						$("#formReturnBy").find(".btn").attr("disabled", true);
-						loadPinjamMR(page_start, per_page, func_url, showitem, status, from_date, to_date);
+						loadPinjamMR(
+							page_start,
+							per_page,
+							func_url,
+							showitem,
+							status,
+							from_date,
+							to_date
+						);
 						// pageInit();
 					},
 					error: function (data) {
@@ -1271,16 +1303,18 @@
 						// pageInit();
 					},
 				});
-		
 			});
 		});
-	};
+	}
 
-	
 	//--  medrec/report-mr-brw
 
-	$("#filterReportPinjamMr").on("click", ".submit", function() {
-		// alert(1);	
+	$("#filterReportPinjamMr").on("click", ".submit", function () {
+		// $("#fromDateRpt_picker").datetimepicker({
+		// 	date: today,
+		// 	format: "DD.MM.yyyy",
+		// });
+		// alert(1);
 		var page_start = 1;
 		var per_page = "";
 		var showitem = 1;
@@ -1305,8 +1339,9 @@
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
+
 				var rcount = data.response.length;
-				if (rcount > 0){
+				if (rcount > 0) {
 					for (var i = 0; i < rcount; i++) {
 						var oddEven = "";
 						if (i % 2 == 0) {
@@ -1317,9 +1352,13 @@
 						tb +=
 							'<div class="row tb-row border-bottom ' +
 							oddEven +
-							' enabled" trans_id="' + data.response[i].trans_pinjam + '">';
+							' enabled" trans_id="' +
+							data.response[i].trans_pinjam +
+							'">';
 						tb +=
-							'<div class="col-md-1 tb-cell p-rem-50">' + data.response[i].no + "</div>";
+							'<div class="col-md-1 tb-cell p-rem-50">' +
+							data.response[i].no +
+							"</div>";
 						tb +=
 							'<div class="col-md-1 tb-cell p-rem-50">' +
 							data.response[i].medrec +
@@ -1340,7 +1379,7 @@
 							'<div class="col-md-2 tb-cell p-rem-50">' +
 							data.response[i].tgl_janji_kembali +
 							"</div>";
-	
+
 						tb += "</div>";
 					}
 				} else {
@@ -1349,7 +1388,7 @@
 						'<div class="col-md-12 bg-danger-2 text-center">TIDAK ADA DATA DITEMUKAN</div>';
 					tb += "</div>";
 					tb += "</div>";
-				}				
+				}
 
 				var num1 = page_start;
 				if (per_page !== "") {
@@ -1368,19 +1407,23 @@
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
-					"Tampilkan" + num1 + " " + "ke" + " " + num2 + " " + "dari" + " " + total + " baris"
+					"Tampilkan" +
+						num1 +
+						" " +
+						"ke" +
+						" " +
+						num2 +
+						" " +
+						"dari" +
+						" " +
+						total +
+						" baris"
 				);
 
 				$("#pages_polimon").html("");
 				$("#pages_polimon").html(data.pagination);
-
+				$("#tbReportPinjamMr").attr("data", "true");
 				// pageInit();
-				// pageInit();
-				
-				$("#fromDateRpt_picker").datetimepicker({
-					date: today,
-					format: "DD.MM.yyyy",
-				});
 			},
 			error: function (data) {
 				// alert(JSON.stringify(data));
@@ -1393,50 +1436,82 @@
 
 					$("#tbReportPinjamMr .tb-body").html("");
 					$("#tbReportPinjamMr .tb-body").html(tb);
+					$("#tbReportPinjamMr").attr("data", "false");
 
 					$("#dataTable_info").html("");
 					$("#dataTable_info").html("Showing 0 to 0 of 0");
 				}
 			},
 		});
-		
 	});
 
-	$("#filterReportPinjamMr").on("click", ".excel", function() {
-		// alert(1);	
-		var page_start = 1;
-		var per_page = "";
-		var showitem = 1;
-		var status = "all";
-		var from_date = $("#inputFromDateRpt").val();
-		var to_date = $("#inputToDateRpt").val();
-		// console.log(page_start, per_page, showitem, status, from_date, to_date);
+	$("#filterReportPinjamMr").on("click", ".excel", function () {
+		// alert(1);
+		if ($("#tbReportPinjamMr").attr("data") == "true") {
+			var page_start = 1;
+			var per_page = "";
+			var showitem = 1;
+			var status = "all";
+			var from_date = $("#inputFromDateRpt").val();
+			var to_date = $("#inputToDateRpt").val();
+			// console.log(page_start, per_page, showitem, status, from_date, to_date);
 
-		$.ajax({
-			type: "POST",
-			dataType: "json",
-			url: base_url + "functions/Medrec_func/createExcel",
-			data: {
-				page_start: page_start,
-				per_page: per_page,
-				showitem: showitem,
-				status: status,
-				from_date: from_date,
-				to_date: to_date,
-			},
-			success: function (data) {
-				// alert(JSON.stringify(data));
-				console.log(JSON.stringify(data));
-				// pageInit();
-			},
-			error: function (data) {
-				// alert(JSON.stringify(data));
-				console.log(JSON.stringify(data));
-			},
-		});
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base_url + "functions/Medrec_func/createExcelPinjamMR",
+				data: {
+					page_start: page_start,
+					per_page: per_page,
+					showitem: showitem,
+					status: status,
+					from_date: from_date,
+					to_date: to_date,
+				},
+				success: function (data) {
+					// alert(JSON.stringify(data));
+					// console.log(JSON.stringify(data.url));
+					window.location.href = data.url;
+					// pageInit();
+				},
+				error: function (data) {
+					// alert(JSON.stringify(data));
+					console.log(JSON.stringify(data));
+				},
+			});
+		} else {
+			var error =
+				"<div class='remove-checkmark'>" +
+				"<div class='check-icon'>" +
+				"<span class='icon-line line-tip'></span>" +
+				"<span class='icon-line line-long'></span>" +
+				"<div class='icon-circle'></div>" +
+				"<div class='icon-fix'></div>" +
+				"</div>" +
+				"</div>" +
+				"<div class='row justify-content-center'>" +
+				"<div class='col-7 text-center'>" +
+				"Data belum ditampilkan" +
+				"</div>" +
+				"</div>";
+			var btn =
+				"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+
+			$("#myDynamicModal .modal-footer").html(btn);
+			$("#myDynamicModal .modal-body").html(error);
+			$("#myDynamicModal").modal("show");
+		}
 	});
 
-	function loadPinjamMR (page_start, per_page, func_url, showitem, status, from_date, to_date) {
+	function loadPinjamMR(
+		page_start,
+		per_page,
+		func_url,
+		showitem,
+		status,
+		from_date,
+		to_date
+	) {
 		var tb = "";
 		// console.log(page_start, per_page, func_url);
 
@@ -1466,9 +1541,13 @@
 					tb +=
 						'<div class="row tb-row border-bottom ' +
 						oddEven +
-						' enabled" trans_id="' + data.response[i].trans_pinjam + '">';
+						' enabled" trans_id="' +
+						data.response[i].trans_pinjam +
+						'">';
 					tb +=
-						'<div class="col-md-1 tb-cell p-rem-50">' + data.response[i].no + "</div>";
+						'<div class="col-md-1 tb-cell p-rem-50">' +
+						data.response[i].no +
+						"</div>";
 					tb +=
 						'<div class="col-md-2 tb-cell p-rem-50">' +
 						data.response[i].medrec +
@@ -1483,8 +1562,8 @@
 						"</div>";
 					tb +=
 						'<div class="col-md-3 tb-cell p-rem-50 text-center">' +
-							'<button class="btn bg-primary btn-sm mx-1 text-white edit"></button>' +
-							'<button class="btn btn-danger btn-sm mx-1 text-white delete"></button>' +
+						'<button class="btn bg-primary btn-sm mx-1 text-white edit"></button>' +
+						'<button class="btn btn-danger btn-sm mx-1 text-white delete"></button>' +
 						"</div>";
 
 					tb += "</div>";
@@ -1507,7 +1586,17 @@
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
-					"Tampilkan" + num1 + " " + "ke" + " " + num2 + " " + "dari" + " " + total + " baris"
+					"Tampilkan" +
+						num1 +
+						" " +
+						"ke" +
+						" " +
+						num2 +
+						" " +
+						"dari" +
+						" " +
+						total +
+						" baris"
 				);
 
 				$("#pages_polimon").html("");
@@ -1534,5 +1623,4 @@
 			},
 		});
 	}
-
 })(jQuery); // End of use strict

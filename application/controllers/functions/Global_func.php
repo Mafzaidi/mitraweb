@@ -12,4 +12,10 @@ class Global_func extends CI_Controller
 	{
         echo"test";
 	}
+
+    public function downloadSpreadsheet($url = NULL, $filename = NULL) {
+        // read file contents
+        $data = file_get_contents(base_url($url.$filename));
+        force_download($filename, $data);
+    }
 }

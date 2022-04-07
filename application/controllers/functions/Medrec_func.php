@@ -164,7 +164,7 @@ class Medrec_func extends CI_Controller
         }
     }
 
-    public function createExcel() {
+    public function createExcelPinjamMR() {
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
         {
@@ -175,7 +175,6 @@ class Medrec_func extends CI_Controller
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
 
-            $fileName = "Laporan Peminjaman Rekam Medis " . $from_date . "-" . $to_date . " .xlsx";
             // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
             $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
             $spreadsheet = new Spreadsheet();
@@ -208,22 +207,83 @@ class Medrec_func extends CI_Controller
             } 
 
             $writer = new Xlsx($spreadsheet);
+            $fileName = "Laporan Peminjaman " . $from_date . "-" . $to_date . ".xlsx";
+            $url = "assets/upload/";
+
             header('Content-Type: application/vnd.ms-excel'); 
             header('Content-Disposition: attachment;filename="'.$fileName.'"');
             header('Cache-Control: max-age=0'); 
+
             $writer->save("assets/upload/".$fileName);
+            // $this->downloadSpreadsheet($url, $fileName);
             // $writer->save('php://output');
-            $img_upld = base_url("assets/upload/".$fileName);
+            $url = base_url("assets/upload/".$fileName);
             // redirect(base_url("assets/upload"));
-            
-            // $data[] = array(
-            //     "url"=>$img_upld
-            // );
-            // echo json_encode($data);  
+            echo json_encode(array("url" => $url));  
         }else{
             redirect(base_url('auth'));
         }     
-    }    
+    }
+    
+    public function createPDFPinjamMR() {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $page_start = $this->input->post('page_start');
+            $per_page = $this->input->post('per_page');
+            $showitem = $this->input->post('showitem');
+            $status = $this->input->post('status');
+            $from_date = $this->input->post('from_date');
+            $to_date = $this->input->post('to_date');
+
+            // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->setCellValue('A1', 'NO');
+            $sheet->setCellValue('B1', 'MEDREC');
+            $sheet->setCellValue('C1', 'NAMA PASIEN');
+            $sheet->setCellValue('D1', 'NAMA PEMINJAM');
+            $sheet->setCellValue('E1', 'TGL PINJAM');   
+            $sheet->setCellValue('F1', 'TGL JANJI KEMBALI');
+            $sheet->setCellValue('G1', 'KEPERLUAN');
+            $sheet->setCellValue('H1', 'DISERAHKAN OLEH');
+            $sheet->setCellValue('I1', 'TGL PENGEMBALIAN');
+            $sheet->setCellValue('J1', 'DIKEMBALIKAN OLEH');
+            $sheet->setCellValue('K1', 'TRANS ID');
+            $numrows = 2;
+            foreach ($records as $row){
+                $sheet->setCellValue('A' . $numrows, $row->RNUM);
+                $sheet->setCellValue('B' . $numrows, $row->MEDREC);
+                $sheet->setCellValue('C' . $numrows, $row->PASIEN);
+                $sheet->setCellValue('D' . $numrows, $row->PEMINJAM);
+                $sheet->setCellValue('E' . $numrows, $row->TGL_PINJAM);
+                $sheet->setCellValue('F' . $numrows, $row->TGL_JANJI_KEMBALI);
+                $sheet->setCellValue('G' . $numrows, $row->KEPERLUAN);
+                $sheet->setCellValue('H' . $numrows, $row->DISERAHKAN_OLEH);
+                $sheet->setCellValue('I' . $numrows, $row->TGL_AKHIR_KEMBALI);
+                $sheet->setCellValue('J' . $numrows, $row->DIKEMBALIKAN_OLEH);
+                $sheet->setCellValue('K' . $numrows, $row->TRANS_PINJAM_MR);
+                $numrows++;
+            } 
+
+            $reader = new Pdf($spreadsheet);
+            $fileName = "Laporan Peminjaman " . $from_date . "-" . $to_date . ".pdf";
+            $url = "assets/upload/";
+
+            header('Content-Type: application/vnd.ms-excel'); 
+            header('Content-Disposition: attachment;filename="'.$fileName.'"');
+            header('Cache-Control: max-age=0'); 
+
+            // $this->downloadSpreadsheet($url, $fileName);
+            // $writer->save('php://output');
+            $url = base_url("assets/upload/".$fileName);
+            // redirect(base_url("assets/upload"));
+            echo json_encode(array("url" => $url));  
+        }else{
+            redirect(base_url('auth'));
+        }     
+    }
 
     function getPinjamMR()
     {
@@ -301,6 +361,12 @@ class Medrec_func extends CI_Controller
         }else{
             redirect(base_url('auth'));
         }
+    }
+
+    public function downloadSpreadsheet($url = NULL, $filename = NULL) {
+        // read file contents
+        $data = file_get_contents(base_url($url.$filename));
+        force_download($filename, $data);
     }
 
 }

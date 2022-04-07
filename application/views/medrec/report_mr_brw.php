@@ -1,7 +1,7 @@
 
 <div class="container-fluid table_wrapper py-3" id="reportPinjamMr_wrapper">
     <div class="card">
-        <div class="d-flex card-header border-bottom-0 bg-secondary bg-dark-text">
+        <div class="d-flex card-header border-bottom-0 bg-white bg-light-text">
             Laporan Peminjaman Rekam Medis
             <button class="filter-toggler ml-auto" id="searchMrFilterToggler" data-toggle="collapse" data-target="#filterReportPinjamMr">
                 <i class="fas fa-angle-double-up"></i>
@@ -39,7 +39,7 @@
         <div class="card-body" id="reportPinjamMr">
             <div class="row">  
                 <div class="col-sm-12">   
-                    <div class="tb" id="tbReportPinjamMr">
+                    <div class="tb" id="tbReportPinjamMr" data="false">
 
                         <div class="tb-header bg-cool text-white row">
                             <div class="col-md-1 tb-label p-rem-50">NO</div>
