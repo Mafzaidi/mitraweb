@@ -177,6 +177,7 @@ class M_ora_medrec extends CI_Model
                         C.NAMA_KAR AS PEMINJAM,
                         A.DEPT_PEMINJAM,
                         TO_CHAR(A.CREATED_DATE, 'DD.MM.RRRR') AS TGL_PINJAM,
+                        A.KEPERLUAN,
                         A.CREATED_DATE,
                         A.CREATED_BY,
                         A.DISERAHKAN_OLEH,

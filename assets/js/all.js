@@ -396,6 +396,11 @@
 		//autoLoad_polimon();
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 			autoLoad_polimon();
+		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
+			$("#fromDateRpt_picker").datetimepicker({
+				date: today,
+				format: "DD.MM.yyyy",
+			});
 		}
 
 		pageInit();
@@ -1273,6 +1278,7 @@
 
 	
 	//--  medrec/report-mr-brw
+
 	$("#filterReportPinjamMr").on("click", ".submit", function() {
 		// alert(1);	
 		var page_start = 1;
@@ -1282,6 +1288,7 @@
 		var from_date = $("#inputFromDateRpt").val();
 		var to_date = $("#inputToDateRpt").val();
 		var tb = "";
+
 		// console.log(page_start, per_page, showitem, status, from_date, to_date);
 
 		$.ajax({
@@ -1369,6 +1376,11 @@
 
 				// pageInit();
 				// pageInit();
+				
+				$("#fromDateRpt_picker").datetimepicker({
+					date: today,
+					format: "DD.MM.yyyy",
+				});
 			},
 			error: function (data) {
 				// alert(JSON.stringify(data));
@@ -1413,11 +1425,13 @@
 				to_date: to_date,
 			},
 			success: function (data) {
-				alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
+				console.log(JSON.stringify(data));
 				// pageInit();
 			},
 			error: function (data) {
-				alert(JSON.stringify(data));
+				// alert(JSON.stringify(data));
+				console.log(JSON.stringify(data));
 			},
 		});
 	});
