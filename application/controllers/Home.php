@@ -23,11 +23,27 @@ class Home extends CI_Controller
 			$params = array('logout');
 			include (APPPATH.'controllers/menu_control.php');
 			include (APPPATH.'controllers/modal_control.php');
-
-			$data['user'] = $this->mu->getUserInfo($sess_id);
+			$checkUser = $this->mu->getUser('ms_user_m', ['user_id' => $sess_id])->row_array();
+			if ($checkUser) {
+				$data['user'] = $this->mu->getUserInfo($sess_id);
+			} else {
+				$userOrainfo = $this->mu->getOraUserInfo($sess_id);
+				$user = array(
+					"username"=>$userOrainfo->USERNAME,
+					"first_name"=>$userOrainfo->FIRST_NAME,
+					"last_name"=>$userOrainfo->LAST_NAME,
+					"email"=>"",
+					"dept_name"=>"",
+					"role_name"=>"",
+					"created_date"=>"",
+					"img_url"=>"default.png"
+				);
+				$data['user'] = $user;
+				echo "<script>console.log('" . json_encode($user) . "');</script>";
+				
+			}
 			// $data['local_code'] = $this->mu->getLocalCode();
             $data['tittle'] = 'Home';
-
             $this->load->view('templates/v_sidebar',$data);
             $this->load->view('templates/v_topbar', $data);
             $this->load->view('v_home', $data);

@@ -45,7 +45,7 @@
             }
             $menu.='<li class="nav-item">' . anchor($p->alias . '/' . $p->link, '
                 <i class="' . $p->icon . '"></i>
-                <span>' . $p->menu_tittle . '</span>
+                <span>' . $p->menu_tittle2 . '</span>
                 ', 
                 $attrib_parent
                 // array('class' => 'nav-link collapsed', 
@@ -74,7 +74,7 @@
                     $cls_child = '';
                 }
                 $menu.='<li class="list-group-item ' . $cls_child . '">' . anchor($p->alias . '/'.strtolower(preg_replace('/\s+/', '-', $c->parent_name)).'/'.$c->link, 
-                '<i class="' . $c->icon . '"></i><span>' . $c->menu_tittle . '</span>',
+                '<i class="' . $c->icon . '"></i><span>' . $c->menu_tittle2 . '</span>',
                 array('class' => 'collapse-item text-decoration-none')
             );
             $menu.='</li>';
@@ -87,7 +87,7 @@
             // $menu.='<span>' . $uri_child . '</span>';
             $menu.='<li class="nav-item">' . anchor($p->alias . '/' . $p->link, '
                 <i class="' . $p->icon . '"></i>
-                <span>' . $p->menu_tittle . '</span>', array('class' => 'nav-link')
+                <span>' . $p->menu_tittle2 . '</span>', array('class' => 'nav-link')
                                     );
         }
     }

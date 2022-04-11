@@ -75,14 +75,6 @@
 		format: "DD.MM.yyyy",
 	});
 
-	// $("#returnDate_picker").datetimepicker({
-	// 	format: "DD.MM.yyyy",
-	// });
-
-	// $('#returnDate_picker').datetimepicker({
-	// 	defaultDate: new Date()
-	// });
-
 	$("#sidebarToggle").on("click", function () {
 		$("#content-wrapper").toggleClass("sidebar-hidden");
 	});
@@ -407,8 +399,8 @@
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 			autoLoad_polimon();
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
-			var date = new Date();
-			var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+			// var date = new Date();
+			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 		}
 
 		pageInit();
