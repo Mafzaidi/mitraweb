@@ -36,9 +36,13 @@ class Medrec extends CI_Controller
 			include (APPPATH.'controllers/modal_control.php');
             $page = str_replace('-', '_', $param);
 
-            if($this->uri->segment(3) <> ''){  
-                if ($param == str_replace('-', '_',$this->uri->segment(3))) {
-                    require_once(APPPATH."controllers/page/page.".$param.".php");
+            $filename = APPPATH."controllers/page/page.".$param.".php";
+
+            if (file_exists($filename)) {
+                if($this->uri->segment(3) <> ''){  
+                    if ($param == str_replace('-', '_',$this->uri->segment(3))) {
+                        require_once(APPPATH."controllers/page/page.".$param.".php");
+                    }
                 }
             }
             
@@ -58,7 +62,7 @@ class Medrec extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				echo "<script>console.log('" . json_encode($user) . "');</script>";
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";
 				
 			}
             $data['tittle'] = "Home";
@@ -81,9 +85,13 @@ class Medrec extends CI_Controller
 			include (APPPATH.'controllers/modal_control.php');
             $page = str_replace('-', '_', $param);
 
-            if($this->uri->segment(3) <> ''){  
-                if ($param == str_replace('-', '_',$this->uri->segment(3))) {                   
-                    // require_once(APPPATH."controllers/medrec/page.".$param.".php");
+            $filename = APPPATH."controllers/page/page.".$param.".php";
+
+            if (file_exists($filename)) {
+                if($this->uri->segment(3) <> ''){  
+                    if ($param == str_replace('-', '_',$this->uri->segment(3))) {
+                        require_once(APPPATH."controllers/page/page.".$param.".php");
+                    }
                 }
             }
             
@@ -103,7 +111,7 @@ class Medrec extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				echo "<script>console.log('" . json_encode($user) . "');</script>";
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";
 				
 			}
             $data['tittle'] = "Home";

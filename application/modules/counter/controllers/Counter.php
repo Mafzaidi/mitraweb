@@ -39,10 +39,13 @@ class Counter extends CI_Controller
             $uri2 = $this->uri->segment(2);
             $uri1 = $this->uri->segment(1);
 
-            if($uri3 <> ''){  
-                if ($param == str_replace('-', '_',$uri3)) {
-                    require_once(APPPATH."controllers/page/page.".$param.".php");
-                    // echo "<script>console.log('" . str_replace('-', '_',$this->uri->segment(1)) . "');</script>";
+            $filename = APPPATH."controllers/page/page.".$param.".php";
+
+            if (file_exists($filename)) {
+                if($this->uri->segment(3) <> ''){  
+                    if ($param == str_replace('-', '_',$this->uri->segment(3))) {
+                        require_once(APPPATH."controllers/page/page.".$param.".php");
+                    }
                 }
             }
             
@@ -62,7 +65,7 @@ class Counter extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				echo "<script>console.log('" . json_encode($user) . "');</script>";
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";
 				
 			}
             $data['tittle'] = "Home";
@@ -90,13 +93,15 @@ class Counter extends CI_Controller
             include (APPPATH.'controllers/modal_control.php');
             include (APPPATH.'controllers/menu_control.php');
             
-            if($this->uri->segment(3) <> ''){  
-                if ($param == str_replace('-', '_',$this->uri->segment(3))) {
-                    if ($param == "poli_monitor") {
+            $filename = APPPATH."controllers/page/page.".$param.".php";
+
+            if (file_exists($filename)) {
+                if($this->uri->segment(3) <> ''){  
+                    if ($param == str_replace('-', '_',$this->uri->segment(3))) {
                         require_once(APPPATH."controllers/page/page.".$param.".php");
                     }
                 }
-            }    
+            }   
 
             $page = str_replace('-', '_', $param);       
 
@@ -116,7 +121,7 @@ class Counter extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				echo "<script>console.log('" . json_encode($user) . "');</script>";
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";
 				
 			}
             $data['tittle'] = "Home";
