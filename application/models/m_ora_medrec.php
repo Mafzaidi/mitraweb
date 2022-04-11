@@ -71,7 +71,6 @@ class M_ora_medrec extends CI_Model
         $created_by,
         $diserahkan_oleh,
         $tgl_janji_kembali,
-        $catatan,
         $trans_pinjam
     )
     {
@@ -85,7 +84,6 @@ class M_ora_medrec extends CI_Model
                         CREATED_BY, 
                         DISERAHKAN_OLEH, 
                         TGL_JANJI_KEMBALI, 
-                        CATATAN, 
                         TRANS_PINJAM_MR
                     )
                 VALUES
@@ -98,7 +96,6 @@ class M_ora_medrec extends CI_Model
                         '" . $created_by . "',
                         '" . $diserahkan_oleh . "',
                         TO_DATE('" . $tgl_janji_kembali . "','DD.MM.RRRR'),
-                        '" . $catatan . "',
                         '" . $trans_pinjam . "'
                     )
                 ";
@@ -181,7 +178,7 @@ class M_ora_medrec extends CI_Model
                         A.CREATED_DATE,
                         A.CREATED_BY,
                         A.DISERAHKAN_OLEH,
-                        A.TGL_JANJI_KEMBALI,
+                        TO_CHAR(A.TGL_JANJI_KEMBALI, 'DD.MM.RRRR') AS TGL_JANJI_KEMBALI,
                         A.PETUGAS_PENERIMA,
                         A.TGL_AKHIR_KEMBALI,
                         A.CATATAN,

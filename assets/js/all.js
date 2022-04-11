@@ -10,12 +10,25 @@
 	var date = new Date();
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
+	$("#datetimepicker4").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#birthDate_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
 	$("#fromDateRpt_picker").datetimepicker({
 		date: today,
 		format: "DD.MM.yyyy",
 	});
 
 	$("#toDateRpt_picker").datetimepicker({
+		date: today,
+		format: "DD.MM.yyyy",
+	});
+
+	$("#returnDate_picker").datetimepicker({
 		date: today,
 		format: "DD.MM.yyyy",
 	});
@@ -39,49 +52,9 @@
 			}
 		});
 
-		$("#datetimepicker4").datetimepicker({
-			format: "DD.MM.yyyy",
-		});
-
-		$("#birthDate_picker").datetimepicker({
-			format: "DD.MM.yyyy",
-		});
-
-		$("#fromDateRpt_picker").datetimepicker({
-			format: "DD.MM.yyyy",
-		});
-
-		$("#toDateRpt_picker").datetimepicker({
-			format: "DD.MM.yyyy",
-		});
-
 		page_polimon_click();
 		detail_polimon_click();
 	}
-
-	$("#datetimepicker4").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#birthDate_picker").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#fromDateRpt_picker").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#toDateRpt_picker").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	// $("#returnDate_picker").datetimepicker({
-	// 	format: "DD.MM.yyyy",
-	// });
-
-	// $('#returnDate_picker').datetimepicker({
-	// 	defaultDate: new Date()
-	// });
 
 	$("#sidebarToggle").on("click", function () {
 		$("#content-wrapper").toggleClass("sidebar-hidden");
@@ -114,7 +87,6 @@
 				dept: "required",
 				necessity: "required",
 				lender: "required",
-				descBrw: "required",
 			},
 			messages: {
 				mr: {
@@ -166,7 +138,6 @@
 				dept: "required",
 				necessity: "required",
 				lender: "required",
-				descBrw: "required",
 			},
 			messages: {
 				mr: {
@@ -187,13 +158,9 @@
 				lender: {
 					required: "Pemberi pinjam harus di isi",
 				},
-				descBrw: {
-					required: "Keterangan harus di isi",
-				},
 			},
 			submitHandler: function (form) {
 				// your ajax would go here
-
 				var mr = $("#mr").val();
 				$.ajax({
 					type: "POST",
@@ -210,11 +177,6 @@
 						$("#inputReturnDate").val(data.TGL_LAHIR);
 						$("#textAddress").val(data.ALAMAT);
 						$("#formBrwMr .next").prop("disabled", false);
-
-						$("#returnDate_picker").datetimepicker({
-							date: today,
-							format: "DD.MM.yyyy",
-						});
 
 						pageInit();
 					},
@@ -237,7 +199,6 @@
 			var created_by = $("#inputLender").attr("nokar");
 			var diserahkan_oleh = $("#inputLender").val();
 			var tgl_janji_kembali = $("#inputReturnDate").val();
-			var catatan = $("#inputDescBrw").val();
 
 			$.ajax({
 				type: "POST",
@@ -251,7 +212,6 @@
 					created_by: created_by,
 					diserahkan_oleh: diserahkan_oleh,
 					tgl_janji_kembali: tgl_janji_kembali,
-					catatan: catatan,
 				},
 				success: function (data) {
 					// alert(JSON.stringify(data));
@@ -267,12 +227,7 @@
 					$("#inputBorrower").val("");
 					$("#inputNecsty").val("");
 					$("#inputDept").val("");
-					$("#inputDescBrw").val("");
-
-					$("#returnDate_picker").datetimepicker({
-						date: today,
-						format: "DD.MM.yyyy",
-					});
+					
 					pageInit();
 				},
 				error: function (data) {
@@ -407,8 +362,6 @@
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 			autoLoad_polimon();
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
-			var date = new Date();
-			var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 		}
 
 		pageInit();
@@ -503,21 +456,6 @@
 				$(this).html("Pause");
 			}
 		});
-
-		// $('.sort-col').toggle(function(){
-		// 	$(this).addClass('asc');
-		// 	timer.pause();
-		// },
-		// function(){
-		// 	$(this).removeClass('asc').addClass('desc');
-		// 	timer.pause();
-		// },
-		// function(){
-		// 	$(this).removeClass('desc');
-		// 	timer.resume();
-		// });
-		// $('.sort-col').toggle(function(){
-		// });
 	}
 
 	function refreshPolimon() {
@@ -1480,6 +1418,7 @@
 				},
 			});
 		} else {
+			var title = "Peringatan";
 			var error =
 				"<div class='remove-checkmark'>" +
 				"<div class='check-icon'>" +
@@ -1499,6 +1438,7 @@
 
 			$("#myDynamicModal .modal-footer").html(btn);
 			$("#myDynamicModal .modal-body").html(error);
+			$("#myDynamicModal .modal-title").html(title);
 			$("#myDynamicModal").modal("show");
 		}
 	});

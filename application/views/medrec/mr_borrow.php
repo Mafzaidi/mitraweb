@@ -23,7 +23,7 @@
                                     <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="ketik medrec" name="mr" />
                                 </div>
                                 <div class="col-auto">
-                                    <button type="" class="btn btn-primary mb-2" id="btnSearchBrw">Find</button>
+                                    <button type="" class="btn btn-primary mb-2" id="btnSearchBrw">Cari</button>
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="next btn btn-primary" disabled>Next</button>
+                        <button class="next btn btn-primary" disabled>Lanjut</button>
                     </fieldset>
                     
                     <!-- fieldset 2 -->
@@ -68,7 +68,7 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-md col-lg-10">
                                         <label class="sr-only" for="inputBorrower"></label>
-                                        <input type="text" name="peminjam" class="form-control mb-2 mr-sm-2" id="inputBorrower" placeholder="ketik nama peminjam" />
+                                        <input type="text" name="borrower" class="form-control mb-2 mr-sm-2" id="inputBorrower" placeholder="ketik nama peminjam" />
                                     </div>
                                 </div>
 
@@ -111,18 +111,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
+                                    <!-- <div class="form-row">
                                         <div class="form-group col-lg">
                                             <label for="inputDescBrw">Catatan</label>
                                             <input type="text" name="descBrw" class="form-control" id="inputDescBrw" placeholder="catatan" />
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
                         </div>
-                        <button class="previous btn btn-light">Previous</button>
-                        <button class="confirm btn btn-primary" id="confirmBrwBtn" >Confirm</button>
+                        <button class="previous btn btn-light">Kembali</button>
+                        <button class="confirm btn btn-primary" id="confirmBrwBtn" >Lanjut</button>
                         <!-- <button class="submit d-none">Next</button> -->
                     </fieldset>
 

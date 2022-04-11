@@ -57,7 +57,6 @@ class Medrec_func extends CI_Controller
             $created_by = $this->input->post('created_by');
             $diserahkan_oleh = $this->input->post('diserahkan_oleh');
             $tgl_janji_kembali = $this->input->post('tgl_janji_kembali');
-            $catatan = $this->input->post('catatan');
 
             $get = $this->mr->getTransPinjamMR();
             $result = array(
@@ -72,7 +71,6 @@ class Medrec_func extends CI_Controller
                 "created_by"=>$created_by,
                 "diserahkan_oleh"=>$diserahkan_oleh,
                 "tgl_janji_kembali"=>$tgl_janji_kembali,
-                "catatan"=>$catatan,
                 "trans_pinjam"=>$trans_pinjam
             );
 
@@ -84,7 +82,6 @@ class Medrec_func extends CI_Controller
                                                 $created_by,
                                                 $diserahkan_oleh,
                                                 $tgl_janji_kembali,
-                                                $catatan,
                                                 $trans_pinjam
                                             );
             echo json_encode($data);
