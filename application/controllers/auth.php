@@ -57,7 +57,7 @@ class Auth extends CI_Controller
                                 // password verify
                                     include (APPPATH.'controllers/functions/Ora_auth.php');
                                     $login = $this->mu->loginUser($username);
-                                    $loginOra = $this->mu->getDataUser($username);
+                                    $loginOra = $this->mu->getDataOraUser($username);
                                     $localcode = $this->mglobal->getLocalCode();
                                     // $currSession = $this->mglobal->getCurrentSess();
                                     if (!$connect) {
@@ -133,10 +133,39 @@ class Auth extends CI_Controller
                     }
                 }
 			} else {
-				$this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                Username is not registered!
-                </div>');
-                redirect('auth');
+                $userOra = $this->mu->getDataOra('MS_KARYAWAN', ['NO_KAR' => $username])->row_array();
+                if ($userOra) {
+                    include (APPPATH.'controllers/functions/Ora_auth.php');
+                    $loginOra = $this->mu->getDataOraUser($username);
+                    $localcode = $this->mglobal->getLocalCode();
+                    $loginDeptMYSQL = $this->mu->getDeptMysqlUser($loginOra->KD_BAGIAN);
+
+                    if (!$connect) {
+                        $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                        Wrong password!
+                        </div>');
+                        redirect('auth');
+                    } else {
+                        $data_session = array(
+                            'user_id' => $loginOra->USERNAME,
+                            'role_id' => '2',
+                            'dept_id' => $loginDeptMYSQL->dept_id,
+                            'kd_bagian' => $loginOra->KD_BAGIAN,
+                            'lokasi_id' => $localcode->LOKASI_ID,
+                            // 'ora_session' => $currSession->SESS_ID,
+                            'status' => 'login'
+                        );
+
+                        $this->session->set_userdata($data_session);
+                        redirect(base_url('home'));    
+                    }
+
+                }else {                   
+                    $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                    Username is not registered!
+                    </div>');
+                    redirect('auth');
+                }
 			}
 		} else {
 			/*echo "<script>alert('User & Password Harus diisi '); javascript:history.back();</script>";

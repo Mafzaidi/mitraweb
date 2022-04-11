@@ -56,6 +56,25 @@
 		detail_polimon_click();
 	}
 
+<<<<<<< HEAD
+=======
+	$("#datetimepicker4").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#birthDate_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#fromDateRpt_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#toDateRpt_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+>>>>>>> 32ff8c516a868b23cc378ebc8163b4fce0a629cd
 	$("#sidebarToggle").on("click", function () {
 		$("#content-wrapper").toggleClass("sidebar-hidden");
 	});
@@ -362,6 +381,11 @@
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 			autoLoad_polimon();
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
+<<<<<<< HEAD
+=======
+			// var date = new Date();
+			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+>>>>>>> 32ff8c516a868b23cc378ebc8163b4fce0a629cd
 		}
 
 		pageInit();

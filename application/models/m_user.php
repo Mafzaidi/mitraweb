@@ -50,6 +50,7 @@ class M_user extends CI_Model
         return $row;
     }
 
+<<<<<<< HEAD
     function getUserDept($username)
     {
         $query = $this->db->query("SELECT
@@ -76,24 +77,54 @@ class M_user extends CI_Model
     }
 
     function getDataUser($username)
+=======
+    function getDataOraUser($username)
+>>>>>>> 32ff8c516a868b23cc378ebc8163b4fce0a629cd
     {
         $sql = "SELECT
                     'PLAY_' || A.NO_KAR AS USERNAME,
                     A.NO_KAR, 
+                    SUBSTR (A.NAMA_KAR, 1,instr(A.NAMA_KAR,' ') - 1) AS FIRST_NAME,
+                    NVL(SUBSTR (A.NAMA_KAR, INSTR( A.NAMA_KAR, ' ', -1 ) + 1 ),'') AS LAST_NAME,
                     A.NAMA_KAR,
                     A.BAGIAN, 
                     A.KD_BAGIAN,
                     A.STRUK_ORG_ID,
                     A.DEPT_ID
-                    FROM
+                FROM
                     HIS_MANAGER.MS_KARYAWAN A
-                    WHERE
+                WHERE
                     A.SHOW_ITEM = '1'
                     AND A.NO_KAR = '" . $username . "'";
                     
         $query = $this->oracle_db->query($sql);
         $row = $query->row();
         return $row;
+    }
+
+    function getOraUserInfo($userid)
+    {
+        $sql = "SELECT
+                    'PLAY_' || A.NO_KAR AS USERNAME,
+                    A.NO_KAR, 
+                    SUBSTR (A.NAMA_KAR, 1,instr(A.NAMA_KAR,' ') - 1) AS FIRST_NAME,
+                    NVL(SUBSTR (A.NAMA_KAR, INSTR( A.NAMA_KAR, ' ', -1 ) + 1 ),'') AS LAST_NAME,
+                    A.NAMA_KAR,
+                    A.BAGIAN, 
+                    A.KD_BAGIAN,
+                    A.STRUK_ORG_ID,
+                    A.DEPT_ID
+                FROM
+                    HIS_MANAGER.MS_KARYAWAN A
+                WHERE
+                    A.SHOW_ITEM = '1'
+                    AND 'PLAY_' || A.NO_KAR = '" . $userid . "'";
+                    
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+        // $row_array = $query->row_array();
+        // return $row_array;
     }
 
     function getUserInfo($userid)
@@ -120,5 +151,19 @@ class M_user extends CI_Model
 
         $row_array = $query->row_array();
         return $row_array;
+    }
+
+    function getDeptMysqlUser($kd_bagian)
+    {
+        $sql = "SELECT
+                    a.dept_id
+                FROM
+                    ms_dept_m a
+                WHERE
+                    a.kd_bagian = '" . $kd_bagian . "'";
+                    
+        $query = $this->db->query($sql);
+        $row = $query->row();
+        return $row;
     }
 }

@@ -39,7 +39,11 @@
 		<script src="<?php echo base_url('assets/vendor/tinysort-3.2.5/tinysort.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
+<<<<<<< HEAD
 		<script src="<?php echo base_url('assets/js/all.js?v=202204090951'); ?>"></script>
+=======
+		<script src="<?php echo base_url('assets/js/all.js?v=202204090453'); ?>"></script>
+>>>>>>> 32ff8c516a868b23cc378ebc8163b4fce0a629cd
 
 	</body>
 
