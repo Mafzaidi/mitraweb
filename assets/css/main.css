@@ -547,12 +547,69 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	font-weight: 500;
 }
 
-.tb-row.enabled:hover{
+.tb-header [class*="col"] {
+	border-right: 1px solid #fff;
+	padding: 0.75rem;
+}
+
+.tb-body [class*="col"] {
+	/* padding: 0.75rem; */
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.tb-row .hide {
+	display: none;
+}
+
+.tb-row.enabled:hover {
 	background-color: #e2f6ff;
 	cursor: pointer;
 }
 
-.tb-row.selected .tb-cell{
+.tb-row.hover:hover {
+	box-shadow: 0 0.125rem 0.25rem rgb(255, 255, 255) !important;
+	cursor: pointer;
+}
+
+.tb-row.hover.border-hover:hover {
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.125) !important;
+}
+
+.tb-row.hover.hover-event:hover .hover.hide {
+	display: block;
+}
+
+.tb-row.hover.hover-event:hover .hover.show {
+	display: none;
+}
+
+.tb-row.hover i {
+	font-size: 0.95rem !important;
+	color: #5f6368;
+	opacity: 1;
+}
+
+.tb-row.hover .i-wrapp {
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	cursor: pointer;
+	display: block;
+	height: 38px;
+	padding: 11px;
+	width: 38px;
+	text-align: center;
+}
+
+.tb-row.hover .i-wrapp:hover {
+	background-color: rgba(60, 64, 67, 0.078);
+}
+
+.tb-row.hover .i-wrapp:hover i {
+	color: #2d2e30;
+}
+
+.tb-row.selected .tb-cell {
 	background-color: #e2f6ff;
 }
 
@@ -586,15 +643,6 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 
 .bg-primary-2 {
 	background-color: #76b8ff !important;
-}
-
-.tb-header [class*="col"] {
-	border-right: 1px solid #fff;
-	padding: 0.75rem;
-}
-
-.tb-body [class*="col"] {
-	padding: 0.75rem;
 }
 
 .p-rem-50 {
@@ -678,29 +726,29 @@ button.pdf:before {
 	margin-right: 2px;
 }
 
-button.delete:before{
+button.delete:before {
 	content: "\f2ed";
 	font-family: "Font Awesome 5 Free";
 }
 
-button.edit:before{
+button.edit:before {
 	content: "\f304";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 700;
 }
 
-button.save:before{
+button.save:before {
 	content: "\f0c7";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 700;
 }
 
-button.cancel:before{
+button.cancel:before {
 	content: "\f05e";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 }
 
-.ui-front{
+.ui-front {
 	z-index: 1051 !important;
 }

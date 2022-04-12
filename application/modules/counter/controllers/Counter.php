@@ -10,6 +10,7 @@ class Counter extends CI_Controller
 			$this->load->library('session');     
     		$this->load->model('m_user','mu');  
     		$this->load->model('m_counter','mctr');
+            $this->load->model('m_form_application','mfa');
 			$this->load->library('modal_variables');
             $this->load->library('pagination');
 	}
