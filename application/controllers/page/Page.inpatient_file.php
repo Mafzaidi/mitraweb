@@ -1,6 +1,6 @@
 <?php
 
-    $per_page = 10;
+    $per_page = 50;
     $page_start = 1;
 
     if($this->uri->segment(3) <> ''){
@@ -16,18 +16,25 @@
 
     $i= 0;
     $tb = '';
+    $nbsp = '';
 
     foreach($rows as $inp) {
+        if(strlen($inp->MEDREC) == 6) {
+            $nbsp = '&nbsp;&nbsp;';
+        } else {
+            $nbsp = '&nbsp;';
+        }
         $tb.= '<div class="row tb-row hover border-hover hover-event border-bottom ' . ($i%2 ? 'odd-row':'even-row') . '">';
         $tb.= 
             '<div class="col-md-8 tb-cell">
                 <div class="row">
-                    <div class="col-sm-12 col-md-1 p-0">' . $inp->RNUM . '</div>
-                    <div class="col-sm-12 col-md-2 p-0 font-weight-bolder">' . $inp->MEDREC . '</div>
-                    <div class="col-sm-12 col-md-3 p-0 font-weight-bolder">' . $inp->PASIEN . '</div>
-                    <div class="col-sm-12 col-md-2 p-0">' . $inp->RUANG_ID . '</div>
-                    <div class="col-sm-12 col-md-2 p-0">' . $inp->NAMA_DEPT . '</div>
-                    <div class="col-sm-12 col-md-2 p-0">' . $inp->TGL_MASUK . '</div>
+                    <div class="col-sm-12 col-md-4 p-0">
+                        <div class="row">
+                            <div class="w-35-px">' . $inp->RNUM . '</div>
+                            <div class="col-sm-12 col-md-10 p-0"><b>' . $inp->MEDREC . '</b>' . $nbsp . '-&nbsp;' . $inp->PASIEN .'</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-8 p-0 "> Masuk di tanggal&nbsp;'. $inp->TGL_MASUK . '&nbsp;-&nbsp;Ruang:&nbsp;'. $inp->RUANG_ID . '&nbsp;-&nbsp;NS:&nbsp;' . $inp->NAMA_DEPT . '</div>
                 </div>
             </div>';
         $tb.= 
