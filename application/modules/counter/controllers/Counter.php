@@ -10,6 +10,7 @@ class Counter extends CI_Controller
 			$this->load->library('session');     
     		$this->load->model('m_user','mu');  
     		$this->load->model('m_counter','mctr');
+            $this->load->model('m_form_application','mfa');
 			$this->load->library('modal_variables');
             $this->load->library('pagination');
 	}
@@ -65,8 +66,7 @@ class Counter extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				// echo "<script>console.log('" . json_encode($user) . "');</script>";
-				
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";				
 			}
             $data['tittle'] = "Home";
 
@@ -121,8 +121,7 @@ class Counter extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				// echo "<script>console.log('" . json_encode($user) . "');</script>";
-				
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";			
 			}
             $data['tittle'] = "Home";
 
