@@ -9,7 +9,7 @@ class Cashier extends CI_Controller
 			parent::__construct();
 			$this->load->library('session');     
     		$this->load->model('m_user','mu');  
-    		$this->load->model('m_counter','mctr');
+    		$this->load->model('m_form_applicatio','mfa');
 			$this->load->library('modal_variables');
             $this->load->library('pagination');
 	}
