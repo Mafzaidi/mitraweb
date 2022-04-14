@@ -1,5 +1,5 @@
 
-<div class="container-fluid table_wrapper p-0" id="polimon_wrapper">
+<div class="container-fluid table_wrapper p-0" id="page_inpatientFile">
     <div class="card rounded-0">
         <div class="card-body">
             <div class="row">
@@ -7,7 +7,7 @@
                     <div class="dataTables_length" id="">
                         <label>
                             Tampilkan 
-                            <select name="dataTable_length" id="select_pageSize_mr_return" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                            <select name="dataTable_length" id="select_pageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
                                 <option value="">Semua</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="tb">
+                    <div class="tb" id="tb_inpatientFile">
                         <div class="tb-body">  
                             <?= $tablerows; ?>
                         </div> 

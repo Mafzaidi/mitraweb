@@ -34,17 +34,27 @@
                             <div class="col-sm-12 col-md-10 p-0"><b>' . $inp->MEDREC . '</b>&nbsp-&nbsp;' . $inp->PASIEN .'</div>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;'. $inp->TGL_MASUK . '&nbsp;-&nbsp;Ruang:&nbsp;'. $inp->RUANG_ID . '&nbsp;-&nbsp;NS:&nbsp;' . $inp->NAMA_DEPT . '</div>
+                    <div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;' . $inp->TGL_MASUK . '&nbsp;-&nbsp;Ruang:&nbsp;'. $inp->RUANG_ID . '&nbsp;-&nbsp;NS:&nbsp;' . $inp->NAMA_DEPT . '</div>
                 </div>
             </div>';
+        $is_reg = '';
+        $is_edit = '';
+        if ($inp->REG_BERKAS <> ''){
+            $is_reg = 'disabled';
+            $is_edit = 'enabled';
+        } else {
+            $is_reg = 'enabled';
+            $is_edit = 'disabled';
+        }
         $tb.= 
             '<div class="col-sm-12 col-md-3 tb-cell p-0">
                 <div class="row">
                     <div class="col-sm-12 col-md-4 p-0"></div>
                     <div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' . substr_replace($inp->REKANAN_NAMA, '...', 20) . '</div>
                     <div class="col-sm-12 col-md-8 p-0 hover hide">
-                        <div class="d-flex justify-content-center">
-                            <a class="i-wrapp"><i class="fas fa-folder-plus"></i></a>
+                        <div class="d-flex justify-content-center" reg-id="' . $inp->REG_ID . '">
+                            <a class="i-wrapp" id="btnAddBerkas" ' . $is_reg . '><i class="fas fa-folder-plus"></i></a>
+                            <a class="i-wrapp" id="btnEditBerkas" ' . $is_edit . '><i class="fas fa-edit"></i></a>
                         </div>
                     </div>
                 </div>
@@ -59,7 +69,7 @@
     $config['total_rows'] = $countrows;
     $config['per_page'] = $per_page;
 
-    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-end" id="polimon-pagination">';
+    $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-end" id="inpatientFile-pagination">';
     $config['full_tag_close']   = '</ul></nav></div>';
     $config['first_link']       = 'First';
     $config['last_link']        = 'Last';

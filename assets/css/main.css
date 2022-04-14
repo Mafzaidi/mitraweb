@@ -606,7 +606,16 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 }
 
 .tb-row.hover .i-wrapp:hover i {
-	color: #2d2e30;
+	color: #2d2e30 !important;
+}
+
+.tb-row.hover .i-wrapp[disabled]:hover {
+	cursor: not-allowed;
+}
+
+.tb-row.hover .i-wrapp[disabled]:hover i {
+	color: #5f6368 !important;
+	
 }
 
 .tb-row.selected .tb-cell {

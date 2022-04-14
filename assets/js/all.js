@@ -1584,6 +1584,27 @@
 
 	// Jquery inpatient-file
 
+	$("#tb_inpatientFile").on("click", "#btnAddBerkas:not([disabled])", function () {
+		alert(21);
+	});
+
+	$("#tb_inpatientFile").on("click", "#btnEditBerkas:not([disabled])", function () {
+		alert(22);
+	});
+
+	$("#inpatientFile-pagination").on("click", "a", function (e) {
+		e.preventDefault();
+		var pageno = $(this).attr("data-ci-pagination-page");
+		var pageselect = $("#select_pageSize option:selected").val();
+		var page_start = (pageno - 1) * pageselect + 1;
+		var per_page = $("#select_pageSize option:selected").val();
+		var func_url =
+			base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+
+		loadInpatientFile(page_start, per_page, func_url);
+		// console.log(pageno, pageselect, page_start, per_page, func_url);
+	});
+
 	function loadInpatientFile(page_start, per_page, func_url) {
 		var tb = "";
 		// console.log(page_start, per_page, func_url);
@@ -1603,37 +1624,39 @@
 				for (var i = 0; i < rcount; i++) {
 					var oddEven = "";
 					if (i % 2 == 0) {
-						oddEven = "even";
+						oddEven = "even-row";
 					} else {
-						oddEven = "odd";
+						oddEven = "odd-row";
 					}
 					tb +=
-						'<div class="row tb-row border-bottom ' +
+						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
 						oddEven +
-						' enabled" trans_id="' +
-						data.response[i].trans_pinjam +
 						'">';
 					tb +=
-						'<div class="col-md-1 tb-cell p-rem-50">' +
-						data.response[i].no +
-						"</div>";
+						'<div class="col-sm-12 col-md-9 tb-cell">' +
+							'<div class="row">' +
+								'<div class="col-sm-12 col-md-5 p-0">' +
+									'<div class="row">' +
+										'<div class="w-35-px">' + data.response[i].no + '</div>'
+										'<div class="col-sm-12 col-md-10 p-0"><b>' + data.response[i].medrec + '</b>&nbsp-&nbsp;' + data.response[i].pasien +'</div>'
+									'</div>' +
+								'</div>' +
+								'<div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;' + data.response[i].tgl_masuk + '&nbsp;-&nbsp;Ruang:&nbsp;' + data.response[i].ruang_id + '&nbsp;-&nbsp;NS:&nbsp;' + data.response[i].nama_dept + '</div>' +
+							'</div>' +
+						'</div>';
 					tb +=
-						'<div class="col-md-2 tb-cell p-rem-50">' +
-						data.response[i].medrec +
-						"</div>";
-					tb +=
-						'<div class="col-md-4 tb-cell p-rem-50">' +
-						data.response[i].pasien +
-						"</div>";
-					tb +=
-						'<div class="col-md-2 tb-cell p-rem-50">' +
-						data.response[i].tgl_janji_kembali +
-						"</div>";
-					tb +=
-						'<div class="col-md-3 tb-cell p-rem-50 text-center">' +
-						'<button class="btn bg-primary btn-sm mx-1 text-white edit"></button>' +
-						'<button class="btn btn-danger btn-sm mx-1 text-white delete"></button>' +
-						"</div>";
+						'<div class="col-sm-12 col-md-3 tb-cell p-0">' +
+							'<div class="row">' +
+								'<div class="col-sm-12 col-md-4 p-0"></div>' +
+								'<div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' + data.response[i].rekanan_nama + '</div>' +
+								'<div class="col-sm-12 col-md-8 p-0 hover hide">' +
+									'<div class="d-flex justify-content-center" reg-id="' + data.response[i].reg_id + '">' +
+										'<a class="i-wrapp" id="btnAddBerkas" ' + data.response[i].medrec + '><i class="fas fa-folder-plus"></i></a>'
+										'<a class="i-wrapp" id="btnEditBerkas" ' + data.response[i].medrec + '><i class="fas fa-edit"></i></a>'
+									'</div>' +
+								'</div>' +
+							'</div>' +
+						'</div>';
 
 					tb += "</div>";
 				}
@@ -1650,8 +1673,8 @@
 				}
 				var total = data.count;
 
-				$("#pinjamMrReturn .tb-body").html("");
-				$("#pinjamMrReturn .tb-body").html(tb);
+				$("#tb_inpatientFile .tb-body").html("");
+				$("#tb_inpatientFile .tb-body").html(tb);
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
@@ -1682,8 +1705,8 @@
 					tb += "</div>";
 					tb += "</div>";
 
-					$("#pinjamMrReturn .tb-body").html("");
-					$("#pinjamMrReturn .tb-body").html(tb);
+					$("#tb_inpatientFile .tb-body").html("");
+					$("#tb_inpatientFile .tb-body").html(tb);
 
 					$("#dataTable_info").html("");
 					$("#dataTable_info").html("Showing 0 to 0 of 0");
