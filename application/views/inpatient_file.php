@@ -9,9 +9,9 @@
                             Tampilkan 
                             <select name="dataTable_length" id="select_pageSize_mr_return" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
                                 <option value="">Semua</option>
-                                <option value="10" selected>10</option>
+                                <option value="10">10</option>
                                 <option value="25">25</option>
-                                <option value="50">50</option>
+                                <option value="50" selected>50</option>
                                 <option value="100">100</option>
                             </select> baris
                         </label>

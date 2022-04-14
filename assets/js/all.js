@@ -243,7 +243,7 @@
 					$("#inputBorrower").val("");
 					$("#inputNecsty").val("");
 					$("#inputDept").val("");
-					
+
 					pageInit();
 				},
 				error: function (data) {
@@ -1484,6 +1484,117 @@
 				status: status,
 				from_date: from_date,
 				to_date: to_date,
+			},
+			success: function (data) {
+				// alert(JSON.stringify(data));
+				var rcount = data.response.length;
+
+				for (var i = 0; i < rcount; i++) {
+					var oddEven = "";
+					if (i % 2 == 0) {
+						oddEven = "even";
+					} else {
+						oddEven = "odd";
+					}
+					tb +=
+						'<div class="row tb-row border-bottom ' +
+						oddEven +
+						' enabled" trans_id="' +
+						data.response[i].trans_pinjam +
+						'">';
+					tb +=
+						'<div class="col-md-1 tb-cell p-rem-50">' +
+						data.response[i].no +
+						"</div>";
+					tb +=
+						'<div class="col-md-2 tb-cell p-rem-50">' +
+						data.response[i].medrec +
+						"</div>";
+					tb +=
+						'<div class="col-md-4 tb-cell p-rem-50">' +
+						data.response[i].pasien +
+						"</div>";
+					tb +=
+						'<div class="col-md-2 tb-cell p-rem-50">' +
+						data.response[i].tgl_janji_kembali +
+						"</div>";
+					tb +=
+						'<div class="col-md-3 tb-cell p-rem-50 text-center">' +
+						'<button class="btn bg-primary btn-sm mx-1 text-white edit"></button>' +
+						'<button class="btn btn-danger btn-sm mx-1 text-white delete"></button>' +
+						"</div>";
+
+					tb += "</div>";
+				}
+
+				var num1 = page_start;
+				if (per_page !== "") {
+					if (per_page > data.count) {
+						var num2 = data.count;
+					} else {
+						var num2 = per_page;
+					}
+				} else {
+					var num2 = data.count;
+				}
+				var total = data.count;
+
+				$("#pinjamMrReturn .tb-body").html("");
+				$("#pinjamMrReturn .tb-body").html(tb);
+
+				$("#dataTable_info").html("");
+				$("#dataTable_info").html(
+					"Tampilkan" +
+						num1 +
+						" " +
+						"ke" +
+						" " +
+						num2 +
+						" " +
+						"dari" +
+						" " +
+						total +
+						" baris"
+				);
+
+				$("#pages_polimon").html("");
+				$("#pages_polimon").html(data.pagination);
+
+				// pageInit();
+			},
+			error: function (data) {
+				// alert(JSON.stringify(data));
+				if (data.response === null || data.response === undefined) {
+					tb += '<div class="row">';
+					tb +=
+						'<div class="col-md-12 bg-danger-2 text-center">NO DATA FOUND</div>';
+					tb += "</div>";
+					tb += "</div>";
+
+					$("#pinjamMrReturn .tb-body").html("");
+					$("#pinjamMrReturn .tb-body").html(tb);
+
+					$("#dataTable_info").html("");
+					$("#dataTable_info").html("Showing 0 to 0 of 0");
+				}
+				// pageInit();
+			},
+		});
+	}
+
+	// Jquery inpatient-file
+
+	function loadInpatientFile(page_start, per_page, func_url) {
+		var tb = "";
+		// console.log(page_start, per_page, func_url);
+
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: func_url,
+			data: {
+				page_start: page_start,
+				per_page: per_page,
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
