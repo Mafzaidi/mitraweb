@@ -41,7 +41,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div>
 							<input type="text" class="form-control" id="username" name="username" placeholder="Type your username" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
 							<div class="invalid-feedback">
-								Your username is required
+								Username harap di isi
 							</div>
 						</div>
 					</div>
@@ -54,7 +54,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							</div>
 							<input type="password" class="form-control" id="password" name="password" placeholder="Type your password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
 							<div class="invalid-feedback">
-								Your password is required
+								Kata sandi harap di isi
 							</div>
 						</div>
 					</div>
@@ -65,8 +65,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 				 -->
 					<div class="form-group">
-						<a href="#">Forgot password?</a></br>
-						<span class="txt3">Create Account?&nbsp;</span><a href="#">Sign up</a>
+						<a href="#">Lupa kata sandi?</a></br>
+						<span class="txt3">Buat akun?&nbsp;</span><a href="#">Sign up</a>
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">LOGIN</button>
 				</form>

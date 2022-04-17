@@ -1584,13 +1584,21 @@
 
 	// Jquery inpatient-file
 
-	$("#tb_inpatientFile").on("click", "#btnAddBerkas:not([disabled])", function () {
-		alert(21);
-	});
+	$("#tb_inpatientFile").on(
+		"click",
+		"#btnAddBerkas:not([disabled])",
+		function () {
+			alert(21);
+		}
+	);
 
-	$("#tb_inpatientFile").on("click", "#btnEditBerkas:not([disabled])", function () {
-		alert(22);
-	});
+	$("#tb_inpatientFile").on(
+		"click",
+		"#btnEditBerkas:not([disabled])",
+		function () {
+			alert(22);
+		}
+	);
 
 	$("#inpatientFile-pagination").on("click", "a", function (e) {
 		e.preventDefault();
@@ -1632,31 +1640,83 @@
 						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
 						oddEven +
 						'">';
+
+					tb += '<div class="col-sm-12 col-md-9 tb-cell">';
+
+					tb += ' <div class="row">';
+
+					tb += '<div class="col-sm-12 col-md-5 p-0">';
+
+					tb += ' <div class="row">';
+
+					tb += '<div class="w-35-px">' + data.response[i].no + "</div>";
 					tb +=
-						'<div class="col-sm-12 col-md-9 tb-cell">' +
-							'<div class="row">' +
-								'<div class="col-sm-12 col-md-5 p-0">' +
-									'<div class="row">' +
-										'<div class="w-35-px">' + data.response[i].no + '</div>'
-										'<div class="col-sm-12 col-md-10 p-0"><b>' + data.response[i].medrec + '</b>&nbsp-&nbsp;' + data.response[i].pasien +'</div>'
-									'</div>' +
-								'</div>' +
-								'<div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;' + data.response[i].tgl_masuk + '&nbsp;-&nbsp;Ruang:&nbsp;' + data.response[i].ruang_id + '&nbsp;-&nbsp;NS:&nbsp;' + data.response[i].nama_dept + '</div>' +
-							'</div>' +
-						'</div>';
+						'<div class="col-sm-12 col-md-10 p-0"><b>' +
+						data.response[i].medrec +
+						"</b>&nbsp-&nbsp;" +
+						data.response[i].pasien +
+						"</div>";
+
+					tb += "</div>";
+
+					tb += "</div>";
+
 					tb +=
-						'<div class="col-sm-12 col-md-3 tb-cell p-0">' +
-							'<div class="row">' +
-								'<div class="col-sm-12 col-md-4 p-0"></div>' +
-								'<div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' + data.response[i].rekanan_nama + '</div>' +
-								'<div class="col-sm-12 col-md-8 p-0 hover hide">' +
-									'<div class="d-flex justify-content-center" reg-id="' + data.response[i].reg_id + '">' +
-										'<a class="i-wrapp" id="btnAddBerkas" ' + data.response[i].medrec + '><i class="fas fa-folder-plus"></i></a>'
-										'<a class="i-wrapp" id="btnEditBerkas" ' + data.response[i].medrec + '><i class="fas fa-edit"></i></a>'
-									'</div>' +
-								'</div>' +
-							'</div>' +
-						'</div>';
+						'<div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;' +
+						data.response[i].tgl_masuk +
+						"&nbsp;-&nbsp;Ruang:&nbsp;" +
+						data.response[i].ruang_id +
+						"&nbsp;-&nbsp;NS:&nbsp;" +
+						data.response[i].nama_dept +
+						"</div>";
+
+					tb += "</div>";
+
+					tb += "</div>";
+
+					tb += '<div class="col-sm-12 col-md-3 tb-cell p-0">';
+					tb += '<div class="row">';
+					tb += '<div class="col-sm-12 col-md-4 p-0"></div>';
+					var textRekananNama = "";
+					if (data.response[i].rekanan_nama.length > 20) {
+						textRekananNama =
+							data.response[i].rekanan_nama.substring(0, 20) + "...";
+					} else {
+						textRekananNama = data.response[i].rekanan_nama;
+					}
+					tb +=
+						'<div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' +
+						textRekananNama +
+						"</div>";
+
+					var is_reg = "";
+					var is_edit = "";
+					if (data.response[i].reg_berkas !== "") {
+						is_reg = "enabled";
+						is_edit = "disabled";
+					} else {
+						is_reg = "disabled";
+						is_edit = "enabled";
+					}
+					tb += '<div class="col-sm-12 col-md-8 p-0 hover hide">';
+					tb +=
+						'<div class="d-flex justify-content-center" reg-id="' +
+						data.response[i].reg_id +
+						'">';
+					tb +=
+						'<a class="i-wrapp" id="btnAddBerkas" ' +
+						is_reg +
+						'><i class="fas fa-folder-plus"></i></a>';
+					tb +=
+						'<a class="i-wrapp" id="btnEditBerkas" ' +
+						is_edit +
+						'><i class="fas fa-edit"></i></a>';
+
+					tb += "</div>";
+					tb += "</div>";
+
+					tb += "</div>";
+					tb += "</div>";
 
 					tb += "</div>";
 				}
@@ -1675,6 +1735,7 @@
 
 				$("#tb_inpatientFile .tb-body").html("");
 				$("#tb_inpatientFile .tb-body").html(tb);
+				console.log(tb);
 
 				$("#dataTable_info").html("");
 				$("#dataTable_info").html(
@@ -1691,8 +1752,8 @@
 						" baris"
 				);
 
-				$("#pages_polimon").html("");
-				$("#pages_polimon").html(data.pagination);
+				$(".page-container").html("");
+				$(".page-container").html(data.pagination);
 
 				// pageInit();
 			},

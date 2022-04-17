@@ -102,7 +102,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '10.101.4.99',
+	'hostname' => 'localhost',
 	'username' => 'admin',
 	'password' => 'admin',
 	'database' => 'mitraweb',

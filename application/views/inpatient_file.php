@@ -1,4 +1,5 @@
 
+
 <div class="container-fluid table_wrapper p-0" id="page_inpatientFile">
     <div class="card rounded-0">
         <div class="card-body">

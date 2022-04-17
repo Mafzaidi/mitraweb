@@ -63,8 +63,6 @@
         $i++;
     };
 
-    // 
-
     $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
     $config['total_rows'] = $countrows;
     $config['per_page'] = $per_page;
