@@ -766,3 +766,8 @@ button.cancel:before {
 .ui-front {
 	z-index: 1051 !important;
 }
+
+
+.tooltip-inner {
+	font-size: 0.75rem;
+  }

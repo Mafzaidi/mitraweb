@@ -38,7 +38,7 @@ class Form_app_func extends CI_Controller
                             );
         }
 
-        $config['base_url'] = base_url('functions/loadInpatientFile/' . $pageno);
+        $config['base_url'] = base_url('functions/Form_app_func/loadInpatientFile/' . $pageno);
         $config['total_rows'] = $countrecords;
         $config['use_page_numbers'] = TRUE;
         $config['per_page'] = $per_page;
@@ -72,5 +72,30 @@ class Form_app_func extends CI_Controller
         }
         echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2));
 	}
+
+    public function getInpatientFile() 
+	{
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $reg_id = $this->input->post('reg_id');
+
+            $get = $this->mfa->getDataCurrentInpatient($reg_id);
+
+            $result = array(
+                'medrec' => $get->MEDREC,
+                'pasien' => $get->PASIEN,
+                'ruang_id' => $get->RUANG_ID,
+                'nama_dept' => $get->NAMA_DEPT,
+                'nama_dr' => $get->NAMA_DR,
+                'tgl_masuk' => $get->TGL_MASUK,
+                'rekanan_nama' => $get->REKANAN_NAMA
+
+            );
+
+        $data = $result;
+        echo json_encode($data);
+        }
+    }
 
 }

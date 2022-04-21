@@ -33,6 +33,10 @@
 		format: "DD.MM.yyyy",
 	});
 
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	  })
+
 	function pageInit() {
 		$(".date-validate").mask("99.99.9999");
 		$(".date-validate").change(function () {
@@ -51,6 +55,14 @@
 				return false;
 			}
 		});
+
+		if (segments[6] !== "" && segments[6] == "poli-monitor") {
+		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
+			// var date = new Date();
+			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+		} else if (segments[6] !== "" && segments[6] == "inpatient-file") {
+			page_inpatientFile_click();
+		}
 
 		page_polimon_click();
 		detail_polimon_click();
@@ -1264,7 +1276,6 @@
 	}
 
 	//--  medrec/report-mr-brw
-
 	$("#filterReportPinjamMr").on("click", ".submit", function () {
 		// $("#fromDateRpt_picker").datetimepicker({
 		// 	date: today,
@@ -1588,7 +1599,40 @@
 		"click",
 		"#btnAddBerkas:not([disabled])",
 		function () {
-			alert(21);
+			var reg_id = $(this).parent().attr('reg-id');
+
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base_url + "functions/Form_app_func/getInpatientFile",
+				data: {
+					reg_id: reg_id,
+				},
+				success: function (data) {
+					$("#page_inpatientFile .card-body").html("");
+					var html = "";
+					
+					// console.log(JSON.stringify(data));
+					// alert(JSON.stringify(data));
+					// $("#inputDataMr").val(data.mr);
+					// $("#inputDataPatient").val(data.pasien);
+					// $("#inputDataBirthPlace").val(data.tempat_lahir);
+					// $("#inputDataBirthDate").val(data.tgl_lahir);
+					// $("#inputDataAddress").val(data.alamat);
+					// $("#inputDataTelp").val(data.no_hp);
+					// $("#inputDataBorrower").val(data.peminjam);
+					// $("#inputDataLender").val(data.pemberi_pinjam);
+					// $("#inputDataNecst").val(data.keperluan);
+					// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
+					// pageInit();
+				},
+				error: function (data) {
+					// console.log(JSON.stringify(data));
+					alert(JSON.stringify(data));
+					// pageInit();
+				},
+			});
+			
 		}
 	);
 
@@ -1600,18 +1644,20 @@
 		}
 	);
 
-	$("#inpatientFile-pagination").on("click", "a", function (e) {
-		e.preventDefault();
-		var pageno = $(this).attr("data-ci-pagination-page");
-		var pageselect = $("#select_pageSize option:selected").val();
-		var page_start = (pageno - 1) * pageselect + 1;
-		var per_page = $("#select_pageSize option:selected").val();
-		var func_url =
-			base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
-
-		loadInpatientFile(page_start, per_page, func_url);
-		// console.log(pageno, pageselect, page_start, per_page, func_url);
-	});
+	function page_inpatientFile_click(){
+		$("#inpatientFile-pagination").on("click", "a", function (e) {
+			e.preventDefault();
+			var pageno = $(this).attr("data-ci-pagination-page");
+			var pageselect = $("#select_pageSize option:selected").val();
+			var page_start = (pageno - 1) * pageselect + 1;
+			var per_page = $("#select_pageSize option:selected").val();
+			var func_url =
+				base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+	
+			loadInpatientFile(page_start, per_page, func_url);
+			// console.log(pageno, pageselect, page_start, per_page, func_url);
+		});
+	}
 
 	function loadInpatientFile(page_start, per_page, func_url) {
 		var tb = "";
@@ -1735,10 +1781,9 @@
 
 				$("#tb_inpatientFile .tb-body").html("");
 				$("#tb_inpatientFile .tb-body").html(tb);
-				console.log(tb);
 
-				$("#dataTable_info").html("");
-				$("#dataTable_info").html(
+				$("#tb_inpatientFile .tb-info").html("");
+				$("#tb_inpatientFile .tb-info").html(
 					"Tampilkan" +
 						num1 +
 						" " +
@@ -1752,10 +1797,11 @@
 						" baris"
 				);
 
-				$(".page-container").html("");
-				$(".page-container").html(data.pagination);
+				// console.log(data.pagination);
+				$("#tb_inpatientFile .tb-pagination").html("");
+				$("#tb_inpatientFile .tb-pagination").html(data.pagination);
 
-				// pageInit();
+				pageInit();
 			},
 			error: function (data) {
 				// alert(JSON.stringify(data));
@@ -1769,10 +1815,10 @@
 					$("#tb_inpatientFile .tb-body").html("");
 					$("#tb_inpatientFile .tb-body").html(tb);
 
-					$("#dataTable_info").html("");
-					$("#dataTable_info").html("Showing 0 to 0 of 0");
+					$("#tb_inpatientFile .tb-info").html("");
+					$("#tb_inpatientFile .tb-info").html("Showing 0 to 0 of 0");
 				}
-				// pageInit();
+				pageInit();
 			},
 		});
 	}

@@ -20,8 +20,6 @@
 
 		<!-- Js jquery -->	
 		<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
-		<!-- Js bootstrap -->
-		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
 		<!-- Js popper -->
 		<script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
 		<!-- Js moment -->
@@ -37,9 +35,13 @@
 		<script src="<?php echo base_url('assets/vendor/masked-input/jquery-maskedinput.min.js'); ?>"></script>
 		<!-- tinysort jquery -->
 		<script src="<?php echo base_url('assets/vendor/tinysort-3.2.5/tinysort.min.js'); ?>"></script>
+		<!-- Js Util -->
+		<script src="<?php echo base_url('assets/bootstrap-4.6.1/js/dist/util.js'); ?>"></script>
+		<!-- Js bootstrap -->
+		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/js/all.js?v=202204180255'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/all.js?v=202204191610'); ?>"></script>
 
 	</body>
 

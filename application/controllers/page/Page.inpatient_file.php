@@ -49,12 +49,13 @@
         $tb.= 
             '<div class="col-sm-12 col-md-3 tb-cell p-0">
                 <div class="row">
-                    <div class="col-sm-12 col-md-4 p-0"></div>
+                    <div class="col-sm-12 col-md-4 p-0">
+                    </div>
                     <div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' . substr_replace($inp->REKANAN_NAMA, '...', 20) . '</div>
                     <div class="col-sm-12 col-md-8 p-0 hover hide">
                         <div class="d-flex justify-content-center" reg-id="' . $inp->REG_ID . '">
-                            <a class="i-wrapp" id="btnAddBerkas" ' . $is_reg . '><i class="fas fa-folder-plus"></i></a>
-                            <a class="i-wrapp" id="btnEditBerkas" ' . $is_edit . '><i class="fas fa-edit"></i></a>
+                            <a class="i-wrapp" id="btnAddBerkas" ' . $is_reg . ' data-toggle="tooltip" data-placement="bottom" title="Tambah data"><i class="fas fa-folder-plus"></i></a>
+                            <a class="i-wrapp" id="btnEditBerkas" ' . $is_edit . ' data-toggle="tooltip" data-placement="bottom" title="Edit data"><i class="fas fa-edit"></i></a>
                         </div>
                     </div>
                 </div>
