@@ -39,8 +39,8 @@
 	});
 
 	$(function () {
-		$('[data-toggle="tooltip"]').tooltip()
-	  })
+		$('[data-toggle="tooltip"]').tooltip();
+	});
 
 	function pageInit() {
 		$(".date-validate").mask("99.99.9999");
@@ -105,8 +105,83 @@
 		$(".input-single-check").not(this).prop("checked", false);
 	});
 
+	function enableRemoveBtn(input) {
+		var btnRemove =
+			'<button type="button" class="btn bg-transparent input-remove-btn">';
+		btnRemove += '<i class="fa fa-times"></i>';
+		btnRemove += "</button>";
+
+		if (input.nextAll().length === 0) {
+			// input.nextAll().remove();
+			input.after(btnRemove);
+
+			$(".input-group .input-remove-btn").on("click", function () {
+				$(this).remove();
+				input.val("");
+				input.focus();
+			});
+		}
+	}
+
+	function disableRemoveBtn(input) {
+		if (input.nextAll().length > 0) {
+			input.nextAll().remove();
+		}
+	}
+
+	function activateRemoveBtn(input) {
+		/*
+		 * If any field is edited,then only it will enable Save button
+		 */
+		input.keypress(function (e) {
+			// text written
+			if (input.val().trim() == "") {
+				disableRemoveBtn(input);
+			} else {
+				enableRemoveBtn(input);
+			}
+		});
+
+		input.keyup(function (e) {
+			if (e.keyCode == 8 || e.keyCode == 46) {
+				//backspace and delete key
+				if (input.val().trim() == "") {
+					disableRemoveBtn(input);
+				} else {
+					enableRemoveBtn(input);
+				}
+			} else {
+				// rest ignore
+				if (input.val().trim() == "") {
+					disableRemoveBtn(input);
+				} else {
+					enableRemoveBtn(input);
+				}
+			}
+		});
+
+		input.change(function (e) {
+			// select element changed
+			if (input.val().trim() == "") {
+				disableRemoveBtn(input);
+			} else {
+				enableRemoveBtn(input);
+			}
+		});
+
+		input.bind("paste", function (e) {
+			// password pasted
+			if (input.val().trim() == "") {
+				disableRemoveBtn(input);
+			} else {
+				enableRemoveBtn(input);
+			}
+		});
+	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		var inputMr = $("#formBrwMr").find("#mr");
+		activateRemoveBtn(inputMr);
 		var val = {
 			focusInvalid: false,
 			rules: {
@@ -195,6 +270,7 @@
 			submitHandler: function (form) {
 				// your ajax would go here
 				var mr = $("#mr").val();
+
 				$.ajax({
 					type: "POST",
 					dataType: "json",
@@ -214,19 +290,13 @@
 								},
 								success: function (data) {
 									//alert(JSON.stringify(data));
-			
+
 									$("#inputName").val(data.NAMA);
 									$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
 									$("#inputBirthDate").val(data.TGL_LAHIR);
 									$("#textAddress").val(data.ALAMAT);
 									$("#formBrwMr .next").prop("disabled", false);
-									
-									var btnRemove = '<button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100; margin-top: -5px;">';
-										btnRemove += '<i class="fa fa-times"></i>';	
-										btnRemove += '</button>';
-									
-									$("#formBrwMr").find("#mr").after(btnRemove)
-			
+
 									pageInit();
 								},
 								error: function (data) {
@@ -238,16 +308,18 @@
 						} else {
 							// alert("Medrec ini belum dikembalikan");
 							var title = "Informasi";
-							var body = "Medrec ini tidak bisa dipinjam karena masih dalam masa peminjaman!";
+							var body =
+								"Medrec ini tidak bisa dipinjam karena masih dalam masa peminjaman!";
 							var btn =
-								"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Oke</button>"
+								"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Oke</button>";
 
 							$("#myDynamicModal .modal-title").html(title);
 							$("#myDynamicModal .modal-body").html(body);
 							$("#myDynamicModal .modal-footer").html(btn);
-							$("#myDynamicModal").modal("show");											}
+							$("#myDynamicModal").modal("show");
+						}
 
-							pageInit();
+						pageInit();
 					},
 					error: function (data) {
 						//alert(JSON.stringify(data));
@@ -1093,14 +1165,13 @@
 			"<div class='col-sm-8 pl-0'>" +
 			"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnBy' placeholder='dikembalikan oleh' name='returnBy'>" +
 			"</div>" +
-		    "</div>" +
-
+			"</div>" +
 			"<div class='form-group row mb-2' id='divCatatan'>" +
 			"<label class='col-sm-4 col-form-label-sm pr-0 mb-2' for='returnDesc'>Keterangan :</label>" +
 			"<div class='col-sm-8 pl-0'>" +
 			"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnDesc' placeholder='keterangan' name='returnDesc'>" +
 			"</div>" +
-		    "</div>";
+			"</div>";
 		var btn =
 			"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
 			"<button id='saveMr_return' class='btn btn-primary' type='button'>Simpan</button>";
@@ -1652,7 +1723,7 @@
 		"click",
 		"#btnAddBerkas:not([disabled])",
 		function () {
-			var reg_id = $(this).parent().attr('reg-id');
+			var reg_id = $(this).parent().attr("reg-id");
 
 			$.ajax({
 				type: "POST",
@@ -1664,7 +1735,7 @@
 				success: function (data) {
 					$("#page_inpatientFile .card-body").html("");
 					var html = "";
-					
+
 					// console.log(JSON.stringify(data));
 					// alert(JSON.stringify(data));
 					// $("#inputDataMr").val(data.mr);
@@ -1685,7 +1756,6 @@
 					// pageInit();
 				},
 			});
-			
 		}
 	);
 
@@ -1697,7 +1767,7 @@
 		}
 	);
 
-	function page_inpatientFile_click(){
+	function page_inpatientFile_click() {
 		$("#inpatientFile-pagination").on("click", "a", function (e) {
 			e.preventDefault();
 			var pageno = $(this).attr("data-ci-pagination-page");
@@ -1706,7 +1776,7 @@
 			var per_page = $("#select_pageSize option:selected").val();
 			var func_url =
 				base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
-	
+
 			loadInpatientFile(page_start, per_page, func_url);
 			// console.log(pageno, pageselect, page_start, per_page, func_url);
 		});

@@ -615,7 +615,6 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 
 .tb-row.hover .i-wrapp[disabled]:hover i {
 	color: #5f6368 !important;
-	
 }
 
 .tb-row.selected .tb-cell {
@@ -767,7 +766,19 @@ button.cancel:before {
 	z-index: 1051 !important;
 }
 
-
 .tooltip-inner {
 	font-size: 0.75rem;
-  }
+}
+
+.input-group .input-remove-btn {
+	color: #c80000;
+	position: absolute;
+	z-index: 100;
+	right: 10px;
+	opacity: 0.5;
+}
+
+.input-group .input-remove-btn:hover {
+	cursor: pointer;
+	opacity: 1;
+}
