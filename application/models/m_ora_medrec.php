@@ -70,6 +70,7 @@ class M_ora_medrec extends CI_Model
         $dept_peminjam,
         $created_by,
         $diserahkan_oleh,
+        $tgl_peminjaman,
         $tgl_janji_kembali,
         $trans_pinjam
     )
@@ -84,7 +85,8 @@ class M_ora_medrec extends CI_Model
                         CREATED_BY, 
                         DISERAHKAN_OLEH, 
                         TGL_JANJI_KEMBALI, 
-                        TRANS_PINJAM_MR
+                        TRANS_PINJAM_MR,
+                        TGL_PINJAM
                     )
                 VALUES
                     (
@@ -96,7 +98,8 @@ class M_ora_medrec extends CI_Model
                         '" . $created_by . "',
                         '" . $diserahkan_oleh . "',
                         TO_DATE('" . $tgl_janji_kembali . "','DD.MM.RRRR'),
-                        '" . $trans_pinjam . "'
+                        '" . $trans_pinjam . "',                      
+                        TO_DATE('" . $tgl_peminjaman . "','DD.MM.RRRR'),
                     )
                 ";
         $query = $this->oracle_db->query($sql);
@@ -105,6 +108,7 @@ class M_ora_medrec extends CI_Model
     function updatePinjamMR(
         $trans_pinjam,
         $returnBy,
+        $returnDesc,
         $receiveBy
     )
     {
@@ -113,7 +117,8 @@ class M_ora_medrec extends CI_Model
                 SET
                     A.TGL_AKHIR_KEMBALI = SYSDATE,
                     A.DIKEMBALIKAN_OLEH = '" . $returnBy . "',
-                    A.PETUGAS_PENERIMA = '" . $receiveBy . "'
+                    A.PETUGAS_PENERIMA = '" . $receiveBy . "',
+                    A.CATATAN = '" . $returnDesc . "'
                 WHERE
                     A.TRANS_PINJAM_MR = '" . $trans_pinjam . "'
                     AND A.TGL_AKHIR_KEMBALI IS NULL

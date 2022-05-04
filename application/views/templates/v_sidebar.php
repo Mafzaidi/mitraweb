@@ -30,7 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <!-- Sidebar -->
             <ul class="nav navbar-light bg-white sidebar flex-column" id="sidebarMenu">
                 <a href="<?php echo base_url('auth'); ?>" class="d-flex sidebar-brand align-items-center justify-content-center fa fa-e"><span>itraWeb</span></a>
-                <!-- <img src="<?php echo base_url('assets/images/brand/mitra-logo.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
+                <!-- <img src="<?php echo base_url('assets/img/brand/logo-trans.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
                 <!-- <hr class="sidebar-divider my-0"> -->
                 <?= $menu; ?>
             </ul>

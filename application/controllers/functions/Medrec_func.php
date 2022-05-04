@@ -56,6 +56,7 @@ class Medrec_func extends CI_Controller
 
             $created_by = $this->input->post('created_by');
             $diserahkan_oleh = $this->input->post('diserahkan_oleh');
+            $tgl_peminjaman = $this->input->post('tgl_peminjaman');
             $tgl_janji_kembali = $this->input->post('tgl_janji_kembali');
 
             $get = $this->mr->getTransPinjamMR();
@@ -70,6 +71,7 @@ class Medrec_func extends CI_Controller
                 "dept_peminjam"=>$dept_peminjam,
                 "created_by"=>$created_by,
                 "diserahkan_oleh"=>$diserahkan_oleh,
+                "tgl_peminjaman"=>$tgl_peminjaman,
                 "tgl_janji_kembali"=>$tgl_janji_kembali,
                 "trans_pinjam"=>$trans_pinjam
             );
@@ -81,6 +83,7 @@ class Medrec_func extends CI_Controller
                                                 $dept_peminjam,
                                                 $created_by,
                                                 $diserahkan_oleh,
+                                                $tgl_peminjaman,
                                                 $tgl_janji_kembali,
                                                 $trans_pinjam
                                             );
@@ -318,11 +321,13 @@ class Medrec_func extends CI_Controller
         {        
             $trans_pinjam = $this->input->post('trans_pinjam');
             $returnBy = 'PLAY_' . $this->input->post('returnBy');
+            $returnDesc = $this->input->post('returnDesc');
             $receiveBy = $this->session->userdata('user_id');
 
             $update = $this->mr->updatePinjamMR( 
                 $trans_pinjam,
                 $returnBy,
+                $returnDesc,
                 $receiveBy
             );
 

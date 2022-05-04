@@ -41,65 +41,63 @@
                 </div> -->
             <!-- </div> -->
             <div class="row">  
-                <div class="col-md-8">
+                <div class="col-md-8 col-lg-6">
                     <div class="card bg-transparent border rounded-3">
                         <div class="card-header bg-transparent border-bottom">
                             <h5 class="card-header-title mb-0">Data Pasien</h5>
                         </div>
-                        <div class="card-body py-0">
-                            <div class="row py-1">
-                                <div class="col-sm-12 col-md-6 p-0">
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 py-1">
-                                            <spanc class="h6 text-muted">No. Medrec</spanc>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6 text-muted">Nama Pasien</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6 text-muted">Ruangan</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6 text-muted">NS</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6 text-muted">DPJP</span>
-                                        </li>
-                                    </ul>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <label  class="h6 text-muted">No. Medrec</label>
                                 </div>
-                                <div class="col-sm-12 col-md-6 p-0">
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6">000000</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6">Maftuh Zaidi</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6">3021</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6">Cempaka</span>
-                                        </li>
-                                        <li class="list-group-item border-0 py-1">
-                                            <span class="h6">Petrus, Dr</span>
-                                        </li>
-                                    </ul>
-                                </div>                                     
+                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                    <span class="h6">000000</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <label  class="h6 text-muted">Nama Pasien</label>
+                                </div>
+                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                    <span class="h6">Test IT</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <label  class="h6 text-muted">Tanggal Lahir</label>
+                                </div>
+                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                    <span class="h6">000000</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <label  class="h6 text-muted">No. Medrec</label>
+                                </div>
+                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                    <span class="h6">000000</span>
+                                </div>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <div class="row">
+                        <div class="row p-0 m-0">
                             <div class="card-body">
-                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-6">Rekanan Pasien</label>
-                                <span class="h6 col-sm-12 col-md-12 col-lg-6">-RSMK PASIEN UMUM</span>
-                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-6">Tanggal Masuk</label>
-                                <span class="h6 col-sm-12 col-md-12 col-lg-6">10.10.2022</span>
+                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-6 mb-0 mt-md-2 mt-lg-0">Tanggal Masuk</label>
+                                <span class="h6 col-sm-12 col-md-12 col-lg-6 mb-md-2 mb-lg-0">10.10.2022</span>
+                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-6 mb-0 mt-md-2 mt-lg-0">Ruangan</label>
+                                <span class="h6 col-sm-12 col-md-12 col-lg-6 mb-md-2 mb-lg-0">302(1)</span>
+                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-6 mb-0 mt-md-2 mt-lg-0">NS</label>
+                                <span class="h6 col-sm-12 col-md-12 col-lg-6 mb-md-2 mb-lg-0">Cempaka</span>
+                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-6 mb-0 mt-md-2 mt-lg-0">DPJP</label>
+                                <span class="h6 col-sm-12 col-md-12 col-lg-6 mb-md-2 mb-lg-0">Dokter Test, Dr</span>
+                                <label  class="h6 text-muted col-sm-12 col-md-12 col-lg-12 mb-0 mt-4">Rekanan Pasien</label>
+                                <span class="h6 col-sm-12 col-md-12 col-lg-12 mb-md-2 mb-lg-0">-RSMK PASIEN UMUM</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">                  
+                <div class="col-md-4 col-lg-6">                  
                 </div>
             </div>
         </div>

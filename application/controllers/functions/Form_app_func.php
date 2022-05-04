@@ -98,4 +98,16 @@ class Form_app_func extends CI_Controller
         }
     }
 
+    function checkPinjamMR()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {
+            $mr = $this->input->post('mr');
+            $check = $this->mfa->getRowCountPinjamMr($mr);
+            
+        echo json_encode(array("check" => $check));
+        }
+    }
+
 }

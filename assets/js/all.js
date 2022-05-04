@@ -28,6 +28,11 @@
 		format: "DD.MM.yyyy",
 	});
 
+	$("#borrowDate_picker").datetimepicker({
+		date: today,
+		format: "DD.MM.yyyy",
+	});
+
 	$("#returnDate_picker").datetimepicker({
 		date: today,
 		format: "DD.MM.yyyy",
@@ -193,20 +198,56 @@
 				$.ajax({
 					type: "POST",
 					dataType: "json",
-					url: base_url + "functions/Medrec_func/getDataMR",
+					url: base_url + "functions/Form_app_func/checkPinjamMR",
 					data: {
 						mr: mr,
 					},
 					success: function (data) {
-						//alert(JSON.stringify(data));
+						// alert(JSON.stringify(data.check));
+						if (data.check <= 0) {
+							$.ajax({
+								type: "POST",
+								dataType: "json",
+								url: base_url + "functions/Medrec_func/getDataMR",
+								data: {
+									mr: mr,
+								},
+								success: function (data) {
+									//alert(JSON.stringify(data));
+			
+									$("#inputName").val(data.NAMA);
+									$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
+									$("#inputBirthDate").val(data.TGL_LAHIR);
+									$("#textAddress").val(data.ALAMAT);
+									$("#formBrwMr .next").prop("disabled", false);
+									
+									var btnRemove = '<button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100; margin-top: -5px;">';
+										btnRemove += '<i class="fa fa-times"></i>';	
+										btnRemove += '</button>';
+									
+									$("#formBrwMr").find("#mr").after(btnRemove)
+			
+									pageInit();
+								},
+								error: function (data) {
+									//alert(JSON.stringify(data));
+									alert("Data tidak ditemukan");
+									pageInit();
+								},
+							});
+						} else {
+							// alert("Medrec ini belum dikembalikan");
+							var title = "Informasi";
+							var body = "Medrec ini tidak bisa dipinjam karena masih dalam masa peminjaman!";
+							var btn =
+								"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Oke</button>"
 
-						$("#inputName").val(data.NAMA);
-						$("#inputBirthPlace").val(data.TEMPAT_LAHIR);
-						$("#inputReturnDate").val(data.TGL_LAHIR);
-						$("#textAddress").val(data.ALAMAT);
-						$("#formBrwMr .next").prop("disabled", false);
+							$("#myDynamicModal .modal-title").html(title);
+							$("#myDynamicModal .modal-body").html(body);
+							$("#myDynamicModal .modal-footer").html(btn);
+							$("#myDynamicModal").modal("show");											}
 
-						pageInit();
+							pageInit();
 					},
 					error: function (data) {
 						//alert(JSON.stringify(data));
@@ -226,6 +267,7 @@
 
 			var created_by = $("#inputLender").attr("nokar");
 			var diserahkan_oleh = $("#inputLender").val();
+			var tgl_peminjaman = $("#inputBorrowDate").val();
 			var tgl_janji_kembali = $("#inputReturnDate").val();
 
 			$.ajax({
@@ -239,6 +281,7 @@
 					dept_peminjam: dept_peminjam,
 					created_by: created_by,
 					diserahkan_oleh: diserahkan_oleh,
+					tgl_peminjaman: tgl_peminjaman,
 					tgl_janji_kembali: tgl_janji_kembali,
 				},
 				success: function (data) {
@@ -1049,8 +1092,15 @@
 			"<label class='col-sm-4 col-form-label-sm pr-0 mb-2' for='returnBy'>Nama Pengembali :</label>" +
 			"<div class='col-sm-8 pl-0'>" +
 			"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnBy' placeholder='dikembalikan oleh' name='returnBy'>" +
-			"</div>";
-		+"</div>";
+			"</div>" +
+		    "</div>" +
+
+			"<div class='form-group row mb-2' id='divCatatan'>" +
+			"<label class='col-sm-4 col-form-label-sm pr-0 mb-2' for='returnDesc'>Keterangan :</label>" +
+			"<div class='col-sm-8 pl-0'>" +
+			"<input type='text' class='form-control-sm w-100 border-top-0 border-right-0 border-left-0 upper-text' id='inputReturnDesc' placeholder='keterangan' name='returnDesc'>" +
+			"</div>" +
+		    "</div>";
 		var btn =
 			"<button class='btn btn-secondary' type='button' data-dismiss='modal'>Batal</button>" +
 			"<button id='saveMr_return' class='btn btn-primary' type='button'>Simpan</button>";
@@ -1148,6 +1198,8 @@
 			$("#saveMr_return").on("click", function () {
 				var trans_pinjam = $(this).attr("trans_id");
 				var returnBy = $("#inputReturnBy").attr("returnBy");
+				var returnDesc = $("#inputReturnDesc").val();
+
 				var loading =
 					"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
 				var succeed =
@@ -1184,6 +1236,7 @@
 					data: {
 						trans_pinjam: trans_pinjam,
 						returnBy: returnBy,
+						returnDesc: returnDesc,
 					},
 					success: function (data) {
 						// alert(JSON.stringify(data));

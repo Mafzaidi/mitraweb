@@ -20,7 +20,12 @@
                             <div class="form-row align-items-center">
                                 <div class="col-auto">
                                     <label class="sr-only" for="mr">Medical Record Number</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="ketik medrec" name="mr" />
+                                    <div class="input-group">
+                                        <input type="text" class="form-control mb-2 mr-sm-2" id="mr" placeholder="ketik medrec" name="mr" />
+                                        <!-- <button type="button" class="btn bg-transparent" style="margin-left: -40px; z-index: 100; margin-top: -5px;">
+                                            <i class="fa fa-times"></i>
+                                        </button> -->
+                                    </div>
                                 </div>
                                 <div class="col-auto">
                                     <button type="" class="btn btn-primary mb-2" id="btnSearchBrw">Cari</button>
@@ -102,9 +107,20 @@
                                 <div class="form-card">
                                     <div class="form-row">
                                         <div class="form-group col-auto">
+                                            <label for="inputBorrowDate">Tanggal Peminjaman</label>
+                                            <div class="input-group date" id="borrowDate_picker" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input date-validate" data-target="#borrowDate_picker" id="inputBorrowDate" placeholder="DD.MM.YYYY" maxlength="10"/>
+                                                <div class="input-group-append" data-target="#borrowDate_picker" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-auto">
                                             <label for="inputReturnDate">Tanggal Pengembalian</label>
                                             <div class="input-group date" id="returnDate_picker" data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input date-validate" data-target="#returnDate_picker" id="inputReturnDate" placeholder="DD.MM.YYYY" maxlength="10" />
+                                                <input type="text" class="form-control datetimepicker-input date-validate" data-target="#returnDate_picker" id="inputReturnDate" placeholder="DD.MM.YYYY" maxlength="10"/>
                                                 <div class="input-group-append" data-target="#returnDate_picker" data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>

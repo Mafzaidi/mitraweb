@@ -10,6 +10,23 @@ class M_form_application extends CI_Model
         $this->mysql_db = $this->load->database('default', true);
     }
 
+    // Borrow MR
+    function getRowCountPinjamMr($mr) {
+        $sql = "SELECT
+                    A.*
+                FROM
+                    EDP_MANAGER.PINJAM_MR A
+                WHERE
+                    SUBSTR(A.MR,4) = '" . $mr . "'
+                    AND A.SHOW_ITEM = '1'
+                    AND A.TGL_AKHIR_KEMBALI IS NULL
+                ";
+
+        $query = $this->oracle_db->query($sql);
+        $rowcount = $query->num_rows();
+        return $rowcount;
+    }
+    // Inpatient File
     function getRowCountCurrentInpatient() {
         $sql = "SELECT
                     X.*,
