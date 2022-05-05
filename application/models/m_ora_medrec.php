@@ -99,7 +99,7 @@ class M_ora_medrec extends CI_Model
                         '" . $diserahkan_oleh . "',
                         TO_DATE('" . $tgl_janji_kembali . "','DD.MM.RRRR'),
                         '" . $trans_pinjam . "',                      
-                        TO_DATE('" . $tgl_peminjaman . "','DD.MM.RRRR'),
+                        TO_DATE('" . $tgl_peminjaman . "','DD.MM.RRRR')
                     )
                 ";
         $query = $this->oracle_db->query($sql);
@@ -157,8 +157,8 @@ class M_ora_medrec extends CI_Model
 
         $date_condition = "";
         if(!empty($from_date) && !empty($to_date)) {
-            $date_condition = "AND TRUNC(A.CREATED_DATE) >= TO_DATE('" . $from_date . "','DD.MM.RRRR')
-                                AND TRUNC(A.CREATED_DATE) <= TO_DATE('" . $to_date . "','DD.MM.RRRR')";
+            $date_condition = "AND TRUNC(A.TGL_PINJAM) >= TO_DATE('" . $from_date . "','DD.MM.RRRR')
+                                AND TRUNC(A.TGL_PINJAM) <= TO_DATE('" . $to_date . "','DD.MM.RRRR')";
         }
 
         $page_condition = "";
@@ -171,14 +171,13 @@ class M_ora_medrec extends CI_Model
                 FROM 
                 (
                     SELECT
-                        ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
+                        ROW_NUMBER() OVER (ORDER BY A.TGL_PINJAM ASC) AS RNUM,
                         A.MR,
                         SUBSTR(A.MR,4) AS MEDREC,
                         B.NAMA AS PASIEN,
                         A.NOKAR_PEMINJAM,
                         C.NAMA_KAR AS PEMINJAM,
                         A.DEPT_PEMINJAM,
-                        TO_CHAR(A.CREATED_DATE, 'DD.MM.RRRR') AS TGL_PINJAM,
                         A.KEPERLUAN,
                         A.CREATED_DATE,
                         A.CREATED_BY,
@@ -188,7 +187,8 @@ class M_ora_medrec extends CI_Model
                         A.TGL_AKHIR_KEMBALI,
                         A.CATATAN,
                         A.DIKEMBALIKAN_OLEH,
-                        A.TRANS_PINJAM_MR
+                        A.TRANS_PINJAM_MR,
+                        TO_CHAR(A.TGL_PINJAM, 'DD.MM.RRRR') AS TGL_PINJAM
                     FROM
                         EDP_MANAGER.PINJAM_MR A,
                         HIS_MANAGER.MS_MEDREC B,
@@ -201,7 +201,7 @@ class M_ora_medrec extends CI_Model
                         " . $date_condition . "
                 ) X
                 " . $page_condition . "
-                ORDER BY X.CREATED_DATE ASC";
+                ORDER BY X.TGL_PINJAM ASC";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();
@@ -222,11 +222,11 @@ class M_ora_medrec extends CI_Model
 
         $date_condition = "";
         if(!empty($from_date) && !empty($to_date)) {
-            $date_condition = "AND TRUNC(A.CREATED_DATE) >= TO_DATE('" . $from_date . "','DD.MM.RRRR')
-                                AND TRUNC(A.CREATED_DATE) <= TO_DATE('" . $to_date . "','DD.MM.RRRR')";
+            $date_condition = "AND TRUNC(A.TGL_PINJAM) >= TO_DATE('" . $from_date . "','DD.MM.RRRR')
+                                AND TRUNC(A.TGL_PINJAM) <= TO_DATE('" . $to_date . "','DD.MM.RRRR')";
         }
         $sql = "SELECT
-                    ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
+                    ROW_NUMBER() OVER (ORDER BY A.TGL_PINJAM ASC) AS RNUM,
                     A.MR,
                     SUBSTR(A.MR,4) AS MEDREC,
                     B.NAMA AS PASIEN,
@@ -241,7 +241,8 @@ class M_ora_medrec extends CI_Model
                     A.TGL_AKHIR_KEMBALI,
                     A.CATATAN,
                     A.DIKEMBALIKAN_OLEH,
-                    A.TRANS_PINJAM_MR
+                    A.TRANS_PINJAM_MR,
+                    A.TGL_PINJAM
                 FROM
                     EDP_MANAGER.PINJAM_MR A,
                     HIS_MANAGER.MS_MEDREC B,
@@ -262,7 +263,7 @@ class M_ora_medrec extends CI_Model
 
     function getDataPinjamMR($trans_pinjam_mr) {
         $sql = "SELECT
-                    ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
+                    ROW_NUMBER() OVER (ORDER BY A.TGL_PINJAM ASC) AS RNUM,
                     A.MR,
                     SUBSTR(A.MR,4) AS MEDREC,
                     B.NAMA AS PASIEN,
@@ -277,12 +278,13 @@ class M_ora_medrec extends CI_Model
                     A.CREATED_DATE,
                     A.CREATED_BY,
                     A.DISERAHKAN_OLEH,
-                    A.TGL_JANJI_KEMBALI,
+                    TO_CHAR(A.TGL_JANJI_KEMBALI, 'DD.MM.RRRR') AS TGL_JANJI_KEMBALI,
                     A.PETUGAS_PENERIMA,
                     A.TGL_AKHIR_KEMBALI,
                     A.CATATAN,
                     A.DIKEMBALIKAN_OLEH,
-                    A.TRANS_PINJAM_MR
+                    A.TRANS_PINJAM_MR,
+                    A.TGL_PINJAM
                 FROM
                     EDP_MANAGER.PINJAM_MR A,
                     HIS_MANAGER.MS_MEDREC B,

@@ -62,7 +62,7 @@ class Auth extends CI_Controller
                                     // $currSession = $this->mglobal->getCurrentSess();
                                     if (!$connect) {
                                         $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                                        Wrong password!
+                                        Password salah!
                                         </div>');
                                         redirect('auth');
                                     } else {
@@ -88,13 +88,13 @@ class Auth extends CI_Controller
                                 // }
                             } else {
                                 $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                                User is not active!
+                                User tidak aktif!
                                 </div>');
                                 redirect('auth');
                             }
                         } else {
                             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                            Username is not registered!
+                            Username tidak terdaftar!
                             </div>');
                             redirect('auth');
                         }
@@ -121,13 +121,13 @@ class Auth extends CI_Controller
                                                 
                         } else {
                             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                            Wrong password!
+                            Password salah!
                             </div>');
                             redirect('auth');
                         }
                     } else {
                         $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                        User is not active!
+                        User tidak aktif!
                         </div>');
                         redirect('auth');
                     }
@@ -142,7 +142,7 @@ class Auth extends CI_Controller
 
                     if (!$connect) {
                         $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                        Wrong password!
+                        Password salah!
                         </div>');
                         redirect('auth');
                     } else {
@@ -162,7 +162,7 @@ class Auth extends CI_Controller
 
                 }else {                   
                     $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                    Username is not registered!
+                    Username tidak terdaftar!
                     </div>');
                     redirect('auth');
                 }
@@ -179,7 +179,7 @@ class Auth extends CI_Controller
 		$this->session->unset_userdata('dept_id');
 		$this->session->set_userdata('status','logout');
         $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-        You have been logged out!
+        Anda telah melakukan log out!
         </div>');
 
 		redirect(base_url('auth'));

@@ -44,15 +44,15 @@ class Modal_variables {
 
 		foreach($params as $value){
 			if ($value == 'logout') {
-				$this->tittle = 'Ready to Leave?';
-				$this->message = 'Select "Logout" below if you are ready to end your current session.';
+				$this->tittle = 'Ingin Keluar?';
+				$this->message = 'Pilih "Logout" bila ingin meninggalkan situs ini.';
 				$this->button = 'yesno';
 				$this->link = 'auth/logout';
 				$this->action = $value;
 				$this->size = '';
 			} elseif ($value == 'save') {
-				$this->tittle = 'Confirmation';
-				$this->message = 'Are you sure want to save this data?';
+				$this->tittle = 'Konfirmasi';
+				$this->message = 'Apakah anda yakin ingin menyimpan data berikut?';
 				$this->button = 'yesno';
 				$this->link = 'auth/logout';
 				$this->action = $value;

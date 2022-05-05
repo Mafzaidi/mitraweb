@@ -112,10 +112,10 @@
 		btnRemove += "</button>";
 
 		if (input.nextAll().length === 0) {
-			// input.nextAll().remove();
 			input.after(btnRemove);
 
-			$(".input-group .input-remove-btn").on("click", function () {
+			$(".input-group .input-remove-btn").on("click", function (e) {
+				e.preventDefault();
 				$(this).remove();
 				input.val("");
 				input.focus();
@@ -357,7 +357,7 @@
 					tgl_janji_kembali: tgl_janji_kembali,
 				},
 				success: function (data) {
-					// alert(JSON.stringify(data));
+					alert(JSON.stringify(data));
 					$(".next").click();
 
 					$("#mr").val("");
@@ -374,7 +374,7 @@
 					pageInit();
 				},
 				error: function (data) {
-					// alert(JSON.stringify(data));
+					alert(JSON.stringify(data));
 					pageInit();
 				},
 			});

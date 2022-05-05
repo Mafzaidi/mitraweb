@@ -30,14 +30,14 @@
                 </div>
             </div> -->
             <div class="row">  
-                <div class="col-sm-6" id="">   
+                <div class="col-sm-7" id="">   
                     <div class="tb" id="pinjamMrReturn">
 
                         <div class="tb-header bg-cool text-light row">
                             <div class="col-md-1 tb-label p-rem-50">NO</div>
                             <div class="col-md-2 tb-label p-rem-50">MEDREC</div>
                             <div class="col-md-4 tb-label p-rem-50">PEMINJAM</div>
-                            <div class="col-md-2 tb-label p-rem-50">TGL KEMBALI</div>
+                            <div class="col-md-2 tb-label p-rem-50">TGL PINJAM</div>
                             <div class="col-md-3 tb-label p-rem-50 text-center">PILIH</div>
                         </div>
 
@@ -57,7 +57,7 @@
                         </div>
                     </div> 
                 </div>
-                <div class="col-sm-6" id="">      
+                <div class="col-sm-5" id="">      
                     <div class="formData-wrapper p-3">                       
                         <form id="formReturnBy">
                             <div class="form-row">
@@ -100,11 +100,11 @@
                                 </div>
                             </div>                       
                             <div class="form-row">
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-7">
                                     <label for="inputDataNecst" class="col-form-label-sm mb-1">Keperluan</label>
                                     <input type="text" class="form-control form-control-sm" id="inputDataNecst" readonly>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-5">
                                     <label for="inputDataRtrnDate" class="col-form-label-sm mb-1">Tanggal Janji Kembali</label>
                                     <input type="text" class="form-control form-control-sm" id="inputDataRtrnDate" readonly>
                                 </div>

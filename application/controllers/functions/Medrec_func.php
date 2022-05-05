@@ -305,6 +305,7 @@ class Medrec_func extends CI_Controller
                 'peminjam' => $get->PEMINJAM,
                 'pemberi_pinjam' => $get->DISERAHKAN_OLEH,
                 'keperluan' => $get->KEPERLUAN,
+                'tgl_pinjam' => $get->TGL_PINJAM,
                 'tgl_janji_kembali' => $get->TGL_JANJI_KEMBALI
 
             );

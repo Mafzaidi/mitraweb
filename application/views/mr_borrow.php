@@ -13,7 +13,7 @@
         </div>
         <div class="row px-3">
             <div class="col-md-12 mx-0">
-                <form id="formBrwMr">              
+                <form id="formBrwMr" autocomplete="off">              
                     <!-- fieldsets -->
                     <fieldset class="tab current">
                         <div class="form-card">                           

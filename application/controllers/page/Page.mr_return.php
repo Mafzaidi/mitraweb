@@ -25,7 +25,7 @@
         $tb.= '<div class="col-md-1 tb-cell p-rem-50">' . $dt->RNUM . '</div>';
         $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->MEDREC . '</div>';
         $tb.= '<div class="col-md-4 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
-        $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_JANJI_KEMBALI . '</div>';
+        $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_PINJAM . '</div>';
         $tb.= '<div class="col-md-3 tb-cell p-rem-50 text-center">
                     <button class="btn bg-primary btn-sm mx-1 text-white edit"></button>
                     <button class="btn btn-danger btn-sm mx-1 text-white delete"></button>
