@@ -54,8 +54,7 @@
                     <div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' . substr_replace($inp->REKANAN_NAMA, '...', 20) . '</div>
                     <div class="col-sm-12 col-md-8 p-0 hover hide">
                         <div class="d-flex justify-content-center" reg-id="' . $inp->REG_ID . '">
-                            <a class="i-wrapp" id="btnAddBerkas" ' . $is_reg . ' data-toggle="tooltip" data-placement="bottom" title="Tambah data"><i class="fas fa-folder-plus"></i></a>
-                            <a class="i-wrapp" id="btnEditBerkas" ' . $is_edit . ' data-toggle="tooltip" data-placement="bottom" title="Edit data"><i class="fas fa-edit"></i></a>
+                            <a class="i-wrapp" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>
                         </div>
                     </div>
                 </div>
@@ -63,6 +62,10 @@
         $tb.= '</div>';
         $i++;
     };
+
+    
+    // <a class="i-wrapp" id="btnAddBerkas" ' . $is_reg . ' data-toggle="tooltip" data-placement="bottom" title="Tambah data"><i class="fas fa-folder-plus"></i></a>
+    // <a class="i-wrapp" id="btnEditBerkas" ' . $is_edit . ' data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-edit"></i></a>
 
     $config['base_url'] = base_url('counter/' . $this->uri->segment(2) . '/' . $this->uri->segment(3));
     $config['total_rows'] = $countrows;

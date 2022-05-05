@@ -584,36 +584,37 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	display: none;
 }
 
-.tb-row.hover i {
+.hover i {
 	font-size: 0.95rem !important;
 	color: #5f6368;
 	opacity: 1;
 }
 
-.tb-row.hover .i-wrapp {
+.hover .i-wrapp {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	cursor: pointer;
 	display: block;
 	height: 38px;
-	padding: 11px;
+	line-height: 38px;
 	width: 38px;
 	text-align: center;
 }
 
-.tb-row.hover .i-wrapp:hover {
+.hover .i-wrapp:hover {
 	background-color: rgba(60, 64, 67, 0.078);
 }
 
-.tb-row.hover .i-wrapp:hover i {
+.hover .i-wrapp:hover i {
 	color: #2d2e30 !important;
 }
 
-.tb-row.hover .i-wrapp[disabled]:hover {
+.hover .i-wrapp[disabled]:hover {
 	cursor: not-allowed;
+	background-color: transparent !important;
 }
 
-.tb-row.hover .i-wrapp[disabled]:hover i {
+.hover .i-wrapp[disabled]:hover i {
 	color: #5f6368 !important;
 }
 
