@@ -52,9 +52,9 @@
                     <div class="col-sm-12 col-md-4 p-0">
                     </div>
                     <div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' . substr_replace($inp->REKANAN_NAMA, '...', 20) . '</div>
-                    <div class="col-sm-12 col-md-8 p-0 hover hide">
+                    <div class="col-sm-12 col-md-8 p-0 hover circle hide">
                         <div class="d-flex justify-content-center" reg-id="' . $inp->REG_ID . '">
-                            <a class="i-wrapp" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>
+                            <a class="i-wrapp light" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>
                         </div>
                     </div>
                 </div>

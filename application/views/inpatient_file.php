@@ -2,7 +2,7 @@
 
 <div class="container-fluid table_wrapper p-0" id="page_inpatientFile">
     <div class="card rounded-0">
-        <div class="card-body p-3">
+        <div class="card-body p-3" id="rowsInpatientFile">
         <!-- <div class="card-body p-3" style="display: none;"> -->
             <div class="row">
                 <div class="col-sm-12 col-md-6">
@@ -43,11 +43,11 @@
             </div>
         </div>
         
-        <div class="card-body p-0">
+        <div class="card-body p-0 d-none" id="detailInpatientFile">
             
-            <nav class="navbar topbar navbar-expand-sm navbar-light bg-white border-bottom py-2 mb-3 hover">
-                <a class="i-wrapp text-muted float-left mx-1" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
-                <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="fas fa-plus"></i></a>
+            <nav class="navbar topbar navbar-expand-sm navbar-light bg-white border-bottom py-2 mb-3 hover circle">
+                <a class="i-wrapp text-muted" id="btnBack" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
+                <a class="i-wrapp text-muted" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="fas fa-plus"></i></a>
                 <!-- <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
                 <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fas fa-trash"></i></a>
                 <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Batal"><i class="fas fa-undo-alt"></i></a> -->
@@ -55,9 +55,9 @@
 
             <div class="row p-3">  
                 <div class="col-md-8 col-lg-6">
-                    <div class="card bg-transparent border rounded-3">
-                        <div class="card-header bg-light align-middle border-bottom p-2 hover">
-                            <h5 class="card-header-title float-left mb-0">Data Pasien</h5>
+                    <div class="card bg-transparent border rounded-3" style="font-size: 0.90rem;">
+                        <div class="card-header bg-light align-middle border-bottom p-2">
+                            <h6 class="card-header-title float-left mb-0">Data Pasien</h6>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -110,9 +110,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-6 px-3">          
-                    <div class="card bg-transparent border rounded-3">
-                    </div>        
+                <div class="col-md-4 col-lg-6">          
+                    <div class="card bg-transparent border rounded-3 m-3">
+                        <div class="card-header bg-light align-middle border-bottom p-2 hover square">
+                            <h6 class="card-header-title float-left mb-0">LMA</h6>
+                            <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
+                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
+                        </div>
+                        <div class="card-body">
+                        </div>
+                    </div>  
+                    
+                    <div class="card bg-transparent border rounded-3 m-3">
+                        <div class="card-header bg-light align-middle border-bottom p-2 hover square">
+                            <h6 class="card-header-title float-left mb-0">LML</h6>
+                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
+                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
+                        </div>
+                        <div class="card-body">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

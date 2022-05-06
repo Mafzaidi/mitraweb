@@ -1721,49 +1721,60 @@
 
 	$("#tb_inpatientFile").on(
 		"click",
-		"#btnAddBerkas:not([disabled])",
-		function () {
+		"#btnEditBerkas:not([disabled])",
+		function (e) {
 			var reg_id = $(this).parent().attr("reg-id");
+			alert(reg_id);
+			// $.ajax({
+			// 	type: "POST",
+			// 	dataType: "json",
+			// 	url: base_url + "functions/Form_app_func/getInpatientFile",
+			// 	data: {
+			// 		reg_id: reg_id,
+			// 	},
+			// 	success: function (data) {
+			// 		$("#page_inpatientFile .card-body").html("");
+			// 		var html = "";
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base_url + "functions/Form_app_func/getInpatientFile",
-				data: {
-					reg_id: reg_id,
-				},
-				success: function (data) {
-					$("#page_inpatientFile .card-body").html("");
-					var html = "";
-
-					// console.log(JSON.stringify(data));
-					// alert(JSON.stringify(data));
-					// $("#inputDataMr").val(data.mr);
-					// $("#inputDataPatient").val(data.pasien);
-					// $("#inputDataBirthPlace").val(data.tempat_lahir);
-					// $("#inputDataBirthDate").val(data.tgl_lahir);
-					// $("#inputDataAddress").val(data.alamat);
-					// $("#inputDataTelp").val(data.no_hp);
-					// $("#inputDataBorrower").val(data.peminjam);
-					// $("#inputDataLender").val(data.pemberi_pinjam);
-					// $("#inputDataNecst").val(data.keperluan);
-					// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
-					// pageInit();
-				},
-				error: function (data) {
-					// console.log(JSON.stringify(data));
-					alert(JSON.stringify(data));
-					// pageInit();
-				},
-			});
+			// 		// console.log(JSON.stringify(data));
+			// 		// alert(JSON.stringify(data));
+			// 		// $("#inputDataMr").val(data.mr);
+			// 		// $("#inputDataPatient").val(data.pasien);
+			// 		// $("#inputDataBirthPlace").val(data.tempat_lahir);
+			// 		// $("#inputDataBirthDate").val(data.tgl_lahir);
+			// 		// $("#inputDataAddress").val(data.alamat);
+			// 		// $("#inputDataTelp").val(data.no_hp);
+			// 		// $("#inputDataBorrower").val(data.peminjam);
+			// 		// $("#inputDataLender").val(data.pemberi_pinjam);
+			// 		// $("#inputDataNecst").val(data.keperluan);
+			// 		// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
+			// 		// pageInit();
+			// 	},
+			// 	error: function (data) {
+			// 		// console.log(JSON.stringify(data));
+			// 		alert(JSON.stringify(data));
+			// 		// pageInit();
+			// 	},
+			// });
 		}
 	);
 
-	$("#tb_inpatientFile").on(
+	// $("#tb_inpatientFile").on(
+	// 	"click",
+	// 	"#btnEditBerkas:not([disabled])",
+	// 	function () {
+	// 		$("#rowsInpatientFile").toggleClass("d-none");
+	// 		$("#detailInpatientFile").toggleClass("d-none");
+	// 		// alert($(this).parent().attr("reg-id"))
+	// 	}
+	// );
+
+	$("#detailInpatientFile").on(
 		"click",
-		"#btnEditBerkas:not([disabled])",
+		"#btnBack:not([disabled])",
 		function () {
-			alert(22);
+			$("#detailInpatientFile").toggleClass("d-none");
+			$("#rowsInpatientFile").toggleClass("d-none");
 		}
 	);
 
