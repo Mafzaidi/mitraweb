@@ -218,6 +218,10 @@ button.search:before {
 		width: 14rem !important;
 	}
 
+	.navbar-sticky-top {
+		left: 14rem !important;
+	}
+
 	.sidebar .nav-item .nav-link {
 		width: 100%;
 		text-align: left;
@@ -799,4 +803,38 @@ button.cancel:before {
 .input-group .input-remove-btn:hover {
 	cursor: pointer;
 	opacity: 1;
+}
+
+.navbar-me {
+	/* transition: all 1s; */
+	transition-property: top, bottom;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in;
+	-webkit-transition-property: top, bottom;
+	-webkit-transition-duration: 0.2s;
+	-webkit-transition-timing-function: ease-in;
+}
+
+.navbar-sticky-top {
+	/* transition: all 1s; */
+	transition-property: top, bottom;
+	transition-duration: 0.2s;
+	transition-timing-function: ease-in;
+	-webkit-transition-property: top, bottom;
+	-webkit-transition-duration: 0.2s;
+	-webkit-transition-timing-function: ease-in;
+}
+
+.navbar-sticky-top {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 6.5rem !important;
+	z-index: 1030;
+	border-bottom: 1px solid rgb(75, 74, 74) !important;
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.33) !important;
+}
+
+.fixed-hidden.navbar-sticky-top {
+	left: 0 !important;
 }

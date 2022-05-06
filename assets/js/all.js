@@ -10,6 +10,30 @@
 	var date = new Date();
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
+	// When the user scrolls the page, execute myFunction
+	window.onscroll = function () {
+		navbarScrollFunction();
+	};
+
+	// Get the navbar
+	var navbar = document.getElementById("navbar");
+	var sidebar = document.getElementById("sidebar");
+
+	// Get the offset position of the navbar
+	var sticky = navbar.offsetTop;
+
+	// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+	function navbarScrollFunction() {
+		if (window.pageYOffset > sticky) {
+			navbar.classList.add("sticky-top");
+			sidebar.classList.add("sticky-top");
+			// alert(sticky);
+		} else {
+			navbar.classList.remove("sticky-top");
+			sidebar.classList.add("sticky-top");
+		}
+	}
+
 	$("#datetimepicker4").datetimepicker({
 		format: "DD.MM.yyyy",
 	});
@@ -38,8 +62,37 @@
 		format: "DD.MM.yyyy",
 	});
 
-	$(function () {
-		$('[data-toggle="tooltip"]').tooltip();
+	$("#datetimepicker4").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#birthDate_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#fromDateRpt_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#toDateRpt_picker").datetimepicker({
+		format: "DD.MM.yyyy",
+	});
+
+	$("#sidebarToggle").on("click", function () {
+		$("#content-wrapper").toggleClass("sidebar-hidden");
+		$("#navbarMenu").toggleClass("fixed-hidden");
+	});
+
+	$("#searchMrFilterToggler").on("click", function () {
+		$("#searchMr").toggleClass("filter-hidden");
+	});
+
+	$(".filter-toggler").on("click", function () {
+		$(this).parent().parent().toggleClass("filter-hidden");
+	});
+
+	$(".input-single-check").on("change", function () {
+		$(".input-single-check").not(this).prop("checked", false);
 	});
 
 	function pageInit() {
@@ -73,36 +126,8 @@
 		detail_polimon_click();
 	}
 
-	$("#datetimepicker4").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#birthDate_picker").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#fromDateRpt_picker").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#toDateRpt_picker").datetimepicker({
-		format: "DD.MM.yyyy",
-	});
-
-	$("#sidebarToggle").on("click", function () {
-		$("#content-wrapper").toggleClass("sidebar-hidden");
-	});
-
-	$("#searchMrFilterToggler").on("click", function () {
-		$("#searchMr").toggleClass("filter-hidden");
-	});
-
-	$(".filter-toggler").on("click", function () {
-		$(this).parent().parent().toggleClass("filter-hidden");
-	});
-
-	$(".input-single-check").on("change", function () {
-		$(".input-single-check").not(this).prop("checked", false);
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 
 	function enableRemoveBtn(input) {

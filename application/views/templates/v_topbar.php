@@ -2,7 +2,7 @@
 <div id="main-content-wrapper" class="d-flex flex-column">
 
 <!-- navbar -->
-<nav class="navbar topbar navbar-expand-sm navbar-dark bg-dark">
+<nav class="navbar topbar navbar-expand-sm navbar-dark bg-dark navbar-me" id="navbar">
     <button class="sidebar-toggler" id="sidebarToggle">
         <i class="fas fa-angle-double-left"></i>
     </button>

@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <title><?= $tittle; ?></title>
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205061125'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205070224'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css?v=202204050910'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/utilities.css?v=202204140306'); ?>">
     <!-- Font Awesome -->
@@ -26,12 +26,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div id="wrapper">
         <!-- Content Wrapper-->
         <div class="d-flex" id="content-wrapper">
-
             <!-- Sidebar -->
-            <ul class="nav navbar-light bg-white sidebar flex-column" id="sidebarMenu">
-                <a href="<?php echo base_url('auth'); ?>" class="d-flex sidebar-brand align-items-center justify-content-center fa fa-e"><span>itraWeb</span></a>
-                <!-- <img src="<?php echo base_url('assets/img/brand/logo-trans.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
-                <!-- <hr class="sidebar-divider my-0"> -->
-                <?= $menu; ?>
-            </ul>
+            <div class="position-relative sidebar-wrapper">
+                <ul class="nav navbar-light bg-white sidebar flex-column" id="sidebar">
+                    <a href="<?php echo base_url('auth'); ?>" class="d-flex sidebar-brand align-items-center justify-content-center fa fa-e"><span>itraWeb</span></a>
+                    <!-- <img src="<?php echo base_url('assets/img/brand/logo-trans.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
+                    <!-- <hr class="sidebar-divider my-0"> -->
+                    <?= $menu; ?>
+                </ul>
+            </div>
             <!-- End of Sidebar -->
