@@ -110,14 +110,6 @@
 			}
 		});
 
-		if (segments[6] !== "" && segments[6] == "poli-monitor") {
-		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
-			// var date = new Date();
-			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		} else if (segments[6] !== "" && segments[6] == "inpatient-file") {
-			page_inpatientFile_click();
-		}
-
 		page_polimon_click();
 		detail_polimon_click();
 	}
@@ -201,6 +193,21 @@
 	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		if (segments[6] !== "" && segments[6] == "poli-monitor") {
+		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
+			// var date = new Date();
+			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+		} else if (
+			segments[6].replace(window.location.hash, "") !== "" &&
+			segments[6].replace(window.location.hash, "") == "inpatient-file"
+		) {
+			page_inpatientFile_click();
+			if (window.location.hash) {
+				var regid = window.location.hash.slice(1);
+				loadDetailInpatientFile(regid);
+			}
+		}
+
 		var inputMr = $("#formBrwMr").find("#mr");
 		activateRemoveBtn(inputMr);
 		var val = {
@@ -1740,51 +1747,19 @@
 
 	// Jquery inpatient-file
 
+	function getHashValue(key) {
+		var matches = location.hash.match(new RegExp(key + "=([^&]*)"));
+		return matches ? matches[1] : null;
+	}
+
 	$("#tb_inpatientFile").on(
 		"click",
 		"#btnEditBerkas:not([disabled])",
 		function (e) {
-			var reg_id = $(this).parent().attr("reg-id");
-			// alert(reg_id);
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base_url + "functions/Form_app_func/getInpatientFile",
-				data: {
-					reg_id: reg_id,
-				},
-				success: function (data) {
-					// $("#page_inpatientFile .card-body").html("");
-					// var html = "";
-
-					console.log(JSON.stringify(data));
-					$("#detailInpatientFile #medrec").html(data.medrec);
-					$("#detailInpatientFile #nama").html(data.pasien);
-					$("#detailInpatientFile #tgl_lahir").html(data.tgl_lahir);
-					$("#detailInpatientFile #umur").html(data.umur);
-					$("#detailInpatientFile #tgl_masuk").html(data.tgl_masuk);
-					$("#detailInpatientFile #ruang").html(data.ruang_id);
-					$("#detailInpatientFile #ns").html(data.nama_dept);
-					$("#detailInpatientFile #dokter").html(data.nama_dr);
-					$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
-					// $("#inputDataBirthDate").val(data.tgl_lahir);
-					// $("#inputDataAddress").val(data.alamat);
-					// $("#inputDataTelp").val(data.no_hp);
-					// $("#inputDataBorrower").val(data.peminjam);
-					// $("#inputDataLender").val(data.pemberi_pinjam);
-					// $("#inputDataNecst").val(data.keperluan);
-					// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
-					// alert(JSON.stringify(data));
-					$("#rowsInpatientFile").toggleClass("d-none");
-					$("#detailInpatientFile").toggleClass("d-none");
-					pageInit();
-				},
-				error: function (data) {
-					// console.log(JSON.stringify(data));
-					alert(JSON.stringify(data));
-					// pageInit();
-				},
-			});
+			var regid = $(this).parent().attr("reg-id");
+			var hash_url = "#" + regid;
+			window.location.hash = hash_url;
+			loadDetailInpatientFile(regid);
 		}
 	);
 
@@ -1804,6 +1779,14 @@
 		function () {
 			$("#detailInpatientFile").toggleClass("d-none");
 			$("#rowsInpatientFile").toggleClass("d-none");
+			if (window.location.hash) {
+				// Fragment exists
+				// var hash_value = window.location.hash.slice(1);
+				// console.log(hash_value);
+				history.replaceState("", document.title, window.location.pathname);
+			} else {
+				// Fragment doesn't exist
+			}
 		}
 	);
 
@@ -1976,6 +1959,55 @@
 					$("#tb_inpatientFile .tb-info").html("Showing 0 to 0 of 0");
 				}
 				pageInit();
+			},
+		});
+	}
+
+	function loadDetailInpatientFile(regid) {
+		var reg_id = regid;
+		// var reg_id = $(this).parent().attr("reg-id");
+		// var hash_url = "#" + reg_id;
+		// window.location.hash = hash_url;
+		// var hash_param = getHashValue(hash_url);
+		// console.log(hash_param);
+		// alert(reg_id);
+		$.ajax({
+			type: "POST",
+			dataType: "json",
+			url: base_url + "functions/Form_app_func/getInpatientFile",
+			data: {
+				reg_id: reg_id,
+			},
+			success: function (data) {
+				// $("#page_inpatientFile .card-body").html("");
+				// var html = "";
+				// console.log(JSON.stringify(data));
+				// console.log(hash, curr_url, hash_url);
+				$("#detailInpatientFile #medrec").html(data.medrec);
+				$("#detailInpatientFile #nama").html(data.pasien);
+				$("#detailInpatientFile #tgl_lahir").html(data.tgl_lahir);
+				$("#detailInpatientFile #umur").html(data.umur);
+				$("#detailInpatientFile #tgl_masuk").html(data.tgl_masuk);
+				$("#detailInpatientFile #ruang").html(data.ruang_id);
+				$("#detailInpatientFile #ns").html(data.nama_dept);
+				$("#detailInpatientFile #dokter").html(data.nama_dr);
+				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
+				// $("#inputDataBirthDate").val(data.tgl_lahir);
+				// $("#inputDataAddress").val(data.alamat);
+				// $("#inputDataTelp").val(data.no_hp);
+				// $("#inputDataBorrower").val(data.peminjam);
+				// $("#inputDataLender").val(data.pemberi_pinjam);
+				// $("#inputDataNecst").val(data.keperluan);
+				// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
+				// alert(JSON.stringify(data));
+				$("#rowsInpatientFile").toggleClass("d-none");
+				$("#detailInpatientFile").toggleClass("d-none");
+				pageInit();
+			},
+			error: function (data) {
+				// console.log(JSON.stringify(data));
+				alert(JSON.stringify(data));
+				// pageInit();
 			},
 		});
 	}

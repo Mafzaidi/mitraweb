@@ -1,7 +1,7 @@
 
 
-<div class="container-fluid table_wrapper p-0" id="page_inpatientFile">
-    <div class="card rounded-0">
+<div class="container-fluid table_wrapper p-0" id="page_inpatientFile" style="height: 100%;">
+    <div class="card rounded-0" style="height: 100%;">
         <div class="card-body p-3" id="rowsInpatientFile">
         <!-- <div class="card-body p-3" style="display: none;"> -->
             <div class="row">

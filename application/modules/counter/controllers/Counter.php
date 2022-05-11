@@ -28,7 +28,7 @@ class Counter extends CI_Controller
         } 
     }
 
-    function form_application($param) {
+    function form_application($param, $param2="") {
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
         {
@@ -36,6 +36,7 @@ class Counter extends CI_Controller
             include (APPPATH.'controllers/menu_control.php');
 			include (APPPATH.'controllers/modal_control.php');
             $page = str_replace('-', '_', $param);
+            $uri4 = $this->uri->segment(4);
             $uri3 = $this->uri->segment(3);
             $uri2 = $this->uri->segment(2);
             $uri1 = $this->uri->segment(1);
