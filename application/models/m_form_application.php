@@ -128,6 +128,8 @@ class M_form_application extends CI_Model
                         ROW_NUMBER() OVER (ORDER BY A.TGL_MASUK ASC) AS RNUM,
                         SUBSTR(A.MR, 4) AS MEDREC,
                         SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
+                        D.TGL_LAHIR,
+                        ROUND((TRUNC (SYSDATE - D.TGL_LAHIR) / 365), 0)||' THN ' ||  ROUND((TRUNC ((SYSDATE - D.TGL_LAHIR) / 365)/12), 0)|| ' BLN' UMUR,
                         A.RUANG_ID,
                         C.NAMA_DEPT,
                         E.NAMA_DR,
