@@ -17,7 +17,6 @@
 
 	// Get the navbar
 	var navbar = document.getElementById("navbar");
-	// var sidebar = document.getElementById("sidebar");
 
 	// Get the offset position of the navbar
 	var sticky = navbar.offsetTop;
@@ -26,11 +25,8 @@
 	function navbarScrollFunction() {
 		if (window.pageYOffset > sticky) {
 			navbar.classList.add("navbar-sticky-top");
-			// sidebar.classList.add("sticky-top");
-			// alert(sticky);
 		} else {
 			navbar.classList.remove("navbar-sticky-top");
-			// sidebar.classList.add("sticky-top");
 		}
 	}
 
@@ -1749,38 +1745,46 @@
 		"#btnEditBerkas:not([disabled])",
 		function (e) {
 			var reg_id = $(this).parent().attr("reg-id");
-			alert(reg_id);
-			// $.ajax({
-			// 	type: "POST",
-			// 	dataType: "json",
-			// 	url: base_url + "functions/Form_app_func/getInpatientFile",
-			// 	data: {
-			// 		reg_id: reg_id,
-			// 	},
-			// 	success: function (data) {
-			// 		$("#page_inpatientFile .card-body").html("");
-			// 		var html = "";
+			// alert(reg_id);
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base_url + "functions/Form_app_func/getInpatientFile",
+				data: {
+					reg_id: reg_id,
+				},
+				success: function (data) {
+					// $("#page_inpatientFile .card-body").html("");
+					// var html = "";
 
-			// 		// console.log(JSON.stringify(data));
-			// 		// alert(JSON.stringify(data));
-			// 		// $("#inputDataMr").val(data.mr);
-			// 		// $("#inputDataPatient").val(data.pasien);
-			// 		// $("#inputDataBirthPlace").val(data.tempat_lahir);
-			// 		// $("#inputDataBirthDate").val(data.tgl_lahir);
-			// 		// $("#inputDataAddress").val(data.alamat);
-			// 		// $("#inputDataTelp").val(data.no_hp);
-			// 		// $("#inputDataBorrower").val(data.peminjam);
-			// 		// $("#inputDataLender").val(data.pemberi_pinjam);
-			// 		// $("#inputDataNecst").val(data.keperluan);
-			// 		// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
-			// 		// pageInit();
-			// 	},
-			// 	error: function (data) {
-			// 		// console.log(JSON.stringify(data));
-			// 		alert(JSON.stringify(data));
-			// 		// pageInit();
-			// 	},
-			// });
+					console.log(JSON.stringify(data));
+					$("#detailInpatientFile #medrec").html(data.medrec);
+					$("#detailInpatientFile #nama").html(data.pasien);
+					$("#detailInpatientFile #tgl_lahir").html(data.tgl_lahir);
+					$("#detailInpatientFile #umur").html(data.umur);
+					$("#detailInpatientFile #tgl_masuk").html(data.tgl_masuk);
+					$("#detailInpatientFile #ruang").html(data.ruang_id);
+					$("#detailInpatientFile #ns").html(data.nama_dept);
+					$("#detailInpatientFile #dokter").html(data.nama_dr);
+					$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
+					// $("#inputDataBirthDate").val(data.tgl_lahir);
+					// $("#inputDataAddress").val(data.alamat);
+					// $("#inputDataTelp").val(data.no_hp);
+					// $("#inputDataBorrower").val(data.peminjam);
+					// $("#inputDataLender").val(data.pemberi_pinjam);
+					// $("#inputDataNecst").val(data.keperluan);
+					// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
+					// alert(JSON.stringify(data));
+					$("#rowsInpatientFile").toggleClass("d-none");
+					$("#detailInpatientFile").toggleClass("d-none");
+					pageInit();
+				},
+				error: function (data) {
+					// console.log(JSON.stringify(data));
+					alert(JSON.stringify(data));
+					// pageInit();
+				},
+			});
 		}
 	);
 
@@ -1903,19 +1907,13 @@
 						is_reg = "disabled";
 						is_edit = "enabled";
 					}
-					tb += '<div class="col-sm-12 col-md-8 p-0 hover hide">';
+					tb += '<div class="col-sm-12 col-md-8 p-0 hover circle hide">';
 					tb +=
 						'<div class="d-flex justify-content-center" reg-id="' +
 						data.response[i].reg_id +
 						'">';
 					tb +=
-						'<a class="i-wrapp" id="btnAddBerkas" ' +
-						is_reg +
-						'><i class="fas fa-folder-plus"></i></a>';
-					tb +=
-						'<a class="i-wrapp" id="btnEditBerkas" ' +
-						is_edit +
-						'><i class="fas fa-edit"></i></a>';
+						'<a class="i-wrapp light" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>';
 
 					tb += "</div>";
 					tb += "</div>";

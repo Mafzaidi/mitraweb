@@ -1,16 +1,16 @@
 <!-- Main Content -->
 <div id="main-content-wrapper" class="d-flex flex-column">
-
+<div class="navbar-wrapper position-relative">
     <!-- navbar -->
-    <nav class="navbar topbar navbar-expand-sm navbar-dark bg-dark" id="navbar">
+    <nav class="navbar topbar navbar-expand-sm navbar-dark bg-dark navbar-me" id="navbar">
         <button class="sidebar-toggler" id="sidebarToggle">
             <i class="fas fa-angle-double-left"></i>
         </button>
         <button class="navbar-toggler ml-auto" data-toggle="collapse" data-target="#navbarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarMenu">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ml-md-auto">
                 <li class="nav-item">
                     <a href="#" class="nav-link"><?= $this->session->userdata('first_name'); ?></a>
                 </li>
@@ -43,7 +43,8 @@
             </ul>
         </div>
     </nav>
-    <!-- end of navbar -->
+    <!-- End of Navbar -->
+</div>
 
     <?= $modal; ?>
     <!-- Logout Modal-->

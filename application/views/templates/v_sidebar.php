@@ -9,7 +9,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <title><?= $tittle; ?></title>
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css'); ?>">
+<<<<<<< HEAD
     <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205061125'); ?>">
+=======
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205112106'); ?>">
+>>>>>>> dc3031db5c3fc76e7b964a778ad92cfa1e695115
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css?v=202204050910'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/utilities.css?v=202204140306'); ?>">
     <!-- Font Awesome -->
@@ -26,6 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div id="wrapper">
         <!-- Content Wrapper-->
         <div class="d-flex" id="content-wrapper">
+<<<<<<< HEAD
 
             <!-- Sidebar -->
             <ul class="nav navbar-light bg-white sidebar flex-column" id="sidebarMenu">
@@ -35,3 +40,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <?= $menu; ?>
             </ul>
             <!-- End of Sidebar -->
+=======
+            <div class="sidebar-wrapper position-relative">        
+                <!-- Sidebar -->
+                <ul class="nav navbar-light bg-white sidebar flex-column sticky-top" id="sidebarMenu">
+                    <a href="<?php echo base_url('auth'); ?>" class="d-flex sidebar-brand align-items-center justify-content-center fa fa-e"><span>itraWeb</span></a>
+                    <!-- <img src="<?php echo base_url('assets/img/brand/logo-trans.png'); ?>" class="img-fluid" alt="mitraLogo"> -->
+                    <!-- <hr class="sidebar-divider my-0"> -->
+                    <?= $menu; ?>
+                </ul>
+                <!-- End of Sidebar -->
+            </div>
+>>>>>>> dc3031db5c3fc76e7b964a778ad92cfa1e695115

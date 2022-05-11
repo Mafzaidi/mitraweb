@@ -218,10 +218,6 @@ button.search:before {
 		width: 14rem !important;
 	}
 
-	.navbar-sticky-top {
-		left: 14rem !important;
-	}
-
 	.sidebar .nav-item .nav-link {
 		width: 100%;
 		text-align: left;
@@ -601,11 +597,11 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 }
 
 .i-wrapp.light i {
-	color: #5f6368;
+	color: #5f6368 !important;
 }
 
 .i-wrapp.dark i {
-	color: #fff;
+	color: #fff !important;
 }
 
 .circle .i-wrapp {
@@ -620,6 +616,52 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	height: 20px;
 	width: 20px;
 	line-height: 20px;
+}
+
+.i-wrapp-animate {
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	height: 45px;
+	line-height: 45px;
+	width: 45px;
+	background-color: #fff;
+    text-align: center;
+	color: #5f6368;
+	box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+}
+
+.i-wrapp-animate:hover {
+	cursor: pointer;
+	box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
+	background-color: #fafafb;    
+	width: 120px;
+    border-radius: 50px;
+    -webkit-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+	text-align: left;
+    padding-left: 10px;
+	color: #2d2e30 !important;
+	text-decoration: none;
+}
+
+.i-wrapp-animate::after {	
+	content: "Tambah";
+	opacity: 0;
+    height: 0;
+	margin-left: 10px;
+    overflow: hidden;
+}
+
+.i-wrapp-animate:hover::after {
+	transition: opacity 0.8s ease-out;
+	opacity: 1;
+    height: auto;
+}
+
+.float-right {
+	position: absolute;
+	right: 20px;
+    top: 35px;
 }
 
 .hover .i-wrapp:hover {
@@ -828,13 +870,22 @@ button.cancel:before {
 .navbar-sticky-top {
 	position: fixed;
 	top: 0;
-	right: 0;
-	left: 6.5rem !important;
-	z-index: 1030;
+	width: 100%;
+	z-index: 1020;
 	border-bottom: 1px solid rgb(75, 74, 74) !important;
 	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.33) !important;
 }
 
-.fixed-hidden.navbar-sticky-top {
-	left: 0 !important;
+.gradient-text {
+	background: -webkit-linear-gradient(rgb(145, 185, 221), rgb(235, 83, 185)) !important;
+	-webkit-background-clip: text !important;
+	-webkit-text-fill-color: transparent !important;
 }
+
+a:hover > .gradient-text {
+	background: -webkit-linear-gradient(rgb(42, 142, 230), rgb(238, 26, 167)) !important;
+	-webkit-background-clip: text !important;
+	-webkit-text-fill-color: transparent !important;
+}
+
+

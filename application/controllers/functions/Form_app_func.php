@@ -85,6 +85,8 @@ class Form_app_func extends CI_Controller
             $result = array(
                 'medrec' => $get->MEDREC,
                 'pasien' => $get->PASIEN,
+                'tgl_lahir' => $get->TGL_LAHIR,
+                'umur' => $get->UMUR,
                 'ruang_id' => $get->RUANG_ID,
                 'nama_dept' => $get->NAMA_DEPT,
                 'nama_dr' => $get->NAMA_DR,
