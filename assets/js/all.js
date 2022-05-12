@@ -114,6 +114,12 @@
 		detail_polimon_click();
 	}
 
+	function loaderFunction() {
+		setTimeout(()=> {
+			$('.loader-modal').removeClass("show")
+		} , 2000);
+	}
+
 	$(function () {
 		$('[data-toggle="tooltip"]').tooltip();
 	});
@@ -204,7 +210,10 @@
 			page_inpatientFile_click();
 			if (window.location.hash) {
 				var regid = window.location.hash.slice(1);
+				loaderFunction();
 				loadDetailInpatientFile(regid);
+			} else {
+				$('.loader-modal').removeClass("show")
 			}
 		}
 
@@ -1971,6 +1980,7 @@
 		// var hash_param = getHashValue(hash_url);
 		// console.log(hash_param);
 		// alert(reg_id);
+		// loaderFunction();
 		$.ajax({
 			type: "POST",
 			dataType: "json",
@@ -2011,4 +2021,8 @@
 			},
 		});
 	}
+
+	$("#btnAddBerkas").on("click", function () {
+		// alert(2154);
+	});
 })(jQuery); // End of use strict

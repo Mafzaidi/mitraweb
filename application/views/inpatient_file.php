@@ -43,7 +43,7 @@
             </div>
         </div>
         
-        <div class="card-body p-0 d-none" id="detailInpatientFile">
+        <div class="card-body p-0 d-none" id="detailInpatientFile">        
             
             <nav class="navbar topbar navbar-expand-sm navbar-light bg-white border-bottom py-2 mb-3 hover circle">
                 <a class="i-wrapp text-muted" id="btnBack" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-6">          
-                    <div class="card bg-transparent border rounded-3 m-3">
+                    <!-- <div class="card bg-transparent border rounded-3 m-3">
                         <div class="card-header bg-light align-middle border-bottom p-2 hover square">
                             <h6 class="card-header-title float-left mb-0">LMA</h6>
                             <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
@@ -130,9 +130,19 @@
                         </div>
                         <div class="card-body">
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="loader-modal fade show">   
+    <div class="loader-container">                     
+        <div class="large-indicator">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>       
+</div>  
