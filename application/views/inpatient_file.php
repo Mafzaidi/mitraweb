@@ -49,9 +49,6 @@
                 <a class="i-wrapp text-muted" id="btnBack" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
                 <!-- <a class="i-wrapp text-muted" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="fas fa-plus"></i></a> -->
                 <a class="i-wrapp-animate float-right text-muted" id="btnAddBerkas"><i class="fas fa-plus"></i></a>
-                <!-- <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
-                <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fas fa-trash"></i></a>
-                <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Batal"><i class="fas fa-undo-alt"></i></a> -->
             </nav>
 
             <div class="row p-3">  
@@ -111,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-6">          
+                <div class="col-md-4 col-lg-6"> 
                     <!-- <div class="card bg-transparent border rounded-3 m-3">
                         <div class="card-header bg-light align-middle border-bottom p-2 hover square">
                             <h6 class="card-header-title float-left mb-0">LMA</h6>
