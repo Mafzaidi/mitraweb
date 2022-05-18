@@ -35,13 +35,15 @@
 		<script src="<?php echo base_url('assets/vendor/masked-input/jquery-maskedinput.min.js'); ?>"></script>
 		<!-- tinysort jquery -->
 		<script src="<?php echo base_url('assets/vendor/tinysort-3.2.5/tinysort.min.js'); ?>"></script>
+		<!-- dropzone jquery -->
+		<script src="<?php echo base_url('assets/vendor/dropzone/js/dropzone.js'); ?>"></script>
 		<!-- Js Util -->
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/js/dist/util.js'); ?>"></script>
 		<!-- Js bootstrap -->
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/js/all.js?v=202205121541'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/all.js?v=202205181531'); ?>"></script>
 
 	</body>
 

@@ -2010,6 +2010,7 @@
 				// $("#inputDataNecst").val(data.keperluan);
 				// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
 				// alert(JSON.stringify(data));
+				$("#dropdownBerkas").html(data.dropmenu);
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
 				pageInit();
@@ -2022,7 +2023,30 @@
 		});
 	}
 
-	$("#btnAddBerkas").on("click", function () {
+	$("#btnAddBerkas").on("click", function () {		
+		$(this).toggleClass("active");
 		// alert(2154);
+	});
+
+	$("#dropdownBerkas").on("click", ".dropdown-item", function () {
+		// alert($(this).attr("id"));
+		var desc = $(this).html()
+		var title = "Upload" + " " + desc;
+		var html = '<form action="' + base_url + "functions/Form_app_func/loadInpatientFile/" + '" class="dropzone" id="dropImg"></form>';
+		var btn =
+			"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+
+		$("#myDynamicModal .modal-footer").html(btn);
+		$("#myDynamicModal .modal-body").html(html);
+		$("#myDynamicModal .modal-title").html(title);
+		$("#myDynamicModal").modal("show");
+	});
+
+	$(document).click(function(event) { 
+		var $target = $(event.target);
+		if(!$target.closest('#btnAddBerkas').length && 
+		$('#btnAddBerkas').hasClass("active")) {
+		  $('#btnAddBerkas').removeClass("active");
+		}        
 	});
 })(jQuery); // End of use strict

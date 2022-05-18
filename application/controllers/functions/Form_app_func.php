@@ -81,6 +81,12 @@ class Form_app_func extends CI_Controller
             $reg_id = $this->input->post('reg_id');
 
             $get = $this->mfa->getDataCurrentInpatient($reg_id);
+            $dropMenu = $this->mfa->getBerkas();
+
+            $html = "";
+            foreach($dropMenu as $row) {              
+                $html.= '<a class="dropdown-item" id="' . $row->BERKAS_ID . '">' . $row->KETERANGAN . '</a>';
+            }
 
             $result = array(
                 'medrec' => $get->MEDREC,
@@ -91,8 +97,8 @@ class Form_app_func extends CI_Controller
                 'nama_dept' => $get->NAMA_DEPT,
                 'nama_dr' => $get->NAMA_DR,
                 'tgl_masuk' => $get->TGL_MASUK,
-                'rekanan_nama' => $get->REKANAN_NAMA
-
+                'rekanan_nama' => $get->REKANAN_NAMA,
+                'dropmenu' => $html
             );
 
         $data = $result;

@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <title><?= $tittle; ?></title>
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205122202'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205171117'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css?v=202205121440'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/utilities.css?v=202204140306'); ?>">
     <!-- Font Awesome -->
@@ -20,6 +20,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- Jquery ui -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/css/jquery-ui.min.css'); ?>">
+
+    <!-- Dropzone -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/dropzone/css/dropzone.css'); ?>">
 </head>
 
 <body>

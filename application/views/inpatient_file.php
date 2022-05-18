@@ -48,7 +48,18 @@
             <nav class="navbar topbar navbar-expand-sm navbar-light bg-white border-bottom py-2 mb-3 hover circle">
                 <a class="i-wrapp text-muted" id="btnBack" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
                 <!-- <a class="i-wrapp text-muted" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="fas fa-plus"></i></a> -->
-                <a class="i-wrapp-animate float-right text-muted" id="btnAddBerkas"><i class="fas fa-plus"></i></a>
+                <!-- <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
+                <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fas fa-trash"></i></a>
+                <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Batal"><i class="fas fa-undo-alt"></i></a> -->
+                <div class="dropdown dropleft ml-md-auto">
+                    <a class="i-wrapp-animate float-right text-muted" id="btnAddBerkas" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-plus"></i></a>
+
+                    <div class="dropdown-menu" aria-labelledby="btnAddBerkas" id="dropdownBerkas">
+                        <!-- <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a> -->
+                    </div>
+                </div>
             </nav>
 
             <div class="row p-3">  
@@ -108,26 +119,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-6"> 
-                    <!-- <div class="card bg-transparent border rounded-3 m-3">
-                        <div class="card-header bg-light align-middle border-bottom p-2 hover square">
+                <div class="col-md-4 col-lg-6">          
+                    <div class="card bg-transparent border rounded-3 m-3">
+                        <!-- <div class="card-header bg-light align-middle border-bottom p-2 hover square">
                             <h6 class="card-header-title float-left mb-0">LMA</h6>
                             <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
                             <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
-                        </div>
+                        </div> -->
                         <div class="card-body">
                         </div>
-                    </div>  
-                    
-                    <div class="card bg-transparent border rounded-3 m-3">
-                        <div class="card-header bg-light align-middle border-bottom p-2 hover square">
-                            <h6 class="card-header-title float-left mb-0">LML</h6>
-                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
-                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
-                        </div>
-                        <div class="card-body">
-                        </div>
-                    </div> -->
+                    </div> 
                 </div>
             </div>
         </div>
