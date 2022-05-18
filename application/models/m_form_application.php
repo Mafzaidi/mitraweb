@@ -165,4 +165,18 @@ class M_form_application extends CI_Model
             $row = $query->row();
             return $row;
     }
+
+    function getBerkas() {
+        $sql = "SELECT
+                    A.BERKAS_ID, A.KETERANGAN
+                FROM
+                    EDP_MANAGER.MS_BERKAS A
+                WHERE
+                    A.SHOW_ITEM = '1'
+        ";
+
+        $query = $this->oracle_db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
 }

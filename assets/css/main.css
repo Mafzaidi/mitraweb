@@ -644,6 +644,28 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	text-decoration: none;
 }
 
+.i-wrapp-animate.active {
+	cursor: pointer;
+	box-shadow: 0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%);
+	background-color: #fafafb;    
+	width: 120px;
+    border-radius: 50px;
+    -webkit-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+	text-align: left;
+    padding-left: 10px;
+	color: #2d2e30 !important;
+	text-decoration: none;
+}
+
+.i-wrapp-animate.active::after {	
+	content: "Tambah";
+	opacity: 1;
+    height: auto;
+	margin-left: 10px;
+    overflow: hidden;
+}
+
 .i-wrapp-animate::after {	
 	content: "Tambah";
 	opacity: 0;
@@ -658,7 +680,7 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
     height: auto;
 }
 
-.float-right {
+.abs-float-right {
 	position: absolute;
 	right: 20px;
     top: 35px;
