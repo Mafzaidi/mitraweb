@@ -1,6 +1,6 @@
 (function ($) {
 	"use strict"; // Start of use strict
-
+	// Dropzone.autoDiscover = false;
 	var _URL = window.URL || window.webkitURL;
 	var base_url = $("#baseUrl").val();
 	var current_url = $(location).attr("href");
@@ -115,9 +115,9 @@
 	}
 
 	function loaderFunction() {
-		setTimeout(()=> {
-			$('.loader-modal').removeClass("show")
-		} , 2000);
+		setTimeout(() => {
+			$(".loader-modal").removeClass("show");
+		}, 2000);
 	}
 
 	$(function () {
@@ -213,7 +213,7 @@
 				loaderFunction();
 				loadDetailInpatientFile(regid);
 			} else {
-				$('.loader-modal').removeClass("show")
+				$(".loader-modal").removeClass("show");
 			}
 		}
 
@@ -2023,16 +2023,22 @@
 		});
 	}
 
-	$("#btnAddBerkas").on("click", function () {		
+	$("#btnAddBerkas").on("click", function () {
 		$(this).toggleClass("active");
 		// alert(2154);
 	});
 
 	$("#dropdownBerkas").on("click", ".dropdown-item", function () {
+		Dropzone.autoDiscover = false;
 		// alert($(this).attr("id"));
-		var desc = $(this).html()
+		var desc = $(this).html();
+		var id = $(this).attr("id");
 		var title = "Upload" + " " + desc;
-		var html = '<form action="' + base_url + "functions/Form_app_func/loadInpatientFile/" + '" class="dropzone" id="dropImg"></form>';
+		var html =
+			'<div class="position-relative"><form action="' +
+			base_url +
+			"functions/Form_app_func/uploadBerkas/" +
+			'" class="dropzone" id="my-great-dropzone"></form></div>';
 		var btn =
 			"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
@@ -2040,13 +2046,92 @@
 		$("#myDynamicModal .modal-body").html(html);
 		$("#myDynamicModal .modal-title").html(title);
 		$("#myDynamicModal").modal("show");
+		uploadBerkas(id);
 	});
 
-	$(document).click(function(event) { 
+	function uploadBerkas(id) {
+		// Dropzone.autoDiscover = false;
+		$("#myDynamicModal").on("shown.bs.modal", function (event) {
+			// Dropzone.autoDiscover = false;
+			// $("form#dropBerkas").dropzone({
+			// 	maxFilesize: 10,
+			// 	thumbnailWidth: 200,
+			// 	thumbnailHeight: 200,
+			// 	params: {
+			// 		id: id,
+			// 	},
+			// 	init: function () {
+			// 		this.on("addedfile", function (file) {
+			// 			var img = file;
+			// 			var countImg = this.files.length;
+
+			// 			if (this.files.length == 0) {
+			// 				alert("file tidak ditemukan");
+			// 				return false;
+			// 			} else {
+			// 			}
+
+			// 			var data = new FormData();
+			// 			for (var i = 0; i < countImg; i++) {
+			// 				data.append("imageFile", this.files[i]);
+			// 			}
+			// 			data.append("id", id);
+
+			// 			var options = {};
+			// 			options.url = base_url + "functions/Form_app_func/uploadBerkas";
+			// 			options.type = "POST";
+			// 			options.data = data;
+			// 			options.contentType = false;
+			// 			options.processData = false;
+			// 			options.dataType = "json";
+			// 			options.responseType = "json";
+			// 			options.success = function (result) {
+			// 				var p = "<?= base_url(); ?>" + result.path;
+			// 			};
+			// 			options.error = function (err) {
+			// 				alert(JSON.stringify(err));
+			// 				console.log(JSON.stringify(err));
+			// 			};
+			// 			$.ajax(options);
+			// 			return true;
+			// 		}),
+			// 			this.on("thumbnail", function (file, dataUrl) {
+			// 				$(".dz-image")
+			// 					.last()
+			// 					.find("img")
+			// 					.attr({ width: "100%", height: "100%" });
+			// 				$(".dz-image").css({ "border-radius": "inherit" });
+			// 				$(".dz-image").parent().css({ margin: "0" });
+			// 				$(".dz-image").parent().parent().css({ padding: "0" });
+			// 			}),
+			// 			this.on("success", function (file) {
+			// 				$(".dz-image").css({ width: "100%", height: "100%" });
+			// 			});
+			// 	},
+			// });
+			Dropzone.options.myGreatDropzone = {
+				// camelized version of the `id`
+				paramName: "file", // The name that will be used to transfer the file
+				maxFilesize: 2, // MB
+				accept: function (file, done) {
+					if (file.name == "justinbieber.jpg") {
+						done("Naha, you don't.");
+					} else {
+						done();
+					}
+				},
+			};
+		});
+	}
+
+	$(document).click(function (event) {
 		var $target = $(event.target);
-		if(!$target.closest('#btnAddBerkas').length && 
-		$('#btnAddBerkas').hasClass("active")) {
-		  $('#btnAddBerkas').removeClass("active");
-		}        
+		if (
+			!$target.closest("#btnAddBerkas").length &&
+			$("#btnAddBerkas").hasClass("active")
+		) {
+			$("#btnAddBerkas").removeClass("active");
+		}
 	});
+	Dropzone.discover();
 })(jQuery); // End of use strict

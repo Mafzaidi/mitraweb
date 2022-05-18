@@ -118,4 +118,26 @@ class Form_app_func extends CI_Controller
         }
     }
 
+    function uploadBerkas(){
+		if(isset($_POST['id']) && $_POST['id'] != ""){
+			$id = $_POST['id'].'/';
+		} else {
+			$id = '';
+		}
+		
+		if (!is_dir('assets/images/berkas/'.$id)) {
+			mkdir('assets/images/berkas/'.$id, 0777, TRUE);
+		}
+		
+		$config['upload_path'] = 'assets/images/berkas/'.$id;
+		$config['allowed_types'] = 'gif|jpg|png|pdf';
+		$this->load->library('upload', $config);
+		$this->upload->do_upload('imageFile');
+		
+		$upload = $this->upload->data();		
+		$data['path'] = $config['upload_path'].$upload['file_name'];
+		$data['imgUrl'] = 'assets/images/berkas/'.$upload['file_name'];
+		echo json_encode($data);
+	}
+
 }

@@ -22,7 +22,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/css/jquery-ui.min.css'); ?>">
 
     <!-- Dropzone -->
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/dropzone/css/dropzone.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/dropzone/css/dropzone.min.css'); ?>">
 </head>
 
 <body>
