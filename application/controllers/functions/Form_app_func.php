@@ -119,24 +119,36 @@ class Form_app_func extends CI_Controller
     }
 
     function uploadBerkas(){
-		if(isset($_POST['id']) && $_POST['id'] != ""){
-			$id = $_POST['id'].'/';
+
+		if((isset($_POST['reg_id']) && $_POST['reg_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
+            $reg_id = $_POST['reg_id'].'/';
+			$berkas_id = $_POST['berkas_id'].'/';
 		} else {
 			$id = '';
 		}
 		
-		if (!is_dir('assets/images/berkas/'.$id)) {
-			mkdir('assets/images/berkas/'.$id, 0777, TRUE);
+		if (!is_dir('assets/images/docs/'.$reg_id.$berkas_id)) {
+			mkdir('assets/images/docs/'.$reg_id.$berkas_id, 0777, TRUE);
 		}
 		
-		$config['upload_path'] = 'assets/images/berkas/'.$id;
+		$config['upload_path'] = 'assets/images/docs/'.$reg_id.$berkas_id;
 		$config['allowed_types'] = 'gif|jpg|png|pdf';
+
+        $count_files=0;
+        $ite=new RecursiveDirectoryIterator($config['upload_path']);
+
+        foreach (new RecursiveIteratorIterator($ite) as $filename=>$cur) {
+            $count_files++;
+        }
+
+        $new_name = $_POST['reg_id'] .'-'.$_POST['berkas_id'].'-'.($count_files > 0) ? $count_files : null;
+        $config['file_name'] = $new_name;
 		$this->load->library('upload', $config);
 		$this->upload->do_upload('imageFile');
 		
 		$upload = $this->upload->data();		
 		$data['path'] = $config['upload_path'].$upload['file_name'];
-		$data['imgUrl'] = 'assets/images/berkas/'.$upload['file_name'];
+		$data['imgUrl'] = 'assets/images/docs/'.$upload['file_name'];
 		echo json_encode($data);
 	}
 

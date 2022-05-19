@@ -199,6 +199,7 @@
 	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		// Dropzone.autoDiscover = false;
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
 			// var date = new Date();
@@ -1223,14 +1224,6 @@
 		$("#myDynamicModal .modal-dialog").addClass("modal-dialog-centered");
 		$("#myDynamicModal").modal("show");
 		saveReturnMR();
-
-		// $(this).parent().parent().parent().find(".btn").attr("disabled", true)
-		// $(this).parent().find(".cancel").attr("disabled", false)
-		// $(this).parent().find(".cancel").removeClass("d-none");
-		// $(this).addClass("d-none");
-		// alert(trans_pinjam);
-		// $("#divReturnBy").find(".save").attr("trans_id",trans_pinjam);
-		// $("#divReturnBy").toggleClass("d-none");
 	});
 
 	$("#pinjamMrReturn").on("click", ".cancel", function () {
@@ -1393,7 +1386,7 @@
 					"</div>" +
 					"</div>";
 				var btn =
-					"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+					"<button class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 				var page_start = 1;
 				var per_page = $("#select_pageSize_mr_return option:selected").val();
@@ -1624,7 +1617,7 @@
 				"</div>" +
 				"</div>";
 			var btn =
-				"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+				"<button class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 			$("#myDynamicModal .modal-footer").html(btn);
 			$("#myDynamicModal .modal-body").html(error);
@@ -1771,16 +1764,6 @@
 			loadDetailInpatientFile(regid);
 		}
 	);
-
-	// $("#tb_inpatientFile").on(
-	// 	"click",
-	// 	"#btnEditBerkas:not([disabled])",
-	// 	function () {
-	// 		$("#rowsInpatientFile").toggleClass("d-none");
-	// 		$("#detailInpatientFile").toggleClass("d-none");
-	// 		// alert($(this).parent().attr("reg-id"))
-	// 	}
-	// );
 
 	$("#detailInpatientFile").on(
 		"click",
@@ -1974,13 +1957,6 @@
 
 	function loadDetailInpatientFile(regid) {
 		var reg_id = regid;
-		// var reg_id = $(this).parent().attr("reg-id");
-		// var hash_url = "#" + reg_id;
-		// window.location.hash = hash_url;
-		// var hash_param = getHashValue(hash_url);
-		// console.log(hash_param);
-		// alert(reg_id);
-		// loaderFunction();
 		$.ajax({
 			type: "POST",
 			dataType: "json",
@@ -1989,10 +1965,6 @@
 				reg_id: reg_id,
 			},
 			success: function (data) {
-				// $("#page_inpatientFile .card-body").html("");
-				// var html = "";
-				// console.log(JSON.stringify(data));
-				// console.log(hash, curr_url, hash_url);
 				$("#detailInpatientFile #medrec").html(data.medrec);
 				$("#detailInpatientFile #nama").html(data.pasien);
 				$("#detailInpatientFile #tgl_lahir").html(data.tgl_lahir);
@@ -2002,14 +1974,6 @@
 				$("#detailInpatientFile #ns").html(data.nama_dept);
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
-				// $("#inputDataBirthDate").val(data.tgl_lahir);
-				// $("#inputDataAddress").val(data.alamat);
-				// $("#inputDataTelp").val(data.no_hp);
-				// $("#inputDataBorrower").val(data.peminjam);
-				// $("#inputDataLender").val(data.pemberi_pinjam);
-				// $("#inputDataNecst").val(data.keperluan);
-				// $("#inputDataRtrnDate").val(data.tgl_janji_kembali);
-				// alert(JSON.stringify(data));
 				$("#dropdownBerkas").html(data.dropmenu);
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
@@ -2029,100 +1993,86 @@
 	});
 
 	$("#dropdownBerkas").on("click", ".dropdown-item", function () {
-		Dropzone.autoDiscover = false;
 		// alert($(this).attr("id"));
+		Dropzone.autoDiscover = false;
 		var desc = $(this).html();
-		var id = $(this).attr("id");
+		var berkas_id = $(this).attr("id");
+		var reg_id = window.location.hash.slice(1);
+
 		var title = "Upload" + " " + desc;
 		var html =
 			'<div class="position-relative"><form action="' +
 			base_url +
-			"functions/Form_app_func/uploadBerkas/" +
-			'" class="dropzone" id="my-great-dropzone"></form></div>';
+			"functions/Form_app_func/uploadBerkas" +
+			'" class="dropzone" id="dropBerkas" berkas_id="' + berkas_id + '" reg_id="' + reg_id + '"></form></div>';
 		var btn =
-			"<button id='deleteMr_return' class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+			"<button class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
 		$("#myDynamicModal .modal-footer").html(btn);
 		$("#myDynamicModal .modal-body").html(html);
 		$("#myDynamicModal .modal-title").html(title);
 		$("#myDynamicModal").modal("show");
-		uploadBerkas(id);
-	});
 
-	function uploadBerkas(id) {
-		// Dropzone.autoDiscover = false;
-		$("#myDynamicModal").on("shown.bs.modal", function (event) {
-			// Dropzone.autoDiscover = false;
-			// $("form#dropBerkas").dropzone({
-			// 	maxFilesize: 10,
-			// 	thumbnailWidth: 200,
-			// 	thumbnailHeight: 200,
-			// 	params: {
-			// 		id: id,
-			// 	},
-			// 	init: function () {
-			// 		this.on("addedfile", function (file) {
-			// 			var img = file;
-			// 			var countImg = this.files.length;
-
-			// 			if (this.files.length == 0) {
-			// 				alert("file tidak ditemukan");
-			// 				return false;
-			// 			} else {
-			// 			}
-
-			// 			var data = new FormData();
-			// 			for (var i = 0; i < countImg; i++) {
-			// 				data.append("imageFile", this.files[i]);
-			// 			}
-			// 			data.append("id", id);
-
-			// 			var options = {};
-			// 			options.url = base_url + "functions/Form_app_func/uploadBerkas";
-			// 			options.type = "POST";
-			// 			options.data = data;
-			// 			options.contentType = false;
-			// 			options.processData = false;
-			// 			options.dataType = "json";
-			// 			options.responseType = "json";
-			// 			options.success = function (result) {
-			// 				var p = "<?= base_url(); ?>" + result.path;
-			// 			};
-			// 			options.error = function (err) {
-			// 				alert(JSON.stringify(err));
-			// 				console.log(JSON.stringify(err));
-			// 			};
-			// 			$.ajax(options);
-			// 			return true;
-			// 		}),
-			// 			this.on("thumbnail", function (file, dataUrl) {
-			// 				$(".dz-image")
-			// 					.last()
-			// 					.find("img")
-			// 					.attr({ width: "100%", height: "100%" });
-			// 				$(".dz-image").css({ "border-radius": "inherit" });
-			// 				$(".dz-image").parent().css({ margin: "0" });
-			// 				$(".dz-image").parent().parent().css({ padding: "0" });
-			// 			}),
-			// 			this.on("success", function (file) {
-			// 				$(".dz-image").css({ width: "100%", height: "100%" });
-			// 			});
-			// 	},
-			// });
-			Dropzone.options.myGreatDropzone = {
-				// camelized version of the `id`
-				paramName: "file", // The name that will be used to transfer the file
-				maxFilesize: 2, // MB
-				accept: function (file, done) {
-					if (file.name == "justinbieber.jpg") {
-						done("Naha, you don't.");
+		$("form#dropBerkas").dropzone({
+			maxFilesize: 10,
+			thumbnailWidth: 200,
+			thumbnailHeight: 200,
+			params: {
+				reg_id: $("form#dropBerkas").attr("reg_id"),
+				berkas_id:  $("form#dropBerkas").attr("berkas_id"),
+			},
+			init: function () {
+				this.on("addedfile", function (file) {
+					var img = file;
+					var countImg = this.files.length;
+	
+					if (this.files.length == 0) {
+						alert("file tidak ditemukan");
+						return false;
 					} else {
-						done();
 					}
-				},
-			};
+	
+					var data = new FormData();
+					for (var i = 0; i < countImg; i++) {
+						data.append("imageFile", this.files[i]);
+					}
+					data.append("reg_id", $("form#dropBerkas").attr("reg_id"));
+					data.append("berkas_id", $("form#dropBerkas").attr("berkas_id"));
+	
+					var options = {};
+					options.url = base_url + "functions/Form_app_func/uploadBerkas";
+					options.type = "POST";
+					options.data = data;
+					options.contentType = false;
+					options.processData = false;
+					options.dataType = "json";
+					options.responseType = "json";
+					options.success = function (result) {
+						var p = "<?= base_url(); ?>" + result.path;
+						console.log(JSON.stringify(p));
+					};
+					options.error = function (err) {
+						alert(JSON.stringify(err));
+						console.log(JSON.stringify(err));
+					};
+					$.ajax(options);
+					return true;
+				}),
+					this.on("thumbnail", function (file, dataUrl) {
+						$(".dz-image")
+							.last()
+							.find("img")
+							.attr({ width: "100%", height: "100%" });
+						$(".dz-image").css({ "border-radius": "inherit" });
+						$(".dz-image").parent().css({ margin: "0" });
+						$(".dz-image").parent().parent().css({ padding: "0" });
+					}),
+					this.on("success", function (file) {
+						$(".dz-image").css({ width: "100%", height: "100%" });
+					});
+			},
 		});
-	}
+	});
 
 	$(document).click(function (event) {
 		var $target = $(event.target);
