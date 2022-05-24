@@ -915,3 +915,19 @@ a:hover > .gradient-text {
 	-webkit-background-clip: text !important;
 	-webkit-text-fill-color: transparent !important;
 }
+
+.dropdown-item:hover {
+	cursor: pointer;
+}
+
+.image-wrapper.upload:hover {
+    border: 1px solid #007bff;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.image-file {
+    background-image: url(../img/icons/image_file.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

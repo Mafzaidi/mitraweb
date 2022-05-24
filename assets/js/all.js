@@ -204,7 +204,8 @@
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
 			// var date = new Date();
 			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-		} else if (
+		} else if 
+		(
 			segments[6].replace(window.location.hash, "") !== "" &&
 			segments[6].replace(window.location.hash, "") == "inpatient-file"
 		) {
@@ -216,6 +217,8 @@
 			} else {
 				$(".loader-modal").removeClass("show");
 			}
+		} else {
+			
 		}
 
 		var inputMr = $("#formBrwMr").find("#mr");
@@ -1974,9 +1977,19 @@
 				$("#detailInpatientFile #ns").html(data.nama_dept);
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
-				$("#dropdownBerkas").html(data.dropmenu);
+
+				var dropList = "";
+				var rcount = data.dropmenu.length;
+				for (var i = 0; i < rcount; i++) {
+					dropList += '<a class="dropdown-item" id="' + data.dropmenu[i].berkas_id + '" ket="'  + data.dropmenu[i].keterangan + '">';
+					dropList += '<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
+					dropList += data.dropmenu[i].keterangan + '</a>';
+				}				
+				$("#dropdownBerkas").html(dropList)
+
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
+				console.log(JSON.stringify(data));
 				pageInit();
 			},
 			error: function (data) {
@@ -1995,16 +2008,18 @@
 	$("#dropdownBerkas").on("click", ".dropdown-item", function () {
 		// alert($(this).attr("id"));
 		Dropzone.autoDiscover = false;
-		var desc = $(this).html();
+		var desc = $(this).attr("ket");
 		var berkas_id = $(this).attr("id");
 		var reg_id = window.location.hash.slice(1);
 
 		var title = "Upload" + " " + desc;
-		var html =
-			'<div class="position-relative"><form action="' +
+		var html = '<div class="position-relative image-file" id="uploadImage">';
+			html += '';
+			html += '<form action="' +
 			base_url +
 			"functions/Form_app_func/uploadBerkas" +
-			'" class="dropzone" id="dropBerkas" berkas_id="' + berkas_id + '" reg_id="' + reg_id + '"></form></div>';
+			'" class="dropzone" id="dropBerkas" berkas_id="' + berkas_id + '" reg_id="' + reg_id + '" style="opacity:0.7; border: none;"></form>';
+			html += '</div>';
 		var btn =
 			"<button class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
@@ -2015,8 +2030,11 @@
 
 		$("form#dropBerkas").dropzone({
 			maxFilesize: 10,
+			uploadMultiple: true,
 			thumbnailWidth: 200,
 			thumbnailHeight: 200,
+			thumbnailMethod: "contain",
+			addRemoveLinks: true,
 			params: {
 				reg_id: $("form#dropBerkas").attr("reg_id"),
 				berkas_id:  $("form#dropBerkas").attr("berkas_id"),
@@ -2036,8 +2054,9 @@
 					for (var i = 0; i < countImg; i++) {
 						data.append("imageFile", this.files[i]);
 					}
-					data.append("reg_id", $("form#dropBerkas").attr("reg_id"));
-					data.append("berkas_id", $("form#dropBerkas").attr("berkas_id"));
+					data.append("reg_id", reg_id);
+					data.append("berkas_id", berkas_id);
+					data.append("ket", desc);
 	
 					var options = {};
 					options.url = base_url + "functions/Form_app_func/uploadBerkas";
@@ -2048,8 +2067,26 @@
 					options.dataType = "json";
 					options.responseType = "json";
 					options.success = function (result) {
-						var p = "<?= base_url(); ?>" + result.path;
-						console.log(JSON.stringify(p));
+						// var p = "<?= base_url(); ?>" + result.path;
+						// console.log(JSON.stringify(p));
+						var tempPath = result.path;
+						var elmnt = document.createElement('span');
+						var node = document.createTextNode(tempPath);
+						var content = document.getElementById('uploadImage')
+						var css = document.createElement('style');
+						css.type = 'text/css';
+						var styles = 'span {display:none}';
+
+						if (css.styleSheet)
+							css.styleSheet.cssText = styles;
+						else
+							css.appendChild(document.createTextNode(styles));
+
+						elmnt.setAttribute('id', "tempPathSpan");
+						elmnt.setAttribute('path', tempPath);
+						elmnt.appendChild(node);
+						elmnt.appendChild(css);
+						content.appendChild(elmnt);
 					};
 					options.error = function (err) {
 						alert(JSON.stringify(err));
@@ -2059,19 +2096,47 @@
 					return true;
 				}),
 					this.on("thumbnail", function (file, dataUrl) {
-						$(".dz-image")
-							.last()
-							.find("img")
-							.attr({ width: "100%", height: "100%" });
-						$(".dz-image").css({ "border-radius": "inherit" });
-						$(".dz-image").parent().css({ margin: "0" });
-						$(".dz-image").parent().parent().css({ padding: "0" });
+						// $(".dz-image")
+						// 	.last()
+						// 	.find("img")
+						// 	.attr({ width: "100%", height: "100%" });
+						// $(".dz-image").css({ "border-radius": "inherit" });
+						// $(".dz-image").parent().css({ margin: "0" });
+						// $(".dz-image").parent().parent().css({ padding: "0" });
 					}),
 					this.on("success", function (file) {
-						$(".dz-image").css({ width: "100%", height: "100%" });
-					});
+						// $(".dz-image").css({ width: "100%", height: "100%" });
+					}),
+					this.on("removedfile", function(file) {
+						var currentFile = file.name;
+						var currentPath = document.getElementById('tempPathSpan').getAttribute('path');
+						// console.log(currentFile);
+
+						$.ajax({
+							type: "POST",
+							dataType: 'json',
+							url: base_url + "functions/Form_app_func/removeBerkas",
+							data: {
+								currentFile: currentFile,
+								currentPath: currentPath,
+								requested: 2
+							},
+							success: function(data) {
+								document.getElementById("tempPathSpan").remove();
+								//alert(JSON.stringify(data));
+							},
+							error: function(data) {
+								alert(JSON.stringify(data));
+								//alert(2);
+							}
+						});
+					});;
 			},
 		});
+	});
+
+	$("#dropBerkas").on("click", ".dz-remove", function () {
+		alert($(this).parent().parent().attr("reg_id"));
 	});
 
 	$(document).click(function (event) {

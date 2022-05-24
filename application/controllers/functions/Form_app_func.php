@@ -83,9 +83,14 @@ class Form_app_func extends CI_Controller
             $get = $this->mfa->getDataCurrentInpatient($reg_id);
             $dropMenu = $this->mfa->getBerkas();
 
-            $html = "";
-            foreach($dropMenu as $row) {              
-                $html.= '<a class="dropdown-item" id="' . $row->BERKAS_ID . '">' . $row->KETERANGAN . '</a>';
+            // $html = "";
+            foreach($dropMenu as $row) { 
+                $response[] = array(
+                    "berkas_id"=>$row->BERKAS_ID,
+                    "keterangan"=>$row->KETERANGAN
+                );  
+                // $berkas = $row->BERKAS_ID;       
+                // $html.= '<a class="dropdown-item" id="' . $row->BERKAS_ID . '"><i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>' . $row->KETERANGAN . '</a>';
             }
 
             $result = array(
@@ -97,8 +102,9 @@ class Form_app_func extends CI_Controller
                 'nama_dept' => $get->NAMA_DEPT,
                 'nama_dr' => $get->NAMA_DR,
                 'tgl_masuk' => $get->TGL_MASUK,
-                'rekanan_nama' => $get->REKANAN_NAMA,
-                'dropmenu' => $html
+                'rekanan_nama' => $get->REKANAN_NAMA
+                ,'dropmenu' => $response
+                // ,'dropmenu' => $html
             );
 
         $data = $result;
@@ -124,31 +130,42 @@ class Form_app_func extends CI_Controller
             $reg_id = $_POST['reg_id'].'/';
 			$berkas_id = $_POST['berkas_id'].'/';
 		} else {
-			$id = '';
+			$reg_id = '';
+            $berkas_id = '';
 		}
 		
-		if (!is_dir('assets/images/docs/'.$reg_id.$berkas_id)) {
-			mkdir('assets/images/docs/'.$reg_id.$berkas_id, 0777, TRUE);
+		if (!is_dir('assets/upload/docs/'.$reg_id.$berkas_id)) {
+			mkdir('assets/upload/docs/'.$reg_id.$berkas_id, 0777, TRUE);
 		}
 		
-		$config['upload_path'] = 'assets/images/docs/'.$reg_id.$berkas_id;
+		$config['upload_path'] = 'assets/upload/docs/'.$reg_id.$berkas_id;
 		$config['allowed_types'] = 'gif|jpg|png|pdf';
 
-        $count_files=0;
-        $ite=new RecursiveDirectoryIterator($config['upload_path']);
-
-        foreach (new RecursiveIteratorIterator($ite) as $filename=>$cur) {
-            $count_files++;
-        }
-
-        $new_name = $_POST['reg_id'] .'-'.$_POST['berkas_id'].'-'.($count_files > 0) ? $count_files : null;
-        $config['file_name'] = $new_name;
 		$this->load->library('upload', $config);
 		$this->upload->do_upload('imageFile');
 		
 		$upload = $this->upload->data();		
 		$data['path'] = $config['upload_path'].$upload['file_name'];
-		$data['imgUrl'] = 'assets/images/docs/'.$upload['file_name'];
+		$data['imgUrl'] = 'assets/upload/docs/'.$upload['file_name'];
+		echo json_encode($data);
+	}
+
+    function removeBerkas()
+	{
+
+		$data = array(
+			'fileName' => $_POST['currentFile'],
+			'filePath' => $_POST['currentPath'],
+			'req' => $_POST['requested'],
+			'errMessage' => ''
+		);
+		if (isset($data['fileName'])) {
+			if (unlink($data['filePath'])) {
+				$data['errMessage'] = 'file deleted';
+			} else {
+				$data['errMessage'] = 'error' . $data['fileName'];
+			}
+		}
 		echo json_encode($data);
 	}
 

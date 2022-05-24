@@ -54,7 +54,7 @@
                 <div class="dropdown dropleft ml-md-auto">
                     <a class="i-wrapp-animate float-right text-muted" id="btnAddBerkas" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-plus"></i></a>
 
-                    <div class="dropdown-menu" aria-labelledby="btnAddBerkas" id="dropdownBerkas">
+                    <div class="dropdown-menu shadow animated--grow-in" aria-labelledby="btnAddBerkas" id="dropdownBerkas">
                         <!-- <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a> -->
