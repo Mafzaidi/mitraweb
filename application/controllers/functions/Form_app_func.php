@@ -134,14 +134,7 @@ class Form_app_func extends CI_Controller
 		$config['upload_path'] = 'assets/images/docs/'.$reg_id.$berkas_id;
 		$config['allowed_types'] = 'gif|jpg|png|pdf';
 
-        $count_files=0;
-        $ite=new RecursiveDirectoryIterator($config['upload_path']);
-
-        foreach (new RecursiveIteratorIterator($ite) as $filename=>$cur) {
-            $count_files++;
-        }
-
-        $new_name = $_POST['reg_id'] .'-'.$_POST['berkas_id'].'-'.($count_files > 0) ? $count_files : null;
+        $new_name = $_POST['reg_id'] .'-'.$_POST['berkas_id'];
         $config['file_name'] = $new_name;
 		$this->load->library('upload', $config);
 		$this->upload->do_upload('imageFile');

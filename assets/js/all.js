@@ -2004,7 +2004,11 @@
 			'<div class="position-relative"><form action="' +
 			base_url +
 			"functions/Form_app_func/uploadBerkas" +
-			'" class="dropzone" id="dropBerkas" berkas_id="' + berkas_id + '" reg_id="' + reg_id + '"></form></div>';
+			'" class="dropzone" id="dropBerkas" berkas_id="' +
+			berkas_id +
+			'" reg_id="' +
+			reg_id +
+			'"></form></div>';
 		var btn =
 			"<button class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
 
@@ -2019,26 +2023,26 @@
 			thumbnailHeight: 200,
 			params: {
 				reg_id: $("form#dropBerkas").attr("reg_id"),
-				berkas_id:  $("form#dropBerkas").attr("berkas_id"),
+				berkas_id: $("form#dropBerkas").attr("berkas_id"),
 			},
 			init: function () {
 				this.on("addedfile", function (file) {
 					var img = file;
 					var countImg = this.files.length;
-	
+
 					if (this.files.length == 0) {
 						alert("file tidak ditemukan");
 						return false;
 					} else {
 					}
-	
+
 					var data = new FormData();
 					for (var i = 0; i < countImg; i++) {
 						data.append("imageFile", this.files[i]);
 					}
 					data.append("reg_id", $("form#dropBerkas").attr("reg_id"));
 					data.append("berkas_id", $("form#dropBerkas").attr("berkas_id"));
-	
+
 					var options = {};
 					options.url = base_url + "functions/Form_app_func/uploadBerkas";
 					options.type = "POST";
@@ -2049,7 +2053,7 @@
 					options.responseType = "json";
 					options.success = function (result) {
 						var p = "<?= base_url(); ?>" + result.path;
-						console.log(JSON.stringify(p));
+						console.log(JSON.stringify(result.fileName));
 					};
 					options.error = function (err) {
 						alert(JSON.stringify(err));
