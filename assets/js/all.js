@@ -209,6 +209,12 @@
 			segments[6].replace(window.location.hash, "") == "inpatient-file"
 		) {
 			page_inpatientFile_click();
+
+			var inputSearch = $("#page_inpatientFile").find(
+				"#inputTxtSearchInpatient"
+			);
+			// console.log(inputSearch.nextAll().length);
+			activateRemoveBtn(inputSearch);
 			if (window.location.hash) {
 				var regid = window.location.hash.slice(1);
 				loaderFunction();
@@ -216,10 +222,12 @@
 			} else {
 				$(".loader-modal").removeClass("show");
 			}
+		} else {
 		}
 
 		var inputMr = $("#formBrwMr").find("#mr");
 		activateRemoveBtn(inputMr);
+
 		var val = {
 			focusInvalid: false,
 			rules: {
@@ -1782,22 +1790,104 @@
 		}
 	);
 
+	$("#inputTxtSearchInpatient").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: base_url + "functions/Form_app_func/getAutoInpatientFile",
+				type: "post",
+				dataType: "json",
+				data: {
+					keyword: request.term,
+				},
+				success: function (data) {
+					response(data);
+					//alert(JSON.stringify(data));
+				},
+			});
+		},
+		select: function (event, ui) {
+			// Set selection
+			$(this).val(ui.item.label); // display the selected text
+			$(this).attr("reg_id", ui.item.id);
+			var page_start = 1;
+			var per_page = "";
+			var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+			var key_word = "";
+			var reg_id = ui.item.id;
+			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+			// console.log(ui.item.id);
+			return false;
+		},
+	});
+
+	// $('#inputTxtSearchInpatient').keypress(function (e) {
+	// 	if (e.which == 13) {
+	// 		var page_start = 1;
+	// 		var per_page = '';
+	// 		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+	// 		var key_word = ''
+	// 		var reg_id = $(this).attr("reg_id");
+	// 		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+	// 		return false;    //<---- Add this line
+	// 	}
+	//   });
+
+	$("#InpatientFile_selectPageSize").on("change", function (e) {
+		e.preventDefault();
+		var reg_id = "";
+		var key_word = "";
+		var pageno = 1;
+		var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+		var per_page = $("#InpatientFile_selectPageSize option:selected").val();
+		var page_start = 1;
+		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+		// console.log(pageno, pageselect);
+
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
+				func_url =
+					base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+			} else {
+				pageno = 0;
+				page_start = 1;
+			}
+		} else {
+			per_page = "";
+		}
+
+		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+		console.log(pageno, pageselect, page_start, per_page, func_url);
+	});
+
 	function page_inpatientFile_click() {
 		$("#inpatientFile-pagination").on("click", "a", function (e) {
 			e.preventDefault();
+			var reg_id = "";
+			var key_word = "";
 			var pageno = $(this).attr("data-ci-pagination-page");
-			var pageselect = $("#select_pageSize option:selected").val();
-			var page_start = (pageno - 1) * pageselect + 1;
-			var per_page = $("#select_pageSize option:selected").val();
-			var func_url =
-				base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+			var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+			var per_page = $("#InpatientFile_selectPageSize option:selected").val();
+			var page_start = 1;
+			var func_url = "";
 
-			loadInpatientFile(page_start, per_page, func_url);
-			// console.log(pageno, pageselect, page_start, per_page, func_url);
+			if (pageselect !== "" && pageselect !== undefined) {
+				if (pageno !== "" && pageno !== undefined) {
+					page_start = (pageno - 1) * pageselect + 1;
+					func_url =
+						base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+				} else {
+					pageno = 0;
+					page_start = 1;
+					func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+				}
+			}
+
+			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
 		});
 	}
 
-	function loadInpatientFile(page_start, per_page, func_url) {
+	function loadInpatientFile(page_start, per_page, func_url, key_word, reg_id) {
 		var tb = "";
 		// console.log(page_start, per_page, func_url);
 
@@ -1808,6 +1898,8 @@
 			data: {
 				page_start: page_start,
 				per_page: per_page,
+				key_word: key_word,
+				reg_id: reg_id,
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
@@ -1910,6 +2002,7 @@
 					var num2 = data.count;
 				}
 				var total = data.count;
+				console.log(page_start, per_page, data.count, num1, num2);
 
 				$("#tb_inpatientFile .tb-body").html("");
 				$("#tb_inpatientFile .tb-body").html(tb);
@@ -1917,11 +2010,11 @@
 				$("#tb_inpatientFile .tb-info").html("");
 				$("#tb_inpatientFile .tb-info").html(
 					"Tampilkan" +
-						num1 +
+						data.start_from +
 						" " +
 						"ke" +
 						" " +
-						num2 +
+						data.end_to +
 						" " +
 						"dari" +
 						" " +
@@ -1929,14 +2022,14 @@
 						" baris"
 				);
 
-				// console.log(data.pagination);
+				console.log(JSON.stringify(data.per_page));
 				$("#tb_inpatientFile .tb-pagination").html("");
 				$("#tb_inpatientFile .tb-pagination").html(data.pagination);
-
+				page_inpatientFile_click();
 				pageInit();
 			},
 			error: function (data) {
-				// alert(JSON.stringify(data));
+				console.log(JSON.stringify(data.response));
 				if (data.response === null || data.response === undefined) {
 					tb += '<div class="row">';
 					tb +=
@@ -1974,9 +2067,25 @@
 				$("#detailInpatientFile #ns").html(data.nama_dept);
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
-				$("#dropdownBerkas").html(data.dropmenu);
+
+				var dropList = "";
+				var rcount = data.dropmenu.length;
+				for (var i = 0; i < rcount; i++) {
+					dropList +=
+						'<a class="dropdown-item" id="' +
+						data.dropmenu[i].berkas_id +
+						'" ket="' +
+						data.dropmenu[i].keterangan +
+						'">';
+					dropList +=
+						'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
+					dropList += data.dropmenu[i].keterangan + "</a>";
+				}
+				$("#dropdownBerkas").html(dropList);
+
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
+				console.log(JSON.stringify(data));
 				pageInit();
 			},
 			error: function (data) {
@@ -1995,22 +2104,25 @@
 	$("#dropdownBerkas").on("click", ".dropdown-item", function () {
 		// alert($(this).attr("id"));
 		Dropzone.autoDiscover = false;
-		var desc = $(this).html();
+		var desc = $(this).attr("ket");
 		var berkas_id = $(this).attr("id");
 		var reg_id = window.location.hash.slice(1);
 
 		var title = "Upload" + " " + desc;
-		var html =
-			'<div class="position-relative"><form action="' +
+		var html = '<div class="position-relative image-file" id="uploadImage">';
+		html += "";
+		html +=
+			'<form action="' +
 			base_url +
 			"functions/Form_app_func/uploadBerkas" +
 			'" class="dropzone" id="dropBerkas" berkas_id="' +
 			berkas_id +
 			'" reg_id="' +
 			reg_id +
-			'"></form></div>';
+			'" style="opacity:0.7; border: none;"></form>';
+		html += "</div>";
 		var btn =
-			"<button class='btn btn-primary' type='button' data-dismiss='modal'>Oke</button>";
+			"<button class='btn btn-primary' id='saveUploadBerkas' ype='button' data-dismiss='modal'>Oke</button>";
 
 		$("#myDynamicModal .modal-footer").html(btn);
 		$("#myDynamicModal .modal-body").html(html);
@@ -2019,8 +2131,11 @@
 
 		$("form#dropBerkas").dropzone({
 			maxFilesize: 10,
+			uploadMultiple: true,
 			thumbnailWidth: 200,
 			thumbnailHeight: 200,
+			thumbnailMethod: "contain",
+			addRemoveLinks: true,
 			params: {
 				reg_id: $("form#dropBerkas").attr("reg_id"),
 				berkas_id: $("form#dropBerkas").attr("berkas_id"),
@@ -2040,8 +2155,9 @@
 					for (var i = 0; i < countImg; i++) {
 						data.append("imageFile", this.files[i]);
 					}
-					data.append("reg_id", $("form#dropBerkas").attr("reg_id"));
-					data.append("berkas_id", $("form#dropBerkas").attr("berkas_id"));
+					data.append("reg_id", reg_id);
+					data.append("berkas_id", berkas_id);
+					data.append("ket", desc);
 
 					var options = {};
 					options.url = base_url + "functions/Form_app_func/uploadBerkas";
@@ -2052,8 +2168,25 @@
 					options.dataType = "json";
 					options.responseType = "json";
 					options.success = function (result) {
-						var p = "<?= base_url(); ?>" + result.path;
-						console.log(JSON.stringify(result.fileName));
+						// var p = "<?= base_url(); ?>" + result.path;
+						// console.log(JSON.stringify(result.filecount));
+						var tempPath = result.path;
+						var elmnt = document.createElement("span");
+						var node = document.createTextNode(tempPath);
+						var content = document.getElementById("uploadImage");
+						var css = document.createElement("style");
+						css.type = "text/css";
+						var styles = "span {display:none}";
+
+						if (css.styleSheet) css.styleSheet.cssText = styles;
+						else css.appendChild(document.createTextNode(styles));
+
+						elmnt.setAttribute("id", "tempPathSpan");
+						elmnt.setAttribute("path", tempPath);
+						elmnt.appendChild(node);
+						elmnt.appendChild(css);
+						content.appendChild(elmnt);
+						$("#dropBerkas").css({ opacity: "1" });
 					};
 					options.error = function (err) {
 						alert(JSON.stringify(err));
@@ -2063,19 +2196,50 @@
 					return true;
 				}),
 					this.on("thumbnail", function (file, dataUrl) {
-						$(".dz-image")
-							.last()
-							.find("img")
-							.attr({ width: "100%", height: "100%" });
-						$(".dz-image").css({ "border-radius": "inherit" });
-						$(".dz-image").parent().css({ margin: "0" });
-						$(".dz-image").parent().parent().css({ padding: "0" });
+						// $(".dz-image")
+						// 	.last()
+						// 	.find("img")
+						// 	.attr({ width: "100%", height: "100%" });
+						// $(".dz-image").css({ "border-radius": "inherit" });
+						// $(".dz-image").parent().css({ margin: "0" });
+						// $(".dz-image").parent().parent().css({ padding: "0" });
 					}),
 					this.on("success", function (file) {
-						$(".dz-image").css({ width: "100%", height: "100%" });
+						// $(".dz-image").css({ width: "100%", height: "100%" });
+					}),
+					this.on("removedfile", function (file) {
+						var currentFile = file.name;
+						var path = file.path;
+						var currentPath = document
+							.getElementById("tempPathSpan")
+							.getAttribute("path");
+						console.log(path);
+
+						$.ajax({
+							type: "POST",
+							dataType: "json",
+							url: base_url + "functions/Form_app_func/removeBerkas",
+							data: {
+								currentFile: currentFile,
+								currentPath: currentPath,
+								requested: 2,
+							},
+							success: function (data) {
+								document.getElementById("tempPathSpan").remove();
+								//alert(JSON.stringify(data));
+							},
+							error: function (data) {
+								alert(JSON.stringify(data));
+								//alert(2);
+							},
+						});
 					});
 			},
 		});
+	});
+
+	$("#dropBerkas").on("click", ".dz-remove", function () {
+		alert($(this).parent().parent().attr("reg_id"));
 	});
 
 	$(document).click(function (event) {

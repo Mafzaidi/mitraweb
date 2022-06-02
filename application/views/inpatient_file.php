@@ -5,11 +5,10 @@
         <div class="card-body p-3" id="rowsInpatientFile">
         <!-- <div class="card-body p-3" style="display: none;"> -->
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-7 col-lg-8">
                     <div class="dataTables_length" id="">
-                        <label>
-                            Tampilkan 
-                            <select name="dataTable_length" id="select_pageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                        <label> 
+                            <select name="dataTable_length" id="InpatientFile_selectPageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
                                 <option value="">Semua</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -17,6 +16,18 @@
                                 <option value="100">100</option>
                             </select> baris
                         </label>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-5 col-lg-4">
+                    <div class="input-group mb-3 inner-addon left-addon">
+                        <!-- <div class="input-group-prepend">
+                            <span class="input-group-text bg-white border-right-0 rounded-left-pill search-icon" id="addon-wrapping"></span>
+                        </div> -->
+                        <i class="fas fa-search inner-fa-icon"></i>
+                        <input type="text" class="form-control rounded-pill pl-5" placeholder="Cari nama atau medrec pasien..." id="inputTxtSearchInpatient" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <!-- <div class="input-group-append">
+                            <button class="btn btn-outline-secondary border-gray-1 rounded-right" type="button" id="button-addon2">&nbsp;Cari&nbsp;</button>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -54,7 +65,7 @@
                 <div class="dropdown dropleft ml-md-auto">
                     <a class="i-wrapp-animate float-right text-muted" id="btnAddBerkas" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-plus"></i></a>
 
-                    <div class="dropdown-menu" aria-labelledby="btnAddBerkas" id="dropdownBerkas">
+                    <div class="dropdown-menu shadow animated--grow-in" aria-labelledby="btnAddBerkas" id="dropdownBerkas">
                         <!-- <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a> -->
