@@ -2,6 +2,8 @@
 
     $per_page = 50;
     $page_start = 1;
+    $keyword = "";
+    $reg_id = "";
 
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
@@ -11,8 +13,8 @@
         }
     }
 
-    $countrows =  $this->mfa->getRowCountCurrentInpatient();
-    $rows = $this->mfa->getRowCurrentInpatient($page_start, $per_page);
+    $countrows =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id);
+    $rows = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id);
 
     $i= 0;
     $tb = '';

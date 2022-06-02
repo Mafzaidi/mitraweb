@@ -931,3 +931,8 @@ a:hover > .gradient-text {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+/* ui autocomplete */
+.ui-widget {
+	font-size: 0.75rem !important;
+}

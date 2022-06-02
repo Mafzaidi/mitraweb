@@ -27,7 +27,12 @@ class M_form_application extends CI_Model
         return $rowcount;
     }
     // Inpatient File
-    function getRowCountCurrentInpatient() {
+    function getRowCountCurrentInpatient($keyword, $reg_id) {
+        $search_condition = "";
+        if (isset($reg_id) && !empty($reg_id)) {
+            $search_condition = "AND X.REG_ID = " . ($reg_id) . "";
+        }
+
         $sql = "SELECT
                     X.*,
                     NVL(Y.REG_ID,'') AS REG_BERKAS
@@ -60,10 +65,12 @@ class M_form_application extends CI_Model
                         AND A.REKANAN_ID = F.REKANAN_ID
                         AND A.TGL_KELUAR IS NULL 
                         AND A.DONE_STATUS <> '03' 
+                        AND (D.NAMA LIKE UPPER('" . $keyword . "'||'%') OR SUBSTR(A.MR, 4) LIKE UPPER('" . $keyword . "'||'%'))
                     ) X, 
                     EDP_MANAGER.MS_REG_BERKAS Y
                 WHERE
                     X.REG_ID = Y.REG_ID (+)
+                    " . $search_condition . "
             ";
 
         $query = $this->oracle_db->query($sql);
@@ -71,7 +78,19 @@ class M_form_application extends CI_Model
         return $rowcount;
     }
 
-    function getRowCurrentInpatient($page_start, $per_page) {
+    function getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id) {
+        
+        $page_condition = "";
+        if (isset($per_page) && !empty($per_page)) {
+            $page_condition = "AND X.RNUM >= " . ($page_start) . "
+                                AND X.RNUM <= " . (($page_start-1) + $per_page) . "";
+        }
+
+        $search_condition = "";
+        if (isset($reg_id) && !empty($reg_id)) {
+            $search_condition = "AND X.REG_ID = " . ($reg_id) . "";
+        }
+        
         $sql = "SELECT
                     X.*,
                     NVL(Y.REG_ID,'') AS REG_BERKAS
@@ -104,12 +123,13 @@ class M_form_application extends CI_Model
                         AND A.REKANAN_ID = F.REKANAN_ID
                         AND A.TGL_KELUAR IS NULL 
                         AND A.DONE_STATUS <> '03' 
+                        AND (D.NAMA LIKE UPPER('" . $keyword . "'||'%') OR SUBSTR(A.MR, 4) LIKE UPPER('" . $keyword . "'||'%'))
                     ) X, 
                     EDP_MANAGER.MS_REG_BERKAS Y
                 WHERE
                     X.REG_ID = Y.REG_ID (+)
-                    AND X.RNUM >= " . ($page_start) . "
-                    AND X.RNUM <= " . (($page_start-1) + $per_page) . "
+                    " . $page_condition . "
+                    " . $search_condition . "
                 ORDER BY X.RNUM ASC
             ";
 
