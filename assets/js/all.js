@@ -217,7 +217,7 @@
 			if (window.location.hash) {
 				var regid = window.location.hash.slice(1);
 				loaderFunction();
-				loadDetailInpatientFile(regid);
+				loadDetailInpatientFile(regid);	
 			} else {
 				$(".loader-modal").removeClass("show");
 			}
@@ -2110,13 +2110,17 @@
 			'" class="dropzone" id="dropBerkas" berkas_id="' + berkas_id + '" reg_id="' + reg_id + '" style="opacity:0.7; border: none;"></form>';
 			html += '</div>';
 		var btn =
-			"<button class='btn btn-primary' id='saveUploadBerkas' ype='button' data-dismiss='modal'>Oke</button>";
+			'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' + berkas_id + '" reg_id="' + reg_id + '">Oke</button>';
 
 		$("#myDynamicModal .modal-footer").html(btn);
 		$("#myDynamicModal .modal-body").html(html);
 		$("#myDynamicModal .modal-title").html(title);
 		$("#myDynamicModal").modal("show");
+		dropZoneBerkas(reg_id, berkas_id, desc);
+		
+	});
 
+	function dropZoneBerkas(reg_id, berkas_id, desc) {		
 		$("form#dropBerkas").dropzone({
 			maxFilesize: 10,
 			uploadMultiple: true,
@@ -2124,21 +2128,17 @@
 			thumbnailHeight: 200,
 			thumbnailMethod: "contain",
 			addRemoveLinks: true,
-			params: {
-				reg_id: $("form#dropBerkas").attr("reg_id"),
-				berkas_id:  $("form#dropBerkas").attr("berkas_id"),
-			},
 			init: function () {
 				this.on("addedfile", function (file) {
 					var img = file;
 					var countImg = this.files.length;
-	
+
 					if (this.files.length == 0) {
 						alert("file tidak ditemukan");
 						return false;
 					} else {
 					}
-	
+
 					var data = new FormData();
 					for (var i = 0; i < countImg; i++) {
 						data.append("imageFile", this.files[i]);
@@ -2146,7 +2146,7 @@
 					data.append("reg_id", reg_id);
 					data.append("berkas_id", berkas_id);
 					data.append("ket", desc);
-	
+					
 					var options = {};
 					options.url = base_url + "functions/Form_app_func/uploadBerkas";
 					options.type = "POST";
@@ -2157,8 +2157,9 @@
 					options.responseType = "json";
 					options.success = function (result) {
 						// var p = "<?= base_url(); ?>" + result.path;
-						// console.log(JSON.stringify(result.filecount));
+						// console.log(JSON.stringify(result.imgName));
 						var tempPath = result.path;
+
 						var elmnt = document.createElement('span');
 						var node = document.createTextNode(tempPath);
 						var content = document.getElementById('uploadImage')
@@ -2171,8 +2172,11 @@
 						else
 							css.appendChild(document.createTextNode(styles));
 
-						elmnt.setAttribute('id', "tempPathSpan");
+						elmnt.setAttribute('id', "tempPathSpan" + result.filecount);
+						elmnt.setAttribute('class', "path-container");
 						elmnt.setAttribute('path', tempPath);
+						elmnt.setAttribute('imgName', result.imgName);
+						elmnt.setAttribute('berkas', result.berkas);
 						elmnt.appendChild(node);
 						elmnt.appendChild(css);
 						content.appendChild(elmnt);
@@ -2185,46 +2189,114 @@
 					$.ajax(options);
 					return true;
 				}),
-					this.on("thumbnail", function (file, dataUrl) {
-						// $(".dz-image")
-						// 	.last()
-						// 	.find("img")
-						// 	.attr({ width: "100%", height: "100%" });
-						// $(".dz-image").css({ "border-radius": "inherit" });
-						// $(".dz-image").parent().css({ margin: "0" });
-						// $(".dz-image").parent().parent().css({ padding: "0" });
-					}),
-					this.on("success", function (file) {
-						// $(".dz-image").css({ width: "100%", height: "100%" });
-					}),
-					this.on("removedfile", function(file) {
-						var currentFile = file.name;
-						var path = file.path;
-						var currentPath = document.getElementById('tempPathSpan').getAttribute('path');
-						console.log(path);
+				this.on("thumbnail", function (file, dataUrl) {
+					// $(".dz-image")
+					// 	.last()
+					// 	.find("img")
+					// 	.attr({ width: "100%", height: "100%" });
+					// $(".dz-image").css({ "border-radius": "inherit" });
+					// $(".dz-image").parent().css({ margin: "0" });
+					// $(".dz-image").parent().parent().css({ padding: "0" });
+				}),
+				this.on("success", function (file) {
+					// $(".dz-image").css({ width: "100%", height: "100%" });
+					
+					var ext = checkFileExt(file.name); // Get extension
+					var newimage = "";
 
-						$.ajax({
-							type: "POST",
-							dataType: 'json',
-							url: base_url + "functions/Form_app_func/removeBerkas",
-							data: {
-								currentFile: currentFile,
-								currentPath: currentPath,
-								requested: 2
-							},
-							success: function(data) {
-								document.getElementById("tempPathSpan").remove();
-								//alert(JSON.stringify(data));
-							},
-							error: function(data) {
-								alert(JSON.stringify(data));
-								//alert(2);
-							}
-						});
-					});;
+					// Check extension
+					if(ext != 'png' && ext != 'jpg' && ext != 'jpeg'){
+						newimage = base_url + "assets/img/icons/pdf_file.png"; // default image path
+					}					
+					// this.createThumbnailFromUrl(file, newimage);
+				}),
+				this.on("error", function (file, errormessage, xhr) {
+					if(xhr) {
+						var response = JSON.parse(xhr.responseText);
+						alert(response.message);
+					}
+				}),
+				this.on("removedfile", function(file) {
+					var currentFile = file.name.replace(/ /g, "_");
+					// console.log(currentFile);
+
+					$.each($(".path-container"), function () {
+						// // alert($(this).attr("path"));
+						if ($(this).attr("imgName") == currentFile) {
+							// console.log($(this).attr("path") + currentFile);
+							var currentPath = $(this).attr("path");
+							$.ajax({
+								type: "POST",
+								dataType: 'json',
+								url: base_url + "functions/Form_app_func/removeBerkas",
+								data: {
+									currentFile: currentFile,
+									currentPath: currentPath,
+									requested: 2
+								},
+								success: function(data) {
+									//document.getElementById("tempPathSpan").remove();
+									//alert(JSON.stringify(data));
+								},
+								error: function(data) {
+									alert(JSON.stringify(data));
+									//alert(2);
+								}
+							});
+							$(this).remove();
+						}
+					});
+						// var currentPath = document.getElementById('tempPathSpan').getAttribute('path');						
+				});;
 			},
 		});
-	});
+		saveUploadBerkas();
+	};
+
+	// Get file extension
+	function checkFileExt(filename){
+		filename = filename.toLowerCase();
+		return filename.split('.').pop();
+  	}
+								
+	function saveUploadBerkas() {	
+		// $("#myDynamicModal").on("shown.bs.modal", function (event) {		
+		$("#saveUploadBerkas").on("click", function () {
+			var reg_id = $(this).attr("reg_id");
+			var berkas_id = $(this).attr("berkas_id");
+			var imgUrl = "";
+			var imgName = "";
+			$.each($(".path-container"), function () {
+				if($(this).length) {			
+					// console.log($(this).attr("path") + $(this).attr("imgname"));
+					imgUrl = $(this).attr("path");
+					imgName = $(this).attr("imgname");
+					$.ajax({
+						type: "POST",
+						dataType: 'json',
+						url: base_url + "functions/Form_app_func/saveBerkas",
+						data: {
+							reg_id: reg_id,
+							berkas_id: berkas_id,
+							imgUrl: imgUrl,
+							imgName: imgName
+						},
+						success: function(data) {
+							//document.getElementById("tempPathSpan").remove();
+							console.log(JSON.stringify(data));
+						},
+						error: function(data) {
+							alert(JSON.stringify(data));
+							//alert(2);
+						}
+					});
+				} else {
+					// alert("Data tidak ditemukan");
+				}
+			});
+		});
+		// });	
+	}
 
 	$("#dropBerkas").on("click", ".dz-remove", function () {
 		alert($(this).parent().parent().attr("reg_id"));

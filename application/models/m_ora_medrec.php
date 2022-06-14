@@ -63,7 +63,7 @@ class M_ora_medrec extends CI_Model
         return $row;
     }
 
-    function savePinjamMR(
+    function saveRegBerkas(
         $medrec,
         $nokar_peminjam,
         $keperluan,
