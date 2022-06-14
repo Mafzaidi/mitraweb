@@ -149,7 +149,7 @@ class M_form_application extends CI_Model
                         SUBSTR(A.MR, 4) AS MEDREC,
                         SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
                         D.TGL_LAHIR,
-                        ROUND((TRUNC (SYSDATE - D.TGL_LAHIR) / 365), 0)||' THN ' ||  ROUND((TRUNC ((SYSDATE - D.TGL_LAHIR) / 365)/12), 0)|| ' BLN' UMUR,
+                        ROUND((TRUNC (SYSDATE - D.TGL_LAHIR) / 365), 0)||' Thn ' ||  ROUND((TRUNC ((SYSDATE - D.TGL_LAHIR) / 365)/12), 0)|| ' Bln' UMUR,
                         A.RUANG_ID,
                         C.NAMA_DEPT,
                         E.NAMA_DR,
@@ -198,5 +198,59 @@ class M_form_application extends CI_Model
         $query = $this->oracle_db->query($sql);
         $result = $query->result();
         return $result;
+    }
+
+    function getTransRegBerkas()
+    {
+        $sql = "SELECT  
+                    'RB' || SUBSTR(TO_CHAR(EDP_MANAGER.SEQ_REG_BERKAS.nextval, '000000'),2) AS TRANS_ID
+                FROM 
+                    DUAL";
+
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+    }
+
+    function savePinjamMR(
+        $medrec,
+        $nokar_peminjam,
+        $keperluan,
+        $dept_peminjam,
+        $created_by,
+        $diserahkan_oleh,
+        $tgl_peminjaman,
+        $tgl_janji_kembali,
+        $trans_pinjam
+    )
+    {
+        $sql = "INSERT INTO  EDP_MANAGER.PINJAM_MR
+                    (
+                        MR, 
+                        NOKAR_PEMINJAM, 
+                        KEPERLUAN, 
+                        DEPT_PEMINJAM, 
+                        CREATED_DATE, 
+                        CREATED_BY, 
+                        DISERAHKAN_OLEH, 
+                        TGL_JANJI_KEMBALI, 
+                        TRANS_PINJAM_MR,
+                        TGL_PINJAM
+                    )
+                VALUES
+                    (
+                        '" . $medrec . "',
+                        '" . $nokar_peminjam . "',
+                        '" . $keperluan . "',
+                        '" . $dept_peminjam . "',
+                        SYSDATE,
+                        '" . $created_by . "',
+                        '" . $diserahkan_oleh . "',
+                        TO_DATE('" . $tgl_janji_kembali . "','DD.MM.RRRR'),
+                        '" . $trans_pinjam . "',                      
+                        TO_DATE('" . $tgl_peminjaman . "','DD.MM.RRRR')
+                    )
+                ";
+        $query = $this->oracle_db->query($sql);
     }
 }

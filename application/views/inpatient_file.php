@@ -85,7 +85,7 @@
                                     <label  class="text-muted m-0">No. Medrec</label>
                                 </div>
                                 <div class="col-sn-12 col-md-12 col-lg-6">                                  
-                                    <span class="" id="medrec">000000</span>
+                                    <span class="font-weight-bold" id="medrec">000000</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -93,7 +93,7 @@
                                     <label  class="text-muted m-0">Nama Pasien</label>
                                 </div>
                                 <div class="col-sn-12 col-md-12 col-lg-6">                                  
-                                    <span class="" id="nama">Test IT</span>
+                                    <span class="font-weight-bold" id="nama">Test IT</span>
                                 </div>
                             </div>
                             <div class="row">
