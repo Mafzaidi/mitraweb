@@ -147,6 +147,7 @@ class M_form_application extends CI_Model
                     SELECT
                         ROW_NUMBER() OVER (ORDER BY A.TGL_MASUK ASC) AS RNUM,
                         SUBSTR(A.MR, 4) AS MEDREC,
+                        A.MR,
                         SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
                         D.TGL_LAHIR,
                         ROUND((TRUNC (SYSDATE - D.TGL_LAHIR) / 365), 0)||' Thn ' ||  ROUND((TRUNC ((SYSDATE - D.TGL_LAHIR) / 365)/12), 0)|| ' Bln' UMUR,
@@ -212,43 +213,78 @@ class M_form_application extends CI_Model
         return $row;
     }
 
-    function savePinjamMR(
-        $medrec,
-        $nokar_peminjam,
-        $keperluan,
-        $dept_peminjam,
+    function saveMsRegBerkas(
+        $trans_id,
+        $reg_id,
+        $mr,
+        $created_date,
         $created_by,
-        $diserahkan_oleh,
-        $tgl_peminjaman,
-        $tgl_janji_kembali,
-        $trans_pinjam
+        $status,
+        $show_item
     )
     {
-        $sql = "INSERT INTO  EDP_MANAGER.PINJAM_MR
+        $sql = "INSERT INTO  EDP_MANAGER.MS_REG_BERKAS
                     (
+                        TRANS_ID, 
+                        REG_ID, 
                         MR, 
-                        NOKAR_PEMINJAM, 
-                        KEPERLUAN, 
-                        DEPT_PEMINJAM, 
                         CREATED_DATE, 
                         CREATED_BY, 
-                        DISERAHKAN_OLEH, 
-                        TGL_JANJI_KEMBALI, 
-                        TRANS_PINJAM_MR,
-                        TGL_PINJAM
+                        STATUS, 
+                        SHOW_ITEM
                     )
                 VALUES
                     (
-                        '" . $medrec . "',
-                        '" . $nokar_peminjam . "',
-                        '" . $keperluan . "',
-                        '" . $dept_peminjam . "',
-                        SYSDATE,
+                        '" . $trans_id . "',
+                        '" . $reg_id . "',
+                        '" . $mr . "',
+                        " . $created_date . ",
                         '" . $created_by . "',
-                        '" . $diserahkan_oleh . "',
-                        TO_DATE('" . $tgl_janji_kembali . "','DD.MM.RRRR'),
-                        '" . $trans_pinjam . "',                      
-                        TO_DATE('" . $tgl_peminjaman . "','DD.MM.RRRR')
+                        '" . $status . "',
+                        '" . $show_item . "'
+                    )
+                ";
+        $query = $this->oracle_db->query($sql);
+    }
+
+    function saveDtRegBerkas(
+        $trans_id,
+        $berkas_id,
+        $queue_item,
+        $file_path,
+        $file_name,
+        $url1,
+        $created_date,
+        $created_by,
+        $show_item,
+        $status
+    )
+    {
+        $sql = "INSERT INTO  EDP_MANAGER.DT_REG_BERKAS
+                    (
+                        TRANS_ID, 
+                        BERKAS_ID, 
+                        QUEUE_ITEM,
+                        FILE_PATH,
+                        FILE_NAME,
+                        URL1,
+                        CREATED_DATE, 
+                        CREATED_BY, 
+                        SHOW_ITEM,
+                        STATUS
+                    )
+                VALUES
+                    (
+                        '" . $trans_id . "',
+                        '" . $berkas_id . "',
+                        '" . $queue_item . "',
+                        '" . $file_path . "',
+                        '" . $file_name . "',
+                        '" . $url1 . "',
+                        " . $created_date . ",
+                        '" . $created_by . "',
+                        '" . $show_item . "',
+                        '" . $status . "'
                     )
                 ";
         $query = $this->oracle_db->query($sql);

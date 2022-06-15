@@ -2277,36 +2277,59 @@
 		$("#saveUploadBerkas").on("click", function () {
 			var reg_id = $(this).attr("reg_id");
 			var berkas_id = $(this).attr("berkas_id");
-			var imgUrl = "";
-			var imgName = "";
-			$.each($(".path-container"), function () {
-				if ($(this).length) {
-					// console.log($(this).attr("path") + $(this).attr("imgname"));
-					imgUrl = $(this).attr("path");
-					imgName = $(this).attr("imgname");
-					$.ajax({
-						type: "POST",
-						dataType: "json",
-						url: base_url + "functions/Form_app_func/saveBerkas",
-						data: {
-							reg_id: reg_id,
-							berkas_id: berkas_id,
-							imgUrl: imgUrl,
-							imgName: imgName,
-						},
-						success: function (data) {
-							//document.getElementById("tempPathSpan").remove();
-							console.log(JSON.stringify(data));
-						},
-						error: function (data) {
-							alert(JSON.stringify(data));
-							//alert(2);
-						},
-					});
-				} else {
-					// alert("Data tidak ditemukan");
-				}
-			});
+
+			if ($(this).parent().parent().find(".path-container").length) {
+				$.ajax({
+					type: "POST",
+					dataType: "json",
+					url: base_url + "functions/Form_app_func/saveBerkasMS",
+					data: {
+						reg_id: reg_id,
+					},
+					success: function (data) {
+						//document.getElementById("tempPathSpan").remove();
+						var trans_id = data.trans_id;
+						var imgUrl = "";
+						var imgName = "";
+						$.each($(".path-container"), function () {
+							if ($(this).length) {
+								// console.log($(this).attr("path") + $(this).attr("imgname"));
+								imgUrl = $(this).attr("path");
+								imgName = $(this).attr("imgname");
+								$.ajax({
+									type: "POST",
+									dataType: "json",
+									url: base_url + "functions/Form_app_func/saveBerkasDT",
+									data: {
+										reg_id: reg_id,
+										trans_id: trans_id,
+										berkas_id: berkas_id,
+										imgUrl: imgUrl,
+										imgName: imgName,
+									},
+									success: function (data) {
+										//document.getElementById("tempPathSpan").remove();
+										console.log(JSON.stringify(data));
+									},
+									error: function (data) {
+										alert(JSON.stringify(data));
+										//alert(2);
+									},
+								});
+							} else {
+								// alert("Data tidak ditemukan");
+							}
+						});
+						console.log(JSON.stringify(data));
+					},
+					error: function (data) {
+						alert(JSON.stringify(data));
+						//alert(2);
+					},
+				});
+			} else {
+				console.log("err");
+			}
 		});
 		// });
 	}
