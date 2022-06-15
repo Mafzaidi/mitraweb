@@ -202,26 +202,78 @@ class Form_app_func extends CI_Controller
 		echo json_encode($data);
 	}
 
-    function saveBerkas(){
+    function saveBerkasMS(){
         $sess_id = $this->session->userdata('user_id');
+
         if(!empty($sess_id))
         {          
             $reg_id = $this->input->post('reg_id');
-            $berkas_id = $this->input->post('berkas_id');
-            $imgUrl = $this->input->post('imgUrl');
-            $imgName = $this->input->post('imgName');
 
             $get = $this->mfa->getDataCurrentInpatient($reg_id);
             $generate = $this->mfa->getTransRegBerkas();
+
+            $trans_id = $generate->TRANS_ID;
+            $mr = $get->MR;
+            $created_date = "SYSDATE";
+            $created_by = $this->session->userdata('user_id');
+            $status = "1";
+            $show_item = "1";
+
+            $result = array(
+                "trans_id"=> $generate->TRANS_ID,
+                "mr"=> $get->MEDREC,
+                "reg_id"=> $get->REG_ID,
+                "created_by"=> $this->session->userdata('user_id')
+            );
+
+            $insert = $this->mfa->saveMsRegBerkas(
+                $trans_id,
+                $reg_id,
+                $mr,
+                $created_date,
+                $created_by,
+                $status,
+                $show_item
+            );
+            // $trans_reg_berkas = $result['trans_id'];
+
+            // $data[] = array(
+            //     "trans_reg_berkas"=> $trans_reg_berkas,
+            //     "reg_id"=> $reg_id,
+            //     "mr"=> $get->MEDREC,
+            //     "created_by"=> $this->session->userdata('user_id')
+            // );
+
+
+            $data = $result;
+            echo json_encode($data);
+        } else {
+
+        }
+    }
+
+    function saveBerkasDT(){
+        $sess_id = $this->session->userdata('user_id');
+
+        if(!empty($sess_id))
+        {          
+            $reg_id = $this->input->post('reg_id');
+            $trans_id = $this->input->post('trans_id');
+            $berkas_id = $this->input->post('berkas_id'); 
+            $imgUrl = $this->input->post('imgUrl');
+            $imgName = $this->input->post('imgName');
+
             // $result = array(
             //     'TRANSID' => $generate->TRANS_ID
             // );
             // $trans_reg_berkas = $result['TRANSID'];
 
             $result = array(
-                'trans_id' => $generate->TRANS_ID,
-                'reg_id' => $reg_id,
-                'mr' => $get->MEDREC,
+                "reg_id" => $reg_id,
+                "trans_id"=> $trans_id,
+                "berkas_id"=> $berkas_id,
+                "imgUrl"=> $imgUrl,
+                "imgName"=> $imgName,
                 "created_by" => $this->session->userdata('user_id')
             );
 
@@ -232,10 +284,6 @@ class Form_app_func extends CI_Controller
             //     "created_by"=> $this->session->userdata('user_id')
             // );
 
-            // $result = array(
-            //     'imgUrl' => $imgUrl,
-            //     'imgName' => $imgName
-            // );
 
             $data = $result;
             echo json_encode($data);
