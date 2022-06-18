@@ -2173,10 +2173,9 @@
 					options.success = function (result) {
 						// var p = "<?= base_url(); ?>" + result.path;
 						// console.log(JSON.stringify(result.imgName));
-						var tempPath = result.path;
 
 						var elmnt = document.createElement("span");
-						var node = document.createTextNode(tempPath);
+						var node = document.createTextNode(result.path);
 						var content = document.getElementById("uploadImage");
 						var css = document.createElement("style");
 						css.type = "text/css";
@@ -2187,9 +2186,10 @@
 
 						elmnt.setAttribute("id", "tempPathSpan" + result.filecount);
 						elmnt.setAttribute("class", "path-container");
-						elmnt.setAttribute("path", tempPath);
-						elmnt.setAttribute("imgName", result.imgName);
+						elmnt.setAttribute("fPath", result.path);
+						elmnt.setAttribute("fName", result.imgName);
 						elmnt.setAttribute("berkas", result.berkas);
+						elmnt.setAttribute("queue", result.filecount);
 						elmnt.appendChild(node);
 						elmnt.appendChild(css);
 						content.appendChild(elmnt);
@@ -2228,6 +2228,37 @@
 							var response = JSON.parse(xhr.responseText);
 							alert(response.message);
 						}
+					}),
+					this.on("removedfile", function (file) {
+						var currentFile = file.name.replace(/ /g, "_");
+						// console.log(currentFile);
+
+						$.each($(".path-container"), function () {
+							// // alert($(this).attr("path"));
+							if ($(this).attr("fName") == currentFile) {
+								// console.log($(this).attr("path") + currentFile);
+								var currentPath = $(this).attr("fPath");
+								$.ajax({
+									type: "POST",
+									dataType: "json",
+									url: base_url + "functions/Form_app_func/removeBerkas",
+									data: {
+										currentFile: currentFile,
+										currentPath: currentPath,
+										requested: 2,
+									},
+									success: function (data) {
+										//document.getElementById("tempPathSpan").remove();
+										//alert(JSON.stringify(data));
+									},
+									error: function (data) {
+										alert(JSON.stringify(data));
+										//alert(2);
+									},
+								});
+								$(this).remove();
+							}
+						});
 					}),
 					this.on("removedfile", function (file) {
 						var currentFile = file.name.replace(/ /g, "_");
@@ -2289,13 +2320,17 @@
 					success: function (data) {
 						//document.getElementById("tempPathSpan").remove();
 						var trans_id = data.trans_id;
-						var imgUrl = "";
-						var imgName = "";
+						var queue_item = 0;
+						var file_path = "";
+						var file_name = "";
+						var url = "";
 						$.each($(".path-container"), function () {
 							if ($(this).length) {
 								// console.log($(this).attr("path") + $(this).attr("imgname"));
-								imgUrl = $(this).attr("path");
-								imgName = $(this).attr("imgname");
+								file_path = $(this).attr("fPath");
+								file_name = $(this).attr("fName");
+								queue_item = $(this).attr("queue");
+								url = file_path + file_name;
 								$.ajax({
 									type: "POST",
 									dataType: "json",
@@ -2304,8 +2339,10 @@
 										reg_id: reg_id,
 										trans_id: trans_id,
 										berkas_id: berkas_id,
-										imgUrl: imgUrl,
-										imgName: imgName,
+										queue_item: queue_item,
+										file_path: file_path,
+										file_name: file_name,
+										url: url,
 									},
 									success: function (data) {
 										//document.getElementById("tempPathSpan").remove();
