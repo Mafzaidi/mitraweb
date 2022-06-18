@@ -63,7 +63,7 @@ class M_ora_medrec extends CI_Model
         return $row;
     }
 
-    function saveRegBerkas(
+    function savePinjamMR(
         $medrec,
         $nokar_peminjam,
         $keperluan,
@@ -201,7 +201,7 @@ class M_ora_medrec extends CI_Model
                         " . $date_condition . "
                 ) X
                 " . $page_condition . "
-                ORDER BY X.TGL_PINJAM ASC";
+                ORDER BY X.TGL_PINJAM DESC";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();

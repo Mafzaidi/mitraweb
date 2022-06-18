@@ -149,18 +149,20 @@ class Form_app_func extends CI_Controller
     function uploadBerkas(){
 
 		if((isset($_POST['reg_id']) && $_POST['reg_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
-            $reg_id = $_POST['reg_id'].'/';
-			$berkas_id = $_POST['berkas_id'].'/';
+            $reg_id = $_POST['reg_id'];
+            $reg_url = $_POST['reg_id'].'/';
+			$berkas_id = $_POST['berkas_id'];
+            $berkas_url = $_POST['berkas_id'].'/';
 		} else {
 			$reg_id = '';
             $berkas_id = '';
 		}
 		
-		if (!is_dir('assets/upload/docs/'.$reg_id.$berkas_id)) {
-			mkdir('assets/upload/docs/'.$reg_id.$berkas_id, 0777, TRUE);
+		if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url)) {
+			mkdir('assets/upload/docs/'.$reg_url.$berkas_url, 0777, TRUE);
 		}
 		
-		$config['upload_path'] = 'assets/upload/docs/'.$reg_id.$berkas_id;
+		$config['upload_path'] = 'assets/upload/docs/'.$reg_url.$berkas_url;
 		$config['allowed_types'] = 'gif|jpg|png|pdf';
 
 		$this->load->library('upload', $config);
@@ -170,7 +172,7 @@ class Form_app_func extends CI_Controller
 		$data['path'] = $config['upload_path'];
 		$data['imgUrl'] = 'assets/upload/docs/'.$upload['file_name'];
         
-        $directory = 'assets/upload/docs/'.$reg_id.$berkas_id;
+        $directory = 'assets/upload/docs/'.$reg_url.$berkas_url;
         $filecount = 0;
         $files = glob($directory . "*");
         if ($files){
@@ -179,6 +181,7 @@ class Form_app_func extends CI_Controller
 
         $data['filecount'] = $filecount;
         $data['imgName'] = $upload['file_name'];
+        $data['reg_id'] = $reg_id;
         $data['berkas'] = $berkas_id;
 		echo json_encode($data);
 	}
@@ -226,15 +229,15 @@ class Form_app_func extends CI_Controller
                 "created_by"=> $this->session->userdata('user_id')
             );
 
-            $insert = $this->mfa->saveMsRegBerkas(
-                $trans_id,
-                $reg_id,
-                $mr,
-                $created_date,
-                $created_by,
-                $status,
-                $show_item
-            );
+            // $insert = $this->mfa->saveMsRegBerkas(
+            //     $trans_id,
+            //     $reg_id,
+            //     $mr,
+            //     $created_date,
+            //     $created_by,
+            //     $status,
+            //     $show_item
+            // );
             // $trans_reg_berkas = $result['trans_id'];
 
             // $data[] = array(
@@ -260,23 +263,44 @@ class Form_app_func extends CI_Controller
             $reg_id = $this->input->post('reg_id');
             $trans_id = $this->input->post('trans_id');
             $berkas_id = $this->input->post('berkas_id'); 
-            $imgUrl = $this->input->post('imgUrl');
-            $imgName = $this->input->post('imgName');
+            $queue_item = $this->input->post('queue_item');
+            $file_path = $this->input->post('file_path');
+            $file_name = $this->input->post('file_name');
+            $url = $this->input->post('url');
 
             // $result = array(
             //     'TRANSID' => $generate->TRANS_ID
             // );
             // $trans_reg_berkas = $result['TRANSID'];
+            
+            $created_date = "SYSDATTE";
+            $created_by =  $this->session->userdata('user_id');
+            $show_item = "1";
+            $status = "1";
 
             $result = array(
                 "reg_id" => $reg_id,
                 "trans_id"=> $trans_id,
                 "berkas_id"=> $berkas_id,
-                "imgUrl"=> $imgUrl,
-                "imgName"=> $imgName,
+                "queue_item"=> $queue_item,
+                "file_path"=> $file_path,
+                "file_name"=> $file_name,
+                "url"=> $url,
                 "created_by" => $this->session->userdata('user_id')
             );
 
+            // $insert = $this->mfa->saveDtRegBerkas(
+            //     $trans_id,
+            //     $berkas_id,
+            //     $queue_item,
+            //     $file_path,
+            //     $file_name,
+            //     $url,
+            //     $created_date,
+            //     $created_by,
+            //     $show_item,
+            //     $status
+            // );
             // $data[] = array(
             //     "trans_reg_berkas"=> $trans_reg_berkas,
             //     "reg_id"=> $reg_id,
