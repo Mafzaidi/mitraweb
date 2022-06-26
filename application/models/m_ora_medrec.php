@@ -201,7 +201,7 @@ class M_ora_medrec extends CI_Model
                         " . $date_condition . "
                 ) X
                 " . $page_condition . "
-                ORDER BY X.TGL_PINJAM DESC";
+                ORDER BY X.RNUM ASC";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();

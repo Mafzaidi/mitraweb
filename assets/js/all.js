@@ -204,6 +204,8 @@
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
 			// var date = new Date();
 			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+		} else if (segments[6] !== "" && segments[6] == "mr-return") {
+			initMrReturn();
 		} else if 
 		(
 			segments[6].replace(window.location.hash, "") !== "" &&
@@ -1170,6 +1172,93 @@
 	}
 
 	// -- medrec/mr-return
+	function initMrReturn() {
+		$("#select_pageSize_mr_return").on("change", function (e) {
+			e.preventDefault();
+			var pageno = $("#mrReturn-pagination")
+			.find(".active")
+			.find(".page-link")
+			.html();
+			var page_start = 1;
+			var per_page = $("#select_pageSize_mr_return option:selected").val();
+			var pageselect = $("#select_pageSize_mr_return option:selected").val();
+			var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
+			var showitem = 1;
+			var status = "not return";
+			var from_date = "";
+			var to_date = "";
+			// console.log(pageno, pageselect);
+	
+			if (pageselect !== "" && pageselect !== undefined) {
+				if (pageno !== "" && pageno !== undefined) {
+					page_start = (pageno - 1) * pageselect + 1;
+					func_url =  base_url + "functions/Medrec_func/loadPinjamMR/" + pageno;
+				} else {
+					pageno = 0;
+					page_start = 1;
+				}
+			} else {
+				per_page = "";
+			}
+			
+			loadPinjamMR(
+				page_start,
+				per_page,
+				func_url,
+				showitem,
+				status,
+				from_date,
+				to_date
+			);
+			console.log(
+				page_start,
+				per_page,
+				func_url,
+				showitem,
+				status,
+				from_date,
+				to_date
+				);
+		});
+	
+		$("#mrReturn-pagination").on("click", "a", function (e) {
+			e.preventDefault();
+			var pageno = $(this).attr("data-ci-pagination-page");
+			var page_start = 1;
+			var per_page = $("#select_pageSize_mr_return option:selected").val();
+			var pageselect = $("#select_pageSize_mr_return option:selected").val();
+			var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
+			var showitem = 1;
+			var status = "not return";
+			var from_date = "";
+			var to_date = "";
+	
+			if (pageselect !== "" && pageselect !== undefined) {
+				if (pageno !== "" && pageno !== undefined) {
+					page_start = (pageno - 1) * pageselect + 1;
+					func_url =  base_url + "functions/Medrec_func/loadPinjamMR/" + pageno;
+				} else {
+					pageno = 0;
+					page_start = 1;
+				}
+			} else {
+				per_page = "";
+			}
+			
+			loadPinjamMR(
+				page_start,
+				per_page,
+				func_url,
+				showitem,
+				status,
+				from_date,
+				to_date
+			);
+	
+			
+		});
+	}
+
 	$("#pinjamMrReturn").on("click", ".tb-row", function () {
 		$(this).addClass("selected").siblings().removeClass("selected");
 
@@ -1734,6 +1823,7 @@
 				$("#pages_polimon").html(data.pagination);
 
 				// pageInit();
+				initMrReturn();
 			},
 			error: function (data) {
 				// alert(JSON.stringify(data));
