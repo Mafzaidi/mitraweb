@@ -43,7 +43,7 @@
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/js/all.js?v=202206161027'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/all.js?v=202206182004'); ?>"></script>
 
 	</body>
 

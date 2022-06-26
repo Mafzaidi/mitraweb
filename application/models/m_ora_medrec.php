@@ -171,7 +171,7 @@ class M_ora_medrec extends CI_Model
                 FROM 
                 (
                     SELECT
-                        ROW_NUMBER() OVER (ORDER BY A.TGL_PINJAM ASC) AS RNUM,
+                        ROW_NUMBER() OVER (ORDER BY A.CREATED_DATE ASC) AS RNUM,
                         A.MR,
                         SUBSTR(A.MR,4) AS MEDREC,
                         B.NAMA AS PASIEN,
@@ -201,7 +201,7 @@ class M_ora_medrec extends CI_Model
                         " . $date_condition . "
                 ) X
                 " . $page_condition . "
-                ORDER BY X.TGL_PINJAM DESC";
+                ORDER BY X.RNUM ASC";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();

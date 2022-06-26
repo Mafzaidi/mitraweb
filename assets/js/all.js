@@ -1634,6 +1634,67 @@
 		}
 	});
 
+	$("#select_pageSize_mr_return").on("change", function (e) {
+		e.preventDefault();
+		// alert(123);
+		var pageno = 1;
+		var page_start = 1;
+		var pageselect = $("#select_pageSize_mr_return option:selected").val();
+		var per_page = $("#select_pageSize_mr_return option:selected").val();
+		var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
+		var showitem = 1;
+		var status = "not return";
+		var from_date = "";
+		var to_date = "";
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
+				func_url =
+					base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+			} else {
+				pageno = 0;
+				page_start = 1;
+			}
+		} else {
+			per_page = "";
+		}
+
+		loadPinjamMR(
+			page_start,
+			per_page,
+			func_url,
+			showitem,
+			status,
+			from_date,
+			to_date
+		);
+		console.log(
+			page_start,
+			per_page,
+			func_url,
+			showitem,
+			status,
+			from_date,
+			to_date
+		);
+
+		// if (pageselect !== "" && pageselect !== undefined) {
+		// 	if (pageno !== "" && pageno !== undefined) {
+		// 		page_start = (pageno - 1) * pageselect + 1;
+		// 		func_url =
+		// 			base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+		// 	} else {
+		// 		pageno = 0;
+		// 		page_start = 1;
+		// 	}
+		// } else {
+		// 	per_page = "";
+		// }
+
+		// loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+		// console.log(pageno, pageselect, page_start, per_page, func_url);
+	});
+
 	function loadPinjamMR(
 		page_start,
 		per_page,
