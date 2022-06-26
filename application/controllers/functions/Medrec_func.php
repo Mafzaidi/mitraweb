@@ -130,12 +130,12 @@ class Medrec_func extends CI_Controller
             $config['use_page_numbers'] = TRUE;
             $config['per_page'] = $per_page;
             
-            $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="polimon-pagination">';
+            $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center" id="mrReturn-pagination">';
             $config['full_tag_close']   = '</ul></nav></div>';
-            $config['first_link']       = '<i class="fa-solid fa-angles-left"></i>';
-            $config['last_link']        = '<i class="fa-solid fa-angles-right"></i>';
-            $config['next_link']        = '<i class="fa-solid fa-angle-right"></i>';
-            $config['prev_link']        = '<i class="fa-solid fa-angle-left"></i>';
+            $config['first_link']       = 'First';
+            $config['last_link']        = 'Last';
+            $config['next_link']        = 'Next';
+            $config['prev_link']        = 'Prev';
             $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
             $config['prev_tag_close']  = '</span></li></li>';
             $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
