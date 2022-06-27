@@ -84,7 +84,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                     <label  class="text-muted m-0">No. Medrec</label>
                                 </div>
-                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                <div class="col-sm-12 col-md-12 col-lg-6">                                  
                                     <span class="font-weight-bold" id="medrec">000000</span>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                     <label  class="text-muted m-0">Nama Pasien</label>
                                 </div>
-                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                <div class="col-sm-12 col-md-12 col-lg-6">                                  
                                     <span class="font-weight-bold" id="nama">Test IT</span>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                     <label  class="text-muted m-0">Tanggal Lahir</label>
                                 </div>
-                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                <div class="col-sm-12 col-md-12 col-lg-6">                                  
                                     <span class="" id="tgl_lahir">000000</span>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-6">
                                     <label  class="text-muted m-0">Umur</label>
                                 </div>
-                                <div class="col-sn-12 col-md-12 col-lg-6">                                  
+                                <div class="col-sm-12 col-md-12 col-lg-6">                                  
                                     <span class="" id="umur">000000</span>
                                 </div>
                             </div>
@@ -137,15 +137,7 @@
                             <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
                             <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
                         </div> -->
-                        <div class="card-body" id="berkasContainer">                        
-                            <!-- <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-6">
-                                    <label  class="text-muted m-0">KTP</label>
-                                </div>
-                                <div class="col-sn-12 col-md-12 col-lg-6">
-                                    <input type="checkbox" data-toggle="toggle" data-on="Ya" data-off="Tidak" data-onstyle="success" data-offstyle="secondary" data-width="60" data-size="sm">
-                                </div>
-                            </div> -->
+                        <div class="card-body" id="berkasContainer">
                         </div>
                     </div> 
                 </div>

@@ -2218,7 +2218,7 @@
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
 
 				var dropList = "";
-				var berkas = "";
+				var berkasCheck = "";
 				var rcount = data.dropmenu.length;
 				for (var i = 0; i < rcount; i++) {
 					dropList +=
@@ -2231,21 +2231,25 @@
 						'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
 					dropList += data.dropmenu[i].keterangan + "</a>";
 
-					berkas += '<div class="row">';
-					berkas += '<div class="col-sm-12 col-md-12 col-lg-6">';
-					berkas +=
+					berkasCheck += '<div class="row">';
+
+					berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
+					berkasCheck +=
 						'<label  class="text-muted m-0">' +
 						data.dropmenu[i].keterangan +
 						"</label>";
-					berkas += "</div>";
-					berkas += '<div class="col-sn-12 col-md-12 col-lg-6">';
-					berkas +=
-						'<input type="checkbox" data-toggle="toggle" data-on="Ya" data-off="Tidak" data-onstyle="success" data-offstyle="secondary" data-width="60" data-size="sm">';
-					berkas += "</div>";
-					berkas += "</div>";
+					berkasCheck += "</div>";
+
+					berkasCheck +=
+						'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
+					berkasCheck +=
+						'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox"><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
+					berkasCheck += "</div>";
+
+					berkasCheck += "</div>";
 				}
 				$("#dropdownBerkas").html(dropList);
-				$("#berkasContainer").html(berkas);
+				$("#berkasContainer").html(berkasCheck);
 
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
