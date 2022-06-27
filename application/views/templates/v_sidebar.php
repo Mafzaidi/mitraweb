@@ -8,6 +8,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?= $tittle; ?></title>
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/toggle.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205251213'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css?v=202206021306'); ?>">

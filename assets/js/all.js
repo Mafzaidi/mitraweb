@@ -2218,6 +2218,7 @@
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
 
 				var dropList = "";
+				var berkas = "";
 				var rcount = data.dropmenu.length;
 				for (var i = 0; i < rcount; i++) {
 					dropList +=
@@ -2229,8 +2230,22 @@
 					dropList +=
 						'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
 					dropList += data.dropmenu[i].keterangan + "</a>";
+
+					berkas += '<div class="row">';
+					berkas += '<div class="col-sm-12 col-md-12 col-lg-6">';
+					berkas +=
+						'<label  class="text-muted m-0">' +
+						data.dropmenu[i].keterangan +
+						"</label>";
+					berkas += "</div>";
+					berkas += '<div class="col-sn-12 col-md-12 col-lg-6">';
+					berkas +=
+						'<input type="checkbox" data-toggle="toggle" data-on="Ya" data-off="Tidak" data-onstyle="success" data-offstyle="secondary" data-width="60" data-size="sm">';
+					berkas += "</div>";
+					berkas += "</div>";
 				}
 				$("#dropdownBerkas").html(dropList);
+				$("#berkasContainer").html(berkas);
 
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
