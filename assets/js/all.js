@@ -2158,13 +2158,27 @@
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
 
 				var dropList = "";
+				var berkasCheck = "";
 				var rcount = data.dropmenu.length;
 				for (var i = 0; i < rcount; i++) {
 					dropList += '<a class="dropdown-item" id="' + data.dropmenu[i].berkas_id + '" ket="'  + data.dropmenu[i].keterangan + '">';
 					dropList += '<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
 					dropList += data.dropmenu[i].keterangan + '</a>';
+
+					berkasCheck += '<div class="row">';
+
+					berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
+					berkasCheck += '<label  class="text-muted m-0">'  + data.dropmenu[i].keterangan + '</label>';
+					berkasCheck += '</div>';
+
+					berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
+					berkasCheck += '<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox"><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
+					berkasCheck += '</div>'
+
+					berkasCheck += '</div>'
 				}				
-				$("#dropdownBerkas").html(dropList)
+				$("#dropdownBerkas").html(dropList);
+				$("#berkasContainer").html(berkasCheck);
 
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
