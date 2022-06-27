@@ -88,15 +88,24 @@ class Form_app_func extends CI_Controller
 
             $get = $this->mfa->getDataCurrentInpatient($reg_id);
             $dropMenu = $this->mfa->getBerkas();
+            $listRegBerkas = $this->mfa->getListRegBerkas($reg_id);
 
             // $html = "";
-            foreach($dropMenu as $row) { 
+            // foreach($dropMenu as $row) { 
+            //     $response[] = array(
+            //         "berkas_id"=>$row->BERKAS_ID,
+            //         "keterangan"=>$row->KETERANGAN
+            //     );  
+            //     // $berkas = $row->BERKAS_ID;       
+            //     // $html.= '<a class="dropdown-item" id="' . $row->BERKAS_ID . '"><i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>' . $row->KETERANGAN . '</a>';
+            // }
+
+            foreach($listRegBerkas as $row) { 
                 $response[] = array(
                     "berkas_id"=>$row->BERKAS_ID,
-                    "keterangan"=>$row->KETERANGAN
+                    "keterangan"=>$row->KETERANGAN,
+                    "checked"=>$row->CHECKED
                 );  
-                // $berkas = $row->BERKAS_ID;       
-                // $html.= '<a class="dropdown-item" id="' . $row->BERKAS_ID . '"><i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>' . $row->KETERANGAN . '</a>';
             }
 
             $result = array(
@@ -109,7 +118,7 @@ class Form_app_func extends CI_Controller
                 'nama_dr' => $get->NAMA_DR,
                 'tgl_masuk' => $get->TGL_MASUK,
                 'rekanan_nama' => $get->REKANAN_NAMA
-                ,'dropmenu' => $response
+                ,'listBerkas' => $response
                 // ,'dropmenu' => $html
             );
 

@@ -201,6 +201,38 @@ class M_form_application extends CI_Model
         return $result;
     }
 
+    function getListRegBerkas($reg_id) {
+        $sql = "SELECT
+                    A.BERKAS_ID, A.KETERANGAN, 
+                    CASE WHEN A.TEMPLATE = 'Y' 
+                    THEN 
+                        CASE WHEN (
+                            SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
+                            EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
+                            ) > 0 THEN 'REGISTERED'   
+                        ELSE
+                            CASE WHEN (
+                            SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A2 
+                            WHERE A2.BERKAS_ID = A.BERKAS_ID AND A2.REKANAN_ID = (SELECT B2.REKANAN_ID FROM MS_REG B2 WHERE B2.REG_ID = '" . $reg_id . "')
+                            ) > 0 THEN 'DOWNLOAD'
+                            ELSE  'UPLOAD' END
+                        END
+                    ELSE
+                    CASE WHEN (
+                        SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
+                        EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
+                    ) > 0 THEN 'Y' ELSE 'N' END
+                    END AS CHECKED
+                FROM
+                    EDP_MANAGER.MS_BERKAS A
+                WHERE
+                    A.SHOW_ITEM = '1'";
+
+        $query = $this->oracle_db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
     function getTransRegBerkas()
     {
         $sql = "SELECT  

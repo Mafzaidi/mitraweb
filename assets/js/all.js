@@ -2217,38 +2217,68 @@
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
 
-				var dropList = "";
+				// var dropList = "";
 				var berkasCheck = "";
-				var rcount = data.dropmenu.length;
+				var check = "";
+				var rcount = data.listBerkas.length;
 				for (var i = 0; i < rcount; i++) {
-					dropList +=
-						'<a class="dropdown-item" id="' +
-						data.dropmenu[i].berkas_id +
-						'" ket="' +
-						data.dropmenu[i].keterangan +
-						'">';
-					dropList +=
-						'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
-					dropList += data.dropmenu[i].keterangan + "</a>";
+					// dropList +=
+					// 	'<a class="dropdown-item" id="' +
+					// 	data.dropmenu[i].berkas_id +
+					// 	'" ket="' +
+					// 	data.dropmenu[i].keterangan +
+					// 	'">';
+					// dropList +=
+					// 	'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
+					// dropList += data.dropmenu[i].keterangan + "</a>";
 
 					berkasCheck += '<div class="row">';
 
 					berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
 					berkasCheck +=
 						'<label  class="text-muted m-0">' +
-						data.dropmenu[i].keterangan +
+						data.listBerkas[i].keterangan +
 						"</label>";
 					berkasCheck += "</div>";
 
 					berkasCheck +=
 						'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
-					berkasCheck +=
-						'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox"><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
+
+					if (
+						data.listBerkas[i].checked == "N" ||
+						data.listBerkas[i].checked == "Y"
+					) {
+						var check = "";
+						if (data.listBerkas[i].checked == "Y") {
+							check = "checked";
+						}
+						berkasCheck +=
+							'<div class="form-check form-check-inline d-flex justify-content-end py-1" style="font-size: 0.75rem;">';
+						berkasCheck +=
+							'<label class="form-check-label mr-2" for="inlineCheckbox1">Ada</label>';
+						berkasCheck +=
+							'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox" ' +
+							check +
+							'><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
+
+						berkasCheck +=
+							'<label class="form-check-label ml-2" for="inlineCheckbox1">Tidak</label>';
+						berkasCheck += "</div>";
+					} else if (data.listBerkas[i].checked == "UPLOAD") {
+						berkasCheck +=
+							'<div class="form-inline d-flex justify-content-end" style="font-size: 0.75rem;">';
+						berkasCheck +=
+							'<button type="button" class="btn btn-primary btn-xs">Upload</button>';
+						berkasCheck +=
+							'<button type="button" class="btn btn-success btn-xs">Download</button>';
+						berkasCheck += "</div>";
+					}
+
 					berkasCheck += "</div>";
 
 					berkasCheck += "</div>";
 				}
-				$("#dropdownBerkas").html(dropList);
+				// $("#dropdownBerkas").html(dropList);
 				$("#berkasContainer").html(berkasCheck);
 
 				$("#rowsInpatientFile").toggleClass("d-none");
