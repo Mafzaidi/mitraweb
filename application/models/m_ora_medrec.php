@@ -144,7 +144,12 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
-    function getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date) {
+    function getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id) {
+
+        $filter_condition = "";
+        if (isset($trans_id) && !empty($trans_id)) {
+            $filter_condition = "AND A.TRANS_PINJAM_MR = '" . $trans_id . "'";
+        }
         
         $return_condition ="";
         if ($status=="all") {           
@@ -199,6 +204,8 @@ class M_ora_medrec extends CI_Model
                         AND A.SHOW_ITEM LIKE '" . $showitem . "%'
                         " . $return_condition . "
                         " . $date_condition . "
+                        " . $filter_condition . "
+                        AND (B.NAMA LIKE UPPER('" . $keyword . "'||'%') OR SUBSTR(A.MR, 4) LIKE UPPER('" . $keyword . "'||'%'))
                 ) X
                 " . $page_condition . "
                 ORDER BY X.RNUM ASC";

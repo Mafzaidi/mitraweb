@@ -12,7 +12,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202205251213'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css?v=202206271601'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/utilities.css?v=202205281225'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/utilities.css?v=202206281453'); ?>">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/fontawesome-5.15.4/css/all.min.css'); ?>">
 

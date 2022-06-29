@@ -72,3 +72,41 @@
 .right-addon .inner-fa-icon { right: 0px;}
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+.fs-1em {
+	font-size: 1em;
+}
+
+.fs-05em {
+	font-size: 0.5em;
+}
+
+.fs-075em {
+	font-size: 0.75em;
+}
+
+.fs-1rem {
+	font-size: 1rem;
+}
+
+.fs-05rem {
+	font-size: 0.5rem;
+}
+
+.fs-055rem {
+	font-size: 0.55rem;
+}
+
+.fs-065rem {
+	font-size: 0.65rem;
+}
+
+.fs-075rem {
+	font-size: 0.75rem;
+}
+
+.fs-085rem {
+	font-size: 0.85rem;
+}
+
+

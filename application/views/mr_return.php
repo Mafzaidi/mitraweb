@@ -6,7 +6,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-7">
                     <div class="dataTables_length" id="">
                         <label>
                             Tampilkan 
@@ -20,6 +20,18 @@
                         </label>
                     </div>
                 </div>
+                <div class="col-sm-12 col-md-5">
+                    <div class="input-group mb-3 inner-addon left-addon">
+                        <!-- <div class="input-group-prepend">
+                            <span class="input-group-text bg-white border-right-0 rounded-left-pill search-icon" id="addon-wrapping"></span>
+                        </div> -->
+                        <i class="fas fa-search inner-fa-icon"></i>
+                        <input type="text" class="form-control rounded-pill pl-5" placeholder="Cari nama atau medrec..." id="inputTxtSearchMrReturn" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <!-- <div class="input-group-append">
+                            <button class="btn btn-outline-secondary border-gray-1 rounded-right" type="button" id="button-addon2">&nbsp;Cari&nbsp;</button>
+                        </div> -->
+                    </div>
+                </div>
             </div>
             <!-- <div class="row">
                 <div class="col-md-8">
@@ -30,7 +42,7 @@
                 </div>
             </div> -->
             <div class="row">  
-                <div class="col-sm-7" id="">   
+                <div class="col-sm-12 col-md-7" id="">   
                     <div class="tb" id="pinjamMrReturn">
 
                         <div class="tb-header bg-cool text-light row">
@@ -57,7 +69,7 @@
                         </div>
                     </div> 
                 </div>
-                <div class="col-sm-5" id="">      
+                <div class="col-sm-12 col-md-5" id="">      
                     <div class="formData-wrapper p-3">                       
                         <form id="formReturnBy">
                             <div class="form-row">

@@ -71,7 +71,7 @@
             </nav>
 
             <div class="row p-3">  
-                <div class="col-md-8 col-lg-6">
+                <div class="col-md-12 col-lg-6">
                     <div class="card bg-transparent border rounded-3" style="font-size: 0.85rem;">
                         <div class="card-header bg-light align-middle border-bottom p-2">
                             <h6 class="card-header-title float-left mb-0">Data Pasien</h6>
@@ -127,14 +127,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-6">          
+                <div class="col-md-12 col-lg-6">        
                     <div class="card bg-transparent border rounded-3 m-3">
-                        <!-- <div class="card-header bg-light align-middle border-bottom p-2 hover square">
-                            <h6 class="card-header-title float-left mb-0">LMA</h6>
-                            <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
-                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
-                        </div> -->
-                        <div class="card-body" id="berkasContainer">
+                        <div class="card-header bg-white align-middle border-bottom p-2 text-right fs-085rem hover square">
+                            <p class="card-text text-muted">Pengisian kelengkapan berkas pasien rawat inap</p>
+                            <!-- <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
+                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a> -->
+                        </div>
+                        <div class="card-body" id="berkasContainer">                           
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-sm-12 form-inline d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem"><i class="fas fa-save"></i>&nbsp;Save</button>
+                                    <button type="button" class="btn btn-danger btn-sm mr-2 fs-075rem" disabled><i class="fas fa-ban"></i></i>&nbsp;Reset</button>
+                                </div>
+                            </div>
                         </div>
                     </div> 
                 </div>

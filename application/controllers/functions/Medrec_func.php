@@ -103,7 +103,9 @@ class Medrec_func extends CI_Controller
             $showitem = $this->input->post('showitem');
             $status = $this->input->post('status');
             $from_date = $this->input->post('from_date');
-            $to_date = $this->input->post('to_date');
+            $to_date = $this->input->post('to_date');           
+            $keyword = $this->input->post('keyword'); ;
+            $trans_id = $this->input->post('trans_id'); ;
 
             $showitem = 1;
             if($pageno != 0) {
@@ -111,7 +113,7 @@ class Medrec_func extends CI_Controller
             }
 
             $countrecords =  $this->mr->getRowCountPinjamMR($showitem, $status, $from_date, $to_date);
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
           
             foreach($records as $row ){
                 $response[] = array(
@@ -174,9 +176,11 @@ class Medrec_func extends CI_Controller
             $status = $this->input->post('status');
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
+            $keyword = "";
+            $trans_id = "";
 
             // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A1', 'NO');
@@ -235,9 +239,11 @@ class Medrec_func extends CI_Controller
             $status = $this->input->post('status');
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
+            $keyword = "";
+            $trans_id = "";
 
             // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A1', 'NO');
@@ -370,6 +376,26 @@ class Medrec_func extends CI_Controller
         // read file contents
         $data = file_get_contents(base_url($url.$filename));
         force_download($filename, $data);
+    }
+
+    function getAutoMrReturn()
+    {
+        $page_start = 1;
+        $per_page = "";
+        $showitem = 1;
+        $status = "not return";
+        $from_date = "";
+        $to_date = "";
+        $keyword = $this->input->post('keyword');
+        $trans_id = "";
+
+        $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
+
+        foreach($records as $row ){
+            $response[] = array("id"=>$row->TRANS_PINJAM_MR, "label"=>$row->MEDREC . ' - ' . $row->PASIEN);
+        }
+        $data = $response;
+        echo json_encode($data);
     }
 
 }

@@ -155,6 +155,7 @@ class M_form_application extends CI_Model
                         C.NAMA_DEPT,
                         E.NAMA_DR,
                         TO_CHAR(A.TGL_MASUK, 'DD.MM.RRRR') AS TGL_MASUK,
+                        F.REKANAN_ID, 
                         F.REKANAN_NAMA,
                         A.REG_ID
                     FROM 
@@ -203,30 +204,35 @@ class M_form_application extends CI_Model
 
     function getListRegBerkas($reg_id) {
         $sql = "SELECT
-                    A.BERKAS_ID, A.KETERANGAN, 
-                    CASE WHEN A.TEMPLATE = 'Y' 
-                    THEN 
-                        CASE WHEN (
-                            SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
-                            EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
-                            ) > 0 THEN 'REGISTERED'   
-                        ELSE
-                            CASE WHEN (
-                            SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A2 
-                            WHERE A2.BERKAS_ID = A.BERKAS_ID AND A2.REKANAN_ID = (SELECT B2.REKANAN_ID FROM MS_REG B2 WHERE B2.REG_ID = '" . $reg_id . "')
-                            ) > 0 THEN 'DOWNLOAD'
-                            ELSE  'UPLOAD' END
-                        END
-                    ELSE
+                    A.BERKAS_ID, 
+                    A.KETERANGAN,
+                    A.TEMPLATE,
+                    CASE WHEN A.TEMPLATE = 'Y'
+                        THEN
+                            CASE WHEN 
+                                (
+                                SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
+                                WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = (
+                                    SELECT B1.REKANAN_ID FROM MS_REG B1 
+                                    WHERE B1.REG_ID = '" . $reg_id . "'
+                                    )
+                                ) > 0 THEN 'Y' 
+                            ELSE 
+                                CASE WHEN (
+                                SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
+                                WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = 'DEFAULT'
+                                ) > 0 THEN 'Y' ELSE 'N' END
+                            END
+                    ELSE 'N' END AS UPLOADED, 
                     CASE WHEN (
                         SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
                         EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
-                    ) > 0 THEN 'Y' ELSE 'N' END
-                    END AS CHECKED
+                    ) > 0 THEN 'Y' ELSE 'N' END AS REGISTERED
                 FROM
                     EDP_MANAGER.MS_BERKAS A
                 WHERE
-                    A.SHOW_ITEM = '1'";
+                    A.SHOW_ITEM = '1'
+                ORDER BY A.BERKAS_ID";
 
         $query = $this->oracle_db->query($sql);
         $result = $query->result();

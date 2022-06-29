@@ -1172,55 +1172,60 @@
 	}
 
 	// -- medrec/mr-return
-	function initMrReturn() {
-		$("#select_pageSize_mr_return").on("change", function (e) {
-			e.preventDefault();
-			var pageno = $("#mrReturn-pagination")
-				.find(".active")
-				.find(".page-link")
-				.html();
-			var page_start = 1;
-			var per_page = $("#select_pageSize_mr_return option:selected").val();
-			var pageselect = $("#select_pageSize_mr_return option:selected").val();
-			var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
-			var showitem = 1;
-			var status = "not return";
-			var from_date = "";
-			var to_date = "";
-			// console.log(pageno, pageselect);
 
-			if (pageselect !== "" && pageselect !== undefined) {
-				if (pageno !== "" && pageno !== undefined) {
-					page_start = (pageno - 1) * pageselect + 1;
-					func_url = base_url + "functions/Medrec_func/loadPinjamMR/" + pageno;
-				} else {
-					pageno = 0;
-					page_start = 1;
-				}
+	$("#select_pageSize_mr_return").on("change", function (e) {
+		e.preventDefault();
+		var pageno = 1;
+		var page_start = 1;
+		var per_page = $("#select_pageSize_mr_return option:selected").val();
+		var pageselect = $("#select_pageSize_mr_return option:selected").val();
+		var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
+		var showitem = 1;
+		var status = "not return";
+		var from_date = "";
+		var to_date = "";
+		var keyword = "";
+		var trans_id = "";
+		// console.log(pageno, pageselect);
+
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
+				func_url = base_url + "functions/Medrec_func/loadPinjamMR/" + pageno;
 			} else {
-				per_page = "";
+				pageno = 0;
+				page_start = 1;
 			}
+		} else {
+			per_page = "";
+		}
 
-			loadPinjamMR(
-				page_start,
-				per_page,
-				func_url,
-				showitem,
-				status,
-				from_date,
-				to_date
-			);
-			console.log(
-				page_start,
-				per_page,
-				func_url,
-				showitem,
-				status,
-				from_date,
-				to_date
-			);
-		});
-
+		loadPinjamMR(
+			page_start,
+			per_page,
+			func_url,
+			showitem,
+			status,
+			from_date,
+			to_date,
+			keyword,
+			trans_id
+		);
+		console.log(
+			page_start,
+			per_page,
+			func_url,
+			showitem,
+			status,
+			from_date,
+			to_date,
+			keyword,
+			trans_id
+		);
+	});
+	
+	function initMrReturn() {
+	
 		$("#mrReturn-pagination").on("click", "a", function (e) {
 			e.preventDefault();
 			var pageno = $(this).attr("data-ci-pagination-page");
@@ -1232,7 +1237,9 @@
 			var status = "not return";
 			var from_date = "";
 			var to_date = "";
-
+			var keyword = "";
+			var trans_id = "";
+	
 			if (pageselect !== "" && pageselect !== undefined) {
 				if (pageno !== "" && pageno !== undefined) {
 					page_start = (pageno - 1) * pageselect + 1;
@@ -1244,7 +1251,7 @@
 			} else {
 				per_page = "";
 			}
-
+	
 			loadPinjamMR(
 				page_start,
 				per_page,
@@ -1252,7 +1259,9 @@
 				showitem,
 				status,
 				from_date,
-				to_date
+				to_date,
+				keyword,
+				trans_id
 			);
 		});
 	}
@@ -1422,6 +1431,8 @@
 				var status = "not return";
 				var from_date = "";
 				var to_date = "";
+				var keyword = "";
+				var trans_id = "";
 
 				$("#myDynamicModal .modal-body").html(loading);
 
@@ -1446,7 +1457,9 @@
 							showitem,
 							status,
 							from_date,
-							to_date
+							to_date,
+							keyword,
+							trans_id
 						);
 						// pageInit();
 					},
@@ -1490,6 +1503,8 @@
 				var status = "not return";
 				var from_date = "";
 				var to_date = "";
+				var keyword = "";
+				var trans_id = "";
 				$("#myDynamicModal .modal-body").html(loading);
 
 				$.ajax({
@@ -1511,7 +1526,9 @@
 							showitem,
 							status,
 							from_date,
-							to_date
+							to_date,
+							keyword,
+							trans_id
 						);
 						// pageInit();
 					},
@@ -1537,6 +1554,8 @@
 		var status = "all";
 		var from_date = $("#inputFromDateRpt").val();
 		var to_date = $("#inputToDateRpt").val();
+		var keyword = "";
+		var trans_id = "";
 		var tb = "";
 
 		// console.log(page_start, per_page, showitem, status, from_date, to_date);
@@ -1552,6 +1571,8 @@
 				status: status,
 				from_date: from_date,
 				to_date: to_date,
+				keyword: keyword,
+				trans_id: trans_id,
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
@@ -1721,65 +1742,64 @@
 		}
 	});
 
-	$("#select_pageSize_mr_return").on("change", function (e) {
-		e.preventDefault();
-		// alert(123);
-		var pageno = 1;
-		var page_start = 1;
-		var pageselect = $("#select_pageSize_mr_return option:selected").val();
-		var per_page = $("#select_pageSize_mr_return option:selected").val();
-		var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
-		var showitem = 1;
-		var status = "not return";
-		var from_date = "";
-		var to_date = "";
-		if (pageselect !== "" && pageselect !== undefined) {
-			if (pageno !== "" && pageno !== undefined) {
-				page_start = (pageno - 1) * pageselect + 1;
-				func_url =
-					base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+	$("#inputTxtSearchMrReturn").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: base_url + "functions/Medrec_func/getAutoMrReturn",
+				type: "post",
+				dataType: "json",
+				data: {
+					keyword: request.term,
+				},
+				success: function (data) {
+					response(data);
+					//alert(JSON.stringify(data));
+				},
+			});
+		},
+		select: function (event, ui) {
+			// Set selection
+			$(this).val(ui.item.label); // display the selected text
+			$(this).attr("trans_id", ui.item.id);
+
+			var pageno = 1;
+			var page_start = 1;
+			var per_page = $("#select_pageSize_mr_return option:selected").val();
+			var pageselect = $("#select_pageSize_mr_return option:selected").val();
+			var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
+			var showitem = 1;
+			var status = "not return";
+			var from_date = "";
+			var to_date = "";
+			var keyword = "";
+			var trans_id = ui.item.id;
+			// console.log(pageno, pageselect);
+
+			if (pageselect !== "" && pageselect !== undefined) {
+				if (pageno !== "" && pageno !== undefined) {
+					page_start = (pageno - 1) * pageselect + 1;
+					func_url = base_url + "functions/Medrec_func/loadPinjamMR/" + pageno;
+				} else {
+					pageno = 0;
+					page_start = 1;
+				}
 			} else {
-				pageno = 0;
-				page_start = 1;
+				per_page = "";
 			}
-		} else {
-			per_page = "";
-		}
-
-		loadPinjamMR(
-			page_start,
-			per_page,
-			func_url,
-			showitem,
-			status,
-			from_date,
-			to_date
-		);
-		console.log(
-			page_start,
-			per_page,
-			func_url,
-			showitem,
-			status,
-			from_date,
-			to_date
-		);
-
-		// if (pageselect !== "" && pageselect !== undefined) {
-		// 	if (pageno !== "" && pageno !== undefined) {
-		// 		page_start = (pageno - 1) * pageselect + 1;
-		// 		func_url =
-		// 			base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
-		// 	} else {
-		// 		pageno = 0;
-		// 		page_start = 1;
-		// 	}
-		// } else {
-		// 	per_page = "";
-		// }
-
-		// loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
-		// console.log(pageno, pageselect, page_start, per_page, func_url);
+			loadPinjamMR(
+				page_start,
+				per_page,
+				func_url,
+				showitem,
+				status,
+				from_date,
+				to_date,
+				keyword,
+				trans_id
+			);
+			// console.log(ui.item.id);
+			return false;
+		},
 	});
 
 	function loadPinjamMR(
@@ -1789,7 +1809,9 @@
 		showitem,
 		status,
 		from_date,
-		to_date
+		to_date,
+		keyword,
+		trans_id
 	) {
 		var tb = "";
 		// console.log(page_start, per_page, func_url);
@@ -1805,9 +1827,12 @@
 				status: status,
 				from_date: from_date,
 				to_date: to_date,
+				keyword: keyword,
+				trans_id: trans_id
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
+				console.log(JSON.stringify(data));
 				var rcount = data.response.length;
 
 				for (var i = 0; i < rcount; i++) {
@@ -1968,18 +1993,6 @@
 			return false;
 		},
 	});
-
-	// $('#inputTxtSearchInpatient').keypress(function (e) {
-	// 	if (e.which == 13) {
-	// 		var page_start = 1;
-	// 		var per_page = '';
-	// 		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
-	// 		var key_word = ''
-	// 		var reg_id = $(this).attr("reg_id");
-	// 		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
-	// 		return false;    //<---- Add this line
-	// 	}
-	//   });
 
 	$("#InpatientFile_selectPageSize").on("change", function (e) {
 		e.preventDefault();
@@ -2151,7 +2164,7 @@
 					var num2 = data.count;
 				}
 				var total = data.count;
-				console.log(page_start, per_page, data.count, num1, num2);
+				// console.log(page_start, per_page, data.count, num1, num2);
 
 				$("#tb_inpatientFile .tb-body").html("");
 				$("#tb_inpatientFile .tb-body").html(tb);
@@ -2232,51 +2245,79 @@
 					// 	'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
 					// dropList += data.dropmenu[i].keterangan + "</a>";
 
-					berkasCheck += '<div class="row">';
+					
+					if (data.listBerkas[i].template == "Y") {
+						var active = "";
+						if (data.listBerkas[i].uploaded == "N") {
+							active = "disabled";
+						}
+						berkasCheck += '<div class="row py-3">';
 
-					berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
-					berkasCheck +=
-						'<label  class="text-muted m-0">' +
-						data.listBerkas[i].keterangan +
-						"</label>";
-					berkasCheck += "</div>";
+						berkasCheck += '<div class="col-sm-12 col-md-5 col-lg-4">';
+						
+						berkasCheck +=
+							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
+							data.listBerkas[i].keterangan +
+							"</label>";
 
-					berkasCheck +=
-						'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
+						berkasCheck += "</div>"; // end of div col-sm-12
+						
+						berkasCheck += '<div class="col-sm-12 col-md-7 col-lg-8">';
 
-					if (
-						data.listBerkas[i].checked == "N" ||
-						data.listBerkas[i].checked == "Y"
-					) {
+						berkasCheck += '<div class="row">';
+						berkasCheck += '<div class="col d-flex justify-content-end fs-075rem">';
+						berkasCheck += '<label class="m-0 text-muted font-weight-light" for="formGroupExampleInput">Template</label>';
+						berkasCheck += '</div>'; // end of div col
+						berkasCheck += '</div>'; // end of div row
+
+						berkasCheck += '<div class="form-inline d-flex justify-content-end py-1">';
+						
+						berkasCheck +='<button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem btn-upload-template" rekanan_id="' + 
+							data.rekanan_id + '" berkas_id="' + 
+							data.listBerkas[i].berkas_id + '" desc="' + data.listBerkas[i].keterangan + '"><i class="fas fa-upload"></i>&nbsp;Upload</button>';
+						berkasCheck +='<button type="button" class="btn btn-success btn-sm fs-075rem" ' + active + '><i class="fas fa-download"></i>&nbsp;Download</button>';
+
+						berkasCheck += "</div>"; // end of div form-check-inline
+						
+						berkasCheck += "</div>"; // end of div col-sm-12
+
+
+						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
+						berkasCheck += "</div>"; // end of div col-sm-12
+
+						berkasCheck += "</div>"; // end of div row
+
+					} else {
+
 						var check = "";
-						if (data.listBerkas[i].checked == "Y") {
+						if (data.listBerkas[i].registered == "Y") {
 							check = "checked";
 						}
+
+						berkasCheck += '<div class="row">';
+
+						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
 						berkasCheck +=
-							'<div class="form-check form-check-inline d-flex justify-content-end py-1" style="font-size: 0.75rem;">';
+							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
+							data.listBerkas[i].keterangan +
+							"</label>";
+						berkasCheck += "</div>"; // end of div col-sm-12
+
 						berkasCheck +=
-							'<label class="form-check-label mr-2" for="inlineCheckbox1">Ada</label>';
+							'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
+						
+						berkasCheck +=
+							'<div class="form-check form-check-inline d-flex justify-content-end py-1">';
 						berkasCheck +=
 							'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox" ' +
 							check +
 							'><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
+						berkasCheck += "</div>"; // end of div form-check-inline
 
-						berkasCheck +=
-							'<label class="form-check-label ml-2" for="inlineCheckbox1">Tidak</label>';
-						berkasCheck += "</div>";
-					} else if (data.listBerkas[i].checked == "UPLOAD") {
-						berkasCheck +=
-							'<div class="form-inline d-flex justify-content-end" style="font-size: 0.75rem;">';
-						berkasCheck +=
-							'<button type="button" class="btn btn-primary btn-xs">Upload</button>';
-						berkasCheck +=
-							'<button type="button" class="btn btn-success btn-xs">Download</button>';
-						berkasCheck += "</div>";
+						berkasCheck += "</div>"; // end of div col-sm-12 switch-button
+
+						berkasCheck += "</div>"; // end of div row
 					}
-
-					berkasCheck += "</div>";
-
-					berkasCheck += "</div>";
 				}
 				// $("#dropdownBerkas").html(dropList);
 				$("#berkasContainer").html(berkasCheck);
@@ -2285,6 +2326,7 @@
 				$("#detailInpatientFile").toggleClass("d-none");
 				console.log(JSON.stringify(data));
 				pageInit();
+				uploadTemplateBerkas();
 			},
 			error: function (data) {
 				// console.log(JSON.stringify(data));
@@ -2293,6 +2335,117 @@
 			},
 		});
 	}
+
+	function uploadTemplateBerkas () {
+		$(".btn-upload-template").on("click", function () {
+			Dropzone.autoDiscover = false;
+			var berkas_id = $(this).attr("berkas_id");
+			var rekanan_id = $(this).attr("rekanan_id");
+			// var desc = $(this).attr("desc");
+			var desc = $(this).parent().parent().parent().find(".berkas-title").html();
+
+			var title = "Upload Template" + " " + desc;
+
+			var html = '<div class="form-row py-3">';
+				html += '<div class="col-sm-12 col-md-6 col-lg-6">';
+				html += '<div class="form-check form-check-inline">' +
+							'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
+							'<label class="form-check-label" for="inlineRadio1">1</label>' +
+						'</div>';
+				html += '</div>'; // eof col
+				html += '<div class="col-sm-12 col-md-6 col-lg-6">';
+				html += '<div class="form-check form-check-inline">' +
+							'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
+							'<label class="form-check-label" for="inlineRadio1">1</label>' +
+						'</div>';
+				html += '</div>'; // eof col
+				html += '</div>'; // eof form-row
+
+				html += '<div class="position-relative image-file" id="uploadTemplBerkas">';
+				html +=
+					'<form action="' +
+					base_url +
+					"functions/Form_app_func/uploadTemplate" +
+					'" class="dropzone" id="dropTemplate" berkas_id="' +
+					berkas_id +
+					'" style="opacity:0.7; border: none;"></form>';
+				html += "</div>";
+				var btn =
+					'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
+					berkas_id +
+					'">Oke</button>';
+
+			$("#myDynamicModal .modal-footer").html(btn);
+			$("#myDynamicModal .modal-body").html(html);
+			$("#myDynamicModal .modal-title").html(title);
+			$("#myDynamicModal").modal("show");
+			dropZoneTemplate(berkas_id, desc);
+			console.log(berkas_id + "," + rekanan_id + "," + desc);
+		});
+	};
+
+	function dropZoneTemplate(berkas_id, desc) {
+		$("form#dropTemplate").dropzone({
+			maxFilesize: 10,
+			uploadMultiple: true,
+			thumbnailWidth: 200,
+			thumbnailHeight: 200,
+			thumbnailMethod: "contain",
+			addRemoveLinks: true,
+			init: function () {
+				this.on("addedfile", function (file) {
+					var img = file;
+					var countImg = this.files.length;
+
+					if (this.files.length == 0) {
+						alert("file tidak ditemukan");
+						return false;
+					} else {
+					}
+
+					var data = new FormData();
+					for (var i = 0; i < countImg; i++) {
+						data.append("imageFile", this.files[i]);
+					}
+					data.append("reg_id", reg_id);
+					data.append("desc", desc);
+
+					return true;
+				}),
+				this.on("thumbnail", function (file, dataUrl) {
+					// $(".dz-image")
+					// 	.last()
+					// 	.find("img")
+					// 	.attr({ width: "100%", height: "100%" });
+					// $(".dz-image").css({ "border-radius": "inherit" });
+					// $(".dz-image").parent().css({ margin: "0" });
+					// $(".dz-image").parent().parent().css({ padding: "0" });
+				}),
+				this.on("success", function (file) {
+					// $(".dz-image").css({ width: "100%", height: "100%" });
+
+					var ext = checkFileExt(file.name); // Get extension
+					var newimage = "";
+
+					// Check extension
+					if (ext != "png" && ext != "jpg" && ext != "jpeg") {
+						newimage = base_url + "assets/img/icons/pdf_file.png"; // default image path
+					}
+					// this.createThumbnailFromUrl(file, newimage);
+				}),
+				this.on("error", function (file, errormessage, xhr) {
+					if (xhr) {
+						var response = JSON.parse(xhr.responseText);
+						alert(response.message);
+					}
+				}),
+				this.on("removedfile", function (file) {
+					// console.log(currentFile);
+
+				});
+			},
+		});
+	};
 
 	$("#btnAddBerkas").on("click", function () {
 		$(this).toggleClass("active");

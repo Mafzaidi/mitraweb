@@ -5,9 +5,11 @@
     $status = "not return";
     $fromDate = "";
     $toDate = "";
+    $keyword = "";
+    $trans_id = "";
     
     $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status, $fromDate, $toDate);
-    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $fromDate, $toDate);
+    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $fromDate, $toDate, $keyword, $trans_id);
     
     $i= 0;
     $tb = '';

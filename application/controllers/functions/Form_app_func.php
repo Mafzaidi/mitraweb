@@ -87,7 +87,7 @@ class Form_app_func extends CI_Controller
             $reg_id = $this->input->post('reg_id');
 
             $get = $this->mfa->getDataCurrentInpatient($reg_id);
-            $dropMenu = $this->mfa->getBerkas();
+            // $dropMenu = $this->mfa->getBerkas();
             $listRegBerkas = $this->mfa->getListRegBerkas($reg_id);
 
             // $html = "";
@@ -104,7 +104,9 @@ class Form_app_func extends CI_Controller
                 $response[] = array(
                     "berkas_id"=>$row->BERKAS_ID,
                     "keterangan"=>$row->KETERANGAN,
-                    "checked"=>$row->CHECKED
+                    "template"=>$row->TEMPLATE,
+                    "uploaded"=>$row->UPLOADED,
+                    "registered"=>$row->REGISTERED
                 );  
             }
 
@@ -117,6 +119,7 @@ class Form_app_func extends CI_Controller
                 'nama_dept' => $get->NAMA_DEPT,
                 'nama_dr' => $get->NAMA_DR,
                 'tgl_masuk' => $get->TGL_MASUK,
+                'rekanan_id' => $get->REKANAN_ID,
                 'rekanan_nama' => $get->REKANAN_NAMA
                 ,'listBerkas' => $response
                 // ,'dropmenu' => $html
