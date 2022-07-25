@@ -9,6 +9,7 @@ class Form_app_func extends CI_Controller
         $this->load->model('m_form_application','mfa');
         $this->load->library('modal_variables');
         $this->load->library('pagination');
+        $this->load->helper('file');
     }
 
     public function loadInpatientFile($pageno = 0) 
@@ -106,6 +107,8 @@ class Form_app_func extends CI_Controller
                     "keterangan"=>$row->KETERANGAN,
                     "template"=>$row->TEMPLATE,
                     "uploaded"=>$row->UPLOADED,
+                    "uploaded_default"=>$row->UPLOADED_DEFAULT,
+                    "uploaded_rekanan"=>$row->UPLOADED_REKANAN,
                     "registered"=>$row->REGISTERED
                 );  
             }
@@ -120,8 +123,9 @@ class Form_app_func extends CI_Controller
                 'nama_dr' => $get->NAMA_DR,
                 'tgl_masuk' => $get->TGL_MASUK,
                 'rekanan_id' => $get->REKANAN_ID,
-                'rekanan_nama' => $get->REKANAN_NAMA
-                ,'listBerkas' => $response
+                'rekanan_nama' => $get->REKANAN_NAMA,
+                'reg_id' => $get->REG_ID,
+                'listBerkas' => $response
                 // ,'dropmenu' => $html
             );
 
@@ -158,6 +162,46 @@ class Form_app_func extends CI_Controller
         }
     }
 
+    function uploadTemplate(){
+
+		if((isset($_POST['rekanan_id']) && $_POST['rekanan_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
+            $rekanan_id = $_POST['rekanan_id'];
+            $rekanan_url = $_POST['rekanan_id'].'/';
+			$berkas_id = $_POST['berkas_id'];
+            $berkas_url = $_POST['berkas_id'].'/';
+		} else {
+			$rekanan_id = '';
+            $berkas_id = '';
+		}
+		
+		if (!is_dir('assets/upload/templates/'.$rekanan_url.$berkas_url)) {
+			mkdir('assets/upload/templates/'.$rekanan_url.$berkas_url, 0777, TRUE);
+		}
+		
+		$config['upload_path'] = 'assets/upload/templates/'.$rekanan_url.$berkas_url;
+		$config['allowed_types'] = 'gif|jpg|png|pdf|doc|xls|docx|xlsx';
+
+		$this->load->library('upload', $config);
+		$this->upload->do_upload('imageFile');
+		
+		$upload = $this->upload->data();		
+		$data['path'] = $config['upload_path'];
+		$data['imgUrl'] = 'assets/upload/templates/'.$upload['file_name'];
+        
+        $directory = 'assets/upload/templates/'.$rekanan_url.$berkas_url;
+        $filecount = 0;
+        $files = glob($directory . "*");
+        if ($files){
+            $filecount = count($files);
+        }
+
+        $data['filecount'] = $filecount;
+        $data['fileName'] = $upload['file_name'];
+        $data['rekanan_id'] = $rekanan_id;
+        $data['berkas_id'] = $berkas_id;
+		echo json_encode($data);
+	}
+
     function uploadBerkas(){
 
 		if((isset($_POST['reg_id']) && $_POST['reg_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
@@ -175,7 +219,7 @@ class Form_app_func extends CI_Controller
 		}
 		
 		$config['upload_path'] = 'assets/upload/docs/'.$reg_url.$berkas_url;
-		$config['allowed_types'] = 'gif|jpg|png|pdf';
+		$config['allowed_types'] = 'gif|jpg|png|pdf|doc|xls|docx|xlsx';
 
 		$this->load->library('upload', $config);
 		$this->upload->do_upload('imageFile');
@@ -194,7 +238,7 @@ class Form_app_func extends CI_Controller
         $data['filecount'] = $filecount;
         $data['imgName'] = $upload['file_name'];
         $data['reg_id'] = $reg_id;
-        $data['berkas'] = $berkas_id;
+        $data['berkas_id'] = $berkas_id;
 		echo json_encode($data);
 	}
 
@@ -208,12 +252,43 @@ class Form_app_func extends CI_Controller
 			'errMessage' => ''
 		);
 		if (isset($data['fileName'])) {
+
 			if (unlink($data['filePath'].$data['fileName'])) {
 				$data['errMessage'] = 'file deleted';
 			} else {
 				$data['errMessage'] = 'error' . $data['fileName'];
 			}
 		}
+		echo json_encode($data);
+	}
+
+    function removeTemplBerkas()
+	{
+
+        $directory = $_POST['currentPath'];
+		$data = array(
+			'fileName' => $_POST['currentFile'],
+			'filePath' => $_POST['currentPath'],
+			'req' => $_POST['requested'],
+			'errMessage' => ''
+		);
+
+        if(is_dir($directory))
+        {
+            if (isset($data['fileName'])) {
+                $files = glob($directory . "*");   
+                if (count($files) > 0) {
+                    if (unlink($data['filePath'].$data['fileName'])) {
+                        $data['errMessage'] = 'file deleted';
+                    } else {
+                        $data['errMessage'] = 'error' . $data['fileName'];
+                    }
+                } else {   
+                    rmdir($directory); // Delete the folder
+                }
+            }
+        }
+		
 		echo json_encode($data);
 	}
 
@@ -327,5 +402,37 @@ class Form_app_func extends CI_Controller
 
         }
     }
+
+    function saveBerkasTemplate(){
+        $sess_id = $this->session->userdata('user_id');
+
+        if(!empty($sess_id))
+        {          
+            $rekanan_id = $this->input->post('rekanan_id');
+            $berkas_id = $this->input->post('berkas_id');
+            $file_path = $this->input->post('file_path');
+            $file_name = $this->input->post('file_name');
+            $url = $this->input->post('url');
+
+            $tittle = $this->input->post('tittle');
+            $desc = $this->input->post('desc');
+
+            $result = array(
+                "rekanan_id" => $rekanan_id,
+                "berkas_id"=> $berkas_id,
+                "tittle"=> $tittle,
+                "desc"=> $desc,
+                "file_path"=> $file_path,
+                "file_name"=> $file_name,
+                "url"=> $url
+            );
+            
+            $data = $result;
+            echo json_encode($data);
+        } else {
+
+        }
+    }
+
 
 }

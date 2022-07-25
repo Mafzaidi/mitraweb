@@ -33,7 +33,7 @@ class Home extends CI_Controller
 					"first_name"=>$userOrainfo->FIRST_NAME,
 					"last_name"=>$userOrainfo->LAST_NAME,
 					"email"=>"",
-					"dept_name"=>"",
+					"dept_name"=>$userOrainfo->BAGIAN,
 					"role_name"=>"",
 					"created_date"=>"",
 					"img_url"=>"default.png"

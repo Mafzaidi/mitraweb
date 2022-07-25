@@ -88,7 +88,7 @@ class M_form_application extends CI_Model
 
         $search_condition = "";
         if (isset($reg_id) && !empty($reg_id)) {
-            $search_condition = "AND X.REG_ID = " . ($reg_id) . "";
+            $search_condition = "AND A.REG_ID = '" . ($reg_id) . "'";
         }
         
         $sql = "SELECT
@@ -124,12 +124,12 @@ class M_form_application extends CI_Model
                         AND A.TGL_KELUAR IS NULL 
                         AND A.DONE_STATUS <> '03' 
                         AND (D.NAMA LIKE UPPER('" . $keyword . "'||'%') OR SUBSTR(A.MR, 4) LIKE UPPER('" . $keyword . "'||'%'))
+                        " . $search_condition . "
                     ) X, 
                     EDP_MANAGER.MS_REG_BERKAS Y
                 WHERE
                     X.REG_ID = Y.REG_ID (+)
                     " . $page_condition . "
-                    " . $search_condition . "
                 ORDER BY X.RNUM ASC
             ";
 
@@ -149,7 +149,7 @@ class M_form_application extends CI_Model
                         SUBSTR(A.MR, 4) AS MEDREC,
                         A.MR,
                         SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
-                        D.TGL_LAHIR,
+                        TO_CHAR(D.TGL_LAHIR,'DD.MM.RRRR') AS TGL_LAHIR,
                         ROUND((TRUNC (SYSDATE - D.TGL_LAHIR) / 365), 0)||' Thn ' ||  ROUND((TRUNC ((SYSDATE - D.TGL_LAHIR) / 365)/12), 0)|| ' Bln' UMUR,
                         A.RUANG_ID,
                         C.NAMA_DEPT,
@@ -215,18 +215,46 @@ class M_form_application extends CI_Model
                                 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = (
                                     SELECT B1.REKANAN_ID FROM MS_REG B1 
                                     WHERE B1.REG_ID = '" . $reg_id . "'
+                                    AND A1.SHOW_ITEM = '1'
                                     )
                                 ) > 0 THEN 'Y' 
                             ELSE 
                                 CASE WHEN (
                                 SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
                                 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = 'DEFAULT'
+                                AND A1.SHOW_ITEM = '1'
                                 ) > 0 THEN 'Y' ELSE 'N' END
                             END
-                    ELSE 'N' END AS UPLOADED, 
+                    ELSE 'N' END AS UPLOADED,                     
+                    CASE WHEN A.TEMPLATE = 'Y'
+                        THEN
+                            CASE WHEN 
+                                (
+                                SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
+                                WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = 'DEFAULT'
+                                AND A1.SHOW_ITEM = '1'
+                                ) > 0 THEN 'Y' 
+                            ELSE 'N'
+                            END
+                    ELSE 'N' END AS UPLOADED_DEFAULT,
+                    CASE WHEN A.TEMPLATE = 'Y'
+                        THEN
+                            CASE WHEN 
+                                (
+                                SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
+                                WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = (
+                                    SELECT B1.REKANAN_ID FROM MS_REG B1 
+                                    WHERE B1.REG_ID = '" . $reg_id . "'
+                                    )
+                                    AND A1.SHOW_ITEM = '1'
+                                ) > 0 THEN 'Y'
+                            ELSE 'N' 
+                            END
+                    ELSE 'N' END AS UPLOADED_REKANAN, 
                     CASE WHEN (
                         SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
                         EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
+                        AND B1.SHOW_ITEM = '1'
                     ) > 0 THEN 'Y' ELSE 'N' END AS REGISTERED
                 FROM
                     EDP_MANAGER.MS_BERKAS A
