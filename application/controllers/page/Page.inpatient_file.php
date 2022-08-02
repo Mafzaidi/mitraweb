@@ -21,12 +21,18 @@
     $nbsp = '';
 
     foreach($rows as $inp) {
+        $flag = "";
         if(strlen($inp->MEDREC) == 6) {
             $nbsp = '&nbsp;&nbsp;';
         } else {
             $nbsp = '&nbsp;';
         }
-        $tb.= '<div class="row tb-row hover border-hover hover-event border-bottom ' . ($i%2 ? 'odd-row':'even-row') . '">';
+        if ($inp->B6 == 'N'){
+            $flag = 'bg-danger-2';
+        } else {
+            $flag = '';
+        }
+        $tb.= '<div class="row tb-row hover border-hover hover-event border-bottom ' . ($i%2 ? 'odd-row':'even-row') . " " . $flag .'">';
         $tb.= 
             '<div class="col-sm-12 col-md-9 tb-cell">
                 <div class="row">

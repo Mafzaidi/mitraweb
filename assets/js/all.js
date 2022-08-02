@@ -199,17 +199,41 @@
 	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
-		var allInputs = $(":input");
-		if (allInputs.hasClass("input-auto-complete")) {
-			//activateRemoveBtn($(this));
-			alert(1);
-		}
+		// for handle multiple modals overlay
+		$(".modal").on("hidden.bs.modal", function (event) {
+			$(this).removeClass("fv-modal-stack");
+			$("body").data("fv_open_modals", $("body").data("fv_open_modals") - 1);
+		});
+
+		$(".modal").on("shown.bs.modal", function (event) {
+			// keep track of the number of open modals
+			if (typeof $("body").data("fv_open_modals") == "undefined") {
+				$("body").data("fv_open_modals", 0);
+			}
+
+			// if the z-index of this modal has been set, ignore.
+			if ($(this).hasClass("fv-modal-stack")) {
+				return;
+			}
+
+			$(this).addClass("fv-modal-stack");
+			$("body").data("fv_open_modals", $("body").data("fv_open_modals") + 1);
+			$(this).css("z-index", 1040 + 10 * $("body").data("fv_open_modals"));
+			$(".modal-backdrop")
+				.not(".fv-modal-stack")
+				.css("z-index", 1039 + 10 * $("body").data("fv_open_modals"));
+			$(".modal-backdrop").not("fv-modal-stack").addClass("fv-modal-stack");
+		});
+
 		// Dropzone.autoDiscover = false;
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
 			// var date = new Date();
 			// var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 		} else if (segments[6] !== "" && segments[6] == "mr-return") {
+			var inputSearch = $("#page_mrReturn").find("#inputTxtSearchMrReturn");
+			// console.log(inputSearch.nextAll().length);
+			activateRemoveBtn(inputSearch);
 			initMrReturn();
 		} else if (
 			segments[6].replace(window.location.hash, "") !== "" &&
@@ -1806,6 +1830,53 @@
 		},
 	});
 
+	$("#inputTxtSearchMrReturn").bind("enterKey", function (e) {
+		var search = $(this).val();
+		if (search == "") {
+			var pageno = 1;
+			var page_start = 1;
+			var per_page = $("#select_pageSize_mr_return option:selected").val();
+			var pageselect = $("#select_pageSize_mr_return option:selected").val();
+			var func_url = base_url + "functions/Medrec_func/loadPinjamMR";
+			var showitem = 1;
+			var status = "not return";
+			var from_date = "";
+			var to_date = "";
+			var keyword = "";
+			var trans_id = "";
+			// console.log(pageno, pageselect);
+
+			if (pageselect !== "" && pageselect !== undefined) {
+				if (pageno !== "" && pageno !== undefined) {
+					page_start = (pageno - 1) * pageselect + 1;
+					func_url = base_url + "functions/Medrec_func/loadPinjamMR/" + pageno;
+				} else {
+					pageno = 0;
+					page_start = 1;
+				}
+			} else {
+				per_page = "";
+			}
+			loadPinjamMR(
+				page_start,
+				per_page,
+				func_url,
+				showitem,
+				status,
+				from_date,
+				to_date,
+				keyword,
+				trans_id
+			);
+		}
+	});
+
+	$("#inputTxtSearchMrReturn").keyup(function (e) {
+		if (e.keyCode == 13) {
+			$(this).trigger("enterKey");
+		}
+	});
+
 	function loadPinjamMR(
 		page_start,
 		per_page,
@@ -1998,6 +2069,24 @@
 		},
 	});
 
+	$("#inputTxtSearchInpatient").bind("enterKey", function (e) {
+		var search = $(this).val();
+		if (search == "") {
+			var page_start = 1;
+			var per_page = "";
+			var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+			var key_word = "";
+			var reg_id = "";
+			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+		}
+	});
+
+	$("#inputTxtSearchInpatient").keyup(function (e) {
+		if (e.keyCode == 13) {
+			$(this).trigger("enterKey");
+		}
+	});
+
 	$("#InpatientFile_selectPageSize").on("change", function (e) {
 		e.preventDefault();
 		var reg_id = "";
@@ -2078,9 +2167,18 @@
 					} else {
 						oddEven = "odd-row";
 					}
+
+					var flag = "";
+					if (data.response[i].REG_BERKAS !== "N") {
+						flag = "";
+					} else {
+						flag = "bg-danger-2";
+					}
 					tb +=
 						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
 						oddEven +
+						" " +
+						flag +
 						'">';
 
 					tb += '<div class="col-sm-12 col-md-9 tb-cell">';
@@ -2250,9 +2348,16 @@
 					// dropList += data.dropmenu[i].keterangan + "</a>";
 
 					if (data.listBerkas[i].template == "Y") {
-						var active = "";
+						var downloadActive = "";
+						var uploadActive = "";
 						if (data.listBerkas[i].uploaded == "N") {
-							active = "disabled";
+							downloadActive = "disabled";
+						}
+						if (
+							data.listBerkas[i].uploaded_default == "Y" &&
+							data.listBerkas[i].uploaded_rekanan == "Y"
+						) {
+							uploadActive = "disabled";
 						}
 						berkasCheck += '<div class="row py-3">';
 
@@ -2283,12 +2388,19 @@
 							data.rekanan_id +
 							'" berkas_id="' +
 							data.listBerkas[i].berkas_id +
+							'" reg_id="' +
+							data.reg_id +
+							'" uploaded_default="' +
+							data.listBerkas[i].uploaded_default +
+							'" uploaded_rekanan="' +
+							data.listBerkas[i].uploaded_rekanan +
 							'" desc="' +
-							data.listBerkas[i].keterangan +
-							'"><i class="fas fa-upload"></i>&nbsp;Upload</button>';
+							'" ' +
+							uploadActive +
+							'><i class="fas fa-upload"></i>&nbsp;Upload</button>';
 						berkasCheck +=
 							'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
-							active +
+							downloadActive +
 							'><i class="fas fa-download"></i>&nbsp;Download</button>';
 
 						berkasCheck += "</div>"; // end of div form-check-inline
@@ -2335,7 +2447,7 @@
 
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
-				console.log(JSON.stringify(data));
+				// console.log(JSON.stringify(data));
 				pageInit();
 				uploadTemplateBerkas();
 			},
@@ -2352,116 +2464,427 @@
 			Dropzone.autoDiscover = false;
 			var berkas_id = $(this).attr("berkas_id");
 			var rekanan_id = $(this).attr("rekanan_id");
-			// var desc = $(this).attr("desc");
+			var reg_id = $(this).attr("reg_id");
+			var uploaded_default = $(this).attr("uploaded_default");
+			var uploaded_rekanan = $(this).attr("uploaded_rekanan");
 			var desc = $(this)
 				.parent()
 				.parent()
 				.parent()
 				.find(".berkas-title")
 				.html();
+			$("#myDynamicModal .modal-dialog").addClass("modal-lg");
 
-			var title = "Upload Template" + " " + desc;
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base_url + "functions/His_common_func/getAllRekanan",
+				data: {
+					reg_id: reg_id,
+				},
+				success: function (data) {
+					//document.getElementById("tempPathSpan").remove();
+					// alert(JSON.stringify(data));
+					var rcount = data.length;
+					var selected = "";
+					var radioChecked1 = "";
+					var radioActive = "";
+					var selectActive = "";
+					var title = "Upload Template" + " " + desc;
 
-			var html = '<div class="form-row py-3">';
-			html += '<div class="col-sm-12 col-md-6 col-lg-6">';
-			html +=
-				'<div class="form-check form-check-inline">' +
-				'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
-				'<label class="form-check-label" for="inlineRadio1">1</label>' +
-				"</div>";
-			html += "</div>"; // eof col
-			html += '<div class="col-sm-12 col-md-6 col-lg-6">';
-			html +=
-				'<div class="form-check form-check-inline">' +
-				'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
-				'<label class="form-check-label" for="inlineRadio1">1</label>' +
-				"</div>";
-			html += "</div>"; // eof col
-			html += "</div>"; // eof form-row
+					var html = '<div class="form-row pb-3" id="templateOptionContainer">';
 
-			html +=
-				'<div class="position-relative image-file" id="uploadTemplBerkas">';
-			html +=
-				'<form action="' +
-				base_url +
-				"functions/Form_app_func/uploadTemplate" +
-				'" class="dropzone" id="dropTemplate" berkas_id="' +
-				berkas_id +
-				'" style="opacity:0.7; border: none;"></form>';
-			html += "</div>";
-			var btn =
-				'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
-				berkas_id +
-				'">Oke</button>';
+					html +=
+						'<small class="form-text text-muted mb-3">' +
+						"Pilih <b>Default</b> untuk membuat menjadi default template atau <b>Pilih Rekanan</b> untuk menjadikan template khusus bagi rekanan tertentu." +
+						"</small>";
 
-			$("#myDynamicModal .modal-footer").html(btn);
-			$("#myDynamicModal .modal-body").html(html);
-			$("#myDynamicModal .modal-title").html(title);
-			$("#myDynamicModal").modal("show");
-			dropZoneTemplate(berkas_id, desc);
-			console.log(berkas_id + "," + rekanan_id + "," + desc);
+					html += '<div class="col-sm-12 col-md-6 col-lg-6">';
+					if (uploaded_default == "Y") {
+						radioChecked1 = "checked";
+						radioActive = "disabled";
+					} else {
+						radioChecked1 = "";
+						radioActive = "";
+					}
+					html +=
+						'<div class="form-check form-check-inline">' +
+						'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate1" value="Default" ' +
+						radioActive +
+						">" +
+						'<label class="form-check-label" for="radioTemplate1">Default</label>' +
+						"</div>"; // eof form-check
+					html += "</div>"; // eof col
+
+					html += '<div class="col-sm-12 col-md-6 col-lg-6">';
+					html +=
+						'<div class="form-check form-check-inline">' +
+						'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate2" value="Pilih Rekanan">' +
+						// '<label class="form-check-label" for="radioTemplate2">Pilih Rekanan</label>' +
+						'<label class="mr-sm-2 sr-only" for="selectRekananTemplate">Preference</label>' +
+						'<select class="custom-select mr-sm-2" id="selectRekananTemplate" disabled>';
+					for (var i = 0; i < rcount; i++) {
+						if (data[i].rekanan_id == rekanan_id) {
+							selected = "selected";
+							if (uploaded_rekanan == "Y") {
+								selectActive = "disabled";
+							} else {
+								selectActive = "";
+							}
+						} else {
+							selected = "";
+							selectActive = "";
+						}
+
+						html +=
+							"<option " +
+							selected +
+							' value = "' +
+							data[i].rekanan_id +
+							'" ' +
+							selectActive +
+							">" +
+							data[i].rekanan_nama +
+							"</option>";
+					}
+					html += "</select>"; // eof select
+					html += "</div>"; // eof form-check form-check-inline
+					html += "</div>"; // eof col
+
+					html += "</div>"; // eof form-row
+
+					html += '<div class="form-row pb-3">';
+					html += '<div class="col-sm-12 col-md-12" style="height: 20em;">';
+					html +=
+						'<div class="position-relative h-100" id="uploadTemplBerkas">';
+					html +=
+						'<form action="' +
+						base_url +
+						"functions/Form_app_func/uploadTemplate" +
+						'" class="dropzone h-100 d-flex align-items-center justify-content-center" id="dropTemplate" berkas_id="' +
+						berkas_id +
+						'" style="opacity:0.7; border: none;"></form>';
+					html += "</div>"; // eof col-sm-12
+					html += "</div>"; // eof image-file
+					html += "</div>"; // eof form-row
+
+					var btn =
+						'<div class="alert alert-danger d-none" id="templateErr" role="alert">' +
+						"A simple danger alert—check it out!" +
+						"</div>" +
+						'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+						'<button class="btn btn-primary" id="saveUploadTemplBerkas" ype="button" berkas_id="' +
+						berkas_id +
+						'" desc="' +
+						desc +
+						'" >Oke</button>';
+
+					// if ($('input[type=radio][name=inlineRadioOptions]').is(':checked')) {
+					// 	alert(1);
+					// } else {
+					// 	alert(2);
+					// }
+					$("#myDynamicModal .modal-footer").html(btn);
+					$("#myDynamicModal .modal-body").html(html);
+					$("#myDynamicModal .modal-title").html(title);
+					$("#myDynamicModal").modal({
+						backdrop: "static",
+					});
+					$("#myDynamicModal").modal("show");
+					dropZoneTemplate(berkas_id);
+				},
+				error: function (data) {
+					// console.log(JSON.stringify(data));
+					//alert(2);
+				},
+			});
+			// console.log(berkas_id + "," + rekanan_id + "," + desc);
+		});
+
+		$("#myDynamicModal").on("hidden.bs.modal", function (event) {
+			if ($("#myDynamicModal .modal-dialog").hasClass("modal-lg")) {
+				$("#myDynamicModal .modal-dialog").removeClass("modal-lg");
+			}
 		});
 	}
 
-	function dropZoneTemplate(berkas_id, desc) {
-		$("form#dropTemplate").dropzone({
-			maxFilesize: 10,
-			uploadMultiple: true,
-			thumbnailWidth: 200,
-			thumbnailHeight: 200,
-			thumbnailMethod: "contain",
-			addRemoveLinks: true,
-			init: function () {
-				this.on("addedfile", function (file) {
-					var img = file;
-					var countImg = this.files.length;
+	function dropZoneTemplate(berkas_id) {
+		var rekanan_id = "";
+		var rekanan_nama = "";
+		var desc = "";
+		$("input[type=radio][name=inlineRadioOptions]").change(function () {
+			if (this.value == "Default") {
+				$("#selectRekananTemplate").prop("disabled", true);
+				rekanan_id = "DEFAULT";
+				rekanan_nama = "DEFAULT";
+			} else if (this.value == "Pilih Rekanan") {
+				$("#selectRekananTemplate").prop("disabled", false);
+				rekanan_id = $("#selectRekananTemplate option")
+					.filter(":selected")
+					.val();
+				rekanan_nama = $("#selectRekananTemplate option")
+					.filter(":selected")
+					.text();
+			}
 
-					if (this.files.length == 0) {
-						alert("file tidak ditemukan");
-						return false;
-					} else {
-					}
+			$("#selectRekananTemplate").change(function () {
+				rekanan_id = $("#selectRekananTemplate option")
+					.filter(":selected")
+					.val();
+				rekanan_nama = $("#selectRekananTemplate option")
+					.filter(":selected")
+					.text();
+			});
 
-					var data = new FormData();
-					for (var i = 0; i < countImg; i++) {
-						data.append("imageFile", this.files[i]);
-					}
-					data.append("reg_id", reg_id);
-					data.append("desc", desc);
+			if ($("input[type=radio][name=inlineRadioOptions]").is(":checked")) {
+				// dropZoneTemplate();
+				if ($("#dropTemplate .dz-button").length) {
+					// nothing
+				} else {
+					$("form#dropTemplate").dropzone({
+						maxFilesize: 10,
+						uploadMultiple: true,
+						thumbnailWidth: 200,
+						thumbnailHeight: 200,
+						thumbnailMethod: "contain",
+						addRemoveLinks: true,
+						init: function () {
+							this.on("addedfile", function (file) {
+								console.log(rekanan_id, berkas_id, desc);
+								var file = file;
+								var countFile = this.files.length;
 
-					return true;
-				}),
-					this.on("thumbnail", function (file, dataUrl) {
-						// $(".dz-image")
-						// 	.last()
-						// 	.find("img")
-						// 	.attr({ width: "100%", height: "100%" });
-						// $(".dz-image").css({ "border-radius": "inherit" });
-						// $(".dz-image").parent().css({ margin: "0" });
-						// $(".dz-image").parent().parent().css({ padding: "0" });
-					}),
-					this.on("success", function (file) {
-						// $(".dz-image").css({ width: "100%", height: "100%" });
+								if (this.files.length == 0) {
+									alert("file tidak ditemukan");
+									return false;
+								} else {
+								}
 
-						var ext = checkFileExt(file.name); // Get extension
-						var newimage = "";
+								var data = new FormData();
+								for (var i = 0; i < countFile; i++) {
+									data.append("imageFile", this.files[i]);
+								}
+								data.append("rekanan_id", rekanan_id);
+								data.append("berkas_id", berkas_id);
+								data.append("desc", desc);
+								// console.log(JSON.stringify(data));
 
-						// Check extension
-						if (ext != "png" && ext != "jpg" && ext != "jpeg") {
-							newimage = base_url + "assets/img/icons/pdf_file.png"; // default image path
-						}
-						// this.createThumbnailFromUrl(file, newimage);
-					}),
-					this.on("error", function (file, errormessage, xhr) {
-						if (xhr) {
-							var response = JSON.parse(xhr.responseText);
-							alert(response.message);
-						}
-					}),
-					this.on("removedfile", function (file) {
-						// console.log(currentFile);
+								var options = {};
+								options.url =
+									base_url + "functions/Form_app_func/uploadTemplateTemp";
+								options.type = "POST";
+								options.data = data;
+								options.contentType = false;
+								options.processData = false;
+								options.dataType = "json";
+								options.responseType = "json";
+								options.success = function (result) {
+									// var p = "<?= base_url(); ?>" + result.path;
+									// console.log(JSON.stringify(result.imgName));
+
+									var elmnt = document.createElement("span");
+									var node = document.createTextNode(result.path);
+									var content = document.getElementById("uploadTemplBerkas");
+									var css = document.createElement("style");
+									css.type = "text/css";
+									var styles = "span {display:none}";
+
+									if (css.styleSheet) css.styleSheet.cssText = styles;
+									else css.appendChild(document.createTextNode(styles));
+
+									elmnt.setAttribute("id", "tempPathSpan" + result.filecount);
+									elmnt.setAttribute("class", "path-container");
+									elmnt.setAttribute("fpath", result.path);
+									elmnt.setAttribute("fname", result.fileName);
+									elmnt.setAttribute("berkas", result.berkas_id);
+									elmnt.setAttribute("queue", result.filecount);
+									elmnt.appendChild(node);
+									elmnt.appendChild(css);
+									content.appendChild(elmnt);
+									$("#dropBerkas").css({ opacity: "1" });
+									// console.log(result.berkas_id);
+									$("#templateOptionContainer")
+										.find("input[type=radio][name=inlineRadioOptions]")
+										.prop("disabled", true);
+								};
+								options.error = function (err) {
+									alert(JSON.stringify(err));
+									console.log(JSON.stringify(err));
+								};
+								$.ajax(options);
+
+								return true;
+							}),
+								this.on("thumbnail", function (file, dataUrl) {
+									// $(".dz-image").parent().css({ margin: "0" });
+									// $(".dz-image").parent().parent().css({ padding: "0" });
+								}),
+								this.on("success", function (file) {
+									// $(".dz-image").css({ width: "100%", height: "100%" });
+									var fileExt = file.name.replace(/(?:[\s.](?![^.]+$))+/g, "_");
+									if (this.getQueuedFiles().length > 0) {
+										this.processQueue();
+									} else {
+										// console.log(file);
+										var $preview = $(file.previewElement).find("img");
+										console.log($preview);
+
+										var ext = checkFileExt(file.name); // Get extension
+										var newimage = "";
+
+										// Check extension
+										if (ext != "png" && ext != "jpg" && ext != "jpeg") {
+											if (ext == "pdf") {
+												newimage = base_url + "assets/img/icons/pdf_file.png"; // default image path
+											} else if (
+												ext.indexOf("doc") != -1 ||
+												ext.indexOf("docx") != -1
+											) {
+												newimage = base_url + "assets/img/icons/doc_file.png"; // default image path
+												// $(file.previewElement).find(".dz-image img").attr("src", "/Content/Images/word.png");
+											} else if (
+												ext.indexOf("xls") != -1 ||
+												ext.indexOf("xlsx") != -1
+											) {
+												newimage = base_url + "assets/img/icons/xls_file.png"; // default image path
+												// $(file.previewElement).find(".dz-image img").attr("src", "/Content/Images/excel.png");
+											}
+											$(file.previewElement)
+												.find(".dz-image img")
+												.attr("src", newimage);
+										}
+
+										$(".dz-image")
+											.find("img")
+											.attr({
+												width: "100%",
+												height: "100%",
+												display: "block",
+											});
+										$(".dz-details").find("span").css({ display: "block" });
+
+										if ($("#templateErr").hasClass("d-none")) {
+											//
+										} else {
+											$("#templateErr").addClass("d-none");
+										}
+									}
+									// this.createThumbnailFromUrl(file, newimage);
+								}),
+								this.on("error", function (file, errormessage, xhr) {
+									if (xhr) {
+										var response = JSON.parse(xhr.responseText);
+										alert(response.message);
+									}
+								}),
+								this.on("removedfile", function (file) {
+									// console.log(currentFile);
+									// var currentFile = file.name.replace(/ /g, "_");
+									var currentFile = file.name.replace(
+										/(?:[\s.](?![^.]+$))+/g,
+										"_"
+									);
+									// console.log(currentFile);
+
+									$.each($(".path-container"), function (index) {
+										var fileUploaded = $(this).attr("fName");
+										// console.log(fileUploaded + ' \ ' + currentFile);
+										if (fileUploaded == currentFile) {
+											var currentPath = $(this).attr("fPath");
+											$.ajax({
+												type: "POST",
+												dataType: "json",
+												url:
+													base_url +
+													"functions/Form_app_func/removeTemplBerkas",
+												data: {
+													currentFile: currentFile,
+													currentPath: currentPath,
+													requested: 2,
+												},
+												success: function (data) {
+													console.log(index);
+													//document.getElementById("tempPathSpan").remove();
+													//alert(JSON.stringify(data));
+												},
+												error: function (data) {
+													alert(JSON.stringify(data));
+													//alert(2);
+												},
+											});
+											$(this).remove();
+										}
+									});
+									// if ($(".path-container").length == 0) {
+									// 	$('#templateOptionContainer').find('input[type=radio][name=inlineRadioOptions]').prop("disabled", false);
+									// }
+								});
+						},
 					});
-			},
+				}
+			} else {
+				// console.log(rekanan_id, berkas_id, desc);
+			}
+		});
+
+		$("#saveUploadTemplBerkas").on("click", function () {
+			var berkas_id = $(this).attr("berkas_id");
+			var file_path = "";
+			var file_name = "";
+			var berkas_name = $(this).attr("desc");
+			var url = "";
+			var err = "";
+			// console.log(rekanan_id);
+
+			if ($(this).parent().parent().find(".path-container").length) {
+				$.each($(".path-container"), function () {
+					if ($(this).length) {
+						// var body = '<p>Yakin untuk meny</p>';
+						// var btn =
+						// 	'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+						//   	'<button class="btn btn-primary" id="saveTemplBerkas" ype="button" berkas_id="' +
+						// 	berkas_id +
+						// 	'" desc="' + desc + '" >Oke</button>';
+
+						// $('#uploadConfirmModal').modal('show');
+						// console.log($(this).attr("fpath") + $(this).attr("fname"));
+						file_path = $(this).attr("fpath");
+						file_name = $(this).attr("fname");
+						url = file_path + file_name;
+						// console.log(url);
+						$.ajax({
+							type: "POST",
+							dataType: "json",
+							url: base_url + "functions/Form_app_func/saveBerkasTemplate",
+							data: {
+								rekanan_id: rekanan_id,
+								rekanan_nama: rekanan_nama,
+								berkas_id: berkas_id,
+								berkas_name: berkas_name,
+								file_path: file_path,
+								file_name: file_name,
+								url: url,
+							},
+							success: function (data) {
+								//document.getElementById("tempPathSpan").remove();
+								console.log(JSON.stringify(data));
+							},
+							error: function (data) {
+								alert(JSON.stringify(data));
+								//alert(2);
+							},
+						});
+					} else {
+						// alert("Data tidak ditemukan");
+					}
+				});
+			} else {
+				// console.log("err");
+				err = "File belum diupload!";
+				$("#templateErr").html(err);
+				$("#templateErr").removeClass("d-none");
+			}
+			// alert(1201);
 		});
 	}
 
@@ -2478,13 +2901,13 @@
 		var reg_id = window.location.hash.slice(1);
 
 		var title = "Upload" + " " + desc;
-		var html = '<div class="position-relative image-file" id="uploadImage">';
+		var html = '<div class="position-relative h-100" id="uploadImage">';
 		html += "";
 		html +=
 			'<form action="' +
 			base_url +
 			"functions/Form_app_func/uploadBerkas" +
-			'" class="dropzone" id="dropBerkas" berkas_id="' +
+			'" class="dropzone h-100" id="dropBerkas" berkas_id="' +
 			berkas_id +
 			'" reg_id="' +
 			reg_id +

@@ -88,48 +88,101 @@ class M_form_application extends CI_Model
 
         $search_condition = "";
         if (isset($reg_id) && !empty($reg_id)) {
-            $search_condition = "AND X.REG_ID = " . ($reg_id) . "";
+            $search_condition = "AND A.REG_ID = '" . ($reg_id) . "'";
         }
         
         $sql = "SELECT
-                    X.*,
-                    NVL(Y.REG_ID,'') AS REG_BERKAS
+                    X.RNUM, 
+                    X.MEDREC, 
+                    X.PASIEN, 
+                    X.NAMA_DEPT, 
+                    X.NAMA_DR, 
+                    X.TGL_MASUK, 
+                    X.REKANAN_NAMA, 
+                    X.REG_ID,
+                    NVL(Y.TRANS_ID, 'N') AS REG_BERKAS, 
+                    NVL(LISTAGG(Z.BERKAS_ID, ',') WITHIN GROUP (ORDER BY Y.TRANS_ID), 'N') AS LIST_REG,
+                    NVL(CASE WHEN V.REKANAN_ID = X.REKANAN_ID THEN V.LIST_TEMPL END, 'N') AS LIST_REK_TEMPL,
+                    (
+                        SELECT
+                            NVL(LISTAGG(X1.BERKAS_ID, ',') WITHIN GROUP (ORDER BY X1.REKANAN_ID), 'N') 
+                        FROM
+                            EDP_MANAGER.DT_BERKAS_TEMPLATE X1
+                        WHERE 
+                            X1.REKANAN_ID = 'DEFAULT'
+                        GROUP BY X1.REKANAN_ID
+                    ) AS LIST_DEF_TEMPL
                 FROM 
                     (
-                    SELECT
-                        ROW_NUMBER() OVER (ORDER BY A.TGL_MASUK ASC) AS RNUM,
-                        SUBSTR(A.MR, 4) AS MEDREC,
-                        SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
-                        A.RUANG_ID,
-                        C.NAMA_DEPT,
-                        E.NAMA_DR,
-                        TO_CHAR(A.TGL_MASUK, 'DD.MM.RRRR') AS TGL_MASUK,
-                        F.REKANAN_NAMA,
-                        A.REG_ID
-                    FROM 
-                        HIS_MANAGER.MS_REG A, 
-                        HIS_MANAGER.MS_RUANG B,
-                        HIS_MANAGER.MS_HIS_DEPT C,
-                        HIS_MANAGER.MS_MEDREC D,
-                        HIS_MANAGER.MS_HIS_DOKTER E,
-                        HIS_MANAGER.MS_REKANAN F
-                    WHERE 
-                        A.MR = B.MR 
-                        AND A.REG_ID = B.REG_ID 
-                        AND A.RUANG_ID = B.RUANG_ID
-                        AND B.DEPT_ID = C.DEPT_ID
-                        AND A.MR = D.MR
-                        AND A.DOKTER_ID = E.DOKTER_ID
-                        AND A.REKANAN_ID = F.REKANAN_ID
-                        AND A.TGL_KELUAR IS NULL 
-                        AND A.DONE_STATUS <> '03' 
-                        AND (D.NAMA LIKE UPPER('" . $keyword . "'||'%') OR SUBSTR(A.MR, 4) LIKE UPPER('" . $keyword . "'||'%'))
+                        SELECT
+                            ROW_NUMBER() OVER (ORDER BY A.TGL_MASUK ASC) AS RNUM,
+                            SUBSTR(A.MR, 4) AS MEDREC,
+                            SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
+                            A.RUANG_ID,
+                            C.NAMA_DEPT,
+                            E.NAMA_DR,
+                            TO_CHAR(A.TGL_MASUK, 'DD.MM.RRRR') AS TGL_MASUK,
+                            A.REKANAN_ID,
+                            F.REKANAN_NAMA,
+                            A.REG_ID
+                        FROM 
+                            HIS_MANAGER.MS_REG A, 
+                            HIS_MANAGER.MS_RUANG B,
+                            HIS_MANAGER.MS_HIS_DEPT C,
+                            HIS_MANAGER.MS_MEDREC D,
+                            HIS_MANAGER.MS_HIS_DOKTER E,
+                            HIS_MANAGER.MS_REKANAN F
+                        WHERE 
+                            A.MR = B.MR 
+                            AND A.REG_ID = B.REG_ID 
+                            AND A.RUANG_ID = B.RUANG_ID
+                            AND B.DEPT_ID = C.DEPT_ID
+                            AND A.MR = D.MR
+                            AND A.DOKTER_ID = E.DOKTER_ID
+                            AND A.REKANAN_ID = F.REKANAN_ID
+                            AND A.TGL_KELUAR IS NULL 
+                            AND A.DONE_STATUS <> '03'
+                            AND (D.NAMA LIKE UPPER('" . $keyword . "'||'%') OR SUBSTR(A.MR, 4) LIKE UPPER('" . $keyword . "'||'%'))
+                            " . $search_condition . "
+                        GROUP BY 
+                            SUBSTR(A.MR, 4),
+                            A.TGL_MASUK,
+                            D.NAMA,
+                            A.RUANG_ID,
+                            C.NAMA_DEPT,
+                            E.NAMA_DR,
+                            TO_CHAR(A.TGL_MASUK, 'DD.MM.RRRR'),
+                            A.REKANAN_ID,
+                            F.REKANAN_NAMA,
+                            A.REG_ID
                     ) X, 
-                    EDP_MANAGER.MS_REG_BERKAS Y
+                    EDP_MANAGER.MS_REG_BERKAS Y,
+                    EDP_MANAGER.DT_REG_BERKAS Z,
+                    (
+                        SELECT
+                            X1.REKANAN_ID, LISTAGG(X1.BERKAS_ID, ',') WITHIN GROUP (ORDER BY X1.REKANAN_ID) AS LIST_TEMPL
+                        FROM
+                            EDP_MANAGER.DT_BERKAS_TEMPLATE X1
+                        GROUP BY X1.REKANAN_ID
+                    ) V
                 WHERE
                     X.REG_ID = Y.REG_ID (+)
+                    AND Y.TRANS_ID = Z.TRANS_ID (+)
+                    AND X.REKANAN_ID = V.REKANAN_ID (+)
                     " . $page_condition . "
-                    " . $search_condition . "
+                GROUP BY 
+                    X.RNUM, 
+                    X.MEDREC, 
+                    X.PASIEN, 
+                    X.NAMA_DEPT, 
+                    X.NAMA_DR, 
+                    X.TGL_MASUK, 
+                    X.REKANAN_NAMA, 
+                    X.REG_ID, 
+                    Y.TRANS_ID,
+                    X.REKANAN_ID,
+                    V.REKANAN_ID,
+                    V.LIST_TEMPL
                 ORDER BY X.RNUM ASC
             ";
 
@@ -149,7 +202,7 @@ class M_form_application extends CI_Model
                         SUBSTR(A.MR, 4) AS MEDREC,
                         A.MR,
                         SUBSTR(D.NAMA, 0, LENGTH(D.NAMA) -3) AS PASIEN,
-                        D.TGL_LAHIR,
+                        TO_CHAR(D.TGL_LAHIR,'DD.MM.RRRR') AS TGL_LAHIR,
                         ROUND((TRUNC (SYSDATE - D.TGL_LAHIR) / 365), 0)||' Thn ' ||  ROUND((TRUNC ((SYSDATE - D.TGL_LAHIR) / 365)/12), 0)|| ' Bln' UMUR,
                         A.RUANG_ID,
                         C.NAMA_DEPT,
@@ -215,18 +268,46 @@ class M_form_application extends CI_Model
                                 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = (
                                     SELECT B1.REKANAN_ID FROM MS_REG B1 
                                     WHERE B1.REG_ID = '" . $reg_id . "'
+                                    AND A1.SHOW_ITEM = '1'
                                     )
                                 ) > 0 THEN 'Y' 
                             ELSE 
                                 CASE WHEN (
                                 SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
                                 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = 'DEFAULT'
+                                AND A1.SHOW_ITEM = '1'
                                 ) > 0 THEN 'Y' ELSE 'N' END
                             END
-                    ELSE 'N' END AS UPLOADED, 
+                    ELSE 'N' END AS UPLOADED,                     
+                    CASE WHEN A.TEMPLATE = 'Y'
+                        THEN
+                            CASE WHEN 
+                                (
+                                SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
+                                WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = 'DEFAULT'
+                                AND A1.SHOW_ITEM = '1'
+                                ) > 0 THEN 'Y' 
+                            ELSE 'N'
+                            END
+                    ELSE 'N' END AS UPLOADED_DEFAULT,
+                    CASE WHEN A.TEMPLATE = 'Y'
+                        THEN
+                            CASE WHEN 
+                                (
+                                SELECT COUNT(*) FROM EDP_MANAGER.DT_BERKAS_TEMPLATE A1 
+                                WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.REKANAN_ID = (
+                                    SELECT B1.REKANAN_ID FROM MS_REG B1 
+                                    WHERE B1.REG_ID = '" . $reg_id . "'
+                                    )
+                                    AND A1.SHOW_ITEM = '1'
+                                ) > 0 THEN 'Y'
+                            ELSE 'N' 
+                            END
+                    ELSE 'N' END AS UPLOADED_REKANAN, 
                     CASE WHEN (
                         SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
                         EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
+                        AND B1.SHOW_ITEM = '1'
                     ) > 0 THEN 'Y' ELSE 'N' END AS REGISTERED
                 FROM
                     EDP_MANAGER.MS_BERKAS A
@@ -323,6 +404,46 @@ class M_form_application extends CI_Model
                         '" . $created_by . "',
                         '" . $show_item . "',
                         '" . $status . "'
+                    )
+                ";
+        $query = $this->oracle_db->query($sql);
+    }
+
+    function saveDtBerkasTemplate(
+        $berkas_id,
+        $rekanan_id,
+        $tittle,
+        $file_path,
+        $file_name,
+        $url,
+        $created_date,
+        $created_by,
+        $show_item
+    )
+    {
+        $sql = "INSERT INTO  EDP_MANAGER.DT_BERKAS_TEMPLATE
+                    ( 
+                        BERKAS_ID, 
+                        REKANAN_ID,
+                        TITTLE,
+                        FILE_PATH,
+                        FILE_NAME,
+                        CREATED_DATE,
+                        CREATED_BY,
+                        URL,
+                        SHOW_ITEM
+                    )
+                VALUES
+                    (
+                        '" . $berkas_id . "',
+                        '" . $rekanan_id . "',
+                        '" . $tittle . "',
+                        '" . $file_path . "',
+                        '" . $file_name . "',
+                        SYSDATE,
+                        '" . $created_by . "',
+                        '" . $url . "',
+                        '" . $show_item . "'
                     )
                 ";
         $query = $this->oracle_db->query($sql);

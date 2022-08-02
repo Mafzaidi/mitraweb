@@ -189,7 +189,7 @@ class M_ora_medrec extends CI_Model
                         A.DISERAHKAN_OLEH,
                         TO_CHAR(A.TGL_JANJI_KEMBALI, 'DD.MM.RRRR') AS TGL_JANJI_KEMBALI,
                         A.PETUGAS_PENERIMA,
-                        A.TGL_AKHIR_KEMBALI,
+                        TO_CHAR(A.TGL_AKHIR_KEMBALI, 'DD.MM.RRRR') AS TGL_AKHIR_KEMBALI,
                         A.CATATAN,
                         A.DIKEMBALIKAN_OLEH,
                         A.TRANS_PINJAM_MR,
