@@ -199,6 +199,11 @@
 	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		var allInputs = $(":input");
+		if (allInputs.hasClass("input-auto-complete")) {
+			//activateRemoveBtn($(this));
+			alert(1);
+		}
 		// Dropzone.autoDiscover = false;
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
@@ -216,7 +221,7 @@
 				"#inputTxtSearchInpatient"
 			);
 			// console.log(inputSearch.nextAll().length);
-			activateRemoveBtn(inputSearch);
+			// activateRemoveBtn(inputSearch);
 			if (window.location.hash) {
 				var regid = window.location.hash.slice(1);
 				loaderFunction();
@@ -1223,9 +1228,8 @@
 			trans_id
 		);
 	});
-	
+
 	function initMrReturn() {
-	
 		$("#mrReturn-pagination").on("click", "a", function (e) {
 			e.preventDefault();
 			var pageno = $(this).attr("data-ci-pagination-page");
@@ -1239,7 +1243,7 @@
 			var to_date = "";
 			var keyword = "";
 			var trans_id = "";
-	
+
 			if (pageselect !== "" && pageselect !== undefined) {
 				if (pageno !== "" && pageno !== undefined) {
 					page_start = (pageno - 1) * pageselect + 1;
@@ -1251,7 +1255,7 @@
 			} else {
 				per_page = "";
 			}
-	
+
 			loadPinjamMR(
 				page_start,
 				per_page,
@@ -1828,7 +1832,7 @@
 				from_date: from_date,
 				to_date: to_date,
 				keyword: keyword,
-				trans_id: trans_id
+				trans_id: trans_id,
 			},
 			success: function (data) {
 				// alert(JSON.stringify(data));
@@ -2245,7 +2249,6 @@
 					// 	'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
 					// dropList += data.dropmenu[i].keterangan + "</a>";
 
-					
 					if (data.listBerkas[i].template == "Y") {
 						var active = "";
 						if (data.listBerkas[i].uploaded == "N") {
@@ -2254,41 +2257,49 @@
 						berkasCheck += '<div class="row py-3">';
 
 						berkasCheck += '<div class="col-sm-12 col-md-5 col-lg-4">';
-						
+
 						berkasCheck +=
 							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
 							data.listBerkas[i].keterangan +
 							"</label>";
 
 						berkasCheck += "</div>"; // end of div col-sm-12
-						
+
 						berkasCheck += '<div class="col-sm-12 col-md-7 col-lg-8">';
 
 						berkasCheck += '<div class="row">';
-						berkasCheck += '<div class="col d-flex justify-content-end fs-075rem">';
-						berkasCheck += '<label class="m-0 text-muted font-weight-light" for="formGroupExampleInput">Template</label>';
-						berkasCheck += '</div>'; // end of div col
-						berkasCheck += '</div>'; // end of div row
+						berkasCheck +=
+							'<div class="col d-flex justify-content-end fs-075rem">';
+						berkasCheck +=
+							'<label class="m-0 text-muted font-weight-light" for="formGroupExampleInput">Template</label>';
+						berkasCheck += "</div>"; // end of div col
+						berkasCheck += "</div>"; // end of div row
 
-						berkasCheck += '<div class="form-inline d-flex justify-content-end py-1">';
-						
-						berkasCheck +='<button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem btn-upload-template" rekanan_id="' + 
-							data.rekanan_id + '" berkas_id="' + 
-							data.listBerkas[i].berkas_id + '" desc="' + data.listBerkas[i].keterangan + '"><i class="fas fa-upload"></i>&nbsp;Upload</button>';
-						berkasCheck +='<button type="button" class="btn btn-success btn-sm fs-075rem" ' + active + '><i class="fas fa-download"></i>&nbsp;Download</button>';
+						berkasCheck +=
+							'<div class="form-inline d-flex justify-content-end py-1">';
+
+						berkasCheck +=
+							'<button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem btn-upload-template" rekanan_id="' +
+							data.rekanan_id +
+							'" berkas_id="' +
+							data.listBerkas[i].berkas_id +
+							'" desc="' +
+							data.listBerkas[i].keterangan +
+							'"><i class="fas fa-upload"></i>&nbsp;Upload</button>';
+						berkasCheck +=
+							'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
+							active +
+							'><i class="fas fa-download"></i>&nbsp;Download</button>';
 
 						berkasCheck += "</div>"; // end of div form-check-inline
-						
-						berkasCheck += "</div>"; // end of div col-sm-12
 
+						berkasCheck += "</div>"; // end of div col-sm-12
 
 						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
 						berkasCheck += "</div>"; // end of div col-sm-12
 
 						berkasCheck += "</div>"; // end of div row
-
 					} else {
-
 						var check = "";
 						if (data.listBerkas[i].registered == "Y") {
 							check = "checked";
@@ -2305,7 +2316,7 @@
 
 						berkasCheck +=
 							'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
-						
+
 						berkasCheck +=
 							'<div class="form-check form-check-inline d-flex justify-content-end py-1">';
 						berkasCheck +=
@@ -2336,44 +2347,52 @@
 		});
 	}
 
-	function uploadTemplateBerkas () {
+	function uploadTemplateBerkas() {
 		$(".btn-upload-template").on("click", function () {
 			Dropzone.autoDiscover = false;
 			var berkas_id = $(this).attr("berkas_id");
 			var rekanan_id = $(this).attr("rekanan_id");
 			// var desc = $(this).attr("desc");
-			var desc = $(this).parent().parent().parent().find(".berkas-title").html();
+			var desc = $(this)
+				.parent()
+				.parent()
+				.parent()
+				.find(".berkas-title")
+				.html();
 
 			var title = "Upload Template" + " " + desc;
 
 			var html = '<div class="form-row py-3">';
-				html += '<div class="col-sm-12 col-md-6 col-lg-6">';
-				html += '<div class="form-check form-check-inline">' +
-							'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
-							'<label class="form-check-label" for="inlineRadio1">1</label>' +
-						'</div>';
-				html += '</div>'; // eof col
-				html += '<div class="col-sm-12 col-md-6 col-lg-6">';
-				html += '<div class="form-check form-check-inline">' +
-							'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
-							'<label class="form-check-label" for="inlineRadio1">1</label>' +
-						'</div>';
-				html += '</div>'; // eof col
-				html += '</div>'; // eof form-row
+			html += '<div class="col-sm-12 col-md-6 col-lg-6">';
+			html +=
+				'<div class="form-check form-check-inline">' +
+				'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
+				'<label class="form-check-label" for="inlineRadio1">1</label>' +
+				"</div>";
+			html += "</div>"; // eof col
+			html += '<div class="col-sm-12 col-md-6 col-lg-6">';
+			html +=
+				'<div class="form-check form-check-inline">' +
+				'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">' +
+				'<label class="form-check-label" for="inlineRadio1">1</label>' +
+				"</div>";
+			html += "</div>"; // eof col
+			html += "</div>"; // eof form-row
 
-				html += '<div class="position-relative image-file" id="uploadTemplBerkas">';
-				html +=
-					'<form action="' +
-					base_url +
-					"functions/Form_app_func/uploadTemplate" +
-					'" class="dropzone" id="dropTemplate" berkas_id="' +
-					berkas_id +
-					'" style="opacity:0.7; border: none;"></form>';
-				html += "</div>";
-				var btn =
-					'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
-					berkas_id +
-					'">Oke</button>';
+			html +=
+				'<div class="position-relative image-file" id="uploadTemplBerkas">';
+			html +=
+				'<form action="' +
+				base_url +
+				"functions/Form_app_func/uploadTemplate" +
+				'" class="dropzone" id="dropTemplate" berkas_id="' +
+				berkas_id +
+				'" style="opacity:0.7; border: none;"></form>';
+			html += "</div>";
+			var btn =
+				'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
+				berkas_id +
+				'">Oke</button>';
 
 			$("#myDynamicModal .modal-footer").html(btn);
 			$("#myDynamicModal .modal-body").html(html);
@@ -2382,7 +2401,7 @@
 			dropZoneTemplate(berkas_id, desc);
 			console.log(berkas_id + "," + rekanan_id + "," + desc);
 		});
-	};
+	}
 
 	function dropZoneTemplate(berkas_id, desc) {
 		$("form#dropTemplate").dropzone({
@@ -2412,40 +2431,39 @@
 
 					return true;
 				}),
-				this.on("thumbnail", function (file, dataUrl) {
-					// $(".dz-image")
-					// 	.last()
-					// 	.find("img")
-					// 	.attr({ width: "100%", height: "100%" });
-					// $(".dz-image").css({ "border-radius": "inherit" });
-					// $(".dz-image").parent().css({ margin: "0" });
-					// $(".dz-image").parent().parent().css({ padding: "0" });
-				}),
-				this.on("success", function (file) {
-					// $(".dz-image").css({ width: "100%", height: "100%" });
+					this.on("thumbnail", function (file, dataUrl) {
+						// $(".dz-image")
+						// 	.last()
+						// 	.find("img")
+						// 	.attr({ width: "100%", height: "100%" });
+						// $(".dz-image").css({ "border-radius": "inherit" });
+						// $(".dz-image").parent().css({ margin: "0" });
+						// $(".dz-image").parent().parent().css({ padding: "0" });
+					}),
+					this.on("success", function (file) {
+						// $(".dz-image").css({ width: "100%", height: "100%" });
 
-					var ext = checkFileExt(file.name); // Get extension
-					var newimage = "";
+						var ext = checkFileExt(file.name); // Get extension
+						var newimage = "";
 
-					// Check extension
-					if (ext != "png" && ext != "jpg" && ext != "jpeg") {
-						newimage = base_url + "assets/img/icons/pdf_file.png"; // default image path
-					}
-					// this.createThumbnailFromUrl(file, newimage);
-				}),
-				this.on("error", function (file, errormessage, xhr) {
-					if (xhr) {
-						var response = JSON.parse(xhr.responseText);
-						alert(response.message);
-					}
-				}),
-				this.on("removedfile", function (file) {
-					// console.log(currentFile);
-
-				});
+						// Check extension
+						if (ext != "png" && ext != "jpg" && ext != "jpeg") {
+							newimage = base_url + "assets/img/icons/pdf_file.png"; // default image path
+						}
+						// this.createThumbnailFromUrl(file, newimage);
+					}),
+					this.on("error", function (file, errormessage, xhr) {
+						if (xhr) {
+							var response = JSON.parse(xhr.responseText);
+							alert(response.message);
+						}
+					}),
+					this.on("removedfile", function (file) {
+						// console.log(currentFile);
+					});
 			},
 		});
-	};
+	}
 
 	$("#btnAddBerkas").on("click", function () {
 		$(this).toggleClass("active");

@@ -24,7 +24,7 @@
                             <span class="input-group-text bg-white border-right-0 rounded-left-pill search-icon" id="addon-wrapping"></span>
                         </div> -->
                         <i class="fas fa-search inner-fa-icon"></i>
-                        <input type="text" class="form-control rounded-pill pl-5" placeholder="Cari nama atau medrec pasien..." id="inputTxtSearchInpatient" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <input type="text" class="form-control rounded-pill pl-5 input-auto-complete" placeholder="Cari nama atau medrec pasien..." id="inputTxtSearchInpatient" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         <!-- <div class="input-group-append">
                             <button class="btn btn-outline-secondary border-gray-1 rounded-right" type="button" id="button-addon2">&nbsp;Cari&nbsp;</button>
                         </div> -->
