@@ -40,6 +40,13 @@ class Form_app_func extends CI_Controller
                                     "tgl_masuk"=>$row->TGL_MASUK,
                                     "rekanan_nama"=>$row->REKANAN_NAMA,
                                     "reg_id"=>$row->REG_ID,
+                                    "KTP" => $row->B1,
+                                    "LMA" => $row->B2,
+                                    "SP" => $row->B3,
+                                    "SPSK" => $row->B4,
+                                    "SPR" => $row->B5,
+                                    "SJ" => $row->B6,
+                                    "LL" => $row->B7,
                                     "reg_berkas"=>$row->REG_BERKAS
                                 );
             }
@@ -160,6 +167,45 @@ class Form_app_func extends CI_Controller
             
         echo json_encode(array("check" => $check));
         }
+    }
+
+    function uploadTemplateTemp(){
+        if((isset($_POST['rekanan_id']) && $_POST['rekanan_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
+            $rekanan_id = $_POST['rekanan_id'];
+            $rekanan_url = $_POST['rekanan_id'].'/';
+			$berkas_id = $_POST['berkas_id'];
+            $berkas_url = $_POST['berkas_id'].'/';
+		} else {
+			$rekanan_id = '';
+            $berkas_id = '';
+		}
+		
+		if (!is_dir('assets/upload/temp/'.$rekanan_url.$berkas_url)) {
+			mkdir('assets/upload/temp/'.$rekanan_url.$berkas_url, 0777, TRUE);
+		}
+		
+		$config['upload_path'] = 'assets/upload/temp/'.$rekanan_url.$berkas_url;
+		$config['allowed_types'] = 'gif|jpg|png|pdf|doc|xls|docx|xlsx';
+
+		$this->load->library('upload', $config);
+		$this->upload->do_upload('imageFile');
+		
+		$upload = $this->upload->data();		
+		$data['path'] = $config['upload_path'];
+		$data['imgUrl'] = 'assets/upload/temp/'.$upload['file_name'];
+        
+        $directory = 'assets/upload/temp/'.$rekanan_url.$berkas_url;
+        $filecount = 0;
+        $files = glob($directory . "*");
+        if ($files){
+            $filecount = count($files);
+        }
+
+        $data['filecount'] = $filecount;
+        $data['fileName'] = $upload['file_name'];
+        $data['rekanan_id'] = $rekanan_id;
+        $data['berkas_id'] = $berkas_id;
+		echo json_encode($data);
     }
 
     function uploadTemplate(){
@@ -408,24 +454,65 @@ class Form_app_func extends CI_Controller
 
         if(!empty($sess_id))
         {          
-            $rekanan_id = $this->input->post('rekanan_id');
-            $berkas_id = $this->input->post('berkas_id');
-            $file_path = $this->input->post('file_path');
-            $file_name = $this->input->post('file_name');
-            $url = $this->input->post('url');
+            if((isset($_POST['rekanan_id']) && $_POST['rekanan_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
+                $rekanan_id = $this->input->post('rekanan_id');
+                $rekanan_nama = $this->input->post('rekanan_nama');
+                $berkas_id = $this->input->post('berkas_id');
+                $berkas_name = $this->input->post('berkas_name');
+                $temp_file_path = $this->input->post('file_path');
+                $temp_file_name = $this->input->post('file_name');
+                $temp_url = $this->input->post('url');
+                $rekanan_url = $rekanan_id.'/';
+                $berkas_url = $berkas_id.'/';
+                $tittle = "TEMPLATE ".$berkas_name." ".$rekanan_nama;
+                $desc = $this->input->post('desc');
 
-            $tittle = $this->input->post('tittle');
-            $desc = $this->input->post('desc');
+                $source_path = $temp_url;
+                $destination_path =  'assets/upload/templates/'.$rekanan_url.$berkas_url;
+                
+                $show_item = '1';
+            } 
+            
+            if (!is_dir('assets/upload/templates/'.$rekanan_url.$berkas_url)) {
+                mkdir('assets/upload/templates/'.$rekanan_url.$berkas_url, 0777, TRUE);
+            }
 
-            $result = array(
-                "rekanan_id" => $rekanan_id,
-                "berkas_id"=> $berkas_id,
-                "tittle"=> $tittle,
-                "desc"=> $desc,
-                "file_path"=> $file_path,
-                "file_name"=> $file_name,
-                "url"=> $url
-            );
+            if(!copy($source_path, $destination_path.$temp_file_name)) {
+                $result = array(
+                    "err" => "copy error!"
+                );                
+            }  
+            else {  
+                $file_path = $destination_path;
+                $url = $destination_path.$temp_file_name;
+                $file_name = $temp_file_name;
+                $created_date = "SYSDATE";
+                $created_by = $this->session->userdata('user_id');
+
+                $insert = $this->mfa->saveDtBerkasTemplate(
+                    $berkas_id,
+                    $rekanan_id,
+                    $tittle,
+                    $file_path,
+                    $file_name,
+                    $url,
+                    $created_date,
+                    $created_by,
+                    $show_item
+                );
+                $result = array(
+                    "rekanan_id" => $rekanan_id,
+                    "rekanan_nama" => $rekanan_nama,
+                    "berkas_id"=> $berkas_id,
+                    "berkas_name"=> $berkas_name,
+                    "tittle"=> $tittle,
+                    "desc"=> $desc,
+                    "file_path"=> $file_path,
+                    "file_name"=> $file_name,
+                    "url"=> $url,
+                    "destinationPath" => $destination_path
+                );
+            } 
             
             $data = $result;
             echo json_encode($data);

@@ -199,6 +199,31 @@
 	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		// for handle multiple modals overlay
+		$('.modal').on('hidden.bs.modal', function(event) {
+			$(this).removeClass( 'fv-modal-stack' );
+			$('body').data( 'fv_open_modals', $('body').data( 'fv_open_modals' ) - 1 );
+		});
+	
+		$('.modal').on('shown.bs.modal', function (event) {
+			// keep track of the number of open modals
+			if ( typeof( $('body').data( 'fv_open_modals' ) ) == 'undefined' ) {
+				$('body').data( 'fv_open_modals', 0 );
+			}
+	
+			// if the z-index of this modal has been set, ignore.
+			if ($(this).hasClass('fv-modal-stack')) {
+				return;
+			}
+	
+			$(this).addClass('fv-modal-stack');
+			$('body').data('fv_open_modals', $('body').data('fv_open_modals' ) + 1 );
+			$(this).css('z-index', 1040 + (10 * $('body').data('fv_open_modals' )));
+			$('.modal-backdrop').not('.fv-modal-stack').css('z-index', 1039 + (10 * $('body').data('fv_open_modals')));
+			$('.modal-backdrop').not('fv-modal-stack').addClass('fv-modal-stack'); 
+	
+		}); 
+
 		// Dropzone.autoDiscover = false;
 		if (segments[6] !== "" && segments[6] == "poli-monitor") {
 		} else if (segments[6] !== "" && segments[6] == "report-mr-brw") {
@@ -2144,9 +2169,16 @@
 					} else {
 						oddEven = "odd-row";
 					}
+
+					var flag = "";
+					if (data.response[i].REG_BERKAS !== 'N') {
+						flag = ""
+					} else {
+						flag = "bg-danger-2"
+					}
 					tb +=
 						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
-						oddEven +
+						oddEven + ' ' + flag +
 						'">';
 
 					tb += '<div class="col-sm-12 col-md-9 tb-cell">';
@@ -2401,7 +2433,7 @@
 
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
-				console.log(JSON.stringify(data));
+				// console.log(JSON.stringify(data));
 				pageInit();
 				uploadTemplateBerkas();
 			},
@@ -2510,7 +2542,7 @@
 							'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
 						  	'<button class="btn btn-primary" id="saveUploadTemplBerkas" ype="button" berkas_id="' +
 							berkas_id +
-							'">Oke</button>';
+							'" desc="' + desc + '" >Oke</button>';
 
 					// if ($('input[type=radio][name=inlineRadioOptions]').is(':checked')) {
 					// 	alert(1);
@@ -2520,6 +2552,9 @@
 					$("#myDynamicModal .modal-footer").html(btn);
 					$("#myDynamicModal .modal-body").html(html);
 					$("#myDynamicModal .modal-title").html(title);
+					$('#myDynamicModal').modal({
+						backdrop: 'static'
+					  })
 					$("#myDynamicModal").modal("show");
 					dropZoneTemplate(berkas_id);	
 				},
@@ -2541,19 +2576,23 @@
 
 	function dropZoneTemplate(berkas_id) {
 		var rekanan_id ="";
+		var rekanan_nama = "";
 		var desc = "";
 		$('input[type=radio][name=inlineRadioOptions]').change(function() {
 			if (this.value == 'Default') {
 				$("#selectRekananTemplate").prop("disabled", true);
 				rekanan_id = "DEFAULT";
+				rekanan_nama = "DEFAULT";
 			}
 			else if (this.value == 'Pilih Rekanan') {
 				$("#selectRekananTemplate").prop("disabled", false);
 				rekanan_id = $("#selectRekananTemplate option").filter(':selected').val();
+				rekanan_nama = $("#selectRekananTemplate option").filter(':selected').text();
 			}
 			
 			$("#selectRekananTemplate").change(function() {
 				rekanan_id = $("#selectRekananTemplate option").filter(':selected').val();	
+				rekanan_nama = $("#selectRekananTemplate option").filter(':selected').text();
 			});
 
 			if ($('input[type=radio][name=inlineRadioOptions]').is(':checked')) {
@@ -2591,7 +2630,7 @@
 								// console.log(JSON.stringify(data));
 
 								var options = {};
-								options.url = base_url + "functions/Form_app_func/uploadTemplate";
+								options.url = base_url + "functions/Form_app_func/uploadTemplateTemp";
 								options.type = "POST";
 								options.data = data;
 								options.contentType = false;
@@ -2614,8 +2653,8 @@
 
 									elmnt.setAttribute("id", "tempPathSpan" + result.filecount);
 									elmnt.setAttribute("class", "path-container");
-									elmnt.setAttribute("fPath", result.path);
-									elmnt.setAttribute("fName", result.fileName);
+									elmnt.setAttribute("fpath", result.path);
+									elmnt.setAttribute("fname", result.fileName);
 									elmnt.setAttribute("berkas", result.berkas_id);
 									elmnt.setAttribute("queue", result.filecount);
 									elmnt.appendChild(node);
@@ -2731,40 +2770,51 @@
 
 		$("#saveUploadTemplBerkas").on("click", function () {
 			var berkas_id = $(this).attr("berkas_id");
+			var file_path = "";
+			var file_name = "";
+			var berkas_name = $(this).attr("desc");
 			var url = "";
 			var err = "";
-			console.log(rekanan_id);
+			// console.log(rekanan_id);
 
 			if ($(this).parent().parent().find(".path-container").length) {
 				$.each($(".path-container"), function () {
 					if ($(this).length) {
-						
-						// console.log($(this).attr("path") + $(this).attr("imgname"));
-						// file_path = $(this).attr("fPath");
-						// file_name = $(this).attr("fName");
-						// queue_item = $(this).attr("queue");
-						// url = file_path + file_name;
-						// $.ajax({
-						// 	type: "POST",
-						// 	dataType: "json",
-						// 	url: base_url + "functions/Form_app_func/saveBerkasDT",
-						// 	data: {
-						// 		trans_id: trans_id,
-						// 		berkas_id: berkas_id,
-						// 		queue_item: queue_item,
-						// 		file_path: file_path,
-						// 		file_name: file_name,
-						// 		url: url,
-						// 	},
-						// 	success: function (data) {
-						// 		//document.getElementById("tempPathSpan").remove();
-						// 		console.log(JSON.stringify(data));
-						// 	},
-						// 	error: function (data) {
-						// 		alert(JSON.stringify(data));
-						// 		//alert(2);
-						// 	},
-						// });
+						// var body = '<p>Yakin untuk meny</p>';
+						// var btn =
+						// 	'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+						//   	'<button class="btn btn-primary" id="saveTemplBerkas" ype="button" berkas_id="' +
+						// 	berkas_id +
+						// 	'" desc="' + desc + '" >Oke</button>';
+
+						// $('#uploadConfirmModal').modal('show');
+						// console.log($(this).attr("fpath") + $(this).attr("fname"));
+						file_path = $(this).attr("fpath");
+						file_name = $(this).attr("fname");
+						url = file_path + file_name;
+						// console.log(url);
+						$.ajax({
+							type: "POST",
+							dataType: "json",
+							url: base_url + "functions/Form_app_func/saveBerkasTemplate",
+							data: {
+								rekanan_id: rekanan_id,
+								rekanan_nama: rekanan_nama,
+								berkas_id: berkas_id,
+								berkas_name: berkas_name,
+								file_path: file_path,
+								file_name: file_name,
+								url: url,
+							},
+							success: function (data) {
+								//document.getElementById("tempPathSpan").remove();
+								console.log(JSON.stringify(data));
+							},
+							error: function (data) {
+								alert(JSON.stringify(data));
+								//alert(2);
+							},
+						});
 					} else {
 						// alert("Data tidak ditemukan");
 					}

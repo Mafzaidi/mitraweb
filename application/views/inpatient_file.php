@@ -161,7 +161,7 @@
     </div>       
 </div>  
 
-<!-- <div class="modal fade" id="uploadBerkasModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="myConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -172,13 +172,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="position-relative">
-                    <form action="<?=base_url('functions/Form_app_func/uploadBerkas');?>" class="dropzone" id="berkasDropzone"></form>
-                </div>
+                Test Modal
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Oke</button>
             </div>
         </div>
     </div>
-</div> -->
+</div>
