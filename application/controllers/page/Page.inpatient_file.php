@@ -20,17 +20,34 @@
     $tb = '';
     $nbsp = '';
 
+    function in_array_any($needles, $haystack) {
+        return !empty(array_intersect($needles, $haystack));
+    }
+
     foreach($rows as $inp) {
+
         $flag = "";
         if(strlen($inp->MEDREC) == 6) {
             $nbsp = '&nbsp;&nbsp;';
         } else {
             $nbsp = '&nbsp;';
         }
-        if ($inp->B6 == 'N'){
+        if ($inp->REG_BERKAS == 'N'){
             $flag = 'bg-danger-2';
         } else {
-            $flag = '';
+            $arr1 = explode(',',$inp->LIST_REG);
+            $arr2 = explode(',',$inp->HIGH_PRIORITY);
+            $arr3 = explode(',',$inp->MEDIUM_PRIORITY);
+            $arr4 = explode(',',$inp->LOW_PRIORITY);
+
+            if (in_array_any($arr2,$arr1)) {                
+                $flag = 'bg-warning-2';
+            } 
+            else if (in_array_any($arr3,$arr1)) {
+                $flag = 'bg-dizzy';
+            } else {
+                $flag = 'bg-danger-2';
+            }
         }
         $tb.= '<div class="row tb-row hover border-hover hover-event border-bottom ' . ($i%2 ? 'odd-row':'even-row') . " " . $flag .'">';
         $tb.= 

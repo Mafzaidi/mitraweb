@@ -95,6 +95,7 @@ class M_form_application extends CI_Model
                     X.RNUM, 
                     X.MEDREC, 
                     X.PASIEN, 
+                    X.RUANG_ID,
                     X.NAMA_DEPT, 
                     X.NAMA_DR, 
                     X.TGL_MASUK, 
@@ -102,6 +103,33 @@ class M_form_application extends CI_Model
                     X.REG_ID,
                     NVL(Y.TRANS_ID, 'N') AS REG_BERKAS, 
                     NVL(LISTAGG(Z.BERKAS_ID, ',') WITHIN GROUP (ORDER BY Y.TRANS_ID), 'N') AS LIST_REG,
+                    (
+                        SELECT
+                            NVL(LISTAGG(X1.BERKAS_ID, ',') WITHIN GROUP (ORDER BY X1.PRIORITY), 'N') 
+                        FROM
+                            EDP_MANAGER.MS_BERKAS X1
+                        WHERE 
+                            X1.PRIORITY = 'H'
+                        GROUP BY X1.PRIORITY
+                    ) AS HIGH_PRIORITY,
+                    (
+                        SELECT
+                            NVL(LISTAGG(X1.BERKAS_ID, ',') WITHIN GROUP (ORDER BY X1.PRIORITY), 'N') 
+                        FROM
+                            EDP_MANAGER.MS_BERKAS X1
+                        WHERE 
+                            X1.PRIORITY = 'M'
+                        GROUP BY X1.PRIORITY
+                    ) AS MEDIUM_PRIORITY,
+                    (
+                        SELECT
+                            NVL(LISTAGG(X1.BERKAS_ID, ',') WITHIN GROUP (ORDER BY X1.PRIORITY), 'N') 
+                        FROM
+                            EDP_MANAGER.MS_BERKAS X1
+                        WHERE 
+                            X1.PRIORITY = 'L'
+                        GROUP BY X1.PRIORITY
+                    ) AS LOW_PRIORITY,
                     NVL(CASE WHEN V.REKANAN_ID = X.REKANAN_ID THEN V.LIST_TEMPL END, 'N') AS LIST_REK_TEMPL,
                     (
                         SELECT
@@ -174,6 +202,7 @@ class M_form_application extends CI_Model
                     X.RNUM, 
                     X.MEDREC, 
                     X.PASIEN, 
+                    X.RUANG_ID,
                     X.NAMA_DEPT, 
                     X.NAMA_DR, 
                     X.TGL_MASUK, 
