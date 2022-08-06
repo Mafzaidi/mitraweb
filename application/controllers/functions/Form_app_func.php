@@ -40,14 +40,13 @@ class Form_app_func extends CI_Controller
                                     "tgl_masuk"=>$row->TGL_MASUK,
                                     "rekanan_nama"=>$row->REKANAN_NAMA,
                                     "reg_id"=>$row->REG_ID,
-                                    "KTP" => $row->B1,
-                                    "LMA" => $row->B2,
-                                    "SP" => $row->B3,
-                                    "SPSK" => $row->B4,
-                                    "SPR" => $row->B5,
-                                    "SJ" => $row->B6,
-                                    "LL" => $row->B7,
-                                    "reg_berkas"=>$row->REG_BERKAS
+                                    "reg_berkas" => $row->REG_BERKAS,
+                                    "list_reg" => $row->LIST_REG,
+                                    "high_priority" => $row->HIGH_PRIORITY,
+                                    "medium_priority" => $row->MEDIUM_PRIORITY,
+                                    "low_priority" => $row->LOW_PRIORITY,
+                                    "list_rek_templ" => $row->LIST_REK_TEMPL,
+                                    "list_def_templ" => $row->LIST_DEF_TEMPL
                                 );
             }
 

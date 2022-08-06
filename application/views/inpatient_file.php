@@ -161,7 +161,7 @@
     </div>       
 </div>  
 
-<div class="modal fade" id="myConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal secondary fade" id="myConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

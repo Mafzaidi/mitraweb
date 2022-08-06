@@ -245,7 +245,7 @@
 				"#inputTxtSearchInpatient"
 			);
 			// console.log(inputSearch.nextAll().length);
-			// activateRemoveBtn(inputSearch);
+			activateRemoveBtn(inputSearch);
 			if (window.location.hash) {
 				var regid = window.location.hash.slice(1);
 				loaderFunction();
@@ -2169,10 +2169,69 @@
 					}
 
 					var flag = "";
-					if (data.response[i].REG_BERKAS !== "N") {
-						flag = "";
-					} else {
+					if (data.response[i].reg_berkas == "N") {
 						flag = "bg-danger-2";
+					} else {
+						
+						var listRegArr = "";
+						var highArr = "";
+						var mediumArr = "";
+						var lowArr = "";
+
+						if (data.response[i].list_reg !== "" && data.response[i].list_reg !== undefined) {
+							if (data.response[i].list_reg.indexOf(',') > -1) { 
+								listRegArr = data.response[i].list_reg.split(','); 
+							} else {
+								listRegArr = data.response[i].list_reg;
+							}
+						}
+						
+						if (data.response[i].high_priority !== "" && data.response[i].high_priority !== undefined) {
+							if (data.response[i].high_priority.indexOf(',') > -1) { 
+								highArr = data.response[i].high_priority.split(','); 
+							} else {
+								highArr = data.response[i].high_priority;
+							}
+						}
+
+						if (data.response[i].medium_priority !== "" && data.response[i].medium_priority !== null && data.response[i].medium_priority !== undefined) {
+							if (data.response[i].medium_priority.indexOf(',') > -1) { 
+								mediumArr = data.response[i].medium_priority.split(','); 
+							} else {
+								mediumArr = data.response[i].medium_priority;
+							}
+						} else {
+							mediumArr = "";
+							console.log(mediumArr);
+						}
+
+						if (data.response[i].low_priority !== "" && data.response[i].low_priority !== null && data.response[i].low_priority !== undefined) {
+							if (data.response[i].low_priority.indexOf(',') > -1) { 
+								lowArr = data.response[i].low_priority.split(','); 
+							} else {
+								lowArr = data.response[i].low_priority;
+							}
+						} else {
+							lowArr = "";
+							console.log(lowArr);
+						}
+						// var highArr = data.response[i].high_priority.split(',');
+						// var mediumArr = data.response[i].medium_priority.split(',');
+						// var lowArr = data.response[i].low_priority.split(',');
+
+						console.log(listRegArr);
+						console.log(highArr);
+						console.log(mediumArr);
+						console.log(lowArr);
+						for (var r = 0; r < listRegArr.length; r++) {
+							if (highArr.indexOf(listRegArr[r]) >= 0) {
+								flag = 'bg-success-2';
+							} else if (mediumArr.indexOf(listRegArr[r]) >= 0){
+								flag = 'bg-dizzy';
+							} else {
+								flag = 'bg-danger-2';
+							}
+						}
 					}
 					tb +=
 						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
@@ -2286,7 +2345,7 @@
 						" baris"
 				);
 
-				console.log(JSON.stringify(data.per_page));
+				// console.log(JSON.stringify(data.per_page));
 				$("#tb_inpatientFile .tb-pagination").html("");
 				$("#tb_inpatientFile .tb-pagination").html(data.pagination);
 				page_inpatientFile_click();
@@ -2839,41 +2898,82 @@
 			if ($(this).parent().parent().find(".path-container").length) {
 				$.each($(".path-container"), function () {
 					if ($(this).length) {
-						// var body = '<p>Yakin untuk meny</p>';
-						// var btn =
-						// 	'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
-						//   	'<button class="btn btn-primary" id="saveTemplBerkas" ype="button" berkas_id="' +
-						// 	berkas_id +
-						// 	'" desc="' + desc + '" >Oke</button>';
+						var title = 'Konfirmasi&nbsp;<i class="fas fa-exclamation-circle"></i>';
+						var body = '<p>Yakin untuk menyimpan data ini?</p>';
+						var btn =
+							'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+						  	'<button class="btn btn-primary" id="saveTemplBerkas" ype="button" berkas_id="' +
+							berkas_id +
+							'" desc="' + desc + '" >Oke</button>';
 
-						// $('#uploadConfirmModal').modal('show');
+						$("#myConfirmModal .modal-footer").html(btn);
+						$("#myConfirmModal .modal-body").html(body);
+						$("#myConfirmModal .modal-title").html(title);
+						$("#myConfirmModal").modal({
+							backdrop: "static",
+						});
+						$('#myConfirmModal').modal('show');
 						// console.log($(this).attr("fpath") + $(this).attr("fname"));
 						file_path = $(this).attr("fpath");
 						file_name = $(this).attr("fname");
 						url = file_path + file_name;
-						// console.log(url);
-						$.ajax({
-							type: "POST",
-							dataType: "json",
-							url: base_url + "functions/Form_app_func/saveBerkasTemplate",
-							data: {
-								rekanan_id: rekanan_id,
-								rekanan_nama: rekanan_nama,
-								berkas_id: berkas_id,
-								berkas_name: berkas_name,
-								file_path: file_path,
-								file_name: file_name,
-								url: url,
-							},
-							success: function (data) {
-								//document.getElementById("tempPathSpan").remove();
-								console.log(JSON.stringify(data));
-							},
-							error: function (data) {
-								alert(JSON.stringify(data));
-								//alert(2);
-							},
+						$("#saveTemplBerkas").on("click", function () {						
+							var loading =
+							"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
+							title = 'Informasi';
+							body = "<div class='success-checkmark'>" +
+								"<div class='check-icon'>" +
+								"<span class='icon-line line-tip'></span>" +
+								"<span class='icon-line line-long'></span>" +
+								"<div class='icon-circle'></div>" +
+								"<div class='icon-fix'></div>" +
+								"</div>" +
+								"</div>" +
+								"<div class='row justify-content-center'>" +
+								"<div class='col-7 text-center'>" +
+								"Data telah tersimpan" +
+								"</div>" +
+								"</div>";
+							btn = '<button class="btn btn-primary close-modal-btn" type="button" data-dismiss="modal">Oke</button>';
+							
+							$("#myConfirmModal .modal-body").html(loading);
+
+							$.ajax({
+								type: "POST",
+								dataType: "json",
+								url: base_url + "functions/Form_app_func/saveBerkasTemplate",
+								data: {
+									rekanan_id: rekanan_id,
+									rekanan_nama: rekanan_nama,
+									berkas_id: berkas_id,
+									berkas_name: berkas_name,
+									file_path: file_path,
+									file_name: file_name,
+									url: url,
+								},
+								success: function (data) {
+									//document.getElementById("tempPathSpan").remove();						
+									$("#myConfirmModal .modal-title").html(title);
+									$("#myConfirmModal .modal-footer").html(btn);
+									$("#myConfirmModal .modal-body").html(body);
+									$(".close-modal-btn").on("click", function () {	
+										$("#myConfirmModal").modal("hide");
+										$("#myDynamicModal").modal("hide");
+										location.reload();
+										return false;									
+										// var regid = window.location.hash.slice(1);
+										// loaderFunction();
+										// loadDetailInpatientFile(regid);
+									});
+									console.log(JSON.stringify(data));
+								},
+								error: function (data) {
+									alert(JSON.stringify(data));
+									//alert(2);
+								},
+							});
 						});
+						// console.log(url);
 					} else {
 						// alert("Data tidak ditemukan");
 					}

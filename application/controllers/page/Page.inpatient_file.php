@@ -35,15 +35,15 @@
         if ($inp->REG_BERKAS == 'N'){
             $flag = 'bg-danger-2';
         } else {
-            $arr1 = explode(',',$inp->LIST_REG);
-            $arr2 = explode(',',$inp->HIGH_PRIORITY);
-            $arr3 = explode(',',$inp->MEDIUM_PRIORITY);
-            $arr4 = explode(',',$inp->LOW_PRIORITY);
+            $listRegArr = explode(',',$inp->LIST_REG);
+            $highArr = explode(',',$inp->HIGH_PRIORITY);
+            $mediumArr = explode(',',$inp->MEDIUM_PRIORITY);
+            $lowArr = explode(',',$inp->LOW_PRIORITY);
 
-            if (in_array_any($arr2,$arr1)) {                
-                $flag = 'bg-warning-2';
+            if (in_array_any($highArr,$listRegArr)) {                
+                $flag = 'bg-success-2';
             } 
-            else if (in_array_any($arr3,$arr1)) {
+            else if (in_array_any($mediumArr,$listRegArr)) {
                 $flag = 'bg-dizzy';
             } else {
                 $flag = 'bg-danger-2';
