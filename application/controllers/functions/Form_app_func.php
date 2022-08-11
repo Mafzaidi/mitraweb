@@ -94,8 +94,8 @@ class Form_app_func extends CI_Controller
             $reg_id = $this->input->post('reg_id');
 
             $get = $this->mfa->getDataCurrentInpatient($reg_id);
-            // $dropMenu = $this->mfa->getBerkas();
             $listRegBerkas = $this->mfa->getListRegBerkas($reg_id);
+            // $dropMenu = $this->mfa->getBerkas();
 
             // $html = "";
             // foreach($dropMenu as $row) { 
@@ -107,6 +107,16 @@ class Form_app_func extends CI_Controller
             //     // $html.= '<a class="dropdown-item" id="' . $row->BERKAS_ID . '"><i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>' . $row->KETERANGAN . '</a>';
             // }
 
+            // foreach($listTemplBerkas as $rowTempl) {
+            //     $responseTempl[] = array(
+            //         "berkas_id"=>$rowTempl->BERKAS_ID,
+            //         "rekanan_id"=>$rowTempl->REKANAN_ID,
+            //         "rekanan_nama"=>$rowTempl->REKANAN_NAMA,
+            //         "url"=>$rowTempl->URL,
+            //         "file_name"=>$rowTempl->FILE_NAME
+            //     );
+            // }
+
             foreach($listRegBerkas as $row) { 
                 $response[] = array(
                     "berkas_id"=>$row->BERKAS_ID,
@@ -115,7 +125,11 @@ class Form_app_func extends CI_Controller
                     "uploaded"=>$row->UPLOADED,
                     "uploaded_default"=>$row->UPLOADED_DEFAULT,
                     "uploaded_rekanan"=>$row->UPLOADED_REKANAN,
-                    "registered"=>$row->REGISTERED
+                    "list_rekid_tmpl"=>$row->LIST_REKID_TMPL,
+                    "list_rekname_tmpl"=>$row->LIST_REKNAME_TMPL,
+                    "list_template"=> $this->mfa->getTemplateBerkas($reg_id, $row->BERKAS_ID),
+                    "registered"=>$row->REGISTERED,
+                    "list_berkas_reg"=>$row->LIST_BERKAS_REG
                 );  
             }
 

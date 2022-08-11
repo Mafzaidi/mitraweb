@@ -2018,6 +2018,7 @@
 			var regid = $(this).parent().attr("reg-id");
 			var hash_url = "#" + regid;
 			window.location.hash = hash_url;
+			loaderFunction();
 			loadDetailInpatientFile(regid);
 		}
 	);
@@ -2409,16 +2410,18 @@
 					if (data.listBerkas[i].template == "Y") {
 						var downloadActive = "";
 						var uploadActive = "";
-						if (data.listBerkas[i].uploaded == "N") {
-							downloadActive = "disabled";
-						}
+						
 						if (
 							data.listBerkas[i].uploaded_default == "Y" &&
 							data.listBerkas[i].uploaded_rekanan == "Y"
 						) {
 							uploadActive = "disabled";
 						}
-						berkasCheck += '<div class="row py-3">';
+						if (data.listBerkas[i].uploaded == "N") {
+							berkasCheck += '<div class="row py-3">';
+						} else {		
+							berkasCheck += '<div class="row pt-3">';
+						}
 
 						berkasCheck += '<div class="col-sm-12 col-md-5 col-lg-4">';
 
@@ -2440,7 +2443,7 @@
 						berkasCheck += "</div>"; // end of div row
 
 						berkasCheck +=
-							'<div class="form-inline d-flex justify-content-end py-1">';
+							'<div class="form-inline d-flex justify-content-end">';
 
 						berkasCheck +=
 							'<button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem btn-upload-template" rekanan_id="' +
@@ -2457,10 +2460,45 @@
 							'" ' +
 							uploadActive +
 							'><i class="fas fa-upload"></i>&nbsp;Upload</button>';
-						berkasCheck +=
-							'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
-							downloadActive +
-							'><i class="fas fa-download"></i>&nbsp;Download</button>';
+
+						if (data.listBerkas[i].uploaded == "N") {
+							downloadActive = "disabled";
+							berkasCheck +=
+								'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
+								downloadActive +
+								'><i class="fas fa-download"></i>&nbsp;Download</button>';
+						} else {
+							var countTmpl = data.listBerkas[i].list_template.length;
+							console.log(data.listBerkas[i].list_template.length);
+							if (countTmpl > 1) {							
+								berkasCheck += '<div class="dropdown">';					
+								berkasCheck +=
+									'<button type="button" class="btn btn-success dropdown-toggle btn-sm fs-075rem" ' +
+									downloadActive +
+									'data-toggle="dropdown" aria-expanded="false"><i class="fas fa-download"></i>&nbsp;Download&nbsp;</button>';
+								
+								berkasCheck += '<div class="dropdown-menu">';
+									for (var j = 0; j < countTmpl; j++) {
+										if (data.listBerkas[i].list_template[j].BERKAS_ID == data.listBerkas[i].berkas_id) {
+											berkasCheck += '<a class="dropdown-item" href="' +  base_url + data.listBerkas[i].list_template[j].URL  + '" target="_blank" rekid="' + data.listBerkas[i].list_template[j].REKANAN_ID + '"><small>' + 
+												data.listBerkas[i].list_template[j].REKANAN_NAMA + 
+												'</small></a>';
+										}
+									}
+								berkasCheck += '</div>';
+								berkasCheck += '</div>';
+							} else {
+								for (var j = 0; j < countTmpl; j++) {
+									if (data.listBerkas[i].list_template[j].BERKAS_ID == data.listBerkas[i].berkas_id) {									
+										berkasCheck +=
+										'<a class="text-decoration-none" href="' +  base_url + data.listBerkas[i].list_template[j].URL  + '" target="_blank" rekid="' + data.listBerkas[i].list_template[j].REKANAN_ID + '">' +
+										'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
+										downloadActive +
+										'><i class="fas fa-download"></i>&nbsp;Download</button></a>';
+									}
+								}
+							}
+						}
 
 						berkasCheck += "</div>"; // end of div form-check-inline
 
@@ -2470,6 +2508,23 @@
 						berkasCheck += "</div>"; // end of div col-sm-12
 
 						berkasCheck += "</div>"; // end of div row
+
+						// upload berkas
+						if (
+							data.listBerkas[i].uploaded_default == "Y" ||
+							data.listBerkas[i].uploaded_rekanan == "Y"
+						) {
+							berkasCheck += '<div class="row pt-2 pb-3">';
+
+							berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
+							berkasCheck += '<small class="text-muted">Upload file berkas yang telah di isi</small>';
+							berkasCheck +=
+								'<button type="button" class="btn mark btn-sm float-right fs-075rem"><i class="fas fa-upload"></i>&nbsp;Upload Berkas</button>';
+
+							berkasCheck += "</div>"; // end of div col-sm-12
+
+							berkasCheck += "</div>"; // end of div row
+						}
 					} else {
 						var check = "";
 						if (data.listBerkas[i].registered == "Y") {
