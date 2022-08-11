@@ -116,6 +116,8 @@ class Form_app_func extends CI_Controller
                     "uploaded"=>$row->UPLOADED,
                     "uploaded_default"=>$row->UPLOADED_DEFAULT,
                     "uploaded_rekanan"=>$row->UPLOADED_REKANAN,
+                    "list_rekid_templ"=>$row->LIST_REKID_TEMPL,
+                    "list_rekname_templ"=>$row->LIST_REKNAME_TEMPL,
                     "registered"=>$row->REGISTERED
                 );  
             }

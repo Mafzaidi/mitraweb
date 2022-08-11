@@ -332,7 +332,27 @@ class M_form_application extends CI_Model
                                 ) > 0 THEN 'Y'
                             ELSE 'N' 
                             END
-                    ELSE 'N' END AS UPLOADED_REKANAN, 
+                    ELSE 'N' END AS UPLOADED_REKANAN,
+                    NVL((
+                        SELECT
+                            NVL(LISTAGG(A1.REKANAN_ID, ',') WITHIN GROUP (ORDER BY A1.BERKAS_ID), 'N') 
+                        FROM
+                            EDP_MANAGER.DT_BERKAS_TEMPLATE A1
+                        WHERE 
+                            A1.BERKAS_ID = A.BERKAS_ID
+                        GROUP BY A1.BERKAS_ID
+                    ),'N') AS LIST_REKID_TEMPL,
+                    NVL((
+                        SELECT
+                            NVL(LISTAGG(B1.REKANAN_NAMA, ',') WITHIN GROUP (ORDER BY A1.BERKAS_ID), 'N') 
+                        FROM
+                            EDP_MANAGER.DT_BERKAS_TEMPLATE A1,
+                            HIS_MANAGER.MS_REKANAN B1
+                        WHERE 
+                            A1.BERKAS_ID = A.BERKAS_ID
+                            AND A1.REKANAN_ID = B1.REKANAN_ID
+                        GROUP BY A1.BERKAS_ID
+                    ),'N') AS LIST_REKNAME_TEMPL,
                     CASE WHEN (
                         SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
                         EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'

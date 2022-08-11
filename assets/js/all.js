@@ -2352,6 +2352,16 @@
 						var uploadActive = "";
 						if (data.listBerkas[i].uploaded == "N") {
 							downloadActive = "disabled";
+						} else {
+							var arrayReknameTempl =
+								data.listBerkas[i].list_rekname_templ.split(",");
+							var countReknameTempl = arrayReknameTempl.length;
+							var templHtml = '<div class="dropdown-menu">';
+							for (var j = 0; j < countReknameTempl; j++) {
+								templHtml +=
+									'<a class="dropdown-item">' + arrayReknameTempl[j] + "</a>";
+							}
+							templHtml += "</div>";
 						}
 						if (
 							data.listBerkas[i].uploaded_default == "Y" &&
@@ -2754,13 +2764,11 @@
 												.attr("src", newimage);
 										}
 
-										$(".dz-image")
-											.find("img")
-											.attr({
-												width: "100%",
-												height: "100%",
-												display: "block",
-											});
+										$(".dz-image").find("img").attr({
+											width: "100%",
+											height: "100%",
+											display: "block",
+										});
 										$(".dz-details").find("span").css({ display: "block" });
 
 										if ($("#templateErr").hasClass("d-none")) {
