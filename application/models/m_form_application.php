@@ -354,16 +354,11 @@ class M_form_application extends CI_Model
                         WHERE 
                             A1.BERKAS_ID = A.BERKAS_ID
                             AND A1.REKANAN_ID = B1.REKANAN_ID
-<<<<<<< HEAD
-                        GROUP BY A1.BERKAS_ID
-                    ),'N') AS LIST_REKNAME_TEMPL,
-=======
                             AND (A1.REKANAN_ID = 'DEFAULT' OR A1.REKANAN_ID = (
                                 SELECT C1.REKANAN_ID FROM MS_REG C1 WHERE C1.REG_ID = '" . $reg_id . "'
                             ))
                         GROUP BY A1.BERKAS_ID
                     ),'N') AS LIST_REKNAME_TMPL,
->>>>>>> 55cff4dff0bcb1307cfcf215bdf2347a78174a86
                     CASE WHEN (
                         SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
                         EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'

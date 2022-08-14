@@ -2409,6 +2409,8 @@
 				var berkasCheck = "";
 				var check = "";
 				var rcount = data.listBerkas.length;
+				var sub_array_UploadRekTmpl = [];
+				var super_Array_UploadRekTmpl = [];
 				for (var i = 0; i < rcount; i++) {
 					// dropList +=
 					// 	'<a class="dropdown-item" id="' +
@@ -2419,6 +2421,28 @@
 					// dropList +=
 					// 	'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
 					// dropList += data.dropmenu[i].keterangan + "</a>";
+
+					var countTmpl = data.listBerkas[i].list_template.length;
+					var template_download = "";
+
+					for (var j = 0; j < countTmpl; j++) {
+						if (countTmpl > 1) {
+							if (
+								data.listBerkas[i].list_template[j].BERKAS_ID ==
+								data.listBerkas[i].berkas_id
+							) {
+								template_download +=
+									'<a class="dropdown-item" href="' +
+									base_url +
+									data.listBerkas[i].list_template[j].URL +
+									'" target="_blank" rekid="' +
+									data.listBerkas[i].list_template[j].REKANAN_ID +
+									'"><small>' +
+									data.listBerkas[i].list_template[j].REKANAN_NAMA +
+									"</small></a>";
+							}
+						}
+					}
 
 					if (data.listBerkas[i].template == "Y") {
 						var downloadActive = "";
@@ -2481,36 +2505,13 @@
 								downloadActive +
 								'><i class="fas fa-download"></i>&nbsp;Download</button>';
 						} else {
-							var countTmpl = data.listBerkas[i].list_template.length;
-							console.log(data.listBerkas[i].list_template.length);
 							if (countTmpl > 1) {
-								berkasCheck += '<div class="dropdown">';
-								berkasCheck +=
-									'<button type="button" class="btn btn-success dropdown-toggle btn-sm fs-075rem" ' +
-									downloadActive +
-									'data-toggle="dropdown" aria-expanded="false"><i class="fas fa-download"></i>&nbsp;Download&nbsp;</button>';
-
-								berkasCheck += '<div class="dropdown-menu">';
-								for (var j = 0; j < countTmpl; j++) {
-									if (
-										data.listBerkas[i].list_template[j].BERKAS_ID ==
-										data.listBerkas[i].berkas_id
-									) {
-										berkasCheck +=
-											'<a class="dropdown-item" href="' +
-											base_url +
-											data.listBerkas[i].list_template[j].URL +
-											'" target="_blank" rekid="' +
-											data.listBerkas[i].list_template[j].REKANAN_ID +
-											'"><small>' +
-											data.listBerkas[i].list_template[j].REKANAN_NAMA +
-											"</small></a>";
-									}
-								}
-								berkasCheck += "</div>";
-								berkasCheck += "</div>";
 							} else {
 								for (var j = 0; j < countTmpl; j++) {
+									sub_array_UploadRekTmpl.push(j);
+									super_Array_UploadRekTmpl.push(
+										sub_array_UploadRekTmpl.slice(0)
+									);
 									if (
 										data.listBerkas[i].list_template[j].BERKAS_ID ==
 										data.listBerkas[i].berkas_id
@@ -2548,10 +2549,13 @@
 
 							berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
 							berkasCheck +=
-								'<small class="text-muted">Upload file berkas yang telah di isi</small>';
+								'<div class="form-inline d-flex justify-content-end">';
 							berkasCheck +=
-								'<button type="button" class="btn mark btn-sm float-right fs-075rem"><i class="fas fa-upload"></i>&nbsp;Upload Berkas</button>';
+								'<small class="text-muted mr-2">Upload file berkas yang telah di isi</small>';
+							berkasCheck +=
+								'<button type="button" class="btn mark btn-sm fs-075rem"><i class="fas fa-upload"></i>&nbsp;Upload Berkas</button>';
 
+							berkasCheck += "</div>"; // end of div form-inline
 							berkasCheck += "</div>"; // end of div col-sm-12
 
 							berkasCheck += "</div>"; // end of div row
@@ -2594,7 +2598,10 @@
 				$("#detailInpatientFile").toggleClass("d-none");
 				// console.log(JSON.stringify(data));
 				pageInit();
-				uploadTemplateBerkas();
+				uploadTemplateBerkas(
+					sub_array_UploadRekTmpl,
+					super_Array_UploadRekTmpl
+				);
 			},
 			error: function (data) {
 				// console.log(JSON.stringify(data));
@@ -2604,8 +2611,14 @@
 		});
 	}
 
-	function uploadTemplateBerkas() {
+	function uploadTemplateBerkas(
+		sub_array_UploadRekTmpl,
+		super_Array_UploadRekTmpl
+	) {
 		$(".btn-upload-template").on("click", function () {
+			console.log(JSON.stringify(sub_array_UploadRekTmpl));
+			console.log(JSON.stringify(super_Array_UploadRekTmpl));
+
 			Dropzone.autoDiscover = false;
 			var berkas_id = $(this).attr("berkas_id");
 			var rekanan_id = $(this).attr("rekanan_id");
