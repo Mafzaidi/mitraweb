@@ -848,14 +848,15 @@ button.cancel:before {
 	font-weight: 900;
 }
 
-.btn.mark {
+.btn-mark {
 	background-color: #1b5052 !important;	
     border-color: #1b5052;
 	color: #fff;
 }
 
-.btn.mark:hover {
+.btn-mark:hover {
 	background-color: #0e2a2b !important;
+	color: #fff !important;
 }
 
 .ui-front {

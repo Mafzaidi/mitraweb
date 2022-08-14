@@ -29,22 +29,28 @@
 		<script src="<?php echo base_url('assets/vendor/jquery-ui-1.13.0/jquery-ui.min.js'); ?>"></script>
 		<!-- Jquery Validation -->
 		<script src="<?php echo base_url('assets/vendor/jquery-validation/jquery.validate.min.js'); ?>"></script>
-		<!-- datetimepicker jquery -->
-		<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 		<!-- masked input jquery -->
 		<script src="<?php echo base_url('assets/vendor/masked-input/jquery-maskedinput.min.js'); ?>"></script>
 		<!-- tinysort jquery -->
 		<script src="<?php echo base_url('assets/vendor/tinysort-3.2.5/tinysort.min.js'); ?>"></script>
 		<!-- dropzone jquery -->
 		<script src="<?php echo base_url('assets/vendor/dropzone/js/dropzone.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap-toggle.min.js'); ?>"></script>
 		<!-- Js Util -->
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/js/dist/util.js'); ?>"></script>
 		<!-- Js bootstrap -->
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
+		<!-- datetimepicker jquery -->
+		<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
+<<<<<<< HEAD
 		<script src="<?php echo base_url('assets/js/all.js?v=202208112136'); ?>"></script>
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap-toggle.min.js'); ?>"></script>
+=======
+		<!-- all.js -->
+		<script src="<?php echo base_url('assets/js/all.js?v=202208121620'); ?>"></script>
+>>>>>>> 6f2e8a0f5afe5fb6b7520cdb9d27181d655d004a
 
 	</body>
 
