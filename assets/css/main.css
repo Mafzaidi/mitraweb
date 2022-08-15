@@ -680,6 +680,11 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	height: auto;
 }
 
+div[disabled] .i-wrapp {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+/* end of i-wrap */
 .abs-float-right {
 	position: absolute;
 	right: 20px;
@@ -849,8 +854,8 @@ button.cancel:before {
 }
 
 .btn-mark {
-	background-color: #1b5052 !important;	
-    border-color: #1b5052;
+	background-color: #1b5052 !important;
+	border-color: #1b5052;
 	color: #fff;
 }
 
@@ -932,15 +937,15 @@ a:hover > .gradient-text {
 }
 
 .image-wrapper.upload:hover {
-    border: 1px solid #007bff;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+	border: 1px solid #007bff;
+	transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
 .image-file {
-    background-image: url(../img/icons/image_file.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+	background-image: url(../img/icons/image_file.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 /* ui autocomplete */

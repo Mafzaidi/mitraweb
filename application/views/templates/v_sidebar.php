@@ -10,7 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/bootstrap-4.6.1/dist/css/bootstrap-toggle.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202208121012'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/main.css?v=202208142201'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css?v=202206271601'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/utilities.css?v=202206281453'); ?>">
     <!-- Font Awesome -->

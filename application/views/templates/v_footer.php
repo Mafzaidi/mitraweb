@@ -44,13 +44,8 @@
 		<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
-<<<<<<< HEAD
-		<script src="<?php echo base_url('assets/js/all.js?v=202208112136'); ?>"></script>
-		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap-toggle.min.js'); ?>"></script>
-=======
 		<!-- all.js -->
-		<script src="<?php echo base_url('assets/js/all.js?v=202208121620'); ?>"></script>
->>>>>>> 6f2e8a0f5afe5fb6b7520cdb9d27181d655d004a
+		<script src="<?php echo base_url('assets/js/all-copy.js?v=202208150857'); ?>"></script>
 
 	</body>
 

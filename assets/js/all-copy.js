@@ -2405,79 +2405,90 @@
 				$("#detailInpatientFile #ns").html(data.nama_dept);
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
-
-				// var dropList = "";
-				var berkasCheck = "";
-				var check = "";
-				var rcount = data.listBerkas.length;
-				var sub_array_UploadRekTmpl = [];
-				var super_Array_UploadRekTmpl = [];
-				for (var i = 0; i < rcount; i++) {
-					// dropList +=
-					// 	'<a class="dropdown-item" id="' +
-					// 	data.dropmenu[i].berkas_id +
-					// 	'" ket="' +
-					// 	data.dropmenu[i].keterangan +
-					// 	'">';
-					// dropList +=
-					// 	'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
-					// dropList += data.dropmenu[i].keterangan + "</a>";
-
+				var berkas_html = "";
+				var col_class = "";
+				var button_html = "";
+				var count_berkas = data.listBerkas.length;
+				for (var i = 0; i < count_berkas; i++) {
 					if (data.listBerkas[i].template == "Y") {
-						var downloadActive = "";
-						var uploadActive = "";
-
-						if (
-							data.listBerkas[i].uploaded_default == "Y" &&
-							data.listBerkas[i].uploaded_rekanan == "Y"
-						) {
-							uploadActive = "disabled";
-						}
+						var download_button = "";
 						if (data.listBerkas[i].uploaded == "N") {
-							berkasCheck += '<div class="row py-3">';
+							download_button =
+								'<div class="d-flex justify-content-center btn-upload-template"" rekanan_id="' +
+								data.rekanan_id +
+								'" berkas_id="' +
+								data.listBerkas[i].berkas_id +
+								'" reg_id="' +
+								data.reg_id +
+								'" uploaded_default="' +
+								data.listBerkas[i].uploaded_default +
+								'" uploaded_rekanan="' +
+								data.listBerkas[i].uploaded_rekanan +
+								'" desc="' +
+								'" ' +
+								' disabled><a class="i-wrapp light data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+								"</div>";
 						} else {
-							berkasCheck += '<div class="row pt-3">';
+							var template_count = data.listBerkas[i].list_template.length;
+							if (template_count > 1) {
+								var template_dropdown = "";
+								for (var j = 0; j < template_count; j++) {
+									if (
+										data.listBerkas[i].list_template[j].BERKAS_ID ==
+										data.listBerkas[i].berkas_id
+									) {
+										template_dropdown +=
+											'<a class="dropdown-item" href="' +
+											base_url +
+											data.listBerkas[i].list_template[j].URL +
+											'" target="_blank" rekid="' +
+											data.listBerkas[i].list_template[j].REKANAN_ID +
+											'"><small>' +
+											data.listBerkas[i].list_template[j].REKANAN_NAMA +
+											"</small></a>";
+									}
+								}
+								download_button =
+									'<div class="dropdown">' +
+									'<div class="d-flex justify-content-center btn-downnload-template">' +
+									'<a class="btn dropdown-toggle i-wrapp light" href="#" role="button" data-toggle="dropdown" aria-expanded="false">' +
+									'<i class="fas fa-download"></i>' +
+									"</a>" +
+									"</div>" +
+									'<div class="dropdown-menu">' +
+									'<a class="dropdown-item" href="#">Action</a>' +
+									'<a class="dropdown-item" href="#">Another action</a>' +
+									'<a class="dropdown-item" href="#">Something else here</a>' +
+									"</div>" +
+									"</div>";
+							} else {
+								download_button =
+									'<div class="d-flex justify-content-center btn-downnload-template" rekanan_id="' +
+									data.rekanan_id +
+									'" berkas_id="' +
+									data.listBerkas[i].berkas_id +
+									'" reg_id="' +
+									data.reg_id +
+									'" uploaded_default="' +
+									data.listBerkas[i].uploaded_default +
+									'" uploaded_rekanan="' +
+									data.listBerkas[i].uploaded_rekanan +
+									'" data-toggle="dropdown" aria-expanded="false"' +
+									'><a class="i-wrapp light" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+									"</div>";
+							}
 						}
+						col_class = "";
 
-						berkasCheck += '<div class="col-sm-12 col-md-5 col-lg-4">';
-
-						berkasCheck +=
-							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
-							data.listBerkas[i].keterangan +
-							"</label>";
-
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck += '<div class="col-sm-12 col-md-7 col-lg-8">';
-
-						berkasCheck += '<div class="row">';
-						berkasCheck +=
-							'<div class="col d-flex justify-content-end fs-075rem">';
-						berkasCheck +=
-							'<label class="m-0 text-muted font-weight-light" for="formGroupExampleInput">Template</label>';
-						berkasCheck += "</div>"; // end of div col
-						berkasCheck += "</div>"; // end of div row
-
-						berkasCheck +=
-							'<div class="form-inline d-flex justify-content-end hover circle hide">';
-
-						// berkasCheck +=
-						// 	'<button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem btn-upload-template" rekanan_id="' +
-						// 	data.rekanan_id +
-						// 	'" berkas_id="' +
-						// 	data.listBerkas[i].berkas_id +
-						// 	'" reg_id="' +
-						// 	data.reg_id +
-						// 	'" uploaded_default="' +
-						// 	data.listBerkas[i].uploaded_default +
-						// 	'" uploaded_rekanan="' +
-						// 	data.listBerkas[i].uploaded_rekanan +
-						// 	'" desc="' +
-						// 	'" ' +
-						// 	uploadActive +
-						// 	'><i class="fas fa-upload"></i>&nbsp;Upload</button>'; -- remark button upload
-
-						berkasCheck +=
+						button_html =
+							'<div class="row">' + // row templ header
+							'<div class="col d-flex justify-content-end fs-075rem">' + // col templ header
+							'<label class="m-0 text-muted font-weight-light" for="formGroupExampleInput">Template</label>' +
+							"</div>" + // end of div col templ header
+							"</div>" + // end of div row tmpl header
+							// action section
+							'<div class="form-inline d-flex justify-content-end hover circle hide">' +
+							// upload
 							'<div class="d-flex justify-content-center light btn-upload-template" role="button" rekanan_id="' +
 							data.rekanan_id +
 							'" berkas_id="' +
@@ -2488,157 +2499,44 @@
 							data.listBerkas[i].uploaded_default +
 							'" uploaded_rekanan="' +
 							data.listBerkas[i].uploaded_rekanan +
-							'"><a class="i-wrapp" data-toggle="tooltip" data-placement="bottom" title="Upload Template"><i class="fas fa-upload"></i></a>';
-						berkasCheck += "</div>";
-
-						if (data.listBerkas[i].uploaded == "N") {
-							downloadActive = "disabled";
-							// berkasCheck +=
-							// 	'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
-							// 	downloadActive +
-							// 	'><i class="fas fa-download"></i>&nbsp;Download</button>'; -- remark button download
-						} else {
-							var countTmpl = data.listBerkas[i].list_template.length;
-							console.log(data.listBerkas[i].list_template.length);
-							if (countTmpl > 1) {
-								berkasCheck += '<div class="dropdown">';
-								// berkasCheck +=
-								// 	'<button type="button" class="btn btn-success dropdown-toggle btn-sm fs-075rem" ' +
-								// 	downloadActive +
-								// 	'data-toggle="dropdown" aria-expanded="false"><i class="fas fa-download"></i>&nbsp;Download&nbsp;</button>'; -- remark button download
-
-								berkasCheck +=
-									'<div class="d-flex justify-content-center" rekanan_id="' +
-									data.rekanan_id +
-									'" berkas_id="' +
-									data.listBerkas[i].berkas_id +
-									'" reg_id="' +
-									data.reg_id +
-									'" uploaded_default="' +
-									data.listBerkas[i].uploaded_default +
-									'" uploaded_rekanan="' +
-									data.listBerkas[i].uploaded_rekanan +
-									'" desc="' +
-									'" ' +
-									downloadActive +
-									'><a class="i-wrapp light btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>';
-								berkasCheck += "</div>";
-
-								berkasCheck += '<div class="dropdown-menu">';
-								for (var j = 0; j < countTmpl; j++) {
-									if (
-										data.listBerkas[i].list_template[j].BERKAS_ID ==
-										data.listBerkas[i].berkas_id
-									) {
-										berkasCheck +=
-											'<a class="dropdown-item" href="' +
-											base_url +
-											data.listBerkas[i].list_template[j].URL +
-											'" target="_blank" rekid="' +
-											data.listBerkas[i].list_template[j].REKANAN_ID +
-											'"><small>' +
-											data.listBerkas[i].list_template[j].REKANAN_NAMA +
-											"</small></a>";
-									}
-									sub_array_UploadRekTmpl.push(
-										data.listBerkas[i].list_template[j].BERKAS_ID
-									);
-									console.log(data.listBerkas[i].list_template[j].BERKAS_ID);
-									// super_Array_UploadRekTmpl.push(sub_array_UploadRekTmpl);
-								}
-								berkasCheck += "</div>";
-								berkasCheck += "</div>";
-							} else {
-								for (var j = 0; j < countTmpl; j++) {
-									if (
-										data.listBerkas[i].list_template[j].BERKAS_ID ==
-										data.listBerkas[i].berkas_id
-									) {
-										// berkasCheck +=
-										// '<a class="text-decoration-none" href="' +  base_url + data.listBerkas[i].list_template[j].URL  + '" target="_blank" rekid="' + data.listBerkas[i].list_template[j].REKANAN_ID + '">' +
-										// '<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
-										// downloadActive +
-										// '><i class="fas fa-download"></i>&nbsp;Download</button></a>';
-										berkasCheck +=
-											'<div class="d-flex justify-content-center" rekanan_id="' +
-											data.rekanan_id +
-											'" berkas_id="' +
-											data.listBerkas[i].berkas_id +
-											'" reg_id="' +
-											data.reg_id +
-											'" uploaded_default="' +
-											data.listBerkas[i].uploaded_default +
-											'" uploaded_rekanan="' +
-											data.listBerkas[i].uploaded_rekanan +
-											'"><a class="i-wrapp light btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>';
-										berkasCheck += "</div>";
-									}
-								}
-							}
-						}
-
-						berkasCheck += "</div>"; // end of div form-check-inline
-
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck += "</div>"; // end of div row
-
-						// upload berkas
-						if (
-							data.listBerkas[i].uploaded_default == "Y" ||
-							data.listBerkas[i].uploaded_rekanan == "Y"
-						) {
-							berkasCheck += '<div class="row pt-2 pb-3">';
-							berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
-							berkasCheck +=
-								'<button type="button" class="btn btn-mark btn-sm float-right fs-075rem btn_upload_berkas" ket="' +
-								data.listBerkas[i].keterangan +
-								'" id="' +
-								data.listBerkas[i].berkas_id +
-								'">' +
-								'<i class="fas fa-upload"></i>&nbsp;Upload Berkas</button>';
-
-							berkasCheck += "</div>"; // end of div form-inline
-							berkasCheck += "</div>"; // end of div col-sm-12
-
-							berkasCheck += "</div>"; // end of div row
-						}
+							'"><a class="i-wrapp" data-toggle="tooltip" data-placement="bottom" title="Upload Template"><i class="fas fa-upload"></i></a>' +
+							"</div>" +
+							// download
+							download_button +
+							"</div>"; // end of div form-inline
 					} else {
+						col_class = "switch-button";
 						var check = "";
 						if (data.listBerkas[i].registered == "Y") {
 							check = "checked";
 						}
 
-						berkasCheck += '<div class="row">';
-
-						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
-						berkasCheck +=
-							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
-							data.listBerkas[i].keterangan +
-							"</label>";
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck +=
-							'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
-
-						berkasCheck +=
-							'<div class="form-check form-check-inline d-flex justify-content-end py-1">';
-						berkasCheck +=
+						button_html =
+							'<div class="form-check form-check-inline d-flex justify-content-end py-1">' +
 							'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox" ' +
 							check +
 							'><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
-						berkasCheck += "</div>"; // end of div form-check-inline
-
-						berkasCheck += "</div>"; // end of div col-sm-12 switch-button
-
-						berkasCheck += "</div>"; // end of div row
 					}
+
+					berkas_html += '<div class="row">';
+
+					berkas_html += '<div class="col-sm-12 col-md-12 col-lg-6">';
+					berkas_html +=
+						'<label  class="text-muted m-0 fs-085rem berkas-title">' +
+						data.listBerkas[i].keterangan +
+						"</label>";
+					berkas_html += "</div>"; // eof div .col-sm-12 label
+
+					berkas_html +=
+						'<div class="col-sm-12 col-md-12 col-lg-6 ' + col_class + '">';
+					berkas_html += button_html;
+					berkas_html += "</div>"; // end of div form-check-inline
+					berkas_html += "</div>"; // eof div .col-sm-12 action
+
+					berkas_html += "</div>"; // eof div .row
 				}
-				// $("#dropdownBerkas").html(dropList);
-				$("#berkasContainer").html(berkasCheck);
+
+				$("#berkasContainer").html(berkas_html);
 
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
