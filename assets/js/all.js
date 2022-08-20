@@ -2387,13 +2387,14 @@
 	}
 
 	function loadDetailInpatientFile(regid) {
-		var reg_id = regid;
+		var reg_id = "";
+		var rekanan_id = "";
 		$.ajax({
 			type: "POST",
 			dataType: "json",
 			url: base_url + "functions/Form_app_func/getInpatientFile",
 			data: {
-				reg_id: reg_id,
+				reg_id: regid,
 			},
 			success: function (data) {
 				$("#detailInpatientFile #medrec").html(data.medrec);
@@ -2405,132 +2406,44 @@
 				$("#detailInpatientFile #ns").html(data.nama_dept);
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
+				var berkas_html = "";
+				var col_class = "";
+				var button_html = "";
+				var count_berkas = data.listBerkas.length;
+				var array_berkas_template = [];
+				rekanan_id = data.rekanan_id;
+				reg_id = data.reg_id;
 
-				// var dropList = "";
-				var berkasCheck = "";
-				var check = "";
-				var rcount = data.listBerkas.length;
-				var sub_array_UploadRekTmpl = [];
-				var super_Array_UploadRekTmpl = [];
-				for (var i = 0; i < rcount; i++) {
-					// dropList +=
-					// 	'<a class="dropdown-item" id="' +
-					// 	data.dropmenu[i].berkas_id +
-					// 	'" ket="' +
-					// 	data.dropmenu[i].keterangan +
-					// 	'">';
-					// dropList +=
-					// 	'<i class="far fa-file-alt fa-sm fa-fw mr-2 text-gray-400"></i>';
-					// dropList += data.dropmenu[i].keterangan + "</a>";
-
+				for (var i = 0; i < count_berkas; i++) {
 					if (data.listBerkas[i].template == "Y") {
-						var downloadActive = "";
-						var uploadActive = "";
-
-						if (
-							data.listBerkas[i].uploaded_default == "Y" &&
-							data.listBerkas[i].uploaded_rekanan == "Y"
-						) {
-							uploadActive = "disabled";
-						}
+						var download_button = "";
 						if (data.listBerkas[i].uploaded == "N") {
-							berkasCheck += '<div class="row py-3">';
+							download_button =
+								'<div class="d-flex justify-content-center"" rekanan_id="' +
+								data.rekanan_id +
+								'" berkas_id="' +
+								data.listBerkas[i].berkas_id +
+								'" reg_id="' +
+								data.reg_id +
+								'" uploaded_default="' +
+								data.listBerkas[i].uploaded_default +
+								'" uploaded_rekanan="' +
+								data.listBerkas[i].uploaded_rekanan +
+								'" desc="' +
+								'" ' +
+								' disabled><a class="i-wrapp light btn-downnload-template" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+								"</div>";
 						} else {
-							berkasCheck += '<div class="row pt-3">';
-						}
-
-						berkasCheck += '<div class="col-sm-12 col-md-5 col-lg-4">';
-
-						berkasCheck +=
-							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
-							data.listBerkas[i].keterangan +
-							"</label>";
-
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck += '<div class="col-sm-12 col-md-7 col-lg-8">';
-
-						berkasCheck += '<div class="row">';
-						berkasCheck +=
-							'<div class="col d-flex justify-content-end fs-075rem">';
-						berkasCheck +=
-							'<label class="m-0 text-muted font-weight-light" for="formGroupExampleInput">Template</label>';
-						berkasCheck += "</div>"; // end of div col
-						berkasCheck += "</div>"; // end of div row
-
-						berkasCheck +=
-							'<div class="form-inline d-flex justify-content-end hover circle hide">';
-
-						// berkasCheck +=
-						// 	'<button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem btn-upload-template" rekanan_id="' +
-						// 	data.rekanan_id +
-						// 	'" berkas_id="' +
-						// 	data.listBerkas[i].berkas_id +
-						// 	'" reg_id="' +
-						// 	data.reg_id +
-						// 	'" uploaded_default="' +
-						// 	data.listBerkas[i].uploaded_default +
-						// 	'" uploaded_rekanan="' +
-						// 	data.listBerkas[i].uploaded_rekanan +
-						// 	'" desc="' +
-						// 	'" ' +
-						// 	uploadActive +
-						// 	'><i class="fas fa-upload"></i>&nbsp;Upload</button>'; -- remark button upload
-
-						berkasCheck +=
-							'<div class="d-flex justify-content-center light btn-upload-template" role="button" rekanan_id="' +
-							data.rekanan_id +
-							'" berkas_id="' +
-							data.listBerkas[i].berkas_id +
-							'" reg_id="' +
-							data.reg_id +
-							'" uploaded_default="' +
-							data.listBerkas[i].uploaded_default +
-							'" uploaded_rekanan="' +
-							data.listBerkas[i].uploaded_rekanan +
-							'"><a class="i-wrapp" data-toggle="tooltip" data-placement="bottom" title="Upload Template"><i class="fas fa-upload"></i></a>';
-						berkasCheck += "</div>";
-
-						if (data.listBerkas[i].uploaded == "N") {
-							downloadActive = "disabled";
-							// berkasCheck +=
-							// 	'<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
-							// 	downloadActive +
-							// 	'><i class="fas fa-download"></i>&nbsp;Download</button>'; -- remark button download
-						} else {
-							var countTmpl = data.listBerkas[i].list_template.length;
-							console.log(data.listBerkas[i].list_template.length);
-							if (countTmpl > 1) {
-								berkasCheck += '<div class="dropdown">';
-								// berkasCheck +=
-								// 	'<button type="button" class="btn btn-success dropdown-toggle btn-sm fs-075rem" ' +
-								// 	downloadActive +
-								// 	'data-toggle="dropdown" aria-expanded="false"><i class="fas fa-download"></i>&nbsp;Download&nbsp;</button>'; -- remark button download
-
-								berkasCheck +=
-									'<div class="d-flex justify-content-center" rekanan_id="' +
-									data.rekanan_id +
-									'" berkas_id="' +
-									data.listBerkas[i].berkas_id +
-									'" reg_id="' +
-									data.reg_id +
-									'" uploaded_default="' +
-									data.listBerkas[i].uploaded_default +
-									'" uploaded_rekanan="' +
-									data.listBerkas[i].uploaded_rekanan +
-									'" desc="' +
-									'" ' +
-									downloadActive +
-									'><a class="i-wrapp light btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>';
-								berkasCheck += "</div>";
-
-								berkasCheck += '<div class="dropdown-menu">';
-								for (var j = 0; j < countTmpl; j++) {
+							
+							array_berkas_template.push(data.listBerkas[i].list_template);
+							var template_count = data.listBerkas[i].list_template.length;
+							var download_dropdown = "";
+								for (var j = 0; j < template_count; j++) {
 									if (
 										data.listBerkas[i].list_template[j].BERKAS_ID ==
 										data.listBerkas[i].berkas_id
 									) {
-										berkasCheck +=
+										download_dropdown +=
 											'<a class="dropdown-item" href="' +
 											base_url +
 											data.listBerkas[i].list_template[j].URL +
@@ -2540,27 +2453,29 @@
 											data.listBerkas[i].list_template[j].REKANAN_NAMA +
 											"</small></a>";
 									}
-									sub_array_UploadRekTmpl.push(
-										data.listBerkas[i].list_template[j].BERKAS_ID
-									);
-									console.log(data.listBerkas[i].list_template[j].BERKAS_ID);
-									// super_Array_UploadRekTmpl.push(sub_array_UploadRekTmpl);
 								}
-								berkasCheck += "</div>";
-								berkasCheck += "</div>";
+							if (template_count > 1) {
+								
+								download_button =
+									'<div class="dropleft d-flex justify-content-center" data-toggle="tooltip" data-placement="bottom" title="Download Template">' +
+									'<a class="btn dropdown-toggle i-wrapp light btn-downnload-template" href="#" role="button"' + 
+									'data-toggle="dropdown" aria-expanded="false" style="padding:0; line-height:35px">' +
+									'<i class="fas fa-download"></i>' +
+									"</a>" +
+									'<div class="dropdown-menu">';
+									
+								download_button += download_dropdown;
+								download_button += "</div>" +
+									"</div>";
 							} else {
-								for (var j = 0; j < countTmpl; j++) {
+
+								for (var j = 0; j < template_count; j++) {
 									if (
 										data.listBerkas[i].list_template[j].BERKAS_ID ==
 										data.listBerkas[i].berkas_id
 									) {
-										// berkasCheck +=
-										// '<a class="text-decoration-none" href="' +  base_url + data.listBerkas[i].list_template[j].URL  + '" target="_blank" rekid="' + data.listBerkas[i].list_template[j].REKANAN_ID + '">' +
-										// '<button type="button" class="btn btn-success btn-sm fs-075rem" ' +
-										// downloadActive +
-										// '><i class="fas fa-download"></i>&nbsp;Download</button></a>';
-										berkasCheck +=
-											'<div class="d-flex justify-content-center" rekanan_id="' +
+										download_button =
+											'<div class="d-flex justify-content-center btn-downnload-template" rekanan_id="' +
 											data.rekanan_id +
 											'" berkas_id="' +
 											data.listBerkas[i].berkas_id +
@@ -2570,81 +2485,76 @@
 											data.listBerkas[i].uploaded_default +
 											'" uploaded_rekanan="' +
 											data.listBerkas[i].uploaded_rekanan +
-											'"><a class="i-wrapp light btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>';
-										berkasCheck += "</div>";
+											'"><a class="i-wrapp light btn-downnload-template" href="' +  base_url + data.listBerkas[i].list_template[j].URL  + '"' +
+											'role="button" " target="_blank" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+											"</div>";
 									}
 								}
 							}
+							
+							// console.log(JSON.stringify(data.listBerkas[i].list_template));	
 						}
+						col_class = "";
 
-						berkasCheck += "</div>"; // end of div form-check-inline
+						button_html =
+							// action section
+							'<div class="form-inline d-flex justify-content-end hover circle hide">' +
+							// upload
+							// '<div class="d-flex justify-content-center light btn-upload-template" role="button" rekanan_id="' +
+							// data.rekanan_id +
+							// '" berkas_id="' +
+							// data.listBerkas[i].berkas_id +
+							// '" reg_id="' +
+							// data.reg_id +
+							// '" uploaded_default="' +
+							// data.listBerkas[i].uploaded_default +
+							// '" uploaded_rekanan="' +
+							// data.listBerkas[i].uploaded_rekanan +
+							// '"><a class="i-wrapp" data-toggle="tooltip" data-placement="bottom" title="Upload Template"><i class="fas fa-upload"></i></a>' +
+							// "</div>" +
+							// download
+							download_button +
+							"</div>"; // end of div form-inline						
 
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck += "</div>"; // end of div row
-
-						// upload berkas
-						if (
-							data.listBerkas[i].uploaded_default == "Y" ||
-							data.listBerkas[i].uploaded_rekanan == "Y"
-						) {
-							berkasCheck += '<div class="row pt-2 pb-3">';
-							berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-12">';
-							berkasCheck +=
-								'<button type="button" class="btn btn-mark btn-sm float-right fs-075rem btn_upload_berkas" ket="' +
-								data.listBerkas[i].keterangan +
-								'" id="' +
-								data.listBerkas[i].berkas_id +
-								'">' +
-								'<i class="fas fa-upload"></i>&nbsp;Upload Berkas</button>';
-
-							berkasCheck += "</div>"; // end of div form-inline
-							berkasCheck += "</div>"; // end of div col-sm-12
-
-							berkasCheck += "</div>"; // end of div row
-						}
 					} else {
+						col_class = "switch-button";
 						var check = "";
 						if (data.listBerkas[i].registered == "Y") {
 							check = "checked";
 						}
 
-						berkasCheck += '<div class="row">';
-
-						berkasCheck += '<div class="col-sm-12 col-md-12 col-lg-6">';
-						berkasCheck +=
-							'<label  class="text-muted m-0 fs-085rem berkas-title">' +
-							data.listBerkas[i].keterangan +
-							"</label>";
-						berkasCheck += "</div>"; // end of div col-sm-12
-
-						berkasCheck +=
-							'<div class="col-sm-12 col-md-12 col-lg-6 switch-button">';
-
-						berkasCheck +=
-							'<div class="form-check form-check-inline d-flex justify-content-end py-1">';
-						berkasCheck +=
+						button_html =
+							'<div class="form-check form-check-inline d-flex justify-content-end py-1">' +
 							'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox" type="checkbox" ' +
 							check +
 							'><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
-						berkasCheck += "</div>"; // end of div form-check-inline
-
-						berkasCheck += "</div>"; // end of div col-sm-12 switch-button
-
-						berkasCheck += "</div>"; // end of div row
 					}
-				}
-				// $("#dropdownBerkas").html(dropList);
-				$("#berkasContainer").html(berkasCheck);
 
+					berkas_html += '<div class="row">';
+
+					berkas_html += '<div class="col-sm-12 col-md-12 col-lg-6">';
+					berkas_html +=
+						'<label  class="text-muted m-0 fs-085rem berkas-title">' +
+						data.listBerkas[i].keterangan +
+						"</label>";
+					berkas_html += "</div>"; // eof div .col-sm-12 label
+
+					berkas_html +=
+						'<div class="col-sm-12 col-md-12 col-lg-6 ' + col_class + '">';
+					berkas_html += button_html;
+					berkas_html += "</div>"; // end of div form-check-inline
+					berkas_html += "</div>"; // eof div .col-sm-12 action
+
+					berkas_html += "</div>"; // eof div .row
+					// console.log(JSON.stringify(obj_berkas_template));
+				}
+
+				$("#berkasContainer").html(berkas_html);
 				$("#rowsInpatientFile").toggleClass("d-none");
 				$("#detailInpatientFile").toggleClass("d-none");
 				// console.log(JSON.stringify(data));
 				pageInit();
-				uploadTemplateBerkas();
+				uploadTemplateBerkas(regid, rekanan_id, array_berkas_template);
 				upload_berkas();
 			},
 			error: function (data) {
@@ -2690,61 +2600,89 @@
 		});
 	}
 
-	function uploadTemplateBerkas() {
-		$(".btn-upload-template").on("click", function () {
-			// console.log(JSON.stringify(super_Array_UploadRekTmpl));
+	function uploadTemplateBerkas(reg_id, rekanan_id, array_berkas_template) {
 
+		$(".btn-upload-template").on("click", function () {
+			// console.log(JSON.stringify(array_berkas_template));
 			Dropzone.autoDiscover = false;
 			var berkas_id = $(this).attr("berkas_id");
-			var rekanan_id = $(this).attr("rekanan_id");
-			var reg_id = $(this).attr("reg_id");
-			var uploaded_default = $(this).attr("uploaded_default");
-			var uploaded_rekanan = $(this).attr("uploaded_rekanan");
-			var desc = $(this)
-				.parent()
-				.parent()
-				.parent()
-				.find(".berkas-title")
-				.html();
+			var desc = $(this).attr("desc");
 			$("#myDynamicModal .modal-dialog").addClass("modal-lg");
-
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: base_url + "functions/His_common_func/getAllRekanan",
+				url: base_url + "functions/Form_app_func/checkTemplate",
 				data: {
 					reg_id: reg_id,
+					berkas_id: berkas_id,
 				},
 				success: function (data) {
 					//document.getElementById("tempPathSpan").remove();
 					// alert(JSON.stringify(data));
-					var rcount = data.length;
+					var rcount = data.rekanan.length;
 					var selected = "";
-					var radioChecked1 = "";
-					var radioActive = "";
 					var selectActive = "";
 					var title = "Upload Template" + " " + desc;
 
 					var html = '<div class="form-row pb-3" id="templateOptionContainer">';
+					var template_count = array_berkas_template.length;
 
+					var default_radio_active = "";
+					var default_radio_check = "";
+
+					var default_uploaded = "";
+					var rek_uploaded = "";
+					var rek_radio_active = "";
+					var rek_radio_check = "";
+
+					var default_radio_btn = '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate1" value="Default" >';
+					var rek_radio_btn = '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate2" value="Pilih Rekanan" >';
+
+					var template_container = "";
+					var default_template_container = "";
+					var rek_template_container = "";
+					
 					html +=
 						'<small class="form-text text-muted mb-3">' +
 						"Pilih <b>Default</b> untuk membuat menjadi default template atau <b>Pilih Rekanan</b> untuk menjadikan template khusus bagi rekanan tertentu." +
 						"</small>";
 
+						if ( template_count > 0 ) {
+							for (var i = 0; i < template_count; i++) {
+								var sub_templ_count = array_berkas_template[i].length;
+								for (var j = 0; j < sub_templ_count; j++) {							
+									if (array_berkas_template[i][j].BERKAS_ID == berkas_id) {
+										if (array_berkas_template[i][j].REKANAN_ID == "DEFAULT") {	
+											default_uploaded = "Y"													
+											default_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
+											'<a class="i-wrapp light" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + array_berkas_template[i][j].REKANAN_ID + 
+											'" berkas_id="' + array_berkas_template[i][j].BERKAS_ID + '"><i class="far fa-edit"></i></a>' +
+											'</div>';
+											default_template_container += '<div class="col-sm-12 col-md-6 col-lg-6">' +
+												'<span>1</span></div>';
+										} else if (array_berkas_template[i][j].REKANAN_ID == rekanan_id) {
+											rek_uploaded = "Y"
+											rek_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
+											'<a class="i-wrapp light" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + array_berkas_template[i][j].REKANAN_ID + 
+											'" berkas_id="' + array_berkas_template[i][j].BERKAS_ID + '"><i class="far fa-edit"></i></a>' +
+											'</div>';
+											rek_template_container += '<div class="col-sm-12 col-md-6 col-lg-6">' +
+												'<span>2</span></div>';
+										}
+									}
+								}
+							}
+						} else {
+								default_radio_btn = '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate1" value="Default" >';
+								rek_radio_btn = '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate2" value="Pilih Rekanan" >';	
+								default_uploaded = "N";
+								rek_uploaded = "N";				
+						}
+
 					html += '<div class="col-sm-12 col-md-6 col-lg-6">';
-					if (uploaded_default == "Y") {
-						radioChecked1 = "checked";
-						radioActive = "disabled";
-					} else {
-						radioChecked1 = "";
-						radioActive = "";
-					}
 					html +=
 						'<div class="form-check form-check-inline">' +
-						'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate1" value="Default" ' +
-						radioActive +
-						">" +
+						default_radio_btn +
 						'<label class="form-check-label" for="radioTemplate1">Default</label>' +
 						"</div>"; // eof form-check
 					html += "</div>"; // eof col
@@ -2752,32 +2690,26 @@
 					html += '<div class="col-sm-12 col-md-6 col-lg-6">';
 					html +=
 						'<div class="form-check form-check-inline">' +
-						'<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate2" value="Pilih Rekanan">' +
-						// '<label class="form-check-label" for="radioTemplate2">Pilih Rekanan</label>' +
+						rek_radio_btn +
 						'<label class="mr-sm-2 sr-only" for="selectRekananTemplate">Preference</label>' +
 						'<select class="custom-select mr-sm-2" id="selectRekananTemplate" disabled>';
 					for (var i = 0; i < rcount; i++) {
-						if (data[i].rekanan_id == rekanan_id) {
+						if (data.rekanan[i].rekanan_id == rekanan_id) {
 							selected = "selected";
-							if (uploaded_rekanan == "Y") {
-								selectActive = "disabled";
-							} else {
-								selectActive = "";
-							}
 						} else {
 							selected = "";
 							selectActive = "";
 						}
-
+						
 						html +=
 							"<option " +
 							selected +
 							' value = "' +
-							data[i].rekanan_id +
+							data.rekanan[i].rekanan_id +
 							'" ' +
 							selectActive +
 							">" +
-							data[i].rekanan_nama +
+							data.rekanan[i].rekanan_nama +
 							"</option>";
 					}
 					html += "</select>"; // eof select
@@ -2787,9 +2719,8 @@
 					html += "</div>"; // eof form-row
 
 					html += '<div class="form-row pb-3">';
-					html += '<div class="col-sm-12 col-md-12" style="height: 20em;">';
-					html +=
-						'<div class="position-relative h-100" id="uploadTemplBerkas">';
+					html += '<div class="col-sm-12 col-md-12" style="height: 20em;">';		
+					html += '<div class="position-relative h-100" id="uploadTemplBerkas">';							
 					html +=
 						'<form action="' +
 						base_url +
@@ -2797,8 +2728,8 @@
 						'" class="dropzone h-100 d-flex align-items-center justify-content-center" id="dropTemplate" berkas_id="' +
 						berkas_id +
 						'" style="opacity:0.7; border: none;"></form>';
-					html += "</div>"; // eof col-sm-12
-					html += "</div>"; // eof image-file
+					html += "</div>"; // eof uploadTemplBerkas				
+					html += "</div>"; // eof col-sm-12						
 					html += "</div>"; // eof form-row
 
 					var btn =
@@ -2812,11 +2743,6 @@
 						desc +
 						'" >Oke</button>';
 
-					// if ($('input[type=radio][name=inlineRadioOptions]').is(':checked')) {
-					// 	alert(1);
-					// } else {
-					// 	alert(2);
-					// }
 					$("#myDynamicModal .modal-footer").html(btn);
 					$("#myDynamicModal .modal-body").html(html);
 					$("#myDynamicModal .modal-title").html(title);
@@ -2827,7 +2753,7 @@
 					dropZoneTemplate(berkas_id);
 				},
 				error: function (data) {
-					// console.log(JSON.stringify(data));
+					console.log(JSON.stringify(data));
 					//alert(2);
 				},
 			});

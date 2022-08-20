@@ -39,7 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="inputGroup-sizing-default" data-symbol="&#xf206;"></span>
 							</div>
-							<input type="text" class="form-control" id="username" name="username" placeholder="Type your username" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+							<input type="text" class="form-control" id="username" name="username" placeholder="Ketik Username Anda" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
 							<div class="invalid-feedback">
 								Username harap di isi
 							</div>
@@ -52,7 +52,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="inputGroup-sizing-default" data-symbol="&#xf190;"></span>
 							</div>
-							<input type="password" class="form-control" id="password" name="password" placeholder="Type your password" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
+							<input type="password" class="form-control" id="password" name="password" placeholder="Ketik Password Anda" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
 							<div class="invalid-feedback">
 								Kata sandi harap di isi
 							</div>

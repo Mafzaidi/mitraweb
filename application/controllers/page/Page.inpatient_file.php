@@ -15,6 +15,7 @@
 
     $countrows =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id);
     $rows = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id);
+    $berkas = $this->mfa->getBerkas("Y");
 
     $i= 0;
     $tb = '';
@@ -88,6 +89,11 @@
         $i++;
     };
 
+    $dropdown = '';
+    foreach($berkas as $list) {
+        $dropdown.= '<button class="dropdown-item btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Upload Template ' . $list->KETERANGAN . '" berkas_id="' . $list->BERKAS_ID . '" desc="' .  $list->KETERANGAN . '"><i class="far fa-file-plus"></i>&nbsp;' . $list->KETERANGAN . '</button>';
+    }
+
     
     // <a class="i-wrapp" id="btnAddBerkas" ' . $is_reg . ' data-toggle="tooltip" data-placement="bottom" title="Tambah data"><i class="fas fa-folder-plus"></i></a>
     // <a class="i-wrapp" id="btnEditBerkas" ' . $is_edit . ' data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-edit"></i></a>
@@ -135,4 +141,5 @@
     $data['num1'] = $num1;
     $data['num2'] = $num2;
     $data['tablerows'] = $tb;
+    $data['dropdown'] = $dropdown;
 ?>

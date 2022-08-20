@@ -7,6 +7,7 @@ class Form_app_func extends CI_Controller
     {
         parent::__construct();
         $this->load->model('m_form_application','mfa');
+        $this->load->model('m_his_global','his');
         $this->load->library('modal_variables');
         $this->load->library('pagination');
         $this->load->helper('file');
@@ -179,6 +180,40 @@ class Form_app_func extends CI_Controller
             $check = $this->mfa->getRowCountPinjamMr($mr);
             
         echo json_encode(array("check" => $check));
+        }
+    }
+
+    function checkTemplate()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {           
+            $reg_id = $this->input->post('reg_id');
+            $berkas_id = $this->input->post('berkas_id');
+
+            $records = $this->his->getRowsMsRekanan();
+            $records2 = $this->mfa->getTemplateBerkas($reg_id, $berkas_id);
+            
+
+            foreach($records as $row ){
+                $rekanan[] = array(
+                                    "rekanan_id"=>$row->REKANAN_ID, 
+                                    "rekanan_nama"=>$row->REKANAN_NAMA
+                                );
+            }
+
+            if (empty($records2)) {
+                $template = []; 
+            } else {
+                foreach($records2 as $row2 ){
+                    $template[] = array(
+                                        "rekanan_id"=>$row2->REKANAN_ID, 
+                                        "rekanan_nama"=>$row2->REKANAN_NAMA
+                                    );
+                }
+            }
+
+            echo json_encode(array("rekanan" => $rekanan, "template" => $template));
         }
     }
 

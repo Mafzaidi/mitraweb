@@ -270,13 +270,19 @@ class M_form_application extends CI_Model
             return $row;
     }
 
-    function getBerkas() {
+    function getBerkas($template="") {
+        $template_condition = "";
+        if (isset($template) && !empty($template)) {
+            $template_condition = "AND A.TEMPLATE LIKE UPPER('" . $template . "'||'%')";
+        }
+
         $sql = "SELECT
                     A.BERKAS_ID, A.KETERANGAN
                 FROM
                     EDP_MANAGER.MS_BERKAS A
                 WHERE
                     A.SHOW_ITEM = '1'
+                    " . $template_condition . "
         ";
 
         $query = $this->oracle_db->query($sql);
@@ -390,7 +396,7 @@ class M_form_application extends CI_Model
 
     function getTemplateBerkas($reg_id, $berkas_id) {
         $sql = "SELECT
-                    A.*, B.REKANAN_NAMA
+                    A.*, B.REKANAN_NAMA, '" .$reg_id . "' AS REG_ID
                 FROM
                     EDP_MANAGER.DT_BERKAS_TEMPLATE A,
                     HIS_MANAGER.MS_REKANAN B

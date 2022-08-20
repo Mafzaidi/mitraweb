@@ -2414,7 +2414,7 @@
 						var download_button = "";
 						if (data.listBerkas[i].uploaded == "N") {
 							download_button =
-								'<div class="d-flex justify-content-center btn-upload-template"" rekanan_id="' +
+								'<div class="d-flex justify-content-center"" rekanan_id="' +
 								data.rekanan_id +
 								'" berkas_id="' +
 								data.listBerkas[i].berkas_id +
@@ -2426,18 +2426,17 @@
 								data.listBerkas[i].uploaded_rekanan +
 								'" desc="' +
 								'" ' +
-								' disabled><a class="i-wrapp light data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+								' disabled><a class="i-wrapp light btn-downnload-template" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
 								"</div>";
 						} else {
 							var template_count = data.listBerkas[i].list_template.length;
-							if (template_count > 1) {
-								var template_dropdown = "";
+							var download_dropdown = "";
 								for (var j = 0; j < template_count; j++) {
 									if (
 										data.listBerkas[i].list_template[j].BERKAS_ID ==
 										data.listBerkas[i].berkas_id
 									) {
-										template_dropdown +=
+										download_dropdown +=
 											'<a class="dropdown-item" href="' +
 											base_url +
 											data.listBerkas[i].list_template[j].URL +
@@ -2448,34 +2447,42 @@
 											"</small></a>";
 									}
 								}
+							if (template_count > 1) {
+								
 								download_button =
-									'<div class="dropdown">' +
-									'<div class="d-flex justify-content-center btn-downnload-template">' +
-									'<a class="btn dropdown-toggle i-wrapp light" href="#" role="button" data-toggle="dropdown" aria-expanded="false">' +
+									'<div class="dropleft d-flex justify-content-center" data-toggle="tooltip" data-placement="bottom" title="Download Template">' +
+									'<a class="btn dropdown-toggle i-wrapp light btn-downnload-template" href="#" role="button"' + 
+									'data-toggle="dropdown" aria-expanded="false" style="padding:0; line-height:35px">' +
 									'<i class="fas fa-download"></i>' +
 									"</a>" +
-									"</div>" +
-									'<div class="dropdown-menu">' +
-									'<a class="dropdown-item" href="#">Action</a>' +
-									'<a class="dropdown-item" href="#">Another action</a>' +
-									'<a class="dropdown-item" href="#">Something else here</a>' +
-									"</div>" +
+									'<div class="dropdown-menu">';
+									
+								download_button += download_dropdown;
+								download_button += "</div>" +
 									"</div>";
 							} else {
-								download_button =
-									'<div class="d-flex justify-content-center btn-downnload-template" rekanan_id="' +
-									data.rekanan_id +
-									'" berkas_id="' +
-									data.listBerkas[i].berkas_id +
-									'" reg_id="' +
-									data.reg_id +
-									'" uploaded_default="' +
-									data.listBerkas[i].uploaded_default +
-									'" uploaded_rekanan="' +
-									data.listBerkas[i].uploaded_rekanan +
-									'" data-toggle="dropdown" aria-expanded="false"' +
-									'><a class="i-wrapp light" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
-									"</div>";
+
+								for (var j = 0; j < template_count; j++) {
+									if (
+										data.listBerkas[i].list_template[j].BERKAS_ID ==
+										data.listBerkas[i].berkas_id
+									) {
+										download_button =
+											'<div class="d-flex justify-content-center btn-downnload-template" rekanan_id="' +
+											data.rekanan_id +
+											'" berkas_id="' +
+											data.listBerkas[i].berkas_id +
+											'" reg_id="' +
+											data.reg_id +
+											'" uploaded_default="' +
+											data.listBerkas[i].uploaded_default +
+											'" uploaded_rekanan="' +
+											data.listBerkas[i].uploaded_rekanan +
+											'"><a class="i-wrapp light btn-downnload-template" href="' +  base_url + data.listBerkas[i].list_template[j].URL  + '"' +
+											'role="button" " target="_blank" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+											"</div>";
+									}
+								}
 							}
 						}
 						col_class = "";
