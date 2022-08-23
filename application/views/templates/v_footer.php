@@ -48,7 +48,7 @@
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 		<!-- all.js -->
-		<script src="<?php echo base_url('assets/js/all.js?v=202208192046'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/all.js?v=202208232025'); ?>"></script>
 
 	</body>
 

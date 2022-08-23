@@ -17,7 +17,7 @@ class Form_app_func extends CI_Controller
 	{
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
-        {
+        {         
             $page_start = $this->input->post('page_start');
             $per_page = $this->input->post('per_page');
             $keyword = $this->input->post('keyword');;
@@ -187,7 +187,10 @@ class Form_app_func extends CI_Controller
     {
         $sess_id = $this->session->userdata('user_id');
         if(!empty($sess_id))
-        {           
+        {
+            // $thumb = new Imagick('http://10.101.4.99/mitraweb/assets/upload/templates/DEFAULT/2/LAPDIR_LAB.jpg');
+            
+
             $reg_id = $this->input->post('reg_id');
             $berkas_id = $this->input->post('berkas_id');
 
@@ -207,11 +210,12 @@ class Form_app_func extends CI_Controller
             } else {
                 foreach($records2 as $row2 ){
                     $template[] = array(
+                                        "berkas_id"=>$row2->BERKAS_ID,
                                         "rekanan_id"=>$row2->REKANAN_ID, 
                                         "rekanan_nama"=>$row2->REKANAN_NAMA
                                     );
                 }
-            }
+            }    
 
             echo json_encode(array("rekanan" => $rekanan, "template" => $template));
         }

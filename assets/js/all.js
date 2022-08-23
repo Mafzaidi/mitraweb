@@ -2625,8 +2625,8 @@
 					var title = "Upload Template" + " " + desc;
 
 					var html = '<div class="form-row pb-3" id="templateOptionContainer">';
-					var template_count = array_berkas_template.length;
-
+					var template_count = data.template.length;
+					// console.log(template_count);
 					var default_radio_active = "";
 					var default_radio_check = "";
 
@@ -2648,36 +2648,28 @@
 						"</small>";
 
 						if ( template_count > 0 ) {
-							for (var i = 0; i < template_count; i++) {
-								var sub_templ_count = array_berkas_template[i].length;
-								for (var j = 0; j < sub_templ_count; j++) {							
-									if (array_berkas_template[i][j].BERKAS_ID == berkas_id) {
-										if (array_berkas_template[i][j].REKANAN_ID == "DEFAULT") {	
-											default_uploaded = "Y"													
-											default_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
-											'<a class="i-wrapp light" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + array_berkas_template[i][j].REKANAN_ID + 
-											'" berkas_id="' + array_berkas_template[i][j].BERKAS_ID + '"><i class="far fa-edit"></i></a>' +
-											'</div>';
-											default_template_container += '<div class="col-sm-12 col-md-6 col-lg-6">' +
-												'<span>1</span></div>';
-										} else if (array_berkas_template[i][j].REKANAN_ID == rekanan_id) {
-											rek_uploaded = "Y"
-											rek_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
-											'<a class="i-wrapp light" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + array_berkas_template[i][j].REKANAN_ID + 
-											'" berkas_id="' + array_berkas_template[i][j].BERKAS_ID + '"><i class="far fa-edit"></i></a>' +
-											'</div>';
-											rek_template_container += '<div class="col-sm-12 col-md-6 col-lg-6">' +
-												'<span>2</span></div>';
-										}
+							for (var i = 0; i < template_count; i++) {						
+								if (data.template[i].berkas_id == berkas_id) {
+									if (data.template[i].rekanan_id == "DEFAULT") {	
+										default_uploaded = "Y"													
+										default_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
+											'<a class="i-wrapp light btn-edit-template" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + data.template[i].rekanan_id + 
+											'" berkas_id="' + data.template[i].berkas_id + '"><i class="far fa-edit"></i></a>' +
+											'</div><input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate1" value="Default" disabled>';
+										default_template_container += '<div class="col-sm-12 col-md-6 col-lg-6">' +
+											'<span>1</span></div>';
+									} else if (data.template[i].rekanan_id == rekanan_id) {
+										rek_uploaded = "Y"
+										rek_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
+											'<a class="i-wrapp light btn-edit-template" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + data.template[i].rekanan_id + 
+											'" berkas_id="' + data.template[i].berkas_id + '"><i class="far fa-edit"></i></a>' +
+											'</div><input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate2" value="Pilih Rekanan" disabled>';
+										rek_template_container += '<div class="col-sm-12 col-md-6 col-lg-6">' +
+											'<span>2</span></div>';
 									}
 								}
 							}
-						} else {
-								default_radio_btn = '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate1" value="Default" >';
-								rek_radio_btn = '<input class="form-check-input" type="radio" name="inlineRadioOptions" id="radioTemplate2" value="Pilih Rekanan" >';	
-								default_uploaded = "N";
-								rek_uploaded = "N";				
-						}
+						} 
 
 					html += '<div class="col-sm-12 col-md-6 col-lg-6">';
 					html +=
@@ -2771,6 +2763,15 @@
 		var rekanan_id = "";
 		var rekanan_nama = "";
 		var desc = "";
+
+		$("#templateOptionContainer").on("click", ".btn-edit-template", function () { 		
+			$("input[type=radio][name=inlineRadioOptions]").prop("disabled", true);	
+			$("input[type=radio][name=inlineRadioOptions]").prop("checked", false);
+			$(this).parent().parent().find("input[type=radio][name=inlineRadioOptions]").prop("disabled", false);
+			$(this).parent().parent().find("input[type=radio][name=inlineRadioOptions]").prop("checked", true);
+			$("input[type=radio][name=inlineRadioOptions]").trigger("change");
+		});
+
 		$("input[type=radio][name=inlineRadioOptions]").change(function () {
 			if (this.value == "Default") {
 				$("#selectRekananTemplate").prop("disabled", true);
