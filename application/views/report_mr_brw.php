@@ -44,10 +44,11 @@
                         <div class="tb-header bg-cool text-white row">
                             <div class="col-md-1 tb-label p-rem-50">NO</div>
                             <div class="col-md-1 tb-label p-rem-50">MEDREC</div>
-                            <div class="col-md-3 tb-label p-rem-50">PASIEN</div>
-                            <div class="col-md-3 tb-label p-rem-50">PEMINJAM</div>
+                            <div class="col-md-2 tb-label p-rem-50">PASIEN</div>
+                            <div class="col-md-2 tb-label p-rem-50">PEMINJAM</div>
                             <div class="col-md-2 tb-label p-rem-50">TGL PINJAM</div>
                             <div class="col-md-2 tb-label p-rem-50">TGL JANJI KEMBALI</div>
+                            <div class="col-md-2 tb-label p-rem-50">TGL KEMBALI</div>
                         </div>
 
                         <div class="tb-body">  

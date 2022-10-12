@@ -109,19 +109,47 @@ class M_ora_medrec extends CI_Model
         $trans_pinjam,
         $returnBy,
         $returnDesc,
-        $receiveBy
+        $receiveBy,
+        $realReturnDate
     )
     {
         $sql = "UPDATE 
                     EDP_MANAGER.PINJAM_MR A
                 SET
-                    A.TGL_AKHIR_KEMBALI = SYSDATE,
+                    A.TGL_AKHIR_KEMBALI = TO_DATE('" . $realReturnDate . "','DD.MM.RRRR'),
                     A.DIKEMBALIKAN_OLEH = '" . $returnBy . "',
                     A.PETUGAS_PENERIMA = '" . $receiveBy . "',
-                    A.CATATAN = '" . $returnDesc . "'
+                    A.CATATAN = '" . $returnDesc . "',
+                    A.LAST_UPDATED_DATE = SYSDATE,
+                    A.LAST_UPDATED_BY = '" . $receiveBy . "'
                 WHERE
                     A.TRANS_PINJAM_MR = '" . $trans_pinjam . "'
                     AND A.TGL_AKHIR_KEMBALI IS NULL
+                ";
+        $query = $this->oracle_db->query($sql);
+    }
+
+    function updateSavedPinjamMR(
+        $trans_id,
+        $new_nik_peminjam,
+        $new_tgl_pinjam,
+        $new_keperluan,
+        $new_tgl_kembali,
+        $user
+    )
+    {
+        $sql = "UPDATE 
+                    EDP_MANAGER.PINJAM_MR A
+                SET
+                    A.NOKAR_PEMINJAM = '" . $new_nik_peminjam . "',
+                    A.TGL_PINJAM = TO_DATE('" . $new_tgl_pinjam . "','DD.MM.RRRR'),
+                    A.TGL_AKHIR_KEMBALI = TO_DATE('" . $new_tgl_kembali . "','DD.MM.RRRR'),
+                    A.KEPERLUAN = '" . $new_keperluan . "',
+                    A.LAST_UPDATED_DATE = SYSDATE,
+                    A.LAST_UPDATED_BY = '" . $user . "'
+                WHERE
+                    A.TRANS_PINJAM_MR = '" . $trans_id . "'
+                    AND A.TGL_AKHIR_KEMBALI IS NOT NULL
                 ";
         $query = $this->oracle_db->query($sql);
     }
@@ -144,7 +172,7 @@ class M_ora_medrec extends CI_Model
         $query = $this->oracle_db->query($sql);
     }
 
-    function getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id) {
+    function getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id, $status_return, $status_notreturn) {
 
         $filter_condition = "";
         if (isset($trans_id) && !empty($trans_id)) {
@@ -152,12 +180,14 @@ class M_ora_medrec extends CI_Model
         }
         
         $return_condition ="";
-        if ($status=="all") {           
-            $return_condition ="";
-        } else if ($status=="return") {
+        if ($status_return=="return" && $status_notreturn=="") {
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NOT NULL";
-        } else if ($status=="not return") {
+        } else if ($status_return=="" && $status_notreturn=="not return") {
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NULL";
+        } else if ($status_return=="return" && $status_notreturn=="not return") {
+            $return_condition = "";
+        } else if ($status_return=="" && $status_notreturn=="") {
+            $return_condition = "";
         }
 
         $date_condition = "";
@@ -189,7 +219,7 @@ class M_ora_medrec extends CI_Model
                         A.DISERAHKAN_OLEH,
                         TO_CHAR(A.TGL_JANJI_KEMBALI, 'DD.MM.RRRR') AS TGL_JANJI_KEMBALI,
                         A.PETUGAS_PENERIMA,
-                        TO_CHAR(A.TGL_AKHIR_KEMBALI, 'DD.MM.RRRR') AS TGL_AKHIR_KEMBALI,
+                        NVL(TO_CHAR(A.TGL_AKHIR_KEMBALI, 'DD.MM.RRRR'), '-') AS TGL_AKHIR_KEMBALI,
                         A.CATATAN,
                         A.DIKEMBALIKAN_OLEH,
                         A.TRANS_PINJAM_MR,
@@ -216,15 +246,17 @@ class M_ora_medrec extends CI_Model
 
     }
 
-    function getRowCountPinjamMR($showitem, $status, $from_date, $to_date) {
+    function getRowCountPinjamMR($showitem, $status, $from_date, $to_date, $status_return, $status_notreturn) {
         
         $return_condition ="";
-        if ($status=="all") {           
-            $return_condition ="";
-        } else if ($status=="return") {
+        if ($status_return=="return" && $status_notreturn=="") {
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NOT NULL";
-        } else if ($status=="not return") {
+        } else if ($status_return=="" && $status_notreturn=="not return") {
             $return_condition = "AND A.TGL_AKHIR_KEMBALI IS NULL";
+        } else if ($status_return=="return" && $status_notreturn=="not return") {
+            $return_condition = "";
+        } else if ($status_return=="" && $status_notreturn=="") {
+            $return_condition = "";
         }
 
         $date_condition = "";
@@ -279,19 +311,21 @@ class M_ora_medrec extends CI_Model
                     B.NO_HP,
                     NVL(B.ALAMAT,'-') AS ALAMAT, 
                     A.NOKAR_PEMINJAM,
+                    SUBSTR(A.NOKAR_PEMINJAM, 6) AS NIK_PEMINJAM,
                     C.NAMA_KAR AS PEMINJAM,
                     A.DEPT_PEMINJAM,
                     A.KEPERLUAN,
                     A.CREATED_DATE,
                     A.CREATED_BY,
+                    SUBSTR(A.CREATED_BY, 6) AS NIK_PEMBERI,
                     A.DISERAHKAN_OLEH,
                     TO_CHAR(A.TGL_JANJI_KEMBALI, 'DD.MM.RRRR') AS TGL_JANJI_KEMBALI,
                     A.PETUGAS_PENERIMA,
-                    A.TGL_AKHIR_KEMBALI,
+                    TO_CHAR(A.TGL_AKHIR_KEMBALI, 'DD.MM.RRRR') AS TGL_KEMBALI,
                     A.CATATAN,
                     A.DIKEMBALIKAN_OLEH,
                     A.TRANS_PINJAM_MR,
-                    A.TGL_PINJAM
+                    TO_CHAR(A.TGL_PINJAM, 'DD.MM.RRRR') AS TGL_PINJAM
                 FROM
                     EDP_MANAGER.PINJAM_MR A,
                     HIS_MANAGER.MS_MEDREC B,

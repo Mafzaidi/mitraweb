@@ -68,6 +68,7 @@ class Auth extends CI_Controller
                                     } else {
                                         $data_session = array(
                                             'user_id' => $loginOra->USERNAME,
+                                            'id' => $loginOra->NO_KAR,
                                             'role_id' => $login->role_id,
                                             'dept_id' => $login->dept_id,
                                             'kd_bagian' => $loginOra->KD_BAGIAN,
@@ -109,6 +110,7 @@ class Auth extends CI_Controller
                             $localcode = $this->mglobal->getLocalCode();
                             $data_session = array(
                                 'user_id' => $login->user_id,
+                                'id' => $login->username,
                                 'role_id' => $login->role_id,
                                 'dept_id' => $login->dept_id,
                                 'kd_bagian' => '',
@@ -148,6 +150,7 @@ class Auth extends CI_Controller
                     } else {
                         $data_session = array(
                             'user_id' => $loginOra->USERNAME,
+                            'id' => $loginOra->NO_KAR,
                             'role_id' => '2',
                             'dept_id' => $loginDeptMYSQL->dept_id,
                             'kd_bagian' => $loginOra->KD_BAGIAN,

@@ -7,9 +7,11 @@
     $toDate = "";
     $keyword = "";
     $trans_id = "";
+    $status_return = "";
+    $status_notreturn = "not return";
     
-    $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status, $fromDate, $toDate);
-    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $fromDate, $toDate, $keyword, $trans_id);
+    $countrows =  $this->mmr->getRowCountPinjamMR($showitem, $status, $fromDate, $toDate, $status_return, $status_notreturn);
+    $rows = $this->mmr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $fromDate, $toDate, $keyword, $trans_id, $status_return, $status_notreturn);
     
     $i= 0;
     $tb = '';
@@ -23,15 +25,26 @@
     }
 
     foreach($rows as $dt) {
+        $btnReturn ="";
+        $btnEdit ="";
+        if ($dt->TGL_AKHIR_KEMBALI <> "" && $dt->TGL_AKHIR_KEMBALI <> "-") {
+            $btnReturn ="";
+        } else {        
+            $btnReturn = '<button class="btn bg-primary btn-sm mx-1 text-white file-alt btn-return" data-toggle="tooltip" data-placement="bottom" title="Pilih" dt="' . $dt->TGL_AKHIR_KEMBALI . '"></button>';
+        }
+        if ($dt->TGL_AKHIR_KEMBALI <> "" && $dt->TGL_AKHIR_KEMBALI <> "-") {
+            $btnEdit = '<button class="btn bg-success btn-sm mx-1 text-white edit btn-update" data-toggle="tooltip" data-placement="bottom" title="Ubah"></button>';
+        } else {        
+            $btnEdit = '';
+        }
         $tb.= '<div class="row tb-row border-bottom ' . ($i%2 ? 'odd':'even') . ' enabled" trans_id="' . $dt->TRANS_PINJAM_MR . '">';
-        $tb.= '<div class="col-md-1 tb-cell p-rem-50">' . $dt->RNUM . '</div>';
-        $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->MEDREC . '</div>';
-        $tb.= '<div class="col-md-4 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
-        $tb.= '<div class="col-md-2 tb-cell p-rem-50">' . $dt->TGL_PINJAM . '</div>';
-        $tb.= '<div class="col-md-3 tb-cell p-rem-50 text-center">
-                    <button class="btn bg-primary btn-sm mx-1 text-white edit"></button>
-                    <button class="btn btn-danger btn-sm mx-1 text-white delete"></button>
-                </div>';
+        $tb.= '<div class="col-md-1 col-lg-1 tb-cell p-rem-50">' . $dt->RNUM . '</div>';
+        $tb.= '<div class="col-md-4 col-lg-2 tb-cell p-rem-50">' . $dt->MEDREC . '</div>';
+        $tb.= '<div class="col-md-7 col-lg-5 tb-cell p-rem-50">' . $dt->PASIEN . '</div>';
+        $tb.= '<div class="col-md-12 col-lg-4 tb-cell p-rem-50 text-right">' . $btnReturn .
+                    '<button class="btn btn-danger btn-sm mx-1 text-white delete btn-delete" data-toggle="tooltip" data-placement="bottom" title="Hapus"></button>'
+                    . $btnEdit .
+                '</div>';
         $tb.= '</div>';
         $i++;
     } 

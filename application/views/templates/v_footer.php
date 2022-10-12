@@ -17,6 +17,8 @@
 				<!-- End of Content -->
 			</div>
 			<!-- End Of Wrapper -->
+		
+		<script src="//npmcdn.com/pdfjs-dist/build/pdf.js"></script>
 
 		<!-- Js jquery -->	
 		<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
@@ -42,14 +44,10 @@
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap.bundle.min.js'); ?>"></script>
 		<!-- datetimepicker jquery -->
 		<script src="<?php echo base_url('assets/vendor/date-time-picker/build/js/bootstrap-datetimepicker.min.js'); ?>"></script>
-		<!-- pdfThumbnail.js -->
-		<script src="<?php echo base_url('assets/js/pdfThumbnail.js'); ?>"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 		<!-- all.js -->
-		<script src="<?php echo base_url('assets/js/all.js?v=202208232025'); ?>"></script>
-
+		<script src="<?php echo base_url('assets/js/all.js?v=202210112014'); ?>"></script>
 	</body>
 
 </html>

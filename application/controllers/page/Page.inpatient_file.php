@@ -136,10 +136,12 @@
             }
         }
     }
+
     $data['pagination'] = $this->pagination->create_links();
     $data['rows'] = $countrows;
     $data['num1'] = $num1;
     $data['num2'] = $num2;
     $data['tablerows'] = $tb;
     $data['dropdown'] = $dropdown;
+    // $data['thumb'] = $thumb;
 ?>

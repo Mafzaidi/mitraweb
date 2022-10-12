@@ -88,8 +88,18 @@ class Medrec_func extends CI_Controller
                                                 $trans_pinjam
                                             );
             echo json_encode($data);
-        }else{
-            redirect(base_url('auth'));
+        }else{  
+            $data = new StdClass();
+            $data->err = "001";
+            $data->errMsg = "session expired";
+            // $data[] = array(
+            //     "err"=> "001",
+            //     "errMsg"=> "session closed"
+            // );
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Session anda telah habis!
+                </div>');
+            echo json_encode($data);
         }
     }
 
@@ -104,16 +114,18 @@ class Medrec_func extends CI_Controller
             $status = $this->input->post('status');
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');           
-            $keyword = $this->input->post('keyword'); ;
-            $trans_id = $this->input->post('trans_id'); ;
+            $keyword = $this->input->post('keyword');
+            $trans_id = $this->input->post('trans_id');
+            $status_return = $this->input->post('status_return');
+            $status_notreturn = $this->input->post('status_notreturn');
 
             $showitem = 1;
             if($pageno != 0) {
                 $pageno = ($pageno-1) * $per_page;
             }
 
-            $countrecords =  $this->mr->getRowCountPinjamMR($showitem, $status, $from_date, $to_date);
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
+            $countrecords =  $this->mr->getRowCountPinjamMR($showitem, $status, $from_date, $to_date, $status_return, $status_notreturn);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id, $status_return, $status_notreturn);
           
             foreach($records as $row ){
                 $response[] = array(
@@ -123,7 +135,8 @@ class Medrec_func extends CI_Controller
                                     "peminjam"=>$row->PEMINJAM,
                                     "tgl_janji_kembali"=>$row->TGL_JANJI_KEMBALI,
                                     "tgl_pinjam"=>$row->TGL_PINJAM,
-                                    "trans_pinjam"=>$row->TRANS_PINJAM_MR
+                                    "trans_pinjam"=>$row->TRANS_PINJAM_MR,
+                                    "tgl_kembali"=>$row->TGL_AKHIR_KEMBALI
                                 );
             }
 
@@ -178,9 +191,11 @@ class Medrec_func extends CI_Controller
             $to_date = $this->input->post('to_date');
             $keyword = "";
             $trans_id = "";
+            $status_return = "";
+            $status_notreturn = "";
 
             // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id, $status_return, $status_notreturn);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A1', 'NO');
@@ -241,9 +256,11 @@ class Medrec_func extends CI_Controller
             $to_date = $this->input->post('to_date');
             $keyword = "";
             $trans_id = "";
+            $status_return = "";
+            $status_notreturn = "";
 
             // $fileName = "Laporan" . $from_date . "-" . $to_date . ".xlsx";   
-            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
+            $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id, $status_return, $status_notreturn);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $sheet->setCellValue('A1', 'NO');
@@ -301,6 +318,7 @@ class Medrec_func extends CI_Controller
             $get = $this->mr->getDataPinjamMR($trans_pinjam_mr);
 
             $result = array(
+                'trans_id' => $get->TRANS_PINJAM_MR,
                 'mr' => $get->MR,
                 'medrec' => $get->MEDREC,
                 'pasien' => $get->PASIEN,
@@ -309,15 +327,20 @@ class Medrec_func extends CI_Controller
                 'no_hp' => $get->NO_HP,
                 'alamat' => $get->ALAMAT,
                 'peminjam' => $get->PEMINJAM,
+                'nik_peminjam' =>$get->NIK_PEMINJAM,
                 'pemberi_pinjam' => $get->DISERAHKAN_OLEH,
+                'nik_pemberi' =>$get->NIK_PEMBERI,
                 'keperluan' => $get->KEPERLUAN,
                 'tgl_pinjam' => $get->TGL_PINJAM,
-                'tgl_janji_kembali' => $get->TGL_JANJI_KEMBALI
+                'tgl_janji_kembali' => $get->TGL_JANJI_KEMBALI,
+                'tgl_kembali' => $get->TGL_KEMBALI
 
             );
 
         $data = $result;
         echo json_encode($data);
+        } else {
+            redirect(base_url('auth'));
         }
     }
 
@@ -330,12 +353,14 @@ class Medrec_func extends CI_Controller
             $returnBy = 'PLAY_' . $this->input->post('returnBy');
             $returnDesc = $this->input->post('returnDesc');
             $receiveBy = $this->session->userdata('user_id');
+            $realReturnDate = $this->input->post('realReturnDate');
 
             $update = $this->mr->updatePinjamMR( 
                 $trans_pinjam,
                 $returnBy,
                 $returnDesc,
-                $receiveBy
+                $receiveBy,
+                $realReturnDate
             );
 
             $data[] = array(
@@ -345,10 +370,66 @@ class Medrec_func extends CI_Controller
             );
             echo json_encode($data);
         }else{
-            redirect(base_url('auth'));
+            $data = new StdClass();
+            $data->err = "001";
+            $data->errMsg = "session expired";
+            // $data[] = array(
+            //     "err"=> "001",
+            //     "errMsg"=> "session closed"
+            // );
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Session anda telah habis!
+                </div>');
+            echo json_encode($data);
+            // redirect('auth');
         }
     }
 
+    function updateSavedReturnMR()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        if(!empty($sess_id))
+        {        
+            $trans_id = $this->input->post('trans_id');
+            $new_nik_peminjam = 'PLAY_' . $this->input->post('new_nik_peminjam');
+            $new_tgl_pinjam = $this->input->post('new_tgl_pinjam');
+            $new_keperluan = $this->input->post('new_keperluan');
+            $new_tgl_kembali = $this->input->post('new_tgl_kembali');
+            $user = $this->session->userdata('user_id');
+
+            $update = $this->mr->updateSavedPinjamMR( 
+                $trans_id,
+                $new_nik_peminjam,
+                $new_tgl_pinjam,
+                $new_keperluan,
+                $new_tgl_kembali,
+                $user
+            );
+
+            $data[] = array(
+                "trans_id"=>$trans_id,
+                "new_nik_peminjam"=>$new_nik_peminjam,
+                "new_tgl_pinjam"=>$new_tgl_pinjam,
+                "new_keperluan"=>$new_keperluan,
+                "new_tgl_kembali"=>$new_tgl_kembali,
+                "user"=>$user
+            );
+            echo json_encode($data);
+        }else{
+            $data = new StdClass();
+            $data->err = "001";
+            $data->errMsg = "session expired";
+            // $data[] = array(
+            //     "err"=> "001",
+            //     "errMsg"=> "session closed"
+            // );
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Session anda telah habis!
+                </div>');
+            echo json_encode($data);
+            // redirect('auth');
+        }
+    }
     function deleteReturnMR()
     {
         $sess_id = $this->session->userdata('user_id');
@@ -388,8 +469,10 @@ class Medrec_func extends CI_Controller
         $to_date = "";
         $keyword = $this->input->post('keyword');
         $trans_id = "";
+        $status_return = "";
+        $status_notreturn = "";
 
-        $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id);
+        $records = $this->mr->getRowPinjamMR($page_start, $per_page, $showitem, $status, $from_date, $to_date, $keyword, $trans_id, $status_return, $status_notreturn);
 
         foreach($records as $row ){
             $response[] = array("id"=>$row->TRANS_PINJAM_MR, "label"=>$row->MEDREC . ' - ' . $row->PASIEN);

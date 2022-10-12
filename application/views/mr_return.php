@@ -6,7 +6,39 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-12 col-md-7">
+                <div class="col-sm-12 col-md-7">           
+                    <div class="dropdown pb-2">
+                        <button class="btn btn-sm ml-auto dropdown-toggle" type="button" id="dropdownFilterMrReturn" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <ul class="dropdown-menu form-check form-check-inline" aria-labelledby="dropdownFilterMrReturn">
+                            <li class="dropdown-item">
+                                <input class="form-check-input" type="checkbox" value="all" id="allCheck" name="checkfilter">
+                                <label class="form-check-label" for="allCheck">
+                                    Select all
+                                </label>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li class="dropdown-item form-check form-check-inline">
+                                <input class="form-check-input input-check" type="checkbox" value="not return" id="notReturnCheck" name="checkfilter">
+                                <label class="form-check-label" for="notReturnCheck">
+                                    Belum Kembali
+                                </label>
+                            </li>
+                            <li class="dropdown-item form-check form-check-inline">
+                                <input class="form-check-input input-check" type="checkbox" value="return" id="returnCheck" name="checkfilter">
+                                <label class="form-check-label" for="returnCheck">
+                                    Sudah Kembali
+                                </label>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <div class="row px-3">
+                                <div class="col">
+                                    <button type="submit" id="submitFilterMrReturn" class="btn btn-sm btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
                     <div class="dataTables_length" id="">
                         <label>
                             Tampilkan 
@@ -45,13 +77,12 @@
                 <div class="col-sm-12 col-md-7" id="">   
                     <div class="tb" id="pinjamMrReturn">
 
-                        <div class="tb-header bg-cool text-light row">
-                            <div class="col-md-1 tb-label p-rem-50">NO</div>
-                            <div class="col-md-2 tb-label p-rem-50">MEDREC</div>
-                            <div class="col-md-4 tb-label p-rem-50">PEMINJAM</div>
-                            <div class="col-md-2 tb-label p-rem-50">TGL PINJAM</div>
-                            <div class="col-md-3 tb-label p-rem-50 text-center">PILIH</div>
-                        </div>
+                        <!-- <div class="tb-header bg-cool text-light row">
+                            <div class="col-md-1 col-lg-1 tb-label p-rem-50">NO</div>
+                            <div class="col-md-4 col-lg-2 tb-label p-rem-50">MEDREC</div>
+                            <div class="col-md-5 col-lg-5 tb-label p-rem-50">PEMINJAM</div>
+                            <div class="col-md-0 col-lg-4 tb-label p-rem-50">PILIH</div>
+                        </div> -->
 
                         <div class="tb-body">  
                             <?= $datarow; ?>
@@ -112,22 +143,19 @@
                                 </div>
                             </div>                       
                             <div class="form-row">
-                                <div class="form-group col-md-7">
-                                    <label for="inputDataNecst" class="col-form-label-sm mb-1">Keperluan</label>
-                                    <input type="text" class="form-control form-control-sm" id="inputDataNecst" readonly>
+                                <div class="form-group col-md-6">
+                                    <label for="inputDataBrwDate" class="col-form-label-sm mb-1">Tanggal Pinjam</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataBrwDate" readonly>
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-6">
                                     <label for="inputDataRtrnDate" class="col-form-label-sm mb-1">Tanggal Janji Kembali</label>
                                     <input type="text" class="form-control form-control-sm" id="inputDataRtrnDate" readonly>
                                 </div>
                             </div>
-                            <div class="form-row d-none" id="divReturnBy">
-                                <div class="col-auto">
-                                    <label class="sr-only" for="mr">Medical Record Number</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" id="inputReturnBy" placeholder="dikembalikan oleh" name="returnBy">
-                                </div>
-                                <div class="col-auto">
-                                    <button type="" class="btn btn-primary mb-2 save" trans_pinjam="">&nbsp;&nbsp;Save</button>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputDataNecst" class="col-form-label-sm mb-1">Keperluan</label>
+                                    <input type="text" class="form-control form-control-sm" id="inputDataNecst" readonly>
                                 </div>
                             </div>
                         </form>

@@ -100,7 +100,7 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-md col-lg-10">
                                         <label class="sr-only" for="inputLender"></label>
-                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inputLender" name="pemberi" value=" <?=ucwords($user['first_name']) .' ' . ucwords($user['last_name']) ?>" nokar="<?= 'PLAY_' . $user['username'] ?>" disabled />
+                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inputLender" name="pemberi" value=" <?=ucwords($user['first_name']) .' ' . ucwords($user['last_name']) ?>" nokar="<?= $user['username'] ?>" disabled />
                                     </div>
                                 </div>
 

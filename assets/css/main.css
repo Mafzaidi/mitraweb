@@ -680,7 +680,7 @@ div.dataTables_wrapper > div.row > div[class^="col-"]:last-child {
 	height: auto;
 }
 
-div[disabled] .i-wrapp {
+.i-wrapp.disabled {
 	cursor: not-allowed;
 	opacity: 0.5;
 }
@@ -750,6 +750,21 @@ div[disabled] .i-wrapp {
 
 .bg-primary-2 {
 	background-color: #76b8ff !important;
+}
+
+.bg-pdf {
+	background-color: rgb(223, 5, 5) !important;
+	color: #fff;
+}
+
+.bg-doc {
+	background-color: rgb(5, 45, 223) !important;
+	color: #fff;
+}
+
+.bg-xls {
+	background-color: rgb(3, 126, 3) !important;
+	color: #fff;
 }
 
 .p-rem-50 {
@@ -840,6 +855,12 @@ button.delete:before {
 
 button.edit:before {
 	content: "\f304";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 700;
+}
+
+button.file-alt:before {
+	content: "\f15c";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 700;
 }
@@ -950,6 +971,77 @@ a:hover > .gradient-text {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
+.icon-xls:before {
+	content: "\f1c3";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	margin-right: 2px;
+	float: left;
+}
+
+.icon-pdf:before {
+	content: "\f1c1";
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	margin-right: 0.25rem;
+	float: left;
+}
+
+.thumb-wrapper::after {
+    content: "";
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: 2;
+}
+
+.hover-wrapper::after {
+	display: none;
+}
+
+.hover-wrapper:hover::after {
+	display: block;
+}
+
+.thumb-icon-container {
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1; 
+	width: 100%;
+}
+
+.thumb-icon {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(37, 37, 37, 0.911);
+    opacity: 0.75;
+    text-align: center;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+.thumb-icon-container {
+	display: none;
+}
+
+.hover-wrapper:hover .thumb-icon-container {
+	display: block;
+    z-index: 3; 
+}
+
+.thumb-icon:hover{
+	opacity: 1;
+    color: rgba(255, 255, 255, 0.822);
+} 
 
 /* ui autocomplete */
 .ui-widget {

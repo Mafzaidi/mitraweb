@@ -402,10 +402,12 @@
 	vertical-align: middle;
 	transition: background 0.25s;
 }
+
 .toggle-switch:before,
 .toggle-switch:after {
 	content: "";
 }
+
 .toggle-switch:before {
 	display: block;
 	background: linear-gradient(to bottom, #fff 0%, #eee 100%);
@@ -418,13 +420,21 @@
 	left: 4px;
 	transition: left 0.25s;
 }
+
 .toggle:hover .toggle-switch:before {
 	background: linear-gradient(to bottom, #fff 0%, #fff 100%);
 	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
+
 .toggle-checkbox:checked + .toggle-switch {
 	background: #72be90;
 }
+
+.toggle-checkbox:disabled + .toggle-switch {
+	background: #c2ddcd;
+	cursor: not-allowed;
+}
+
 .toggle-checkbox:checked + .toggle-switch:before {
 	left: 30px;
 }

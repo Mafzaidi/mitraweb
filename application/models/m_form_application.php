@@ -290,12 +290,45 @@ class M_form_application extends CI_Model
         return $result;
     }
 
+    function CountRegiteredBerkas($reg_id) {
+        $sql = "SELECT
+                    A.*
+                FROM
+                    EDP_MANAGER.MS_REG_BERKAS A
+                WHERE
+                    A.REG_ID = '" . $reg_id . "'
+                    AND A.SHOW_ITEM = '1'
+                    AND A.STATUS = '1'
+                ";
+
+        $query = $this->oracle_db->query($sql);
+        $rowcount = $query->num_rows();
+        return $rowcount;
+    }
+
+    function getTransIdRegisteredBerkas($reg_id) {
+        $sql = "SELECT
+                A.TRANS_ID
+            FROM
+                EDP_MANAGER.MS_REG_BERKAS A
+            WHERE
+                A.SHOW_ITEM = '1'
+                AND A.STATUS = '1'
+                AND A.REG_ID = '" . $reg_id . "'
+            ";
+
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+    }
+
     function getListRegBerkas($reg_id) {
         $sql = "SELECT
                     A.BERKAS_ID, 
                     A.KETERANGAN,
                     A.TEMPLATE,
-                    CASE WHEN A.TEMPLATE = 'Y'
+                    A.JENIS,
+                    CASE WHEN A.JENIS = '02'
                         THEN
                             CASE WHEN 
                                 (
@@ -314,7 +347,7 @@ class M_form_application extends CI_Model
                                 ) > 0 THEN 'Y' ELSE 'N' END
                             END
                     ELSE 'N' END AS UPLOADED,                     
-                    CASE WHEN A.TEMPLATE = 'Y'
+                    CASE WHEN A.JENIS = '02'
                         THEN
                             CASE WHEN 
                                 (
@@ -325,7 +358,7 @@ class M_form_application extends CI_Model
                             ELSE 'N'
                             END
                     ELSE 'N' END AS UPLOADED_DEFAULT,
-                    CASE WHEN A.TEMPLATE = 'Y'
+                    CASE WHEN A.JENIS = '02'
                         THEN
                             CASE WHEN 
                                 (
@@ -369,6 +402,8 @@ class M_form_application extends CI_Model
                         SELECT COUNT(*) FROM EDP_MANAGER.DT_REG_BERKAS A1, 
                         EDP_MANAGER.MS_REG_BERKAS B1 WHERE A1.BERKAS_ID = A.BERKAS_ID AND A1.TRANS_ID = B1.TRANS_ID AND B1.REG_ID = '" . $reg_id . "'
                         AND B1.SHOW_ITEM = '1'
+                        AND A1.SHOW_ITEM = '1'
+                        AND A1.STATUS = '1'
                     ) > 0 THEN 'Y' ELSE 'N' END AS REGISTERED,
                     NVL((
                         SELECT
@@ -382,7 +417,59 @@ class M_form_application extends CI_Model
                             AND B1.SHOW_ITEM = '1'
                             AND A1.REG_ID = '" . $reg_id . "'
                         GROUP BY A1.REG_ID
-                    ),'N') AS LIST_BERKAS_REG
+                    ),'N') AS LIST_BERKAS_REG,
+                    NVL((
+                        SELECT
+                            B1.FILE_NAME 
+                        FROM
+                            EDP_MANAGER.MS_REG_BERKAS A1,
+                            EDP_MANAGER.DT_REG_BERKAS B1
+                        WHERE
+                            A1.TRANS_ID = B1.TRANS_ID
+                            AND B1.BERKAS_ID = A.BERKAS_ID
+                            AND A1.SHOW_ITEM = '1'
+                            AND B1.SHOW_ITEM = '1'
+                            AND A1.REG_ID = '" . $reg_id . "'
+                    ),'N') AS FILE_NAME,
+                    NVL((
+                        SELECT
+                            B1.URL 
+                        FROM
+                            EDP_MANAGER.MS_REG_BERKAS A1,
+                            EDP_MANAGER.DT_REG_BERKAS B1
+                        WHERE
+                            A1.TRANS_ID = B1.TRANS_ID
+                            AND B1.BERKAS_ID = A.BERKAS_ID
+                            AND A1.SHOW_ITEM = '1'
+                            AND B1.SHOW_ITEM = '1'
+                            AND A1.REG_ID =  '" . $reg_id . "'
+                    ),'N') AS URL,
+                    NVL((
+                        SELECT
+                            B1.TRANS_ID 
+                        FROM
+                            EDP_MANAGER.MS_REG_BERKAS A1,
+                            EDP_MANAGER.DT_REG_BERKAS B1
+                        WHERE
+                            A1.TRANS_ID = B1.TRANS_ID
+                            AND B1.BERKAS_ID = A.BERKAS_ID
+                            AND A1.SHOW_ITEM = '1'
+                            AND B1.SHOW_ITEM = '1'
+                            AND A1.REG_ID =  '" . $reg_id . "'
+                    ),'N') AS TRANS_ID,
+                    NVL((
+                        SELECT
+                            A1.REG_ID 
+                        FROM
+                            EDP_MANAGER.MS_REG_BERKAS A1,
+                            EDP_MANAGER.DT_REG_BERKAS B1
+                        WHERE
+                            A1.TRANS_ID = B1.TRANS_ID
+                            AND B1.BERKAS_ID = A.BERKAS_ID
+                            AND A1.SHOW_ITEM = '1'
+                            AND B1.SHOW_ITEM = '1'
+                            AND A1.REG_ID =  '" . $reg_id . "'
+                    ),'N') AS REG_ID
                 FROM
                     EDP_MANAGER.MS_BERKAS A
                 WHERE
@@ -411,6 +498,57 @@ class M_form_application extends CI_Model
         $query = $this->oracle_db->query($sql);
         $result = $query->result();
         return $result;
+    }
+
+    function getRegisteredBerkas($reg_id, $trans_id, $berkas_id) {
+        $sql = "SELECT
+                A.REG_ID, 
+                A.MR, 
+                B.TRANS_ID,
+                B.BERKAS_ID,
+                B.QUEUE_ITEM,
+                B.FILE_PATH,
+                B.FILE_NAME,     
+                B.REAL_FILE_NAME,
+                B.URL,
+                TO_CHAR(B.CREATED_DATE,'DD.MM.YYYY HH24:MI:SS') AS UPLOAD_DATE,
+                E.NAMA_KAR AS UPLOAD_BY
+            FROM
+                EDP_MANAGER.MS_REG_BERKAS A,
+                EDP_MANAGER.DT_REG_BERKAS B,
+                EDP_MANAGER.MS_BERKAS C,
+                HIS_MANAGER.MS_KARYAWAN E
+            WHERE
+                A.TRANS_ID = B.TRANS_ID
+                AND B.BERKAS_ID = C.BERKAS_ID
+                AND A.SHOW_ITEM = '1'
+                AND B.SHOW_ITEM = '1'
+                AND C.SHOW_ITEM = '1'
+                AND B.STATUS = '1'
+                AND A.REG_ID = '" . $reg_id . "'
+                AND A.TRANS_ID = '" . $trans_id . "'
+                AND B.BERKAS_ID = '" . $berkas_id . "'
+                AND 'PLAY_' || E.NO_KAR = B.CREATED_BY
+            ";
+
+        $query = $this->oracle_db->query($sql);
+        $row = $query->row();
+        return $row;
+    }
+
+    function countTemplateBerkas($berkas_id, $rekanan_id) {
+        $sql = "SELECT
+                    A.*
+                FROM
+                    EDP_MANAGER.DT_BERKAS_TEMPLATE A
+                WHERE
+                    A.BERKAS_ID = '" . $berkas_id . "'
+                    AND A.REKANAN_ID = '" . $rekanan_id . "'
+                    AND A.SHOW_ITEM = '1'";
+
+        $query = $this->oracle_db->query($sql);
+        $rowcount = $query->num_rows();
+        return $rowcount;
     }
 
     function getTransRegBerkas()
@@ -469,7 +607,8 @@ class M_form_application extends CI_Model
         $created_date,
         $created_by,
         $show_item,
-        $status
+        $status,
+        $real_name
     )
     {
         $sql = "INSERT INTO  EDP_MANAGER.DT_REG_BERKAS
@@ -483,7 +622,8 @@ class M_form_application extends CI_Model
                         CREATED_DATE, 
                         CREATED_BY, 
                         SHOW_ITEM,
-                        STATUS
+                        STATUS,
+                        REAL_FILE_NAME
                     )
                 VALUES
                     (
@@ -496,7 +636,8 @@ class M_form_application extends CI_Model
                         " . $created_date . ",
                         '" . $created_by . "',
                         '" . $show_item . "',
-                        '" . $status . "'
+                        '" . $status . "',
+                        '" . $real_name . "'
                     )
                 ";
         $query = $this->oracle_db->query($sql);
@@ -540,5 +681,25 @@ class M_form_application extends CI_Model
                     )
                 ";
         $query = $this->oracle_db->query($sql);
+    }
+
+    function updateDtBerkasTemplate_notActive($berkas_id, $rekanan_id) 
+    {   
+        $errNo = 0;
+        $errMess = "";
+        $sql = "UPDATE 
+                    EDP_MANAGER.DT_BERKAS_TEMPLATE A
+                SET A.SHOW_ITEM = '0'
+                WHERE
+                    A.BERKAS_ID = '" . $berkas_id . "'
+                    AND A.REKANAN_ID = '" . $rekanan_id . "'
+                ";
+        $query = $this->oracle_db->query($sql);
+        if(!$query)
+        {
+            $errNo   = $this->oracle_db->_error_number();
+            $errMess = $this->oracle_db->_error_message();
+        }
+        return array("errNo" => $errNo, "errMess" => $errMess);
     }
 }

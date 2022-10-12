@@ -2839,7 +2839,7 @@
 									elmnt.appendChild(node);
 									elmnt.appendChild(css);
 									content.appendChild(elmnt);
-									$("#dropBerkas").css({ opacity: "1" });
+									$("#dropTemplate").css({ opacity: "1" });
 									// console.log(result.berkas_id);
 									$("#templateOptionContainer")
 										.find("input[type=radio][name=inlineRadioOptions]")
