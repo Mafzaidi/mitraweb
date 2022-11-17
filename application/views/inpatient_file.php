@@ -31,7 +31,152 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <ul class="nav tab-container">
+                <li class="nav-item tab-content h-100 col-md-3 col-sm-6">
+                    <div class="d-flex flex-row tab-header h-100 active" target="tb_inpatientFile_container">
+                        <div class="tab-icon-container h-100">
+                            <div class="tab-icon h-100">
+                                <i class="fas fa-clinic-medical"></i>
+                            </div>
+                        </div>
+                        <div class="tab-caption-container h-100">
+                            <div class="tab-caption h-100">
+                                <a class="nav-link p-0 active" href="#">Sedang rawat</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item tab-content h-100 col-md-3 col-sm-6">
+                    <div class="d-flex flex-row tab-header h-100" target="filter_inpatientFIle_container">
+                        <div class="tab-icon-container h-100">
+                            <div class="tab-icon h-100">
+                                <i class="fas fa-th-list"></i>
+                            </div>
+                        </div>
+                        <div class="tab-caption-container h-100">
+                            <div class="tab-caption h-100">
+                                <a class="nav-link p-0 active" href="#">Pilih kriteria</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="container-fluid filter_container toggle-container d-none" id="filter_inpatientFIle_container" style="margin-top: 6px">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row border-bottom border-top">
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="form-inline d-flex">
+                                        <!-- <div class="d-flex justify-content-center">
+                                            <div class="i-wrapp light btn-add-berkas" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tambah berkas lain">
+                                                <span class="multi-icon"><i class="far fa-square"></i></span>
+                                                <span class="multi-icon"><i class="fas fa-caret-down"></i></span>
+                                            </div>
+                                        </div> -->
+                                        <div class="form-inline d-flex hover square-dynamic hide mr-2">
+                                            <div class="i-wrapp light" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Semua Berkas">
+                                                <i class="far fa-square"></i>
+                                            </div>
+                                            <div class="i-wrapp light dropdown-toggle dropdown-toggle-split" role="button" data-toggle="dropdown" aria-expanded="false" data-reference="parent">
+                                            </div>
+                                            <div class="dropdown-menu">
+                                                <?= $dropdown_all ?>
+                                            </div>
+                                        </div>
+                                        <div class="form-inline d-flex hover circle-md hide">
+                                            <div class="d-flex justify-content-center">
+                                                <label for="check1">
+                                                    <input type="checkbox" id="check1"/>
+                                                    <div class="i-wrapp light btn-check-rawat" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Masih rawat">
+                                                        <i class="fas fa-calendar-plus"></i>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <label for="check2">
+                                                    <input type="checkbox" id="check2"/>
+                                                    <div class="i-wrapp light btn-check-rawat" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Sudah Pulang">
+                                                        <i class="fas fa-calendar-check"></i>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-12 col-sm-12">
+                                    <div class="dropdown" id="dropdownPeriod" style="line-height:33px">
+                                        <button class="btn btn-sm btn-white btn-outline-secondary dropdown-toggle" id="btnDropdownPeriod" type="button" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-calendar-alt"></i><span class="ml-2">Semua waktu</span>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" id="1">Semua waktu</a>
+                                            <!-- <a class="dropdown-item" id="2">Rentang seminggu</a>
+                                            <a class="dropdown-item" id="3">Rentang sebulan</a>
+                                            <a class="dropdown-item" id="4">Rentang 6 bulan</a>
+                                            <a class="dropdown-item" id="5">Rentang setahun</a> -->
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item btn-dropdown-period" id="6">Pilih periode...</a>
+                                        </div>                                      
+                                        <div class="card custom-dropdown">
+                                            <div class="card-body py-0 px-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                                        <label class="mb-0" for="inputFromDateRpt">Tanggal mulai</label>
+                                                        <div class="input-group date" id="fromDateRpt_picker" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" name="fromDate" data-target="#fromDateRpt_picker" id="inputFromDateRpt" placeholder="DD.MM.YYYY" maxlength="10" />
+                                                            <div class="input-group-append" data-target="#fromDateRpt_picker" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                                        <label class="mb-0" for="inputToDateRpt">Tanggal akhir</label>
+                                                        <div class="input-group date" id="toDateRpt_picker" data-target-input="nearest">
+                                                            <input type="text" class="form-control datetimepicker-input form-control-sm date-validate" name="toDate" data-target="#toDateRpt_picker" id="inputToDateRpt" placeholder="DD.MM.YYYY" maxlength="10" />
+                                                            <div class="input-group-append" data-target="#toDateRpt_picker" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-inline d-flex justify-content-end py-2">
+                                                            <button class="btn btn-sm btn-white btn-outline-secondary" id="btnSetPeriod" type="button" >
+                                                                Apply
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-none" id="tb_inpatientFileReport_container">
+                        <div class="col">
+                            <div class="tb" id="tb_inpatientFileReport">
+                                <div class="tb-body">
+                                </div>                  
+                                <div class="row py-2">
+                                    <div class="col-sm-12 col-md-5">
+                                        <div class="tb-info" role="status" aria-live="polite">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-7">
+                                        <div class="tb-pagination">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row toggle-container" id="tb_inpatientFile_container">
                 <div class="col">
                     <div class="tb" id="tb_inpatientFile">
                         <div class="tb-body">
@@ -57,7 +202,11 @@
         <div class="card-body p-0 d-none" id="detailInpatientFile">        
             
             <nav class="navbar topbar navbar-expand-sm navbar-light bg-white border-bottom py-2 mb-3 hover circle">
-                <a class="i-wrapp text-muted" id="btnBack" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
+                <div class="form-inline d-flex justify-content-end hover circle-md hide">
+                    <div class="d-flex justify-content-center light">
+                        <a class="i-wrapp text-muted" id="btnBack" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-arrow-left"></i></a>
+                    </div>
+                </div>
                 <!-- <a class="i-wrapp text-muted" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Tambah"><i class="fas fa-plus"></i></a> -->
                 <!-- <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a>
                 <a class="i-wrapp text-muted float-right mx-1" id="btnAddBerkas"  data-toggle="tooltip" data-placement="bottom" title="Hapus"><i class="fas fa-trash"></i></a>
@@ -127,27 +276,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-lg-6">        
-                    <div class="card bg-transparent border rounded-3 m-3">
-                        <div class="card-header bg-white align-middle border-bottom p-2 text-right fs-085rem hover square">
-                            <p class="card-text text-muted" id="card-header-description">Pengisian kelengkapan berkas pasien rawat inap</p>                              
-                            <!-- <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
-                            <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a> -->
-                        </div>
-                        <div class="card-body" id="berkasContainer">                           
-                        </div>
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-sm-12 form-inline d-flex justify-content-end">
-                                    <small class="alert alert-danger d-none p-1 m-0 mr-2" id="card-header-alert" role="alert">
-                                        "A simple danger alert—check it out!"
-                                    </small>
-                                    <button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem" id="btn_save_berkas_final"><i class="fas fa-save"></i>&nbsp;Save</button>
-                                    <button type="button" class="btn btn-danger btn-sm mr-2 fs-075rem" disabled><i class="fas fa-ban"></i></i>&nbsp;Reset</button>
+                <div class="col-md-12 col-lg-6">   
+                    <form id="formInpatientFile">     
+                        <div class="card bg-transparent border rounded-3 m-3">
+                            <div class="card-header bg-white align-middle border-bottom p-2 text-right fs-085rem hover square">
+                                <p class="card-text text-muted" id="card-header-description">Pengisian kelengkapan berkas pasien rawat inap</p>                              
+                                <!-- <a class="i-wrapp text-muted float-right mr-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Kembali"><i class="fas fa-trash"></i></a>
+                                <a class="i-wrapp text-muted float-right mx-2" id="btnAddBerkas" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fas fa-pen"></i></a> -->
+                            </div>
+                            <div class="card-body" id="berkasContainer">                           
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 form-inline d-flex justify-content-end">
+                                        <small class="alert alert-danger d-none p-1 m-0 mr-2" id="card-header-alert" role="alert">
+                                            "A simple danger alert—check it out!"
+                                        </small>
+                                        <button type="button" class="btn btn-primary btn-sm mr-2 fs-075rem" id="btn_save_berkas_final"><i class="fas fa-save"></i>&nbsp;Save</button>
+                                        <button type="button" class="btn btn-danger btn-sm mr-2 fs-075rem" disabled><i class="fas fa-ban"></i></i>&nbsp;Reset</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div> 
+                        </div> 
+                    </form>
                 </div>
             </div>
         </div>

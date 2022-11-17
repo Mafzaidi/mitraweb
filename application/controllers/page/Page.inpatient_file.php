@@ -16,6 +16,7 @@
     $countrows =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id);
     $rows = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id);
     $berkas = $this->mfa->getBerkas("Y");
+    $berkas_all = $this->mfa->getBerkas();
 
     $i= 0;
     $tb = '';
@@ -78,7 +79,7 @@
                     <div class="col-sm-12 col-md-4 p-0">
                     </div>
                     <div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' . substr_replace($inp->REKANAN_NAMA, '...', 20) . '</div>
-                    <div class="col-sm-12 col-md-8 p-0 hover circle hide">
+                    <div class="col-sm-12 col-md-8 p-0 hover circle-md hide">
                         <div class="d-flex justify-content-center" reg-id="' . $inp->REG_ID . '">
                             <a class="i-wrapp light" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>
                         </div>
@@ -92,6 +93,11 @@
     $dropdown = '';
     foreach($berkas as $list) {
         $dropdown.= '<button class="dropdown-item btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Upload Template ' . $list->KETERANGAN . '" berkas_id="' . $list->BERKAS_ID . '" desc="' .  $list->KETERANGAN . '"><i class="far fa-file-plus"></i>&nbsp;' . $list->KETERANGAN . '</button>';
+    }
+
+    $dropdown_all = '';
+    foreach($berkas_all as $list) {
+        $dropdown_all.= '<button class="dropdown-item btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Upload Template ' . $list->KETERANGAN . '" berkas_id="' . $list->BERKAS_ID . '" desc="' .  $list->KETERANGAN . '"><i class="far fa-file-plus"></i>&nbsp;' . $list->KETERANGAN . '</button>';
     }
 
     
@@ -143,5 +149,6 @@
     $data['num2'] = $num2;
     $data['tablerows'] = $tb;
     $data['dropdown'] = $dropdown;
+    $data['dropdown_all'] = $dropdown_all;
     // $data['thumb'] = $thumb;
 ?>

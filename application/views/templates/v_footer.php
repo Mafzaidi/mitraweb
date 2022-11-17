@@ -17,8 +17,6 @@
 				<!-- End of Content -->
 			</div>
 			<!-- End Of Wrapper -->
-		
-		<script src="//npmcdn.com/pdfjs-dist/build/pdf.js"></script>
 
 		<!-- Js jquery -->	
 		<script src="<?php echo base_url('assets/js/jquery-3.6.0.min.js'); ?>"></script>
@@ -37,7 +35,7 @@
 		<script src="<?php echo base_url('assets/vendor/tinysort-3.2.5/tinysort.min.js'); ?>"></script>
 		<!-- dropzone jquery -->
 		<script src="<?php echo base_url('assets/vendor/dropzone/js/dropzone.min.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap-toggle.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/bootstrap-4.6.1/dist/js/bootstrap4-toggle.min.js'); ?>"></script>
 		<!-- Js Util -->
 		<script src="<?php echo base_url('assets/bootstrap-4.6.1/js/dist/util.js'); ?>"></script>
 		<!-- Js bootstrap -->
@@ -47,7 +45,7 @@
 		<!-- main.js -->
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 		<!-- all.js -->
-		<script src="<?php echo base_url('assets/js/all.js?v=202210112014'); ?>"></script>
+		<script src="<?php echo base_url('assets/js/all.js?v=2022111161626'); ?>"></script>
 	</body>
 
 </html>

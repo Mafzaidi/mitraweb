@@ -133,10 +133,19 @@ class Form_app_func extends CI_Controller
                     "list_template"=> $this->mfa->getTemplateBerkas($reg_id, $row->BERKAS_ID),
                     "registered"=>$row->REGISTERED,
                     "list_berkas_reg"=>$row->LIST_BERKAS_REG,
+                    "reg_trans_id"=>$row->REG_TRANS_ID,
+                    "trans_id"=>$row->TRANS_ID,
+                    "reg_berkas_id"=>$row->REG_BERKAS_ID,
+                    "dt_berkas_id"=>$row->DT_BERKAS_ID,
+                    "dt_jenis"=>$row->DT_JENIS,
+                    "dt_keterangan"=>$row->DT_KETERANGAN,
                     "file_name"=>$row->FILE_NAME,
                     "url"=>$row->URL,
-                    "trans_id"=>$row->TRANS_ID,
-                    "reg_id"=>$row->REG_ID
+                    "queue_item"=>$row->QUEUE_ITEM,
+                    "status"=>$row->STATUS,
+                    "show_item"=>$row->SHOW_ITEM,
+                    "reg_id"=>$row->REG_ID,
+                    "list_berkas_lain"=> $this->mfa->getListRegBerkasDetail($reg_id, $row->BERKAS_ID)
                 );  
             }
 
@@ -315,6 +324,12 @@ class Form_app_func extends CI_Controller
             $reg_url = $_POST['reg_id'].'/';
 			$berkas_id = $_POST['berkas_id'];
             $berkas_url = $_POST['berkas_id'].'/';
+			$dt_berkas_id = $_POST['dt_berkas_id'];
+            if ((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+            } else {
+                $dt_berkas_url = "";
+            }
 		} else {
 			$reg_id = '';
             $berkas_id = '';
@@ -322,9 +337,14 @@ class Form_app_func extends CI_Controller
 		
 		if (!is_dir('assets/upload/temp/'.$reg_url.$berkas_url)) {
 			mkdir('assets/upload/temp/'.$reg_url.$berkas_url, 0777, TRUE);
+            if ((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                if (!is_dir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+                    mkdir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+                }
+            }
 		}
 		
-		$config['upload_path'] = 'assets/upload/temp/'.$reg_url.$berkas_url;
+		$config['upload_path'] = 'assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url;
 		$config['allowed_types'] = 'gif|jpg|png|pdf|doc|xls|docx|xlsx';
 
 		$this->load->library('upload', $config);
@@ -335,7 +355,7 @@ class Form_app_func extends CI_Controller
 		$data['file_url'] = 'assets/upload/temp/'.$upload['file_name'];
         $real_name = $_FILES['imageFile']['name'];
         
-        $directory = 'assets/upload/temp/'.$reg_url.$berkas_url;
+        $directory = 'assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url;
         $filecount = 0;
         $files = glob($directory . "*");
         if ($files){
@@ -346,6 +366,7 @@ class Form_app_func extends CI_Controller
         $data['file_name'] = $upload['file_name'];
         $data['reg_id'] = $reg_id;
         $data['berkas_id'] = $berkas_id;
+        $data['dt_berkas_id'] = $dt_berkas_id;
         $data['real_name'] = $real_name;
 		echo json_encode($data);
 	}
@@ -524,6 +545,39 @@ class Form_app_func extends CI_Controller
         }
     }
 
+    function getSequence(){
+        $sess_id = $this->session->userdata('user_id');
+        $user_id = $this->session->userdata('id');
+
+        if(!empty($sess_id))
+        {
+            $reg_id = $this->input->post('reg_id');
+            $trans_id = $this->input->post('trans_id');
+            $berkas_id = $this->input->post('berkas_id'); 
+            $dt_berkas_id = $this->input->post('dt_berkas_id');
+            $seq  = 0;
+            if ($dt_berkas_id == "N" || $dt_berkas_id == "") {
+                $dt_berkas_id ="";
+            } else {          
+                $dt_berkas_id = $this->input->post('dt_berkas_id');
+            }
+            $check = $this->mfa->CountDtRegBerkasLain_All($reg_id, $trans_id, $berkas_id, $dt_berkas_id);
+            if ($check >= 1) {
+                $seq = $check + 1;
+            }
+            $data['sequence'] = $seq;
+            echo json_encode($data);
+        } else {
+            $data = new StdClass();
+            $data->err = "001";
+            $data->errMsg = "session expired";
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Session anda telah habis!
+                </div>');
+            echo json_encode($data);
+        }
+    }
+
     function saveBerkasDT(){
         $sess_id = $this->session->userdata('user_id');
         $user_id = $this->session->userdata('id');
@@ -534,130 +588,387 @@ class Form_app_func extends CI_Controller
             if ($userOra) {         
                 if((isset($_POST['reg_id']) && $_POST['reg_id'] != "") && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "")){
                     $reg_id = $this->input->post('reg_id');
-                    $berkas_id = $this->input->post('berkas_id'); 
                     $trans_id = $this->input->post('trans_id');
+                    $berkas_id = $this->input->post('berkas_id'); 
+                    if ($this->input->post('dt_berkas_id') == "N") {
+                        $dt_berkas_id ="";
+                    } else {          
+                        $dt_berkas_id = $this->input->post('dt_berkas_id');
+                    }
+                    $keterangan = $this->input->post('keterangan');
+                    $jenis = $this->input->post('jenis');
+                    if ($this->input->post('dt_jenis') == "N") {
+                        $dt_jenis ="";
+                    } else {          
+                        $dt_jenis = $this->input->post('dt_jenis');
+                    }
                     $queue_item = $this->input->post('queue_item');
+                    $status = $this->input->post('status');   
                     $created_date = "SYSDATE";
                     $created_by = $this->session->userdata('user_id');                            
-                    $show_item = "1";
-                    $status = "1";                 
+                    $show_item = "1";      
+                    $last_updated_date = "SYSDATE";
+                    $last_updated_by = $this->session->userdata('user_id');          
                     $template = $this->input->post('template');
 
-                    if((isset($_POST['template']) && $_POST['template'] != "")) {
-                        if ($template === "Y") {
-                            
-                            $reg_url = $_POST['reg_id'].'/';
-                            $berkas_url = $_POST['berkas_id'].'/';                 
-                            $temp_file_path = $this->input->post('file_path');
-                            $temp_file_name = $this->input->post('file_name');
-                            $temp_real_name = $this->input->post('real_name');
-                            $temp_url = $this->input->post('url');
+                    $file_path = "";
+                    $file_name = "";
+                    $url = "";
+                    $real_name = "";
 
-                            $source_path = $temp_url;
-                            $destination_path =  'assets/upload/docs/'.$reg_url.$berkas_url;
+                    if((isset($_POST['jenis']) && $_POST['jenis'] != "")) {
+                        if ($jenis == '03') {
+                            $check = $this->mfa->CountDtRegBerkas($reg_id, $trans_id, $berkas_id, $dt_berkas_id);
+                            if((isset($_POST['dt_jenis']) && $_POST['dt_jenis'] != "" && $_POST['dt_jenis'] != "N")) {
+                                if ($dt_jenis == '01') {
+                                    if ($check >= 1) 
+                                    {
+                                        $update = $this->mfa->updateDtRegBerkas_toggle(
+                                            $reg_id, 
+                                            $trans_id, 
+                                            $berkas_id, 
+                                            $jenis,
+                                            $dt_berkas_id,
+                                            $dt_jenis,
+                                            $last_updated_date, 
+                                            $last_updated_by,
+                                            $status
+                                        );
+                                        
+                                        $result = array(
+                                            "reg_id" => $reg_id,
+                                            "trans_id" => $trans_id,
+                                            "berkas_id"=> $berkas_id,
+                                            "dt_berkas_id"=> $dt_berkas_id,
+                                            "jenis"=> $jenis,
+                                            "dt_jenis"=> $dt_jenis,
+                                            "last_updated_date"=> $last_updated_date,
+                                            "last_updated_by"=> $last_updated_by,
+                                            "status"=> $status,
+                                            "msg"=> "301"
+                                        );
+                                        $data = $result;
+                                        echo json_encode($data);
+                                    } else {
+                                        $generate = $this->mfa->getTransRegBerkasLain();
+                                        $result = array(
+                                            "reg_id" => $reg_id,
+                                            "trans_id"=> $trans_id,
+                                            "berkas_id"=> $berkas_id,
+                                            "dt_berkas_id"=> $dt_berkas_id,
+                                            "jenis"=> $jenis,
+                                            "dt_jenis"=> $dt_jenis,
+                                            "keterangan" => $keterangan,
+                                            "queue_item"=> $queue_item,
+                                            "file_path"=> "",
+                                            "file_name"=> "",
+                                            "url"=> "",
+                                            "created_date"=> $created_date,
+                                            "created_by" => $created_by,
+                                            "show_item" => $show_item,
+                                            "status" => $status,
+                                            "template" => $template,
+                                            "msg"=> "302"
+                                        );
+                                        
+                                        $insert = $this->mfa->saveDtRegBerkas(
+                                            $trans_id,
+                                            $berkas_id,
+                                            $dt_berkas_id,
+                                            $keterangan,
+                                            $jenis,
+                                            $dt_jenis,
+                                            $queue_item,
+                                            $file_path,
+                                            $file_name,
+                                            $url,
+                                            $real_name,
+                                            $created_date,
+                                            $created_by,
+                                            $show_item,
+                                            $status
+                                        );
+                    
+                                        $data = $result;
+                                        echo json_encode($data); 
+                                    }                      
+                                } elseif ($dt_jenis == '02') {
+                                    if ($check >= 1) 
+                                    {
+                                        $reg_url = $_POST['reg_id'].'/';
+                                        $berkas_url = $_POST['berkas_id'].'/';
+                                        $dt_berkas_url = $_POST['dt_berkas_id'].'/';              
+                                        $temp_file_path = $this->input->post('file_path');
+                                        $temp_file_name = $this->input->post('file_name');
+                                        $temp_real_name = $this->input->post('real_name');
+                                        $temp_url = $this->input->post('url');
 
-                            if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url)) {
-                                mkdir('assets/upload/docs/'.$reg_url.$berkas_url, 0777, TRUE);
+                                        $source_path = $temp_url;
+                                        $destination_path =  'assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url;
+
+                                        if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+                                            mkdir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+                                        }
+
+                                        if(!copy($source_path, $destination_path.$temp_file_name)) {
+                                            $result = array(
+                                                "err" => "copy error!"
+                                            );
+                                            $data = $result;
+                                            echo json_encode($data);              
+                                        }  
+                                        else { 
+                                            $file_path = $destination_path;
+                                            $file_name = $temp_file_name;
+                                            $url = $destination_path.$temp_file_name;
+                                            $real_name = $temp_real_name;
+                                            $status = 1;
+
+                                            $update = $this->mfa->updateDtRegBerkas_upload(
+                                                $reg_id, 
+                                                $trans_id, 
+                                                $berkas_id, 
+                                                $jenis,
+                                                $dt_berkas_id,
+                                                $dt_jenis,
+                                                $file_path,
+                                                $file_name,
+                                                $url,
+                                                $real_name,
+                                                $last_updated_date, 
+                                                $last_updated_by,
+                                                $status
+                                            );
+                                            
+                                            $result = array(
+                                                "reg_id" => $reg_id,
+                                                "trans_id" => $trans_id,
+                                                "berkas_id"=> $berkas_id,
+                                                "dt_berkas_id"=> $dt_berkas_id,
+                                                "file_path"=> $file_path,
+                                                "file_name"=> $file_name,
+                                                "url"=> $url,
+                                                "real_name"=> $real_name,
+                                                "last_updated_date"=> $last_updated_date,
+                                                "last_updated_by"=> $last_updated_by,
+                                                "message"=> "707"
+                                            );
+                                            $data = $result;
+                                            echo json_encode($data);
+                                        }
+                                    } else {
+                                        $result = array(
+                                            "reg_id" => $reg_id,
+                                            "trans_id"=> $trans_id,
+                                            "berkas_id"=> $berkas_id,
+                                            "dt_berkas_id"=> $dt_berkas_id,
+                                            "jenis"=> $jenis,
+                                            "dt_jenis"=> $dt_jenis,
+                                            "keterangan" => $keterangan,
+                                            "queue_item"=> $queue_item,
+                                            "file_path"=> "",
+                                            "file_name"=> "",
+                                            "url"=> "",
+                                            "created_date"=> $created_date,
+                                            "created_by" => $created_by,
+                                            "show_item" => $show_item,
+                                            "status" => $status,
+                                            "template" => $template
+                                        );
+                    
+                                        $insert = $this->mfa->saveDtRegBerkas(
+                                            $trans_id,
+                                            $berkas_id,
+                                            $dt_berkas_id,
+                                            $keterangan,
+                                            $jenis,
+                                            $dt_jenis,
+                                            $queue_item,
+                                            $file_path,
+                                            $file_name,
+                                            $url,
+                                            $real_name,
+                                            $created_date,
+                                            $created_by,
+                                            $show_item,
+                                            $status
+                                        );
+                                        $data = $result;
+                                        echo json_encode($data);
+                    
+                                    };
+                                }
                             }
-                            
-                            if(!copy($source_path, $destination_path.$temp_file_name)) {
-                                $result = array(
-                                    "err" => "copy error!"
-                                );                
-                            }  
-                            else {                
-                                $file_path = $destination_path;
-                                $url = $destination_path.$temp_file_name;
-                                $file_name = $temp_file_name;
-                                $real_name = $temp_real_name;
+                        } else {                          
+                            if ($jenis == "02") {
                                 
-                                // $result = array(
-                                //     'TRANSID' => $generate->TRANS_ID
-                                // );
-                                // $trans_reg_berkas = $result['TRANSID'];
-            
+                                $reg_url = $_POST['reg_id'].'/';
+                                $berkas_url = $_POST['berkas_id'].'/';
+                                if((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                                    $dt_berkas_id = $_POST['dt_berkas_id'];
+                                    $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+                                } else {
+                                    $dt_berkas_id = "";
+                                    $dt_berkas_url = "";
+                                }
+                                $temp_file_path = $this->input->post('file_path');
+                                $temp_file_name = $this->input->post('file_name');
+                                $temp_real_name = $this->input->post('real_name');
+                                $temp_url = $this->input->post('url');
+
+                                $source_path = $temp_url;
+                                $destination_path =  'assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url;
+
+                                if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+                                    mkdir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+                                }
+
+                                if(!copy($source_path, $destination_path.$temp_file_name)) {
+                                    $result = array(
+                                        "err" => "copy error!"
+                                    );                
+                                } else {
+                                    $file_path = $destination_path;
+                                    $url = $destination_path.$temp_file_name;
+                                    $file_name = $temp_file_name;
+                                    $real_name = $temp_real_name;
+
+                                    $insert = $this->mfa->saveDtRegBerkas(
+                                        $trans_id,
+                                        $berkas_id,
+                                        $dt_berkas_id,
+                                        $keterangan,
+                                        $jenis,
+                                        $dt_jenis,
+                                        $queue_item,
+                                        $file_path,
+                                        $file_name,
+                                        $url,
+                                        $real_name,
+                                        $created_date,
+                                        $created_by,
+                                        $show_item,
+                                        $status
+                                    );
+
+                                }
+
                                 $result = array(
                                     "reg_id" => $reg_id,
                                     "trans_id"=> $trans_id,
                                     "berkas_id"=> $berkas_id,
+                                    "dt_berkas_id"=> $dt_berkas_id,
+                                    "jenis"=> $jenis,
+                                    "dt_jenis"=> $dt_jenis,
+                                    "keterangan" => $keterangan,
                                     "queue_item"=> $queue_item,
                                     "file_path"=> $file_path,
                                     "file_name"=> $file_name,
-                                    "real_name"=> $real_name,
                                     "url"=> $url,
+                                    "real_name"=> $real_name,
                                     "created_date"=> $created_date,
                                     "created_by" => $created_by,
                                     "show_item" => $show_item,
                                     "status" => $status,
-                                    "template" => $template
+                                    "template" => $template,
+                                    "msg"=> "202"
                                 );
-            
-                                $insert = $this->mfa->saveDtRegBerkas(
-                                    $trans_id,
-                                    $berkas_id,
-                                    $queue_item,
-                                    $file_path,
-                                    $file_name,
-                                    $url,
-                                    $created_date,
-                                    $created_by,
-                                    $show_item,
-                                    $status,
-                                    $real_name
-                                );
-                                // $data[] = array(
-                                //     "trans_reg_berkas"=> $trans_reg_berkas,
-                                //     "reg_id"=> $reg_id,
-                                //     "mr"=> $get->MEDREC,
-                                //     "created_by"=> $this->session->userdata('user_id')
-                                // );
-                                
+
                                 $data = $result;
                                 echo json_encode($data); 
+                                
+                            } else {
+
+                                $check = $this->mfa->CountDtRegBerkas($reg_id, $trans_id, $berkas_id, $dt_berkas_id);
+                                if ($check >= 1) {
+                                    $file_path = "";
+                                    $file_name = "";
+                                    $url = "";
+                                    $real_name = "";
+                                    $status = $this->input->post('status');
+
+                                    $update = $this->mfa->updateDtRegBerkas_toggle(
+                                        $reg_id, 
+                                        $trans_id, 
+                                        $berkas_id, 
+                                        $jenis,
+                                        $dt_berkas_id,
+                                        $dt_jenis,
+                                        $last_updated_date, 
+                                        $last_updated_by,
+                                        $status
+                                    );
+                                    
+                                    $result = array(
+                                        "reg_id" => $reg_id,
+                                        "trans_id" => $trans_id,
+                                        "berkas_id"=> $berkas_id,
+                                        "dt_berkas_id"=> $dt_berkas_id,
+                                        "jenis"=> $jenis,
+                                        "dt_jenis"=> $dt_jenis,
+                                        "file_path"=> $file_path,
+                                        "file_name"=> $file_name,
+                                        "url"=> $url,
+                                        "real_name"=> $real_name,
+                                        "last_updated_date"=> $last_updated_date,
+                                        "last_updated_by"=> $last_updated_by,
+                                        "message"=> "805"
+                                    );
+                                    $data = $result;
+                                    echo json_encode($data);
+                                } else {
+                                    $result = array(
+                                        "reg_id" => $reg_id,
+                                        "trans_id"=> $trans_id,
+                                        "berkas_id"=> $berkas_id,
+                                        "dt_berkas_id"=> $dt_berkas_id,
+                                        "jenis"=> $jenis,
+                                        "dt_jenis"=> $dt_jenis,
+                                        "keterangan" => $keterangan,
+                                        "queue_item"=> $queue_item,
+                                        "file_path"=> $file_path,
+                                        "file_name"=> $file_name,
+                                        "url"=> $url,
+                                        "real_name"=> $real_name,
+                                        "created_date"=> $created_date,
+                                        "created_by" => $created_by,
+                                        "show_item" => $show_item,
+                                        "status" => $status,
+                                        "template" => $template,
+                                        "message"=> "803"
+                                    );
+                
+                                    $insert = $this->mfa->saveDtRegBerkas(
+                                        $trans_id,
+                                        $berkas_id,
+                                        $dt_berkas_id,
+                                        $keterangan,
+                                        $jenis,
+                                        $dt_jenis,
+                                        $queue_item,
+                                        $file_path,
+                                        $file_name,
+                                        $url,
+                                        $real_name,
+                                        $created_date,
+                                        $created_by,
+                                        $show_item,
+                                        $status
+                                    );
+                
+                                    $data = $result;
+                                    echo json_encode($data); 
+                                } 
                             }
-                        } else {
-                            $real_name = "";
-                            $result = array(
-                                "reg_id" => $reg_id,
-                                "trans_id"=> $trans_id,
-                                "berkas_id"=> $berkas_id,
-                                "queue_item"=> $queue_item,
-                                "file_path"=> "",
-                                "file_name"=> "",
-                                "url"=> "",
-                                "created_date"=> $created_date,
-                                "created_by" => $created_by,
-                                "show_item" => $show_item,
-                                "status" => $status,
-                                "template" => $template
-                            );
-        
-                            $insert = $this->mfa->saveDtRegBerkas(
-                                $trans_id,
-                                $berkas_id,
-                                $queue_item,
-                                "",
-                                "",
-                                "",
-                                $created_date,
-                                $created_by,
-                                $show_item,
-                                $status,
-                                $real_name
-                            );
-        
-                            $data = $result;
-                            echo json_encode($data); 
                         }
-                    } else {
-                        $result = array(
-                            "err" => "data error!"
-                        ); 
-                    }          
+                    }
+
                 } else {
                     $result = array(
                         "err" => "data error!"
                     );  
+                    $data = $result;
+                    echo json_encode($data); 
                 }
             } else {
                 $data = new StdClass();
@@ -802,13 +1113,14 @@ class Form_app_func extends CI_Controller
                 $reg_id = $this->input->post('reg_id');
                 $trans_id = $this->input->post('trans_id');
                 $berkas_id = $this->input->post('berkas_id');
+                $dt_berkas_id = $this->input->post('dt_berkas_id');
                 
                 $width = $this->input->post('width');
                 $height = $this->input->post('height');
                 $startX = $this->input->post('startX');
                 $startY = $this->input->post('startY');
 
-                $get = $this->mfa->getRegisteredBerkas($reg_id, $trans_id, $berkas_id);
+                $get = $this->mfa->getRegisteredBerkas($reg_id, $trans_id, $berkas_id, $dt_berkas_id);
                 
                 $im = new imagick($_SERVER['DOCUMENT_ROOT'] ."/mitraweb/" . $get->URL . "[0]");    
                 // $im->resizeImage(200,0,1,0);
@@ -863,5 +1175,80 @@ class Form_app_func extends CI_Controller
         }
     }
 
+    function deleteBerkasLain()
+    {
+        $sess_id = $this->session->userdata('user_id');
+        $user_id = $this->session->userdata('id');
 
+        if(!empty($sess_id))
+        {          
+            $userOra = $this->mu->getDataOra('MS_KARYAWAN', ['NO_KAR' => $user_id])->row_array();
+            if ($userOra) {         
+                if((isset($_POST['reg_id']) && $_POST['reg_id'] != "") && (isset($_POST['trans_id']) && $_POST['trans_id'] != "") 
+                    && (isset($_POST['berkas_id']) && $_POST['berkas_id'] != "") && (isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "")){
+                    $reg_id = $this->input->post('reg_id');
+                    $trans_id = $this->input->post('trans_id');
+                    $berkas_id = $this->input->post('berkas_id'); 
+                    $jenis = $this->input->post('jenis');
+                    $dt_berkas_id = $this->input->post('dt_berkas_id'); 
+                    $dt_jenis = $this->input->post('dt_jenis');
+                    $status = $this->input->post('status');
+                    $last_updated_date = "SYSDATE";
+                    $last_updated_by = $this->session->userdata('user_id'); 
+                    
+                    $update = $this->mfa->updateDtRegBerkas_remove(
+                        $reg_id, 
+                        $trans_id, 
+                        $berkas_id, 
+                        $jenis,
+                        $dt_berkas_id,
+                        $dt_jenis,
+                        $last_updated_date, 
+                        $last_updated_by,
+                        $status
+                    );
+                    $result = array(
+                        "reg_id" => $reg_id,
+                        "trans_id" => $trans_id,
+                        "berkas_id"=> $berkas_id,
+                        "jenis"=> $jenis,
+                        "dt_berkas_id"=> $dt_berkas_id,
+                        "dt_jenis"=> $dt_jenis,
+                        "status"=> $status,
+                        "last_updated_date"=> $last_updated_date,
+                        "last_updated_by"=> $last_updated_by
+                    );
+                    $data = $result;
+                    echo json_encode($data);
+
+                } else {
+                    $result = array(
+                        "err" => "data error!"
+                    );  
+                    $data = $result;
+                    echo json_encode($data);
+                }
+            } else {
+                $data = new StdClass();
+                $data->err = "002";
+                $data->errMsg = "authorization for oracle user!";
+                $this->session->unset_userdata('user_id');
+                $this->session->unset_userdata('role_id');
+                $this->session->unset_userdata('dept_id');
+                $this->session->set_userdata('status','logout');
+                $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                    User tidak berhak!
+                    </div>');
+                echo json_encode($data);
+            }
+        } else {
+            $data = new StdClass();
+            $data->err = "001";
+            $data->errMsg = "session expired";
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Session anda telah habis!
+                </div>');
+            echo json_encode($data);
+        }
+    }
 }

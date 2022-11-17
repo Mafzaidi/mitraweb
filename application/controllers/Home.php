@@ -39,7 +39,7 @@ class Home extends CI_Controller
 					"img_url"=>"default.png"
 				);
 				$data['user'] = $user;
-				echo "<script>console.log('" . json_encode($user) . "');</script>";
+				// echo "<script>console.log('" . json_encode($user) . "');</script>";
 				
 			}
 			// $data['local_code'] = $this->mu->getLocalCode();

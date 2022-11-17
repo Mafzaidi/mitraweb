@@ -11,7 +11,9 @@
 	var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	
 	var obj_berkas = {};
+	var obj_berkas_lain = {};
 	var list_obj_berkas = [];
+	var list_obj_berkas_lain = [];
 	var list_obj_berkas_temp = [];
 
 	// When the user scrolls the page, execute myFunction
@@ -78,6 +80,40 @@
 	$("#toDateRpt_picker").datetimepicker({
 		format: "DD.MM.yyyy",
 	}); 
+
+	
+	// var oneWeekAgo = new Date();
+	// var oneWeekAgo = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
+
+	// var oneMonthAgo = new Date();
+	// var oneMonthAgo = new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
+
+	// var sixMonthAgo = new Date();
+	// var sixMonthAgo = new Date(date.getFullYear(), date.getMonth() - 6, date.getDate());
+
+	// var sixMonthAgo = new Date();
+	// var sixMonthAgo = new Date(date.getFullYear(), date.getMonth() - 6, date.getDate());
+
+	function getOneWeekAgo(date) {
+		var year = date.getFullYear();
+		var month = date.getMonth();
+		var day = date.getDate() - 7;
+		var oneWeekAgo = new Date();
+		var oneWeekAgo = new Date(date.getFullYear(), date.getMonth(), date.getDate() - 7);
+		return oneWeekAgo;
+	}
+
+	function getFormattedDate(date) {
+		var year = date.getFullYear();
+	  
+		var month = (1 + date.getMonth()).toString();
+		month = month.length > 1 ? month : '0' + month;
+	  
+		var day = date.getDate().toString();
+		day = day.length > 1 ? day : '0' + day;
+		
+		return day + '.' + month + '.' + year;
+	  }
 
 	$("#sidebarToggle").on("click", function () {
 		$("#content-wrapper").toggleClass("sidebar-hidden");
@@ -204,6 +240,7 @@
 	}
 	// ***************************************************************************************************
 	$(document).ready(function () {
+		
 		// for handle multiple modals overlay
 		$(".modal").on("hidden.bs.modal", function (event) {
 			$(this).removeClass("fv-modal-stack");
@@ -755,7 +792,7 @@
 			ctr_batal = "";
 		}
 
-		console.log(page_start, per_page, pageno, pageselect, func_url);
+		// console.log(page_start, per_page, pageno, pageselect, func_url);
 
 		loadPolimon(
 			ctr_daftar,
@@ -1033,7 +1070,7 @@
 			search,
 			func_url
 		);
-		console.log(ctr_daftar, dr_selesai, ctr_selesai, ctr_batal);
+		// console.log(ctr_daftar, dr_selesai, ctr_selesai, ctr_batal);
 	});
 
 	function detail_polimon_click() {
@@ -1279,17 +1316,17 @@
 			status_notreturn,
 			status_return
 		);
-		console.log(
-			page_start,
-			per_page,
-			func_url,
-			showitem,
-			status,
-			from_date,
-			to_date,
-			keyword,
-			trans_id
-		);
+		// console.log(
+		// 	page_start,
+		// 	per_page,
+		// 	func_url,
+		// 	showitem,
+		// 	status,
+		// 	from_date,
+		// 	to_date,
+		// 	keyword,
+		// 	trans_id
+		// );
 	});
 
 	function initMrReturn() {
@@ -1359,19 +1396,19 @@
 				status_return
 			);
 
-			console.log(
-				page_start,
-				per_page,
-				func_url,
-				showitem,
-				status,
-				from_date,
-				to_date,
-				keyword,
-				trans_id,
-				status_return,
-				status_notreturn
-			);
+			// console.log(
+			// 	page_start,
+			// 	per_page,
+			// 	func_url,
+			// 	showitem,
+			// 	status,
+			// 	from_date,
+			// 	to_date,
+			// 	keyword,
+			// 	trans_id,
+			// 	status_return,
+			// 	status_notreturn
+			// );
 		});
 	}
 
@@ -1401,7 +1438,7 @@
 				$("#inputDataRtrnDate").val(data.tgl_janji_kembali);
 				$("#formReturnBy").find(".btn-update").prop("disabled", false);
 				$("#formReturnBy").on("click", ".btn-update", function () {
-					console.log(121);
+					// console.log(121);
 				});
 				// pageInit();
 			},
@@ -1652,7 +1689,7 @@
 						var new_keperluan = $("#inputKeperluan").val();
 						var new_tgl_kembali = $("#inputTglKembali").val();
 						var trans_id = $(this).attr("trans_id");
-						console.log(old_nik_peminjam + '/' + new_nik_peminjam + ', ' + new_tgl_pinjam + ', ' + old_keperluan + '/' + new_keperluan + ', ' + old_tgl_kembali + '/' + new_tgl_kembali);
+						// console.log(old_nik_peminjam + '/' + new_nik_peminjam + ', ' + new_tgl_pinjam + ', ' + old_keperluan + '/' + new_keperluan + ', ' + old_tgl_kembali + '/' + new_tgl_kembali);
 
 						if (new_nik_peminjam !== old_nik_peminjam || new_tgl_pinjam !== old_tgl_pinjam || 
 							new_keperluan !== old_keperluan || new_tgl_kembali !== old_tgl_kembali){					
@@ -1668,7 +1705,7 @@
 									new_tgl_kembali: new_tgl_kembali,
 								},
 								success: function (data) {	
-									console.log(JSON.stringify(data));
+									// console.log(JSON.stringify(data));
 									// console.log(data.err);
 									if (data.err !== "" && data.err  !== undefined) {
 										if (data.err == "001") {
@@ -1813,8 +1850,8 @@
 						realReturnDate: realReturnDate,
 					},
 					success: function (data) {
-						console.log(JSON.stringify(data));
-						console.log(data.err);
+						// console.log(JSON.stringify(data));
+						// console.log(data.err);
 						if (data.err !== "" && data.err  !== undefined) {
 							if (data.err == "001") {
 								// location.reload();
@@ -2294,7 +2331,7 @@
 			status_notreturn,
 			status_return
 		);
-		console.log(status_notreturn + ", " + status_return);
+		// console.log(status_notreturn + ", " + status_return);
 	});
 
 	$("#inputTxtSearchMrReturn").keyup(function (e) {
@@ -2455,6 +2492,85 @@
 		return matches ? matches[1] : null;
 	}
 
+	$("#page_inpatientFile").find(".tab-content").on("click", function (e) {
+		$("#page_inpatientFile").find(".tab-content").find(".tab-header").removeClass("active");
+		$(this).find(".tab-header").addClass("active");
+
+		// if ($(this).find(".tab-header").attr("target")){
+		var target = $(this).find(".tab-header").attr("target");
+		// console.log(target);		
+		$(".toggle-container").addClass("d-none");
+		$.each($(".toggle-container"), function () {
+			if ($(this).attr("id") == target) {
+				$(this).removeClass("d-none");
+			} 
+		});
+	});
+
+	$("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".dropdown-item").on("click", function (e) {
+		// console.log($(this).attr("id"));
+		var oneWeekAgo = getOneWeekAgo(date);
+		var formatedOneWeekAgo = getFormattedDate(oneWeekAgo);
+		$.each($("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".dropdown-item"), function () {
+			var id = $(this).attr("id");
+			if(id == 1) {
+			}
+			else if(id == 2) {
+				// oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+				// var oneWeekAgoDate = new Date(date.getFullYear(), date.getMonth(), oneWeekAgo.getDate());
+				$("#filter_inpatientFIle_container").find("#inputFromDateRpt").val(formatedOneWeekAgo);
+				var fromDate = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+				var toDate = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+				$("#btnDropdownPeriod").text(fromDate + " - " + toDate);
+				// console.log(getFormattedDate(oneWeekAgo));
+			}
+			else if(id == 3) {
+				// oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+				// var oneWeekAgoDate = new Date(date.getFullYear(), date.getMonth(), oneWeekAgo.getDate());
+				$("#filter_inpatientFIle_container").find("#inputFromDateRpt").val(formatedOneWeekAgo);
+				var fromDate = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+				var toDate = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+				$("#btnDropdownPeriod").text(fromDate + " - " + toDate);
+				// console.log(getFormattedDate(oneWeekAgo));
+			}
+			else if(id == 4) {
+				// oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+				// var oneWeekAgoDate = new Date(date.getFullYear(), date.getMonth(), oneWeekAgo.getDate());
+				$("#filter_inpatientFIle_container").find("#inputFromDateRpt").val(formatedOneWeekAgo);
+				var fromDate = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+				var toDate = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+				$("#btnDropdownPeriod").text(fromDate + " - " + toDate);
+				// console.log(getFormattedDate(oneWeekAgo));
+			}
+			else if(id == 5) {
+				// oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+				// var oneWeekAgoDate = new Date(date.getFullYear(), date.getMonth(), oneWeekAgo.getDate());
+				$("#filter_inpatientFIle_container").find("#inputFromDateRpt").val(formatedOneWeekAgo);
+				var fromDate = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+				var toDate = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+				$("#btnDropdownPeriod").text(fromDate + " - " + toDate);
+				// console.log(getFormattedDate(oneWeekAgo));
+			}
+			else if(id == 6) {
+				$("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".custom-dropdown").addClass("show");
+				console.log(id);
+			}
+		});
+	});
+
+	$("#filter_inpatientFIle_container").find(".btn-check-rawat").on("click", function (e) {
+		$("#filter_inpatientFIle_container").find(".btn-check-rawat").removeClass("active");
+		$(this).addClass("active");
+	});
+
+	$("#btnSetPeriod").on("click", function (e) {
+		$(".custom-dropdown").removeClass("show");
+		var fromDate = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+		var toDate = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+		// console.log(fromDate);
+		$("#btnDropdownPeriod").text(fromDate + " - " + toDate);
+	});
+
 	$("#tb_inpatientFile").on(
 		"click",
 		"#btnEditBerkas:not([disabled])",
@@ -2473,6 +2589,7 @@
 		function () {
 			$("#detailInpatientFile").toggleClass("d-none");
 			$("#rowsInpatientFile").toggleClass("d-none");
+			$("#berkasContainer").html("");
 			if (window.location.hash) {
 				// Fragment exists
 				// var hash_value = window.location.hash.slice(1);
@@ -2557,7 +2674,7 @@
 		}
 
 		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
-		console.log(pageno, pageselect, page_start, per_page, func_url);
+		// console.log(pageno, pageselect, page_start, per_page, func_url);
 	});
 
 	function page_inpatientFile_click() {
@@ -2656,7 +2773,7 @@
 							}
 						} else {
 							mediumArr = "";
-							console.log(mediumArr);
+							// console.log(mediumArr);
 						}
 
 						if (
@@ -2671,25 +2788,23 @@
 							}
 						} else {
 							lowArr = "";
-							console.log(lowArr);
+							// console.log(lowArr);
 						}
-						// var highArr = data.response[i].high_priority.split(',');
-						// var mediumArr = data.response[i].medium_priority.split(',');
-						// var lowArr = data.response[i].low_priority.split(',');
 
-						console.log(listRegArr);
-						console.log(highArr);
-						console.log(mediumArr);
-						console.log(lowArr);
-						for (var r = 0; r < listRegArr.length; r++) {
-							if (highArr.indexOf(listRegArr[r]) >= 0) {
+						for (var m = 0; m < highArr.length; m++) {
+							if (listRegArr.indexOf(highArr[m]) >= 0) {
 								flag = "bg-success-2";
-							} else if (mediumArr.indexOf(listRegArr[r]) >= 0) {
-								flag = "bg-dizzy";
 							} else {
-								flag = "bg-danger-2";
+								for (var m = 0; m < mediumArr.length; m++) {
+									if (listRegArr.indexOf(mediumArr[m]) >= 0) {
+										flag = "bg-dizzy";
+									}
+									// console.log(listRegArr.indexOf(highArr[m]));
+								}
 							}
+							// console.log(listRegArr.indexOf(highArr[m]));
 						}
+
 					}
 					tb +=
 						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
@@ -2755,13 +2870,13 @@
 						is_reg = "disabled";
 						is_edit = "enabled";
 					}
-					tb += '<div class="col-sm-12 col-md-8 p-0 hover circle hide">';
+					tb += '<div class="col-sm-12 col-md-8 p-0 hover circle-md hide">';
 					tb +=
 						'<div class="d-flex justify-content-center" reg-id="' +
 						data.response[i].reg_id +
 						'">';
 					tb +=
-						'<a class="i-wrapp light" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>';
+						'<a class="i-wrapp light btn-get-detail" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>';
 
 					tb += "</div>";
 					tb += "</div>";
@@ -2810,7 +2925,7 @@
 				pageInit();
 			},
 			error: function (data) {
-				console.log(JSON.stringify(data.response));
+				// console.log(JSON.stringify(data.response));
 				if (data.response === null || data.response === undefined) {
 					tb += '<div class="row">';
 					tb +=
@@ -2850,69 +2965,96 @@
 				$("#detailInpatientFile #dokter").html(data.nama_dr);
 				$("#detailInpatientFile #rekanan").html(data.rekanan_nama);
 				var berkas_html = "";
+
+				var row_class = "";
 				var col_class = "";
-				var button_html = "";	
-				
-				var check_toggle = "";	
-				var check_registered = "";
+				var registered_class = "";
+				var status_class = "";
+
+				var button_html = "";
+				var download_button = "";
+				var action_button = "";
+				var remove_button = "";
+				var edit_button = "";
+					
+				var checked_attr = "";	
+				var disabled_attr = "";
+
+				var flag_text = "";
 
 				var count_berkas = data.listBerkas.length;
 				var array_berkas_template = [];
+			
+				var obj_reg_berkas = {};
+				var list_obj_reg_berkas = [];
+
 				rekanan_id = data.rekanan_id;
 				reg_id = data.reg_id;
 
-				var uploaded = "";
-				var btn_action = "";
-
-				var cls_registered = "";
 
 				for (var i = 0; i < count_berkas; i++) {
-					check_registered = "";	
-					cls_registered = "";
+					row_class ="";
+					col_class = "";
+					registered_class = "";
+					status_class = "";
 
-					if (data.listBerkas[i].registered == "Y") {
-						btn_action = 
-						// upload
-						'<div class="d-flex justify-content-center light" role="button" trans_id="' +
-						data.listBerkas[i].trans_id +
-						'" reg_id="' +
-						data.reg_id +
-						'" berkas_id="' +
-						data.listBerkas[i].berkas_id +
-						'" ket="' + 
-						data.listBerkas[i].keterangan + 
-						'"><a class="i-wrapp btn_detail_berkas" data-toggle="tooltip" data-placement="bottom" title="Lihat Berkas" ><i class="fas fa-folder-open"></i></a>' +
-						"</div>";
-						check_registered = '<i class="fas fa-check-circle float-right align-middle" style="line-height: 2rem; color: green;"></i>';
-						cls_registered = "registered";
-						uploaded = "text-success";
+					button_html = "";
+					download_button = "";
+					action_button = "";
+					remove_button = "";
+					edit_button = "";
+					
+					checked_attr = "";	
+					disabled_attr = "";
+
+					flag_text = "";
+
+					if (data.listBerkas[i].status == "1") {
+						checked_attr = "checked";
+						disabled_attr = "disabled"
+						flag_text = "text-success";
+						status_class = "saved"
 					} else {
-						btn_action = 
-						// upload
-						'<div class="d-flex justify-content-center light" role="button" rekanan_id="' +
-						data.rekanan_id +
-						'" berkas_id="' +
-						data.listBerkas[i].berkas_id +
-						'" reg_id="' +
-						data.reg_id +
-						'" uploaded_default="' +
-						data.listBerkas[i].uploaded_default +
-						'" uploaded_rekanan="' +
-						data.listBerkas[i].uploaded_rekanan +
-						'" ket="' + 
-						data.listBerkas[i].keterangan + 
-						'"><a class="i-wrapp btn_upload_berkas" data-toggle="tooltip" data-placement="bottom" title="Upload Berkas" ><i class="fas fa-upload"></i></a>' +
-						"</div>";
-						check_registered = "";
-						cls_registered = "";
-						uploaded = "text-white";
+						checked_attr = "";
+						disabled_attr = ""
+						flag_text = "text-white";
+						status_class = "";
 					}
 					
-					if (data.listBerkas[i].jenis == "02") {
-						var download_button = "";
+					if (data.listBerkas[i].jenis == "01") {
+						// slide toggle
+						row_class = "berkas-container";
+						col_class = "switch-button";
+						if (data.listBerkas[i].status == "1") {
+							edit_button = 
+								'<div class="position-absolute size-md btn-absolute-container">' + 
+								'<a class="i-wrapp transition float-right text-muted transparent-first btn-edit-toggle" ' +
+								'trans_id="' + data.listBerkas[i].trans_id + '"' +
+								'berkas_id="' + data.listBerkas[i].berkas_id + '"' +
+								'role="button" ' +
+								'data-content="Ubah data" ' +
+								'data-width="120px">' +
+								'<i class="fas fa-pen"></i>' +
+								'</a>' +
+								'</div>';
+						}
+						button_html =
+							'<div class="form-check form-check-inline d-flex justify-content-end py-1">' + 
+							'<label class="toggle" >' +
+							'<input class="btn btn-primary btn-sm toggle-checkbox ' + status_class + ' ' + disabled_attr + '" type="checkbox" ' + checked_attr +
+							' berkas_id="' + data.listBerkas[i].berkas_id + '" dt_berkas_id="' + data.listBerkas[i].dt_berkas_id + '" ' + disabled_attr + ' />' +
+							'<div class="toggle-switch"></div>' +
+							'<span class="toggle-label"></span>' +
+							'</label>' +
+							edit_button +
+							'</div>'; // end of div form-check-inline
+					} else if (data.listBerkas[i].jenis == "02") {
+						row_class ="berkas-container";
+						// upload and download
+						// download
 						if (data.listBerkas[i].uploaded == "N") {
 							download_button =
-								'<div class="d-flex justify-content-center"" rekanan_id="' +
+								'<div class="d-flex justify-content-center" rekanan_id="' +
 								data.rekanan_id +
 								'" berkas_id="' +
 								data.listBerkas[i].berkas_id +
@@ -2924,10 +3066,9 @@
 								data.listBerkas[i].uploaded_rekanan +
 								'" desc="' +
 								'" ' +
-								' disabled><a class="i-wrapp light btn-downnload-template" href="#" role="button" data-toggle="tooltip" data-placement="bottom" title="Download Template"><i class="fas fa-download"></i></a>' +
+								'><a class="i-wrapp light btn-downnload-template" role="button" data-toggle="tooltip" data-placement="bottom" title="Download Template" disabled><i class="fas fa-download"></i></a>' +
 								"</div>";
 						} else {
-							
 							array_berkas_template.push(data.listBerkas[i].list_template);
 							var template_count = data.listBerkas[i].list_template.length;
 							var download_dropdown = "";
@@ -2951,7 +3092,7 @@
 								
 								download_button =
 									'<div class="dropleft d-flex justify-content-center" data-toggle="tooltip" data-placement="bottom" title="Download Template">' +
-									'<a class="btn dropdown-toggle i-wrapp light btn-downnload-template" href="#" role="button"' + 
+									'<a class="btn dropdown-toggle i-wrapp light btn-downnload-template" role="button"' + 
 									'data-toggle="dropdown" aria-expanded="false" style="padding:0; line-height:35px">' +
 									'<i class="fas fa-download"></i>' +
 									"</a>" +
@@ -2984,70 +3125,186 @@
 									}
 								}
 							}
-							
-							// console.log(JSON.stringify(data.listBerkas[i].list_template));	
 						}
-						col_class = "";	
 
+						// upload
+						if (data.listBerkas[i].status == "1") {
+							action_button = 
+								// upload
+								'<div class="d-flex justify-content-center light" trans_id="' +
+								data.listBerkas[i].trans_id +
+								'" reg_id="' +
+								data.reg_id +
+								'" berkas_id="' +
+								data.listBerkas[i].berkas_id +
+								'" ket="' + 
+								data.listBerkas[i].keterangan + 
+								'"><a class="i-wrapp btn_detail_berkas" role="button" data-toggle="tooltip" data-placement="bottom" title="Lihat Berkas" ><i class="fas fa-folder-open"></i></a>' +
+								"</div>";
+						} else {
+							action_button = 
+								// upload
+								'<div class="d-flex justify-content-center light" rekanan_id="' +
+								data.rekanan_id +
+								'" berkas_id="' +
+								data.listBerkas[i].berkas_id +
+								'" reg_id="' +
+								data.reg_id +
+								'" uploaded_default="' +
+								data.listBerkas[i].uploaded_default +
+								'" uploaded_rekanan="' +
+								data.listBerkas[i].uploaded_rekanan +
+								'" ket="' + 
+								data.listBerkas[i].keterangan + 
+								'"><a class="i-wrapp btn_upload_berkas" role="button" data-toggle="tooltip" data-placement="bottom" title="Upload Berkas" ><i class="fas fa-upload"></i></a>' +
+								"</div>";		
+						}
 						button_html =
-							// action section
-							'<div class="form-inline d-flex justify-content-end hover circle hide">' +
+							'<div class="form-inline d-flex justify-content-end hover circle-md hide">' +
 							// download
-							download_button +							
-							btn_action +
-							// '<button type="button" class="btn btn-mark btn-sm mr-2 fs-075rem ml-2" data-toggle="tooltip" data-placement="bottom" title="Upload Template">' +
-							// '<i class="fas fa-upload"></i>&nbsp;Upload</button>' +
+							download_button +	
+							// action						
+							action_button +
 							"</div>"; // end of div form-inline	
 					} else if (data.listBerkas[i].jenis == "03") {
-						button_html =
-							'<div class="form-inline d-flex justify-content-end hover circle hide">' +
-							'<div class="d-flex justify-content-center" rekanan_id="' +
-							data.rekanan_id +
-							'" berkas_id="' +
-							data.listBerkas[i].berkas_id +
-							'" reg_id="' +
-							data.reg_id +
-							'"><a class="i-wrapp light btn-downnload-template" href="#"' +
-							'role="button" data-toggle="tooltip" data-placement="bottom" title="Tambah berkas lain"><i class="fas fa-plus"></i></a>' +
-							"</div>" +
-							"</div>"; // end of div form-inline	
-					} else {
-						var check_disabled = "";
-						col_class = "switch-button";
-						if (data.listBerkas[i].registered == "Y") {
-							check_toggle = "checked";
-							check_disabled = "disabled"
-						} else {
-							check_toggle = "";
-							check_disabled = ""
-						}
+						if (data.listBerkas[i].dt_jenis !== "" && data.listBerkas[i].dt_jenis !== null && data.listBerkas[i].dt_jenis !== undefined && data.listBerkas[i].dt_jenis !== "N") {
+							
+							row_class = "berkas-lain-container saved";
+							remove_button = '<button class="btn btn-outline-secondary btn-delete-berkas" trans_id="' + data.listBerkas[i].trans_id + '"' +
+								'reg_id="' + data.listBerkas[i].reg_id + '"' +
+								'berkas_id="' + data.listBerkas[i].berkas_id + '"' +
+								'dt_berkas_id="' + data.listBerkas[i].dt_berkas_id + '"' +
+								'jenis="' + data.listBerkas[i].jenis + '"' +
+								'dt_jenis="' + data.listBerkas[i].dt_jenis + '"' +
+								'queue_item="' + data.listBerkas[i].queue_item + '"' +
+								'type="button" data-toggle="tooltip" data-placement="bottom" title="Hapus berkas" style="margin-right: 10px;"><i class="fas fa-minus"></i></button>';
 
-						button_html =
-							'<div class="form-check form-check-inline d-flex justify-content-end py-1">' +
-							'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox ' + cls_registered + ' ' + check_disabled + '" type="checkbox" ' +
-							check_toggle +
-							' berkas_id="' + data.listBerkas[i].berkas_id + '" ' + check_disabled + '><div class="toggle-switch"></div><span class="toggle-label"></span></label>';
+							if (data.listBerkas[i].dt_jenis == "01") {
+								if (data.listBerkas[i].status == "1") {
+									edit_button = 
+										'<div class="position-absolute size-md btn-absolute-container">' + 
+										'<a class="i-wrapp transition float-right text-muted transparent-first btn-edit-toggle" ' +
+										'trans_id="' + data.listBerkas[i].trans_id + '"' +
+										'berkas_id="' + data.listBerkas[i].berkas_id + '"' +
+										'role="button" ' +
+										'data-content="Ubah data" ' +
+										'data-width="120px">' +
+										'<i class="fas fa-pen"></i>' +
+										'</a>' +
+										'</div>';
+								} 								
+								button_html =
+									'<div class="form-check form-check-inline d-flex justify-content-end py-1">' +
+									'<label class="toggle"><input class="btn btn-primary btn-sm toggle-checkbox ' + status_class + ' ' + disabled_attr + '" type="checkbox" ' +
+									checked_attr +
+									' berkas_id="' + data.listBerkas[i].berkas_id +
+									'" dt_berkas_id="' + data.listBerkas[i].dt_berkas_id +
+									'" jenis="' + data.listBerkas[i].jenis + '"' +
+									'" dt_jenis="' + data.listBerkas[i].dt_jenis + '"' +
+									'" keterangan="' + data.listBerkas[i].dt_keterangan +
+									'" queue_item="' + data.listBerkas[i].queue_item +
+									'" ' + disabled_attr + '><div class="toggle-switch"></div><span class="toggle-label"></span></label>' +
+									edit_button + '</div>';
+							} else if (data.listBerkas[i].dt_jenis == "02") {
+								// upload
+								if (data.listBerkas[i].status == "1") {
+									action_button = 
+										'<div class="d-flex justify-content-center light" trans_id="' +
+										data.listBerkas[i].trans_id +
+										'" reg_id="' +
+										data.reg_id +
+										'" berkas_id="' +
+										data.listBerkas[i].berkas_id +
+										'" dt_berkas_id="' +
+										data.listBerkas[i].dt_berkas_id +
+										'" ket="' + 
+										data.listBerkas[i].dt_keterangan + 
+										'"><a class="i-wrapp btn_detail_berkas" role="button" data-toggle="tooltip" data-placement="bottom" title="Lihat Berkas" ><i class="fas fa-folder-open"></i></a>' +
+										"</div>";
+								} else {
+									action_button =
+										'<div class="d-flex justify-content-center light" rekanan_id="' +
+										data.rekanan_id +
+										'" berkas_id="' +
+										data.listBerkas[i].berkas_id +
+										'" dt_berkas_id="' +
+										data.listBerkas[i].dt_berkas_id +
+										'" reg_id="' +
+										data.reg_id +
+										'" ket="' + 
+										data.listBerkas[i].dt_keterangan + 
+										'"><a class="i-wrapp btn_upload_berkas" role="button" data-toggle="tooltip" data-placement="bottom" title="Upload Berkas" ><i class="fas fa-upload"></i></a>' +
+										"</div>";	
+								}
+								button_html =
+										'<div class="form-inline d-flex justify-content-end hover circle-sm hide">' +
+										action_button +
+										"</div>";	
+							}
+						} else {
+							remove_button = "";
+							button_html =
+								'<div class="form-inline d-flex justify-content-end hover circle-md hide">' +
+								'<div class="d-flex justify-content-center" role="button" berkas_id="' +
+								data.listBerkas[i].berkas_id +
+								'" reg_id="' +
+								data.reg_id +
+								'" trans_id="' +
+								data.listBerkas[i].reg_trans_id +
+								'"><a class="i-wrapp light btn-add-berkas" ' +
+								'role="button" data-toggle="tooltip" data-placement="bottom" title="Tambah berkas lain"><i class="fas fa-plus"></i></a>' +
+								"</div>" +
+								"</div>"; // end of div form-inline
+						}
 					}
 
-					berkas_html += '<div class="row berkas-container" id="berkas_' + data.listBerkas[i].berkas_id + '">';
+					if (data.listBerkas[i].show_item !== "0") {
+						berkas_html += '<div class="row ' + row_class + '" id="berkas_' + data.listBerkas[i].berkas_id + '" jenis="' + data.listBerkas[i].jenis + '" dt_jenis="' + data.listBerkas[i].dt_jenis + '">';
 
-					berkas_html += '<div class="col-sm-12 col-md-12 col-lg-6">';
-					berkas_html +=
-						'<label  class="text-muted m-0 fs-085rem berkas-title">' +
-						data.listBerkas[i].keterangan +
-						"</label>";
-					berkas_html += //check_registered + 
-					'<i class="fas fa-check-circle float-right ' + uploaded + '" ></i>' +
-					"</div>"; // eof div .col-sm-12 label
+						berkas_html += '<div class="col-sm-12 col-md-6 col-lg-6">' // left;
+						berkas_html += '<div class="input-group input-group-sm">';
 
-					berkas_html +=
-						'<div class="col-sm-12 col-md-12 col-lg-6 ' + col_class + '">';
-					berkas_html += button_html;
-					berkas_html += "</div>"; // end of div form-check-inline
-					berkas_html += "</div>"; // eof div .col-sm-12 action
+						berkas_html += '<div class="input-group-prepend">';
+						berkas_html += remove_button;
+						berkas_html += "</div>"; // input-group-prepend
+						
+						berkas_html += '<label  class="text-muted m-0 fs-085rem berkas-title">' + data.listBerkas[i].keterangan + "</label>"; 
 
-					berkas_html += "</div>"; // eof div .row
-					// console.log(JSON.stringify(obj_berkas_template));
+						berkas_html += "</div>"; // input-group input-group-sm
+						berkas_html += "</div>"; // eof div .col-sm-12 left label
+
+						berkas_html += '<div class="col-sm-12 col-md-6 col-lg-6 ' + col_class + '">'; // right
+						// check_registered
+						berkas_html += '<i class="fas fa-check-circle float-left ' + flag_text + '"></i>';
+						berkas_html += button_html;
+						berkas_html += "</div>"; // eof div .col-sm-12 right action
+
+						berkas_html += "</div>"; // eof div .row
+					} else {
+						berkas_html +="";
+					}
+					
+					// if (data.listBerkas[i].jenis == "03") {
+					// 	berkas_html += berkaslain_html;
+					// }
+					// console.log(JSON.stringify(data));
+
+					obj_reg_berkas = {
+						'reg_id':data.listBerkas[i].reg_id, 
+						'trans_id':data.listBerkas[i].trans_id, 
+						'berkas_id':data.listBerkas[i].berkas_id, 
+						'dt_berkas_id':data.listBerkas[i].dt_berkas_id, 
+						'keterangan':data.listBerkas[i].keterangan, 
+						'jenis':data.listBerkas[i].jenis, 
+						'dt_jenis':data.listBerkas[i].dt_jenis, 
+						'file_path':data.listBerkas[i].file_path, 
+						'file_name':data.listBerkas[i].file_name, 
+						'queue_item': 1, 
+						'url':data.listBerkas[i].url, 
+						'template':'Y', 
+						'real_name':data.listBerkas[i].real_name, 
+						'status':data.listBerkas[i].status};
+					list_obj_reg_berkas.push(obj_reg_berkas)
 				}
 
 				$("#berkasContainer").html(berkas_html);
@@ -3057,8 +3314,8 @@
 				// console.log(JSON.stringify(data));
 				pageInit();
 				uploadTemplateBerkas(regid, rekanan_id, array_berkas_template);
-				upload_berkas();
 				detail_berkas();
+				inpatient_file_functions(list_obj_reg_berkas);
 				sessionStorage.clear();
 			},
 			error: function (data) {
@@ -3069,42 +3326,602 @@
 		});
 	}
 
-	function upload_berkas() {
-		$(".btn_upload_berkas").on("click", function () {
-			Dropzone.autoDiscover = false;
-			var desc = $(this).parent().attr("ket");
+	function inpatient_file_functions(list_obj_reg_berkas) {
+		var reg_id = "";
+		var trans_id = "";
+		var berkas_id = "";
+		var reg_count = list_obj_reg_berkas.length;
+		var berkasLain_html = "";
+		var count = 0;
+
+		function upload_berkas() {
+			
+			$("#formInpatientFile").on("click", ".btn_upload_berkas", function (e) {
+				Dropzone.autoDiscover = false;
+				var desc = $(this).parent().attr("ket");
+				var berkas_id = $(this).parent().attr("berkas_id");
+				var reg_id = $(this).parent().attr("reg_id"); //window.location.hash.slice(1);
+				var dt_jenis = "";
+				var dt_berkas_id = "";
+				var dt_jenis_attr = "";
+				var dt_berkas_id_attr = "";
+				if ($(this).closest(".row").hasClass("berkas-lain-container")) {
+					dt_jenis = $(this).parent().attr("dt_jenis");
+					dt_berkas_id = $(this).parent().attr("dt_berkas_id");
+					dt_jenis_attr = 'dt_jenis="' + $(this).closest(".row").attr("dt_jenis") + '"'
+					dt_berkas_id_attr =  'dt_berkas_id="' + $(this).parent().attr("dt_berkas_id") + '"'
+				}
+
+				var title = "Upload" + " " + desc;
+				var html = '<div class="position-relative h-100" id="uploadImage">';
+				html += "";
+				html +=
+					'<form action="' +
+					base_url +
+					"functions/Form_app_func/uploadBerkas" +
+					'" class="dropzone h-100 d-flex justify-content-center" id="dropBerkas" berkas_id="' +
+					berkas_id +
+					'" reg_id="' +
+					reg_id +
+					'" ' + dt_jenis_attr + ' ' + dt_berkas_id_attr + 'style="opacity:0.7; border: none;"></form>';
+				html += "</div>";
+				var btn =
+					'<div class="alert alert-danger d-none" id="templateErr" role="alert">' +
+					"A simple danger alert—check it out!" +
+					"</div>" +
+					'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
+					berkas_id +
+					'" reg_id="' +
+					reg_id +
+					'">Oke</button>';
+
+				$("#myDynamicModal .modal-footer").html(btn);
+				$("#myDynamicModal .modal-body").html(html);
+				$("#myDynamicModal .modal-title").html(title);
+				$("#myDynamicModal").modal("show");
+				dropZoneBerkas(reg_id, berkas_id, dt_berkas_id, desc);
+			});
+		}
+		
+		$("#formInpatientFile").on("click", ".btn-add-berkas", function (e) {
+			count += 1;
+			console.log(count);
+			var reg_id = $(this).parent().attr("reg_id");
+			var trans_id = $(this).parent().attr("trans_id");
 			var berkas_id = $(this).parent().attr("berkas_id");
-			var reg_id = $(this).parent().attr("reg_id"); //window.location.hash.slice(1);
+			var dt_berkas_id = "";
+			berkasLain_html = "";
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base_url + "functions/Form_app_func/getSequence",
+				data: {
+					reg_id: reg_id,
+					trans_id: trans_id,
+					berkas_id: berkas_id,
+					dt_berkas_id: dt_berkas_id,
+				},
+				success: function (data) {
+					// console.log(data.sequence)
+					var berkas_lain = $("div.berkas-lain-container");
+					var digits = 0;
+					var queue_item = 0;
+					
+					var queue_berkas = "";
+					if (data.sequence >= 1) {
+						digits = digits_count(data.sequence);
+						queue_item = data.sequence+1;
+						if (data.sequence <= 0) {
+							queue_berkas = "001";
+						} else {
+							if (digits = 1) {
+								queue_berkas = "00" + data.sequence
+							} else if (digits = 2) {
+								queue_berkas = "0" + data.sequence
+							} else {
+								queue_berkas = data.sequence
+							}
+						}
+					} else {
+						digits = digits_count(berkas_lain.length);
+						queue_item = berkas_lain.length+1;
+						if (berkas_lain.length <= 0) {
+							queue_berkas = "001";
+						} else {
+							if (digits = 1) {
+								queue_berkas = "00" + ++berkas_lain.length
+							} else if (digits = 2) {
+								queue_berkas = "0" + ++berkas_lain.length
+							} else {
+								queue_berkas = ++berkas_lain.length
+							}
+						}
+					}
+					
+					// console.log(queue_berkas);
+					berkasLain_html = '<div class="row berkas-lain-container" berkas_id="' + berkas_id + '" dt_berkas_id="' + 
+					berkas_id + "-" + queue_berkas + '" queue_item="' + queue_item + '">' +
 
-			var title = "Upload" + " " + desc;
-			var html = '<div class="position-relative h-100" id="uploadImage">';
-			html += "";
-			html +=
-				'<form action="' +
-				base_url +
-				"functions/Form_app_func/uploadBerkas" +
-				'" class="dropzone h-100 d-flex justify-content-center" id="dropBerkas" berkas_id="' +
-				berkas_id +
-				'" reg_id="' +
-				reg_id +
-				'" style="opacity:0.7; border: none;"></form>';
-			html += "</div>";
+					'<div class="col-sm-12 col-md-6 col-lg-6">' +
+					'<div class="input-group input-group-sm">' +
+
+					'<div class="input-group-prepend">' +
+					'<button class="btn btn-outline-secondary btn-delete-berkas" type="button" data-toggle="tooltip" data-placement="bottom" title="Hapus berkas"><i class="fas fa-minus"></i></button>' +
+					'</div>' + // input-group-prepend
+
+					'<input type="text" class="form-control input-nama-berkasLain" name="namaBerkas" placeholder="Nama berkas" style="margin-left: 10px;"/>' +
+
+					'</div>' + // input-group input-group-sm mb-3
+					'</div>' + // col-sm-12 col-md-12 col-lg-12
+					
+					'<div class="col-sm-12 col-md-6 col-lg-6">' +
+					'<div class="input-group input-group-sm">' +
+
+					'<div class="input-group-prepend">' + // 1
+					'<label class="input-group-text" for="selectJenisBerkas">Jenis</label>' +
+					'</div>' + // input-group-prepend // 1
+
+					'<select class="custom-select select-jenis-berkasLain" id="selectJenisBerkas" name="jenisBerkas">' +
+					'<option value="" selected>Pilih...</option>' +
+					'<option value="01">Tanpa Template</option>' +
+					'<option value="02">Dengan Template</option>' +
+					'</select>' +
+
+					// html += '<div class="input-group-append">'; // 2
+					// html += '<button class="btn btn-outline-secondary" type="button">Simpan</button>';
+					// html += '</div>'; // input-group-append // 2
+
+					'</div>' + // input-group input-group-sm mb-3
+					'</div>' + // col-sm-12 col-md-12 col-lg-12
+
+					'</div>'; // row
+					$("#berkasContainer").append(berkasLain_html);
+					
+					$(".input-nama-berkasLain").keyup(function () {
+						$(this).val($(this).val().toUpperCase());
+					});
+				},
+				error: function (data) {
+					console.log(JSON.stringify(data));
+					//alert(2);
+				},
+			});
+			e.stopImmediatePropagation();
+            e.preventDefault();
+		});
+		// edit saved toggle
+		$("#formInpatientFile").on("click", ".btn-edit-toggle", function (e) {
+			// console.log(123);
+			// $(this).toggleClass("active");
+			trans_id = $(this).attr("trans_id");
+			berkas_id = $(this).attr("berkas_id");
+			e.preventDefault();
+			var title = 'Konfirmasi&nbsp;<i class="fas fa-exclamation-circle"></i>';
+			var body = "<p>Yakin untuk mengubah data ini?</p>";
 			var btn =
-				'<div class="alert alert-danger d-none" id="templateErr" role="alert">' +
-				"A simple danger alert—check it out!" +
-				"</div>" +
-				'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
-				berkas_id +
-				'" reg_id="' +
-				reg_id +
-				'">Oke</button>';
-
+				'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+				'<button class="btn btn-primary" id="btn_edit_savedBerkas" ype="button" data-dismiss="modal">Oke</button>';
+			var err = "";
+	
 			$("#myDynamicModal .modal-footer").html(btn);
-			$("#myDynamicModal .modal-body").html(html);
+			$("#myDynamicModal .modal-body").html(body);
 			$("#myDynamicModal .modal-title").html(title);
 			$("#myDynamicModal").modal("show");
-			dropZoneBerkas(reg_id, berkas_id, desc);
+	
+			$("#btn_edit_savedBerkas").on("click", function () {
+				$.each($(".toggle-checkbox.saved"), function () {
+					if ($(this).attr("berkas_id") == berkas_id) {					
+						$(this).removeClass("disabled");
+						$(this).prop('disabled', false);
+						$("#myDynamicModal").modal("hide");	
+						$(this).closest(".form-check-inline").find(".btn-absolute-container").css({ display: "none" });
+					}	
+				});
+			});
 		});
+			
+		$("#btn_save_berkas_final").on("click", function () {
+				
+			var reg_id =  $(this).attr("reg_id");
+			var title =
+					'Konfirmasi&nbsp;<i class="fas fa-exclamation-circle"></i>';
+			var body = "<p>Yakin untuk menyimpan data ini?</p>";
+			var btn =
+				'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+				'<button class="btn btn-primary" id="save_berkas_confirm" ype="button" reg_id="' + reg_id + '">Oke</button>';
+			var err = "";
+
+			$("#myDynamicModal .modal-footer").html(btn);
+			$("#myDynamicModal .modal-body").html(body);
+			$("#myDynamicModal .modal-title").html(title);
+
+			var list_obj_berkas_toSave = [];
+			var berkas = {};
+			var berkas_lain = $('input.input-nama-berkasLain:text');
+			
+			$.each($(".toggle-checkbox:not(.saved):checked"), function () {
+				var dt_berkas_id = "";
+				var keterangan = "";
+				var jenis = "01";
+				var dt_jenis= "";
+				var status = "1";
+				var queue_item = 0;
+
+				if (
+					$(this).attr("dt_berkas_id") !== null && 
+					$(this).attr("dt_berkas_id") !== undefined && 
+					$(this).attr("dt_berkas_id") !== "N"
+				) {
+					dt_berkas_id = $(this).attr("dt_berkas_id");
+					keterangan = $(this).attr("keterangan");
+					jenis = $(this).attr("jenis");
+					dt_jenis = $(this).attr("dt_jenis");
+					queue_item = $(this).attr("queue_item");
+				}
+
+				berkas = {
+					'reg_id':reg_id, 
+					'berkas_id':$(this).attr("berkas_id"), 
+					'dt_berkas_id':dt_berkas_id, 
+					'keterangan':keterangan, 
+					'jenis':jenis, 
+					'dt_jenis':dt_jenis, 
+					'file_path':"", 
+					'file_name':"", 
+					'queue_item':1, 
+					'url':"", 
+					'template':'N', 
+					'real_name':"", 
+					'status':status
+				}
+				list_obj_berkas_toSave.push(berkas);
+			});
+
+			$.each($(".toggle-checkbox.saved:not(.disabled)"), function () {
+				// console.log($(this).attr("berkas_id"));
+				for (var i = 0; i < reg_count; i++) {
+					if ($(this).attr("berkas_id") == list_obj_reg_berkas[i].berkas_id) {		
+						var value = ""; 
+						if ($(this).is(':checked')) {
+							value = 1;
+						} else {
+							value = 0;
+						}
+						if (value == list_obj_reg_berkas[i].status) {
+							// console.log("no");
+						} else {
+							berkas = {
+								'reg_id':reg_id, 
+								'berkas_id':$(this).attr("berkas_id"), 
+								'dt_berkas_id':list_obj_reg_berkas[i].dt_berkas_id, 
+								'keterangan':list_obj_reg_berkas[i].keterangan, 
+								'jenis':list_obj_reg_berkas[i].jenis, 
+								'dt_jenis':list_obj_reg_berkas[i].dt_jenis, 
+								'file_path':"", 
+								'file_name':"", 
+								'queue_item':1, 
+								'url':"", 
+								'template':'N', 
+								'real_name':"", 
+								'status':value
+							}
+								list_obj_berkas_toSave.push(berkas);
+						}
+					}
+				} 
+			});
+
+			$.each($(berkas_lain), function () {
+				if ($(this).val() !== "" && $(this).val() !== undefined && $(this).val() !== null) {
+					if (
+						$(this).closest(".berkas-lain-container").find(".select-jenis-berkasLain").val() !== "" &&
+						$(this).closest(".berkas-lain-container").find(".select-jenis-berkasLain").val() !== undefined &&
+						$(this).closest(".berkas-lain-container").find(".select-jenis-berkasLain").val() !== null
+						) 
+					{
+						berkas = {
+							'reg_id':reg_id, 
+							'berkas_id':$(this).closest(".berkas-lain-container").attr("berkas_id"), 
+							'dt_berkas_id':$(this).closest(".berkas-lain-container").attr("dt_berkas_id"), 
+							'keterangan':$(this).val(), 
+							'jenis':"03", 
+							'dt_jenis':$(this).closest(".berkas-lain-container").find(".select-jenis-berkasLain").val(), 
+							'file_path':"", 
+							'file_name':"", 
+							'queue_item':$(this).closest(".berkas-lain-container").attr("queue_item"), 
+							'url':"", 
+							'template':'N', 
+							'real_name':"", 
+							'status':'0'
+						}
+						list_obj_berkas_toSave.push(berkas);
+					}
+				}
+				
+			});
+
+			var list_obj_berkas_upload = JSON.parse(sessionStorage.getItem('list_obj_berkas_temp'));
+			if (list_obj_berkas_upload !== null && list_obj_berkas_upload !== undefined) {
+				if (list_obj_berkas_upload.length) {
+					$.each($(list_obj_berkas_upload), function (index,list) {
+						list_obj_berkas_toSave.push(list);
+					});
+				}
+			}
+			// console.log(berkas_lain);
+			console.log(JSON.stringify(list_obj_berkas_toSave));
+			// console.log(queue_berkas);
+			if (list_obj_berkas_toSave.length > 0) {	// aktif
+				$("#myDynamicModal").modal("show");
+				$("#myDynamicModal").on("shown.bs.modal", function (event) {
+					$("#save_berkas_confirm").on("click", function () {	
+						var loading =
+							"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
+						var title = "Informasi";
+						var body =
+							"<div class='success-checkmark'>" +
+							"<div class='check-icon'>" +
+							"<span class='icon-line line-tip'></span>" +
+							"<span class='icon-line line-long'></span>" +
+							"<div class='icon-circle'></div>" +
+							"<div class='icon-fix'></div>" +
+							"</div>" +
+							"</div>" +
+							"<div class='row justify-content-center'>" +
+							"<div class='col-7 text-center'>" +
+							"Data telah tersimpan" +
+							"</div>" +
+							"</div>";
+						var btn =
+							'<button class="btn btn-primary close-modal-btn" type="button" data-dismiss="modal">Oke</button>';
+
+						$("#myConfirmModal .modal-body").html(loading);
+						
+						var reg_id =  $(this).attr("reg_id");					
+						if (list_obj_berkas_toSave.length) {		
+							console.log(JSON.stringify(list_obj_berkas_toSave));
+							$("#card-header-alert").addClass("d-none");
+							$.ajax({
+									type: "POST",
+									dataType: "json",
+									url: base_url + "functions/Form_app_func/saveBerkasMS",
+									data: {
+									reg_id: reg_id,
+								},
+								success: function (data) {
+									// console.log(data.errMsg);
+									//document.getElementById("tempPathSpan").remove();
+									if (data.err !== "" && data.err  !== undefined) {
+										if (data.err == "001") {
+											window.location.href = base_url + "auth";;
+										} else if (data.err == "002") {
+											window.location.href = base_url + "auth";;
+										}
+									} else {								
+										var trans_id = data.trans_id;
+										// console.log(data.trans_id);
+										$.each(list_obj_berkas_toSave, function(index, list){
+											// console.log(list.url);
+											// console.log(JSON.stringify(list_obj_berkas_toSave));
+											$.ajax({
+												type: "POST",
+												dataType: "json",
+												url: base_url + "functions/Form_app_func/saveBerkasDT",
+												data: {
+													reg_id: list.reg_id,
+													trans_id: trans_id,
+													berkas_id: list.berkas_id,
+													dt_berkas_id: list.dt_berkas_id,
+													keterangan: list.keterangan,
+													jenis: list.jenis,
+													dt_jenis: list.dt_jenis,
+													queue_item: list.queue_item,
+													file_path: list.file_path,
+													file_name: list.file_name,
+													real_name: list.real_name,
+													url: list.url,
+													status: list.status,
+													template: list.template,
+												},
+												success: function (data) {
+													if (data.err !== "" && data.err  !== undefined) {
+														if (data.err == "001") {
+															window.location.href = base_url + "auth";;
+														} else if (data.err == "002") {
+															window.location.href = base_url + "auth";;
+														}
+													} else {
+														$("#myDynamicModal .modal-title").html(title);
+														$("#myDynamicModal .modal-footer").html(btn);
+														$("#myDynamicModal .modal-body").html(body);
+														$(".close-modal-btn").on("click", function () {
+															$("#myDynamicModal").modal("hide");
+															location.reload();
+															return false;
+															// var regid = window.location.hash.slice(1);
+															// loaderFunction();
+															// loadDetailInpatientFile(regid);
+														});
+														console.log(JSON.stringify(data));
+														
+													}
+												},
+												error: function (data) {
+													console.log(JSON.stringify(data));
+													//alert(2);
+												},
+											});	
+										});
+										
+									}
+								},
+								error: function (data) {
+									alert(JSON.stringify(data));
+									//alert(2);
+								},
+							});
+						}
+						// console.log(JSON.stringify(array_obj_save))
+					});
+				});
+			} else {	
+				err = "Tidak ada perubahan data!";
+				$("#card-header-alert").html(err);	
+				$("#card-header-alert").removeClass("d-none");
+			}
+		});
+		
+		$("#formInpatientFile").on("click", ".btn-delete-berkas", function (e) {
+			e.preventDefault();
+			var trans_id = $(this).attr('trans_id');
+			var reg_id = $(this).attr('reg_id');
+			var berkas_id = $(this).attr('berkas_id');
+			var dt_berkas_id = $(this).attr('dt_berkas_id');
+			var berkas = {};
+			if (typeof trans_id !== 'undefined' && trans_id !== false && typeof reg_id !== 'undefined' && reg_id !== false) {				
+				var title =
+					'Konfirmasi&nbsp;<i class="fas fa-exclamation-circle"></i>';
+				var body = "<p>Yakin untuk menghapus data ini?</p>";
+				var btn =
+					'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
+					'<button class="btn btn-primary" id="btn_delete_berkaslain" ype="button">Oke</button>';
+				var err = "";
+
+				$("#myDynamicModal .modal-footer").html(btn);
+				$("#myDynamicModal .modal-body").html(body);
+				$("#myDynamicModal .modal-title").html(title);
+				$("#myDynamicModal").modal("show");
+
+				$("#myDynamicModal").on("shown.bs.modal", function (event) {
+					$("#btn_delete_berkaslain").on("click", function () {
+						for (var i = 0; i < reg_count; i++) {
+							if (reg_id == list_obj_reg_berkas[i].reg_id) {
+								if (trans_id == list_obj_reg_berkas[i].trans_id) {
+									if (berkas_id == list_obj_reg_berkas[i].berkas_id) {
+										if (dt_berkas_id == list_obj_reg_berkas[i].dt_berkas_id) {
+											berkas = {
+												'reg_id':reg_id, 
+												'trans_id':list_obj_reg_berkas[i].trans_id,
+												'berkas_id':list_obj_reg_berkas[i].berkas_id, 
+												'dt_berkas_id':list_obj_reg_berkas[i].dt_berkas_id, 
+												'keterangan':list_obj_reg_berkas[i].keterangan, 
+												'jenis':list_obj_reg_berkas[i].jenis, 
+												'dt_jenis':list_obj_reg_berkas[i].dt_jenis, 
+												'queue_item':list_obj_reg_berkas[i].queue_item, 
+												'status':list_obj_reg_berkas[i].status
+											}
+										}
+									}
+								}		
+							}
+						} 
+						console.log(JSON.stringify(berkas));
+						var loading =
+									"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
+						var title = "Informasi";
+						var body =
+							"<div class='success-checkmark'>" +
+							"<div class='check-icon'>" +
+							"<span class='icon-line line-tip'></span>" +
+							"<span class='icon-line line-long'></span>" +
+							"<div class='icon-circle'></div>" +
+							"<div class='icon-fix'></div>" +
+							"</div>" +
+							"</div>" +
+							"<div class='row justify-content-center'>" +
+							"<div class='col-7 text-center'>" +
+							"Data telah dihapus" +
+							"</div>" +
+							"</div>";
+						var btn =
+							'<button class="btn btn-primary close-modal-btn" type="button" data-dismiss="modal">Oke</button>';
+						$.ajax({
+							type: "POST",
+							dataType: "json",
+							url: base_url + "functions/Form_app_func/deleteBerkasLain",
+							data: {
+								reg_id : berkas["reg_id"], 
+								trans_id : berkas["trans_id"], 
+								berkas_id : berkas["berkas_id"], 
+								jenis : berkas["jenis"],
+								dt_berkas_id : berkas["dt_berkas_id"],
+								dt_jenis : berkas["dt_jenis"],
+								status : berkas["status"],
+							},
+							success: function (data) {
+								if (data.err !== "" && data.err  !== undefined) {
+									if (data.err == "001") {
+										window.location.href = base_url + "auth";;
+									} else if (data.err == "002") {
+										window.location.href = base_url + "auth";;
+									}
+								} else {
+									$("#myDynamicModal .modal-title").html(title);
+									$("#myDynamicModal .modal-footer").html(btn);
+									$("#myDynamicModal .modal-body").html(body);
+									$(".close-modal-btn").on("click", function () {
+										$("#myDynamicModal").modal("hide");
+										location.reload();
+										return false;
+										// var regid = window.location.hash.slice(1);
+										// loaderFunction();
+										// loadDetailInpatientFile(regid);
+									});
+									console.log(JSON.stringify(data));
+									
+								}
+							},
+							error: function (data) {
+								console.log(JSON.stringify(data));
+								//alert(2);
+							},
+						});
+			
+					});
+				});
+			} else {
+				$(this).closest('.row').remove();
+				$(".tooltip.show").remove();
+			}
+
+			$("#formInpatientFile").validate({
+				focusInvalid: false,
+				rules: {
+					mr: {
+						required: true,
+						minlength: 6,
+						maxlength: 7,
+						digits: true,
+					},
+					borrower: "required",
+					dept: "required",
+					necessity: "required",
+					lender: "required",
+				},
+				messages: {
+					mr: {
+						required: "Medrec harus di isi",
+						minlength: "Masukkan minimal 6 digit angka",
+						maxlength: "Masukkan maksimal 7 digit angka",
+						digits: "Hanya angka di perbolehkan",
+					},
+					borrower: {
+						required: "Peminjam harus di isi",
+					},
+					dept: {
+						required: "Departemen harus di isi",
+					},
+					necessity: {
+						required: "Keperluan harus di isi",
+					},
+					lender: {
+						required: "Pemberi pinjam harus di isi",
+					},
+				},
+			});
+		});
+
+		upload_berkas();
 	}
 
 	function uploadTemplateBerkas(reg_id, rekanan_id, array_berkas_template) {
@@ -3160,7 +3977,7 @@
 								if (data.template[i].berkas_id == berkas_id) {
 									if (data.template[i].rekanan_id == "DEFAULT") {	
 										default_uploaded = "Y"													
-										default_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
+										default_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle-md hide px-1">' +
 											'<a class="i-wrapp light btn-edit-template" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + data.template[i].rekanan_id + 
 											'" berkas_id="' + data.template[i].berkas_id + '"><i class="far fa-edit"></i></a>' +
 											'<a class="i-wrapp light btn-cancel-template d-none" role="button" data-toggle="tooltip" data-placement="bottom" title="Batal" rekanan_id = "' + data.template[i].rekanan_id + 
@@ -3170,7 +3987,7 @@
 											'<span>1</span></div>';
 									} else if (data.template[i].rekanan_id == rekanan_id) {
 										rek_uploaded = "Y"
-										rek_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle hide px-1">' +
+										rek_radio_btn = '<div class="form-inline d-flex justify-content-end hover circle-md hide px-1">' +
 											'<a class="i-wrapp light btn-edit-template" role="button" data-toggle="tooltip" data-placement="bottom" title="Edit Template" rekanan_id = "' + data.template[i].rekanan_id + 
 											'" berkas_id="' + data.template[i].berkas_id + '"><i class="far fa-edit"></i></a>' +
 											'<a class="i-wrapp light btn-cancel-template d-none" role="button" data-toggle="tooltip" data-placement="bottom" title="Batal" rekanan_id = "' + data.template[i].rekanan_id + 
@@ -3631,42 +4448,7 @@
 		// alert(2154);
 	});
 
-	// $("#dropdownBerkas").on("click", ".dropdown-item", function () {
-	// 	// alert($(this).attr("id"));
-	// 	Dropzone.autoDiscover = false;
-	// 	var desc = $(this).attr("ket");
-	// 	var berkas_id = $(this).attr("id");
-	// 	var reg_id = window.location.hash.slice(1);
-
-	// 	var title = "Upload" + " " + desc;
-	// 	var html = '<div class="position-relative h-100" id="uploadImage">';
-	// 	html += "";
-	// 	html +=
-	// 		'<form action="' +
-	// 		base_url +
-	// 		"functions/Form_app_func/uploadBerkas" +
-	// 		'" class="dropzone h-100" id="dropBerkas" berkas_id="' +
-	// 		berkas_id +
-	// 		'" reg_id="' +
-	// 		reg_id +
-	// 		'" style="opacity:0.7; border: none;"></form>';
-	// 	html += "</div>";
-	// 	var btn =
-	// 		'<button class="btn btn-primary" id="saveUploadBerkas" ype="button" berkas_id="' +
-	// 		berkas_id +
-	// 		'" reg_id="' +
-	// 		reg_id +
-	// 		'" desc="' + desc + 
-	// 		'">Oke</button>';
-
-	// 	$("#myDynamicModal .modal-footer").html(btn);
-	// 	$("#myDynamicModal .modal-body").html(html);
-	// 	$("#myDynamicModal .modal-title").html(title);
-	// 	$("#myDynamicModal").modal("show");
-	// 	dropZoneBerkas(reg_id, berkas_id, desc);
-	// });
-
-	function dropZoneBerkas(reg_id, berkas_id, desc) {
+	function dropZoneBerkas(reg_id, berkas_id, dt_berkas_id, desc) {
 
 		$("form#dropBerkas").dropzone({
 			maxFilesize: 10,
@@ -3695,6 +4477,12 @@
 					}
 					data.append("reg_id", reg_id);
 					data.append("berkas_id", berkas_id);
+					if (dt_berkas_id !== undefined && dt_berkas_id !== null && dt_berkas_id !== "N") {
+						dt_berkas_id = dt_berkas_id
+					} else {
+						dt_berkas_id ="";
+					}
+					data.append("dt_berkas_id", dt_berkas_id);
 					data.append("ket", desc);
 
 					var options = {};
@@ -3718,7 +4506,8 @@
 
 						// if (css.styleSheet) css.styleSheet.cssText = styles;
 						// else css.appendChild(document.createTextNode(styles));
-
+						var dt_jenis = $("form#dropBerkas").attr("dt_jenis");
+						var dt_berkas_id = $("form#dropBerkas").attr("dt_berkas_id");
 						elmnt.setAttribute("id", "tempPathSpan" + result.file_count);
 						elmnt.setAttribute("class", "path-container");
 						elmnt.setAttribute("file_path", result.file_path);
@@ -3726,6 +4515,14 @@
 						elmnt.setAttribute("real_name", result.real_name);
 						elmnt.setAttribute("berkas_id", result.berkas_id);
 						elmnt.setAttribute("queue_item", result.file_count);
+						if (dt_jenis !== null && dt_jenis !== undefined) {
+							elmnt.setAttribute("dt_jenis", dt_jenis);
+							elmnt.setAttribute("dt_berkas_id", dt_berkas_id);
+							elmnt.setAttribute("jenis", "03");
+							
+						} else {
+							elmnt.setAttribute("jenis", "02");
+						}
 						elmnt.style.display = "none";
 						elmnt.appendChild(node);
 						elmnt.appendChild(css);
@@ -3733,7 +4530,6 @@
 						$("#dropBerkas").css({ opacity: "1" });
 					};
 					options.error = function (err) {
-						alert(JSON.stringify(err));
 						console.log(JSON.stringify(err));
 					};
 					$.ajax(options);
@@ -3857,6 +4653,7 @@
 			var reg_id = $(this).attr("reg_id");
 			var berkas_id = $(this).attr("berkas_id");
 			var desc = $(this).attr("desc");
+			var jenis = "";
 			var file_path = "";
 			var file_name = "";
 			var real_name = "";
@@ -3868,63 +4665,34 @@
 			if ($(this).parent().parent().find(".path-container").length) {
 				$.each($(".path-container"), function () {
 					if ($(this).length) {
-						// var title =
-						// 	'Konfirmasi&nbsp;<i class="fas fa-exclamation-circle"></i>';
-						// var body = "<p>Yakin untuk menyimpan data ini?</p>";
-						// var btn =
-						// 	'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
-						// 	'<button class="btn btn-primary" id="saveBerkas" ype="button" berkas_id="' +
-						// 	berkas_id +
-						// 	'" desc="' +
-						// 	desc +
-						// 	'" >Oke</button>';
-
-						// $("#myConfirmModal .modal-footer").html(btn);
-						// $("#myConfirmModal .modal-body").html(body);
-						// $("#myConfirmModal .modal-title").html(title);
-						// $("#myConfirmModal").modal({
-						// 	backdrop: "static",
-						// });
-						// $("#myConfirmModal").modal("show");
+						jenis = $(this).attr("jenis");
 						file_path = $(this).attr("file_path");
 						file_name = $(this).attr("file_name");
 						real_name = $(this).attr("real_name");
 						queue_item = $(this).attr("queue_item");
 						url = file_path + file_name;
 
-						obj_berkas = {'berkas_id':berkas_id, 'reg_id':reg_id, 'file_path':file_path, 'file_name':file_name, 'queue_item': 1, 'url':url, 'template':'Y', 'real_name':real_name};
+						var dt_jenis = $(this).attr("dt_jenis");
+						var dt_berkas_id = $(this).attr("dt_berkas_id");
+
+						if (dt_jenis !== null && dt_jenis !== undefined && dt_jenis !== "N") {
+							dt_jenis = dt_jenis;
+						} else {
+							dt_jenis = "";
+						}
+
+						if (dt_berkas_id !== null && dt_berkas_id !== undefined && dt_berkas_id !== "N") {
+							dt_berkas_id = dt_berkas_id;
+						} else {
+							dt_berkas_id = "";
+						}
+
+						obj_berkas = {'berkas_id':berkas_id, 'dt_berkas_id':dt_berkas_id, 'keterangan':"", 'jenis':jenis, 'dt_jenis':dt_jenis, 'reg_id':reg_id, 'file_path':file_path, 'file_name':file_name, 'queue_item': 1, 'url':url, 'template':'Y', 'real_name':real_name, 'status':'1'};
 						list_obj_berkas.push(obj_berkas);
 
 						sessionStorage.setItem("list_obj_berkas_temp",JSON.stringify(list_obj_berkas));
 						// console.log(JSON.stringify(obj_berkas));
 						$('#myDynamicModal').modal('hide');
-				
-
-						// $("#saveBerkas").on("click", function () {
-							// var loading =
-							// 	"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
-							// title = "Informasi";
-							// body =
-							// 	"<div class='success-checkmark'>" +
-							// 	"<div class='check-icon'>" +
-							// 	"<span class='icon-line line-tip'></span>" +
-							// 	"<span class='icon-line line-long'></span>" +
-							// 	"<div class='icon-circle'></div>" +
-							// 	"<div class='icon-fix'></div>" +
-							// 	"</div>" +
-							// 	"</div>" +
-							// 	"<div class='row justify-content-center'>" +
-							// 	"<div class='col-7 text-center'>" +
-							// 	"Data telah tersimpan" +
-							// 	"</div>" +
-							// 	"</div>";
-							// btn =
-							// 	'<button class="btn btn-primary close-modal-btn" type="button" data-dismiss="modal">Oke</button>';
-
-							// $("#myConfirmModal .modal-body").html(loading);
-							
-							
-						// });
 					}
 				});
 
@@ -3953,152 +4721,6 @@
 		});
 	}
 
-	$("#btn_save_berkas_final").on("click", function () {
-		var reg_id =  $(this).attr("reg_id");
-		var title =
-				'Konfirmasi&nbsp;<i class="fas fa-exclamation-circle"></i>';
-		var body = "<p>Yakin untuk menyimpan data ini?</p>";
-		var btn =
-			'<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>' +
-			'<button class="btn btn-primary" id="save_berkas_confirm" ype="button" reg_id="' + reg_id + '">Oke</button>';
-		var err = "";
-
-		$("#myDynamicModal .modal-footer").html(btn);
-		$("#myDynamicModal .modal-body").html(body);
-		$("#myDynamicModal .modal-title").html(title);
-
-		var list_obj_berkas_toSave = [];
-		var berkas = {};
-		$.each($(".toggle-checkbox:not(.registered):checked"), function () {
-			berkas = {'berkas_id':$(this).attr("berkas_id"), 'reg_id':reg_id, 'file_path':"", 'file_name':"", 'queue_item':1, 'url':"", 'template':'N', 'real_name':""}
-			list_obj_berkas_toSave.push(berkas);
-			
-		});
-		var list_obj_berkas_upload = JSON.parse(sessionStorage.getItem('list_obj_berkas_temp'));
-		if (list_obj_berkas_upload !== null && list_obj_berkas_upload !== undefined) {
-			if (list_obj_berkas_upload.length) {
-				$.each($(list_obj_berkas_upload), function (index,list) {
-					list_obj_berkas_toSave.push(list);
-				});
-			}
-		}
-		console.log(list_obj_berkas_toSave.length);
-		if (list_obj_berkas_toSave.length > 0) {	
-			$("#myDynamicModal").modal("show");
-			$("#myDynamicModal").on("shown.bs.modal", function (event) {
-				$("#save_berkas_confirm").on("click", function () {	
-					var loading =
-						"<div style='text-align:center;'><img src='../../assets/img/gif/loader.gif' height='100px' /></div>";
-					var title = "Informasi";
-					var body =
-						"<div class='success-checkmark'>" +
-						"<div class='check-icon'>" +
-						"<span class='icon-line line-tip'></span>" +
-						"<span class='icon-line line-long'></span>" +
-						"<div class='icon-circle'></div>" +
-						"<div class='icon-fix'></div>" +
-						"</div>" +
-						"</div>" +
-						"<div class='row justify-content-center'>" +
-						"<div class='col-7 text-center'>" +
-						"Data telah tersimpan" +
-						"</div>" +
-						"</div>";
-					var btn =
-						'<button class="btn btn-primary close-modal-btn" type="button" data-dismiss="modal">Oke</button>';
-
-					$("#myConfirmModal .modal-body").html(loading);
-					
-					var reg_id =  $(this).attr("reg_id");					
-					if (list_obj_berkas_toSave.length) {		
-						console.log(JSON.stringify(list_obj_berkas_toSave));
-						$("#card-header-alert").addClass("d-none");
-						$.ajax({
-								type: "POST",
-								dataType: "json",
-								url: base_url + "functions/Form_app_func/saveBerkasMS",
-								data: {
-								reg_id: reg_id,
-							},
-							success: function (data) {
-								console.log(data.errMsg);
-								//document.getElementById("tempPathSpan").remove();
-								if (data.err !== "" && data.err  !== undefined) {
-									if (data.err == "001") {
-										window.location.href = base_url + "auth";;
-									} else if (data.err == "002") {
-										window.location.href = base_url + "auth";;
-									}
-								} else {								
-									var trans_id = data.trans_id;
-									var queue_item = 0;
-									var file_path = "";
-									var file_name = "";
-									var url = "";
-									$.each(list_obj_berkas_toSave, function(index,list){
-										// console.log(list.url);
-										$.ajax({
-											type: "POST",
-											dataType: "json",
-											url: base_url + "functions/Form_app_func/saveBerkasDT",
-											data: {
-												reg_id: list.reg_id,
-												trans_id: trans_id,
-												berkas_id: list.berkas_id,
-												queue_item: list.queue_item,
-												file_path: list.file_path,
-												file_name: list.file_name,
-												real_name: list.real_name,
-												url: list.url,
-												template: list.template,
-											},
-											success: function (data) {
-												if (data.err !== "" && data.err  !== undefined) {
-													if (data.err == "001") {
-														window.location.href = base_url + "auth";;
-													} else if (data.err == "002") {
-														window.location.href = base_url + "auth";;
-													}
-												} else {
-													$("#myDynamicModal .modal-title").html(title);
-													$("#myDynamicModal .modal-footer").html(btn);
-													$("#myDynamicModal .modal-body").html(body);
-													$(".close-modal-btn").on("click", function () {
-														$("#myDynamicModal").modal("hide");
-														location.reload();
-														return false;
-														// var regid = window.location.hash.slice(1);
-														// loaderFunction();
-														// loadDetailInpatientFile(regid);
-													});
-													console.log(JSON.stringify(data));
-													
-												}
-											},
-											error: function (data) {
-												console.log(JSON.stringify(data));
-												//alert(2);
-											},
-										});	
-									});
-									
-								}
-							},
-							error: function (data) {
-								alert(JSON.stringify(data));
-								//alert(2);
-							},
-						});
-					}
-					// console.log(JSON.stringify(array_obj_save))
-				});
-			});
-		} else {	
-			err = "Tidak ada perubahan data!";
-			$("#card-header-alert").html(err);	
-			$("#card-header-alert").removeClass("d-none");
-		}
-	});
 
 	$("#dropBerkas").on("click", ".dz-remove", function () {
 		alert($(this).parent().parent().attr("reg_id"));
@@ -4110,6 +4732,7 @@
 			var desc = $(this).parent().attr("ket");
 			var trans_id = $(this).parent().attr("trans_id");
 			var berkas_id = $(this).parent().attr("berkas_id");
+			var dt_berkas_id = $(this).parent().attr("dt_berkas_id");
 			var reg_id = $(this).parent().attr("reg_id"); //window.location.hash.slice(1);
 
 			var width = 200;
@@ -4125,6 +4748,7 @@
 					reg_id: reg_id,
 					trans_id: trans_id,
 					berkas_id: berkas_id,
+					dt_berkas_id: dt_berkas_id,
 					width: width,
 					height: height,
 					startX: startX,
@@ -4277,6 +4901,19 @@
 			$("#btnAddBerkas").removeClass("active");
 		}
 	});
+
+	// Get digits count
+	function digits_count(n) {
+		var count = 0;
+		if (n >= 1) ++count;
+	  
+		while (n / 10 >= 1) {
+		  n /= 10;
+		  ++count;
+		}
+	  
+		return count;
+	  }
 
 	function typeOf(obj) {
 		return {}.toString.call(obj).split(' ')[1].slice(0, -1).toLowerCase();

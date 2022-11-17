@@ -73,7 +73,7 @@
                 } else {
                     $cls_child = '';
                 }
-                $menu.='<li class="list-group-item ' . $cls_child . '">' . anchor($p->alias . '/'.strtolower(preg_replace('/\s+/', '-', $c->parent_name)).'/'.$c->link, 
+                $menu.='<li class="list-group-item ' . $cls_child . '">' . anchor($c->url . '/'.strtolower(preg_replace('/\s+/', '-', $c->parent_name)).'/'.$c->link, 
                 '<i class="' . $c->icon . '"></i><span>' . $c->menu_tittle2 . '</span>',
                 array('class' => 'collapse-item text-decoration-none')
             );
