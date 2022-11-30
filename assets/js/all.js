@@ -2495,10 +2495,8 @@
 	$("#page_inpatientFile").find(".tab-content").on("click", function (e) {
 		$("#page_inpatientFile").find(".tab-content").find(".tab-header").removeClass("active");
 		$(this).find(".tab-header").addClass("active");
-
-		// if ($(this).find(".tab-header").attr("target")){
+		var mode = $(this).attr("mode");
 		var target = $(this).find(".tab-header").attr("target");
-		// console.log(target);		
 		$(".toggle-container").addClass("d-none");
 		$.each($(".toggle-container"), function () {
 			if ($(this).attr("id") == target) {
@@ -2507,13 +2505,163 @@
 		});
 	});
 
+	$("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item").on("click", function (e) {
+		var page_start = 1;
+		var pageno = 1;
+		var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+		var per_page = $("#InpatientFile_selectPageSize option:selected").val();
+		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+		var key_word = "";
+		var reg_id = "";
+		var mode = "";
+		var from_date =  "";
+		var to_date = "";
+		var rawat = "";
+		var berkas = "";
+		var list_berkas = [];
+
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
+				func_url =
+					base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+			} else {
+				pageno = 0;
+				page_start = 1;
+			}
+		} else {
+			per_page = "";
+		}
+
+		
+		if ($(this).attr("berkas_id")=="all") {
+			if ($(this).hasClass("active")) {
+				$("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item").removeClass("active");
+			} else {
+				$("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item").addClass("active");
+			}
+		} else {
+			if ($(this).hasClass("active")) {
+				$(this).removeClass("active");
+			} else {
+				$(this).addClass("active");
+			}
+		}
+
+		mode = "FLT";
+		var attr = $("#btnDropdownPeriod").attr("for_id");
+		if (typeof attr !== 'undefined' && attr !== false) {
+			if (attr == "1") {
+				from_date = "";
+				to_date = "";
+			}
+			else if (attr == "6") {			
+				from_date = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+				to_date = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+			}
+		}
+		
+		if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "REG") {
+			rawat = "Y"
+		} else if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "FLT") {
+			var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+			if (rawat_check === undefined || rawat_check === null) {
+				rawat = "";
+			} else {
+				rawat = rawat_check;
+			}
+		}
+
+		var count = $("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active").length;
+		if (count > 0) {
+			$.each($("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active"), function () {
+				list_berkas.push($(this).attr("berkas_id"))
+			});
+
+			$(".square-box").find(".fa-square").addClass("d-none");
+			$(".square-box").find(".fa-check-square").removeClass("d-none");
+			$(this).closest(".i-wrap-outer-wrapper").addClass("active");
+		} else {
+			$(".square-box").find(".fa-square").removeClass("d-none");
+			$(".square-box").find(".fa-check-square").addClass("d-none");
+			$(this).closest(".i-wrap-outer-wrapper").removeClass("active");
+		}
+		
+		var filter_berkas = "";
+		var first = "";
+		var last = "";
+		var filter_berkas = "";
+		var last = "";
+		for (var i = 0; i < list_berkas.length; i++) {
+			last = "";
+			if (list_berkas[i] !== "all") {			
+				filter_berkas += "%" + list_berkas[i];
+			}
+		}
+		berkas = list_berkas;
+		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
+		// console.log(B002);
+	});
+
 	$("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".dropdown-item").on("click", function (e) {
-		// console.log($(this).attr("id"));
+		
+		var page_start = 1;
+		var pageno = 1;
+		var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+		var per_page = $("#InpatientFile_selectPageSize option:selected").val();
+		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+		var key_word = "";
+		var reg_id = "";
+		var mode = "";
+		var from_date =  "";
+		var to_date = "";
+		var rawat = "";
+		var berkas = "";
+		var list_berkas = [];
+
 		var oneWeekAgo = getOneWeekAgo(date);
 		var formatedOneWeekAgo = getFormattedDate(oneWeekAgo);
-		$.each($("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".dropdown-item"), function () {
+		// $.each($("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".dropdown-item"), function () {
 			var id = $(this).attr("id");
+			$("#btnDropdownPeriod").attr("for_id", id);
 			if(id == 1) {
+				if ($("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".custom-dropdown").hasClass("show")) {
+					$("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".custom-dropdown").removeClass("show");	
+				}
+				mode = "FLT"
+				from_date = "";
+				to_date = "";
+
+				if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "REG") {
+					rawat = "Y"
+				} else if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "FLT") {
+					var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+					if (rawat_check === undefined || rawat_check === null) {
+						rawat = "";
+					} else {
+						rawat = rawat_check;
+					}
+				}
+				
+				var count = $("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active").length;
+				if (count > 0) {
+					$.each($("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active"), function () {
+						list_berkas.push($(this).attr("berkas_id"))
+					});
+				} 
+				var filter_berkas = "";
+				var last = "";
+				for (var i = 0; i < list_berkas.length; i++) {
+					last = "";
+					if (list_berkas[i] !== "all") {			
+						filter_berkas += "%" + list_berkas[i];
+					}
+				}
+				filter_berkas += "%";
+				berkas = list_berkas;
+				console.log(mode + ', ' + from_date + ', ' + to_date + ', ' + rawat + ', ' + berkas);
+				loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
+
 			}
 			else if(id == 2) {
 				// oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
@@ -2553,22 +2701,150 @@
 			}
 			else if(id == 6) {
 				$("#filter_inpatientFIle_container").find("#dropdownPeriod").find(".custom-dropdown").addClass("show");
-				console.log(id);
+				// console.log(id);
 			}
-		});
+		// });
 	});
 
 	$("#filter_inpatientFIle_container").find(".btn-check-rawat").on("click", function (e) {
-		$("#filter_inpatientFIle_container").find(".btn-check-rawat").removeClass("active");
-		$(this).addClass("active");
+		var page_start = 1;
+		var pageno = 1;
+		var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+		var per_page = $("#InpatientFile_selectPageSize option:selected").val();
+		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+		var key_word = "";
+		var reg_id = "";
+		var mode = "";
+		var from_date =  "";
+		var to_date = "";
+		var rawat = "";
+		var berkas = "";
+		var list_berkas = [];
+
+		if (pageselect !== "" && pageselect !== undefined) {
+			if (pageno !== "" && pageno !== undefined) {
+				page_start = (pageno - 1) * pageselect + 1;
+				func_url =
+					base_url + "functions/Form_app_func/loadInpatientFile/" + pageno;
+			} else {
+				pageno = 0;
+				page_start = 1;
+			}
+		} else {
+			per_page = "";
+		}
+
+		if ($(this).hasClass("active")) {
+			$(this).removeClass("active");
+			$(this).closest(".justify-content-center").find('input[name="radioRawatOptions"]').prop('checked', false);
+		} else {			
+			$("#filter_inpatientFIle_container").find(".btn-check-rawat").removeClass("active");
+			$(this).addClass("active");
+			$(this).closest(".justify-content-center").find('input[name="radioRawatOptions"]').prop('checked', true);
+		}
+		mode = "FLT"
+
+		var attr = $("#btnDropdownPeriod").attr("for_id");
+		if (typeof attr !== 'undefined' && attr !== false) {
+			if (attr == "1") {
+				from_date = "";
+				to_date = "";
+			}
+			else if (attr == "6") {			
+				from_date = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
+				to_date = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
+			}
+		}
+		if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "REG") {
+			rawat = "Y"
+		} else if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "FLT") {
+			var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+			if (rawat_check === undefined || rawat_check === null) {
+				rawat = "";
+			} else {
+				rawat = rawat_check;
+			}
+		}
+
+		var count = $("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active").length;
+		if (count > 0) {
+			$.each($("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active"), function () {
+				list_berkas.push($(this).attr("berkas_id"))
+			});
+		} 
+		
+		var filter_berkas = "";
+		var first = "";
+		var last = "";
+		var filter_berkas = "";
+		var last = "";
+		for (var i = 0; i < list_berkas.length; i++) {
+			last = "";
+			if (list_berkas[i] !== "all") {			
+				filter_berkas += "%" + list_berkas[i];
+			}
+		}
+		berkas = list_berkas;
+		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
+		// console.log(rawat);
 	});
 
 	$("#btnSetPeriod").on("click", function (e) {
+
+		var page_start = 1;
+		var pageno = 1;
+		var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+		var per_page = $("#InpatientFile_selectPageSize option:selected").val();
+		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+		var key_word = "";
+		var reg_id = "";
+		var mode = "";
+		var from_date =  "";
+		var to_date = "";
+		var rawat = "";
+		var berkas = "";
+		var list_berkas = [];
+
 		$(".custom-dropdown").removeClass("show");
 		var fromDate = $("#filter_inpatientFIle_container").find("#inputFromDateRpt").val();
 		var toDate = $("#filter_inpatientFIle_container").find("#inputToDateRpt").val();
 		// console.log(fromDate);
 		$("#btnDropdownPeriod").text(fromDate + " - " + toDate);
+
+		mode = "FLT"
+		from_date = fromDate;
+		to_date = toDate;
+
+		if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "REG") {
+			rawat = "Y"
+		} else if ($("#page_inpatientFile").find(".tab-header.active").closest(".tab-content").attr("mode") == "FLT") {
+			var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+			if (rawat_check === undefined || rawat_check === null) {
+				rawat = "";
+			} else {
+				rawat = rawat_check;
+			}
+		}
+
+		var count = $("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active").length;
+		if (count > 0) {
+			$.each($("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active"), function () {
+				list_berkas.push($(this).attr("berkas_id"))
+			});
+		} 
+		var filter_berkas = "";
+		var last = "";
+		for (var i = 0; i < list_berkas.length; i++) {
+			last = "";
+			if (list_berkas[i] !== "all") {			
+				filter_berkas += "%" + list_berkas[i];
+			}
+		}
+		filter_berkas += "%";
+
+		berkas = list_berkas;
+		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
+		// console.log(mode + ', ' + from_date + ', ' + to_date + ', ' + rawat + ', ' + berkas);
 	});
 
 	$("#tb_inpatientFile").on(
@@ -2603,6 +2879,24 @@
 
 	$("#inputTxtSearchInpatient").autocomplete({
 		source: function (request, response) {
+
+			var from_date = "";
+			var to_date = "";
+			var rawat = "";
+			var berkas = "";
+
+			var mode = $("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode");
+			if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").attr("mode") == "REG") {
+				rawat = "Y"
+			} else if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").attr("mode") == "FLT") {
+				var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+				if (rawat_check === undefined || rawat_check === null) {
+					rawat = "";
+				} else {
+					rawat = rawat_check;
+				}
+			}
+
 			$.ajax({
 				url: base_url + "functions/Form_app_func/getAutoInpatientFile",
 				type: "post",
@@ -2625,7 +2919,24 @@
 			var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
 			var key_word = "";
 			var reg_id = ui.item.id;
-			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+			var from_date = "";
+			var to_date = "";
+			var rawat = "";
+			var berkas = "";
+			var mode = $("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode");
+
+			if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "REG") {
+				rawat = "Y"
+			} else if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "FLT") {
+				var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+				if (rawat_check === undefined || rawat_check === null) {
+					rawat = "";
+				} else {
+					rawat = rawat_check;
+				}
+			}
+			console.log(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
+			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
 			// console.log(ui.item.id);
 			return false;
 		},
@@ -2635,11 +2946,29 @@
 		var search = $(this).val();
 		if (search == "") {
 			var page_start = 1;
-			var per_page = "";
+			var pageno = 1;
+			var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
+			var per_page = $("#InpatientFile_selectPageSize option:selected").val();
 			var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
 			var key_word = "";
 			var reg_id = "";
-			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+			var from_date = "";
+			var to_date = "";
+			var rawat = "";
+			var berkas =  "";
+			var mode = $("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode");
+
+			if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "REG") {
+				rawat = "Y"
+			} else if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "FLT") {
+				var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+				if (rawat_check === undefined || rawat_check === null) {
+					rawat = "";
+				} else {
+					rawat = rawat_check;
+				}
+			}
+			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
 		}
 	});
 
@@ -2658,7 +2987,32 @@
 		var per_page = $("#InpatientFile_selectPageSize option:selected").val();
 		var page_start = 1;
 		var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+		var from_date = "";
+		var to_date = "";
+		var rawat = "";
+		var berkas = "";
+		var mode = $("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode");
+		var list_berkas = [];
+
+		if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "REG") {
+			rawat = "Y"
+		} else if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "FLT") {
+			var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+			if (rawat_check === undefined || rawat_check === null) {
+				rawat = "";
+			} else {
+				rawat = rawat_check;
+			}
+		}
 		// console.log(pageno, pageselect);
+
+		var count = $("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active").length;
+		if (count > 0) {
+			$.each($("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active"), function () {
+				list_berkas.push($(this).attr("berkas_id"))
+			});
+		} 
+		berkas = list_berkas;
 
 		if (pageselect !== "" && pageselect !== undefined) {
 			if (pageno !== "" && pageno !== undefined) {
@@ -2673,7 +3027,7 @@
 			per_page = "";
 		}
 
-		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+		loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
 		// console.log(pageno, pageselect, page_start, per_page, func_url);
 	});
 
@@ -2686,7 +3040,33 @@
 			var pageselect = $("#InpatientFile_selectPageSize option:selected").val();
 			var per_page = $("#InpatientFile_selectPageSize option:selected").val();
 			var page_start = 1;
-			var func_url = "";
+			var func_url = base_url + "functions/Form_app_func/loadInpatientFile";
+			var from_date = "";
+			var to_date = "";
+			var rawat = "";
+			var berkas = "";
+			var mode = $("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode");
+			var list_berkas = [];
+	
+
+			if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "REG") {
+				rawat = "Y"
+			} else if ($("#page_inpatientFile").find(".tab-content").find(".tab-header.active").parent().attr("mode") == "FLT") {
+				var rawat_check = $('input[name="radioRawatOptions"]:checked').val();
+				if (rawat_check === undefined || rawat_check === null) {
+					rawat = "";
+				} else {
+					rawat = rawat_check;
+				}
+			}
+
+			var count = $("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active").length;
+			if (count > 0) {
+				$.each($("#filter_inpatientFIle_container").find("#dropdownFilterBerkas").find(".dropdown-item.active"), function () {
+					list_berkas.push($(this).attr("berkas_id"))
+				});
+			} 
+			berkas = list_berkas;
 
 			if (pageselect !== "" && pageselect !== undefined) {
 				if (pageno !== "" && pageno !== undefined) {
@@ -2700,13 +3080,13 @@
 				}
 			}
 
-			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id);
+			loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
 		});
 	}
 
-	function loadInpatientFile(page_start, per_page, func_url, key_word, reg_id) {
+	function loadInpatientFile(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode) {
 		var tb = "";
-		// console.log(page_start, per_page, func_url);
+		console.log(page_start, per_page, func_url, key_word, reg_id, from_date, to_date, rawat, berkas, mode);
 
 		$.ajax({
 			type: "POST",
@@ -2717,174 +3097,328 @@
 				per_page: per_page,
 				key_word: key_word,
 				reg_id: reg_id,
+				from_date: from_date,
+				to_date: to_date,
+				rawat: rawat,
+				berkas: berkas,
+				mode: mode,
 			},
 			success: function (data) {
-				// alert(JSON.stringify(data));
+				console.log(JSON.stringify(data));
 				var rcount = data.response.length;
 
 				for (var i = 0; i < rcount; i++) {
 					var oddEven = "";
+					var flag = "";
+					
 					if (i % 2 == 0) {
 						oddEven = "even-row";
 					} else {
 						oddEven = "odd-row";
 					}
 
-					var flag = "";
-					if (data.response[i].reg_berkas == "N") {
-						flag = "bg-danger-2";
-					} else {
-						var listRegArr = "";
-						var highArr = "";
-						var mediumArr = "";
-						var lowArr = "";
+					if (mode == "REG") {	
 
-						if (
-							data.response[i].list_reg !== "" &&
-							data.response[i].list_reg !== undefined
-						) {
-							if (data.response[i].list_reg.indexOf(",") > -1) {
-								listRegArr = data.response[i].list_reg.split(",");
-							} else {
-								listRegArr = data.response[i].list_reg;
-							}
-						}
-
-						if (
-							data.response[i].high_priority !== "" &&
-							data.response[i].high_priority !== undefined
-						) {
-							if (data.response[i].high_priority.indexOf(",") > -1) {
-								highArr = data.response[i].high_priority.split(",");
-							} else {
-								highArr = data.response[i].high_priority;
-							}
-						}
-
-						if (
-							data.response[i].medium_priority !== "" &&
-							data.response[i].medium_priority !== null &&
-							data.response[i].medium_priority !== undefined
-						) {
-							if (data.response[i].medium_priority.indexOf(",") > -1) {
-								mediumArr = data.response[i].medium_priority.split(",");
-							} else {
-								mediumArr = data.response[i].medium_priority;
-							}
+						if (data.response[i].reg_berkas == "N") {
+							flag = "bg-danger-2";
 						} else {
-							mediumArr = "";
-							// console.log(mediumArr);
-						}
+							var listRegArr = "";
+							var highArr = "";
+							var mediumArr = "";
+							var lowArr = "";
 
-						if (
-							data.response[i].low_priority !== "" &&
-							data.response[i].low_priority !== null &&
-							data.response[i].low_priority !== undefined
-						) {
-							if (data.response[i].low_priority.indexOf(",") > -1) {
-								lowArr = data.response[i].low_priority.split(",");
-							} else {
-								lowArr = data.response[i].low_priority;
-							}
-						} else {
-							lowArr = "";
-							// console.log(lowArr);
-						}
-
-						for (var m = 0; m < highArr.length; m++) {
-							if (listRegArr.indexOf(highArr[m]) >= 0) {
-								flag = "bg-success-2";
-							} else {
-								for (var m = 0; m < mediumArr.length; m++) {
-									if (listRegArr.indexOf(mediumArr[m]) >= 0) {
-										flag = "bg-dizzy";
-									}
-									// console.log(listRegArr.indexOf(highArr[m]));
+							if (
+								data.response[i].list_reg !== "" &&
+								data.response[i].list_reg !== undefined
+							) {
+								if (data.response[i].list_reg.indexOf(",") > -1) {
+									listRegArr = data.response[i].list_reg.split(",");
+								} else {
+									listRegArr = data.response[i].list_reg;
 								}
 							}
-							// console.log(listRegArr.indexOf(highArr[m]));
+
+							if (
+								data.response[i].high_priority !== "" &&
+								data.response[i].high_priority !== undefined
+							) {
+								if (data.response[i].high_priority.indexOf(",") > -1) {
+									highArr = data.response[i].high_priority.split(",");
+								} else {
+									highArr = data.response[i].high_priority;
+								}
+							}
+
+							if (
+								data.response[i].medium_priority !== "" &&
+								data.response[i].medium_priority !== null &&
+								data.response[i].medium_priority !== undefined
+							) {
+								if (data.response[i].medium_priority.indexOf(",") > -1) {
+									mediumArr = data.response[i].medium_priority.split(",");
+								} else {
+									mediumArr = data.response[i].medium_priority;
+								}
+							} else {
+								mediumArr = "";
+								// console.log(mediumArr);
+							}
+
+							if (
+								data.response[i].low_priority !== "" &&
+								data.response[i].low_priority !== null &&
+								data.response[i].low_priority !== undefined
+							) {
+								if (data.response[i].low_priority.indexOf(",") > -1) {
+									lowArr = data.response[i].low_priority.split(",");
+								} else {
+									lowArr = data.response[i].low_priority;
+								}
+							} else {
+								lowArr = "";
+								// console.log(lowArr);
+							}
+
+							for (var m = 0; m < highArr.length; m++) {
+								if (listRegArr.indexOf(highArr[m]) >= 0) {
+									flag = "bg-success-2";
+								} else {
+									for (var m = 0; m < mediumArr.length; m++) {
+										if (listRegArr.indexOf(mediumArr[m]) >= 0) {
+											flag = "bg-dizzy";
+										}
+										// console.log(listRegArr.indexOf(highArr[m]));
+									}
+								}
+								// console.log(listRegArr.indexOf(highArr[m]));
+							}
+
+						}		
+
+					
+						tb +=
+							'<div class="row tb-row hover border-hover hover-event border-bottom ' +
+							oddEven +
+							" " +
+							flag +
+							'">';		
+
+						tb += '<div class="col-sm-12 col-md-9 tb-cell">';
+
+						tb += ' <div class="row">';
+
+						tb += '<div class="col-sm-12 col-md-5 p-0">';
+
+						tb += ' <div class="row">';
+
+						tb += '<div class="w-35-px">' + data.response[i].no + "</div>";
+						tb +=
+							'<div class="col-sm-12 col-md-10 p-0"><b>' +
+							data.response[i].medrec +
+							"</b>&nbsp-&nbsp;" +
+							data.response[i].pasien +
+							"</div>";
+
+						tb += "</div>";
+
+						tb += "</div>";
+
+						tb +=
+							'<div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;' +
+							data.response[i].tgl_masuk +
+							"&nbsp;-&nbsp;Ruang:&nbsp;" +
+							data.response[i].ruang_id +
+							"&nbsp;-&nbsp;NS:&nbsp;" +
+							data.response[i].nama_dept +
+							"</div>";
+						tb += "</div>";
+
+						tb += "</div>";
+	
+						tb += '<div class="col-sm-12 col-md-3 tb-cell p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-4 p-0"></div>';
+						var textRekananNama = "";
+						if (data.response[i].rekanan_nama.length > 20) {
+							textRekananNama =
+								data.response[i].rekanan_nama.substring(0, 20) + "...";
+						} else {
+							textRekananNama = data.response[i].rekanan_nama;
+						}
+						tb +=
+							'<div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' +
+							textRekananNama +
+							"</div>";
+	
+						var is_reg = "";
+						var is_edit = "";
+						if (data.response[i].reg_berkas !== "") {
+							is_reg = "enabled";
+							is_edit = "disabled";
+						} else {
+							is_reg = "disabled";
+							is_edit = "enabled";
+						}
+						tb += '<div class="col-sm-12 col-md-8 p-0 hover circle-md hide">'; //X3
+						tb +=
+							'<div class="d-flex justify-content-center" reg-id="' +
+							data.response[i].reg_id +
+							'">'; // X2
+						tb +=
+							'<a class="i-wrapp light btn-get-detail" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>';
+	
+						tb += "</div>"; //X2
+						tb += "</div>"; //X3
+	
+						tb += "</div>";
+						tb += "</div>";
+						
+						tb += "</div>";
+	
+					} else if (mode == "FLT") {
+						var textPasienNama = "";
+						if (data.response[i].pasien.length > 20) {
+							textPasienNama =
+								data.response[i].pasien.substring(0, 20) + "...";
+						} else {
+							textPasienNama = data.response[i].pasien;
 						}
 
+						var textRekananNama = "";
+						if (data.response[i].rekanan_nama.length > 20) {
+							textRekananNama =
+								data.response[i].rekanan_nama.substring(0, 20) + "...";
+						} else {
+							textRekananNama = data.response[i].rekanan_nama;
+						}
+						tb +=
+							'<div class="row tb-row hover border-hover hover-event border-bottom ' +
+							oddEven +
+							'">';
+
+						tb += '<div class="col-sm-12 col-md-5 tb-cell">';
+
+						tb += ' <div class="row">';
+						tb +=
+							'<div class="col-sm-12 col-md-12 p-0 "><b>' +
+							data.response[i].medrec +
+							"</b>&nbsp-&nbsp;" +
+							textPasienNama +
+							"</div>";
+
+						tb +=
+							'<div class="col-sm-12 col-md-12 p-0 "> <p>Masuk tanggal&nbsp;' +
+							data.response[i].tgl_masuk +
+							"&nbsp;-&nbsp;Ruang:&nbsp;" +
+							data.response[i].ruang_id +
+							"&nbsp;-&nbsp;NS:&nbsp;" +
+							data.response[i].nama_dept +
+							'</br>Pulang tanggal&nbsp;' +
+							data.response[i].tgl_keluar +
+							"&nbsp;-&nbsp;Jaminan:&nbsp;" +
+							textRekananNama +
+							"</p></div>";
+
+						tb += "</div>";
+
+						tb += "</div>";
+
+						
+						tb += '<div class="col-sm-12 col-md-7 tb-cell">'; //2
+						tb += '<div class="d-flex row justify-content-end">';
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">KARTU';
+						tb += "</div>";
+						if (data.response[i].b001 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">LMA';
+						tb += "</div>";
+						if (data.response[i].b002 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">SP';
+						tb += "</div>";
+						if (data.response[i].b003 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">SPSK';
+						tb += "</div>";
+						if (data.response[i].b004 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">SPR';
+						tb += "</div>";
+						if (data.response[i].b005 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">S.JAMIN';
+						tb += "</div>";
+						if (data.response[i].b006 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += '<div class="col-sm-12 col-md-1 p-0">';
+						tb += '<div class="row">';
+						tb += '<div class="col-sm-12 col-md-12 p-0">LAIN';
+						tb += "</div>";
+						if (data.response[i].b007 == 'Y') {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-success"><i class="fas fa-check"></i></div>';
+						} else {
+							tb += '<div class="col-sm-12 col-md-12 p-0 text-danger"><i class="fas fa-times"></i></div>';
+						}
+						tb += "</div>";
+						tb += "</div>";
+
+						tb += "</div>";
+						tb += "</div>"; //2
+
+						tb += "</div>";
+
 					}
-					tb +=
-						'<div class="row tb-row hover border-hover hover-event border-bottom ' +
-						oddEven +
-						" " +
-						flag +
-						'">';
 
-					tb += '<div class="col-sm-12 col-md-9 tb-cell">';
-
-					tb += ' <div class="row">';
-
-					tb += '<div class="col-sm-12 col-md-5 p-0">';
-
-					tb += ' <div class="row">';
-
-					tb += '<div class="w-35-px">' + data.response[i].no + "</div>";
-					tb +=
-						'<div class="col-sm-12 col-md-10 p-0"><b>' +
-						data.response[i].medrec +
-						"</b>&nbsp-&nbsp;" +
-						data.response[i].pasien +
-						"</div>";
-
-					tb += "</div>";
-
-					tb += "</div>";
-
-					tb +=
-						'<div class="col-sm-12 col-md-7 p-0 "> Masuk tanggal&nbsp;' +
-						data.response[i].tgl_masuk +
-						"&nbsp;-&nbsp;Ruang:&nbsp;" +
-						data.response[i].ruang_id +
-						"&nbsp;-&nbsp;NS:&nbsp;" +
-						data.response[i].nama_dept +
-						"</div>";
-
-					tb += "</div>";
-
-					tb += "</div>";
-
-					tb += '<div class="col-sm-12 col-md-3 tb-cell p-0">';
-					tb += '<div class="row">';
-					tb += '<div class="col-sm-12 col-md-4 p-0"></div>';
-					var textRekananNama = "";
-					if (data.response[i].rekanan_nama.length > 20) {
-						textRekananNama =
-							data.response[i].rekanan_nama.substring(0, 20) + "...";
-					} else {
-						textRekananNama = data.response[i].rekanan_nama;
-					}
-					tb +=
-						'<div class="col-sm-12 col-md-8 p-0 font-weight-lighter hover show">' +
-						textRekananNama +
-						"</div>";
-
-					var is_reg = "";
-					var is_edit = "";
-					if (data.response[i].reg_berkas !== "") {
-						is_reg = "enabled";
-						is_edit = "disabled";
-					} else {
-						is_reg = "disabled";
-						is_edit = "enabled";
-					}
-					tb += '<div class="col-sm-12 col-md-8 p-0 hover circle-md hide">';
-					tb +=
-						'<div class="d-flex justify-content-center" reg-id="' +
-						data.response[i].reg_id +
-						'">';
-					tb +=
-						'<a class="i-wrapp light btn-get-detail" id="btnEditBerkas" data-toggle="tooltip" data-placement="bottom" title="Lihat"><i class="fas fa-file-alt"></i></a>';
-
-					tb += "</div>";
-					tb += "</div>";
-
-					tb += "</div>";
-					tb += "</div>";
-
-					tb += "</div>";
+					
 				}
 
 				var num1 = page_start;
@@ -2900,32 +3434,57 @@
 				var total = data.count;
 				// console.log(page_start, per_page, data.count, num1, num2);
 
-				$("#tb_inpatientFile .tb-body").html("");
-				$("#tb_inpatientFile .tb-body").html(tb);
+				if (mode == "REG") {
+					$("#tb_inpatientFile .tb-body").html("");
+					$("#tb_inpatientFile .tb-body").html(tb);
 
-				$("#tb_inpatientFile .tb-info").html("");
-				$("#tb_inpatientFile .tb-info").html(
-					"Tampilkan" +
-						data.start_from +
-						" " +
-						"ke" +
-						" " +
-						data.end_to +
-						" " +
-						"dari" +
-						" " +
-						total +
-						" baris"
-				);
+					$("#tb_inpatientFile .tb-info").html("");
+					$("#tb_inpatientFile .tb-info").html(
+						"Tampilkan" +
+							data.start_from +
+							" " +
+							"ke" +
+							" " +
+							data.end_to +
+							" " +
+							"dari" +
+							" " +
+							total +
+							" baris"
+					);
+	
+					// console.log(JSON.stringify(data.per_page));
+					$("#tb_inpatientFile .tb-pagination").html("");
+					$("#tb_inpatientFile .tb-pagination").html(data.pagination);
+				}
+				else if ((mode == "FLT")) {
+					$("#tb_inpatientFileReport .tb-body").html("");
+					$("#tb_inpatientFileReport .tb-body").html(tb);
 
-				// console.log(JSON.stringify(data.per_page));
-				$("#tb_inpatientFile .tb-pagination").html("");
-				$("#tb_inpatientFile .tb-pagination").html(data.pagination);
+					$("#tb_inpatientFileReport .tb-info").html("");
+					$("#tb_inpatientFileReport .tb-info").html(
+						"Tampilkan" +
+							data.start_from +
+							" " +
+							"ke" +
+							" " +
+							data.end_to +
+							" " +
+							"dari" +
+							" " +
+							total +
+							" baris"
+					);
+	
+					// console.log(JSON.stringify(data.per_page));
+					$("#tb_inpatientFileReport .tb-pagination").html("");
+					$("#tb_inpatientFileReport .tb-pagination").html(data.pagination);
+				}
 				page_inpatientFile_click();
 				pageInit();
 			},
 			error: function (data) {
-				// console.log(JSON.stringify(data.response));
+				console.log(JSON.stringify(data));
 				if (data.response === null || data.response === undefined) {
 					tb += '<div class="row">';
 					tb +=
@@ -3463,8 +4022,8 @@
 
 					'<select class="custom-select select-jenis-berkasLain" id="selectJenisBerkas" name="jenisBerkas">' +
 					'<option value="" selected>Pilih...</option>' +
-					'<option value="01">Tanpa Template</option>' +
-					'<option value="02">Dengan Template</option>' +
+					'<option value="01">Tanpa Upload</option>' +
+					'<option value="02">Dengan Upload</option>' +
 					'</select>' +
 
 					// html += '<div class="input-group-append">'; // 2
@@ -4479,6 +5038,7 @@
 					data.append("berkas_id", berkas_id);
 					if (dt_berkas_id !== undefined && dt_berkas_id !== null && dt_berkas_id !== "N") {
 						dt_berkas_id = dt_berkas_id
+						console.log(dt_berkas_id);
 					} else {
 						dt_berkas_id ="";
 					}
@@ -4802,18 +5362,27 @@
 							'</div>' +
 							'<div class="d-flex justify-content-center h-100 p-3 thumb-container">' + 
 								'<div class="position-relative">' +	
-									'<div class="position-relative">' +	
-										'<div class="thumb-wrapper hover-wrapper download">' +				
-											data.thumb +
-											'<div class="thumb-icon-container d-flex justify-content-center" reg_id="' + data.reg_id + '" trans_id="' + data.trans_id + '" berkas_id="' + berkas_id + '">' +
+									'<div class="position-relative">';
+										var thumbnail = "";	
+										if (data.ext === "pdf") {	
+											thumbnail = data.thumb;
+										} else if (data.ext === "doc" || data.ext === "docx")  {
+											thumbnail = "<img class='mx-auto d-block rounded-top border border-bottom-0 pt-1 pr-1 pl-1 pb-0' src='" + base_url + "assets/img/icons/doc_file.png" + "' />";
+										}
+										else if (data.ext === "xls" || data.ext === "xlsx")  {
+											thumbnail = "<img class='mx-auto d-block rounded-top border border-bottom-0 pt-1 pr-1 pl-1 pb-0' src='" + base_url + "assets/img/icons/xls_file.png" + "' />";
+										}
+										html += '<div class="thumb-wrapper hover-wrapper download" ext="' + data.ext + '">' +				
+											thumbnail +
+											'<div class="thumb-icon-container d-flex justify-content-center" reg_id="' + data.reg_id + '" trans_id="' + data.trans_id + '" berkas_id="' + berkas_id + '" dt_berkas_id="' + data.dt_berkas_id + '">' +
 												'<div class="position-relative">' +
 													'<a class="thumb-icon text-decoration-none" href="' +  base_url + data.url + '"  target="_blank" role="button" data-toggle="tooltip" data-placement="bottom" title="Unduh File" ><i class="fas fa-download"></i></a>' +
 													'<a class="thumb-icon text-decoration-none edit-uploaded-btn" role="button" data-toggle="tooltip" data-placement="bottom" title="Ubah File"><i class="fa-solid fa-pen"></i></a>' +
 													'<a class="thumb-icon text-decoration-none remove-uploaded-btn" role="button" data-toggle="tooltip" data-placement="bottom" title="Hapus File"><i class="fa-solid fa-trash"></i></a>' +
 												'</div>' +
 											'</div>' +		
-										'</div>' +
-									'</div>' + 			
+										'</div>';									
+									html +='</div>' + 			
 									'<div class="rounded-bottom ' + cls_file + ' text-nowrap p-2" style="width:100%;">' + substr_name + '</div>' +
 								'</div>';
 					html += "</div>";
@@ -4829,7 +5398,7 @@
 						var berkas_id = $(this).closest(".thumb-icon-container").attr("berkas_id");
 						// console.log(trans_id + ',' + berkas_id);
 						var title = "Upload" + " " + desc;
-						var html = '<div class="position-relative h-100" id="uploadImage">';
+						var html = '<div class="position-relative h-100 w-100" id="uploadImage">';
 						html += "";
 						html +=
 							'<form action="' +
@@ -4837,6 +5406,8 @@
 							"functions/Form_app_func/uploadBerkas" +
 							'" class="dropzone h-100 d-flex justify-content-center" id="dropBerkas" berkas_id="' +
 							berkas_id +
+							'" dt_berkas_id="' +
+							data.dt_berkas_id +
 							'" reg_id="' +
 							reg_id +
 							'" style="opacity:0.7; border: none;"></form>';
@@ -4855,26 +5426,7 @@
 						$("#myDynamicModal .edit-upload-container").html(html);
 						$("#myDynamicModal .modal-title").html(title);
 						
-						dropZoneBerkas(reg_id, berkas_id, desc);
-
-						// $.ajax({
-						// 	type: "POST",
-						// 	dataType: "json",
-						// 	url: base_url + "functions/Form_app_func/updateUploadedBerkas",
-						// 	data: {
-						// 		trans_id: trans_id,
-						// 		berkas_id: berkas_id,
-						// 	},
-						// 	success: function (data) {
-						// 		console.log(JSON.stringify(data));
-						// 		//alert(2);
-						// 	},
-						// 	error: function (data) {
-						// 		console.log(JSON.stringify(data));
-						// 		//alert(2);
-						// 	},
-						// });
-
+						dropZoneBerkas(reg_id, berkas_id, dt_berkas_id);
 					});
 				},
 				error: function (data) {

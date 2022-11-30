@@ -9,7 +9,6 @@
                     <div class="dataTables_length" id="">
                         <label> 
                             <select name="dataTable_length" id="InpatientFile_selectPageSize" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
-                                <option value="">Semua</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50" selected>50</option>
@@ -32,7 +31,7 @@
                 </div>
             </div>
             <ul class="nav tab-container">
-                <li class="nav-item tab-content h-100 col-md-3 col-sm-6">
+                <li class="nav-item tab-content h-100 col-md-3 col-sm-6" mode="REG">
                     <div class="d-flex flex-row tab-header h-100 active" target="tb_inpatientFile_container">
                         <div class="tab-icon-container h-100">
                             <div class="tab-icon h-100">
@@ -46,7 +45,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item tab-content h-100 col-md-3 col-sm-6">
+                <li class="nav-item tab-content h-100 col-md-3 col-sm-6" mode="FLT">
                     <div class="d-flex flex-row tab-header h-100" target="filter_inpatientFIle_container">
                         <div class="tab-icon-container h-100">
                             <div class="tab-icon h-100">
@@ -65,7 +64,7 @@
                 <div class="card">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group row border-bottom border-top">
+                            <div class="form-group row border-bottom border-top py-1">
                                 <div class="col-lg-4 col-md-12 col-sm-12">
                                     <div class="form-inline d-flex">
                                         <!-- <div class="d-flex justify-content-center">
@@ -74,9 +73,10 @@
                                                 <span class="multi-icon"><i class="fas fa-caret-down"></i></span>
                                             </div>
                                         </div> -->
-                                        <div class="form-inline d-flex hover square-dynamic hide mr-2">
-                                            <div class="i-wrapp light" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Semua Berkas">
+                                        <div class="form-inline dropdown d-flex hover square-dynamic i-wrap-outer-wrapper hide mr-2" id="dropdownFilterBerkas">                             
+                                            <div class="i-wrapp light square-box" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Semua Berkas">
                                                 <i class="far fa-square"></i>
+                                                <i class="far fa-check-square d-none"></i>
                                             </div>
                                             <div class="i-wrapp light dropdown-toggle dropdown-toggle-split" role="button" data-toggle="dropdown" aria-expanded="false" data-reference="parent">
                                             </div>
@@ -85,17 +85,17 @@
                                             </div>
                                         </div>
                                         <div class="form-inline d-flex hover circle-md hide">
-                                            <div class="d-flex justify-content-center">
-                                                <label for="check1">
-                                                    <input type="checkbox" id="check1"/>
+                                            <div class="d-flex justify-content-center  mx-1">
+                                                <label for="radio_filterRawat1">
+                                                    <input class="d-none" type="radio" name="radioRawatOptions" id="radio_filterRawat1" value="Y"/>
                                                     <div class="i-wrapp light btn-check-rawat" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Masih rawat">
                                                         <i class="fas fa-calendar-plus"></i>
                                                     </div>
                                                 </label>
                                             </div>
-                                            <div class="d-flex justify-content-center">
-                                                <label for="check2">
-                                                    <input type="checkbox" id="check2"/>
+                                            <div class="d-flex justify-content-center mx-1">
+                                                <label for="radio_filterRawat2">
+                                                    <input class="d-none" type="radio" name="radioRawatOptions" id="radio_filterRawat2" value="N"/>
                                                     <div class="i-wrapp light btn-check-rawat" role="button" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Sudah Pulang">
                                                         <i class="fas fa-calendar-check"></i>
                                                     </div>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="col-lg-8 col-md-12 col-sm-12">
                                     <div class="dropdown" id="dropdownPeriod" style="line-height:33px">
-                                        <button class="btn btn-sm btn-white btn-outline-secondary dropdown-toggle" id="btnDropdownPeriod" type="button" data-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-sm btn-white btn-outline-secondary dropdown-toggle" id="btnDropdownPeriod" type="button" data-toggle="dropdown" aria-expanded="false" for_id="1">
                                             <i class="fas fa-calendar-alt"></i><span class="ml-2">Semua waktu</span>
                                         </button>
                                         <div class="dropdown-menu">
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-none" id="tb_inpatientFileReport_container">
+                    <div class="row" id="tb_inpatientFileReport_container">
                         <div class="col">
                             <div class="tb" id="tb_inpatientFileReport">
                                 <div class="tb-body">

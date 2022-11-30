@@ -21,35 +21,111 @@ class Form_app_func extends CI_Controller
         {         
             $page_start = $this->input->post('page_start');
             $per_page = $this->input->post('per_page');
-            $keyword = $this->input->post('keyword');;
+            $keyword = $this->input->post('keyword');
             $reg_id = $this->input->post('reg_id');
+            $from_date = $this->input->post('from_date');
+            $to_date = $this->input->post('to_date');
+            $rawat = $this->input->post('rawat');
+            // $berkas = array();
+            $berkas = $this->input->post('berkas');
+            $mode = $this->input->post('mode');
+            
+            $B001 =""; 
+            $B002 = "";
+            $B003 = ""; 
+            $B004 = "";
+            $B005 = ""; 
+            $B006 = "";
+            $B007 = "";
+            $filter = "";
+            $max_count = "";
+            if (isset($berkas) && !empty($berkas)) {
+                foreach($berkas as $key => $value) {
+                    // $filter.= "<div>" . $value . "</div>";
+                    if ($value == "B001") {
+                        $B001 = "Y";
+                    }
+                    if ($value == "B002") {
+                        $B002 = "Y";
+                    }
+                    if ($value == "B003") {
+                        $B003 = "Y";
+                    }
+                    if ($value == "B004") {
+                        $B004 = "Y";
+                    }
+                    if ($value == "B005") {
+                        $B005 = "Y";
+                    }
+                    if ($value == "B006") {
+                        $B006 = "Y";
+                    }
+                    if ($value == "B007") {
+                        $B007 = "Y";
+                    }
+                }
+            }
 
             if($pageno != 0) {
                 $pageno = ($pageno-1) * $per_page;
             }
-            
-            $countrecords =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id);
-            $records = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id);
+            if ($mode == "FLT") {
 
-            foreach($records as $row ){
-                $response[] = array(
-                                    "no"=>$row->RNUM, 
-                                    "medrec"=>$row->MEDREC, 
-                                    "pasien"=>$row->PASIEN,
-                                    "ruang_id"=>$row->RUANG_ID,
-                                    "nama_dept"=>$row->NAMA_DEPT,
-                                    "nama_dr"=>$row->NAMA_DR,
-                                    "tgl_masuk"=>$row->TGL_MASUK,
-                                    "rekanan_nama"=>$row->REKANAN_NAMA,
-                                    "reg_id"=>$row->REG_ID,
-                                    "reg_berkas" => $row->REG_BERKAS,
-                                    "list_reg" => $row->LIST_REG,
-                                    "high_priority" => $row->HIGH_PRIORITY,
-                                    "medium_priority" => $row->MEDIUM_PRIORITY,
-                                    "low_priority" => $row->LOW_PRIORITY,
-                                    "list_rek_templ" => $row->LIST_REK_TEMPL,
-                                    "list_def_templ" => $row->LIST_DEF_TEMPL
-                                );
+                $countrecords =  $this->mfa->getRowCountRegisteredBerkas($keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007, $max_count);
+                $records = $this->mfa->getRowRegisteredBerkas($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
+
+                foreach($records as $row ){
+                    $response[] = array(
+                                        "no"=>$row->RNUM, 
+                                        "medrec"=>$row->MEDREC, 
+                                        "pasien"=>$row->PASIEN,
+                                        "ruang_id"=>$row->RUANG_ID,
+                                        "nama_dept"=>$row->NAMA_DEPT,
+                                        "nama_dr"=>$row->NAMA_DR,
+                                        "tgl_masuk"=>$row->TGL_MASUK,
+                                        "tgl_keluar"=>$row->TGL_KELUAR,
+                                        "rekanan_nama"=>$row->REKANAN_NAMA,
+                                        "reg_id"=>$row->REG_ID,
+                                        "b001"=>$row->B001,
+                                        "b002"=>$row->B002,
+                                        "b003"=>$row->B003,
+                                        "b004"=>$row->B004,
+                                        "b005"=>$row->B005,
+                                        "b006"=>$row->B006,
+                                        "b007"=>$row->B007
+                                    );
+                }
+                $max_count = 50;
+                $params[] = array($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
+
+            }  else {
+                
+                $countrecords =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007, $max_count);
+                $records = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
+
+                foreach($records as $row ){
+                    $response[] = array(
+                                        "no"=>$row->RNUM, 
+                                        "medrec"=>$row->MEDREC, 
+                                        "pasien"=>$row->PASIEN,
+                                        "ruang_id"=>$row->RUANG_ID,
+                                        "nama_dept"=>$row->NAMA_DEPT,
+                                        "nama_dr"=>$row->NAMA_DR,
+                                        "tgl_masuk"=>$row->TGL_MASUK,
+                                        "rekanan_nama"=>$row->REKANAN_NAMA,
+                                        "reg_id"=>$row->REG_ID,
+                                        "reg_berkas" => $row->REG_BERKAS,
+                                        "list_reg" => $row->LIST_REG,
+                                        "list_ket" => $row->LIST_KET,
+                                        "high_priority" => $row->HIGH_PRIORITY,
+                                        "medium_priority" => $row->MEDIUM_PRIORITY,
+                                        "low_priority" => $row->LOW_PRIORITY,
+                                        "list_rek_templ" => $row->LIST_REK_TEMPL,
+                                        "list_def_templ" => $row->LIST_DEF_TEMPL
+                                    );
+                }
+                $max_count = "";
+                $params[] = array($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
             }
 
             $config['base_url'] = base_url('functions/Form_app_func/loadInpatientFile/' . $pageno);
@@ -84,7 +160,9 @@ class Form_app_func extends CI_Controller
             } else {
                 $num2 = $countrecords;
             }
-            echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2, "per_page" =>$per_page));
+            echo json_encode(array("response" => $response, "count" => $countrecords, "pagination" => $this->pagination->create_links(), "start_from" => $num1, "end_to" =>$num2, "per_page" =>$per_page, "params" => $params));
+            // echo json_encode(array("b001" => $B001, "b002" => $B002, "b003" => $B003, "b004" => $B004, "b005" => $B005, "b006" => $B006, "b007" => $B007));
+            // echo json_encode(array($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
         }
 	}
 
@@ -176,8 +254,19 @@ class Form_app_func extends CI_Controller
         $per_page = "";
         $reg_id = "";
         $keyword = $this->input->post('keyword');
+        $rawat = "Y";
+        $from_date = "";
+        $to_date ="";
+        
+        $B001 =""; 
+        $B002 = "";
+        $B003 = ""; 
+        $B004 = "";
+        $B005 = ""; 
+        $B006 = "";
+        $B007 = "";
 
-        $records = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id);
+        $records = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
 
         foreach($records as $row ){
             $response[] = array("id"=>$row->REG_ID, "label"=>$row->MEDREC . ' - ' . $row->PASIEN);
@@ -335,17 +424,12 @@ class Form_app_func extends CI_Controller
             $berkas_id = '';
 		}
 		
-		if (!is_dir('assets/upload/temp/'.$reg_url.$berkas_url)) {
-			mkdir('assets/upload/temp/'.$reg_url.$berkas_url, 0777, TRUE);
-            if ((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
-                if (!is_dir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url)) {
-                    mkdir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
-                }
-            }
-		}
+        if (!is_dir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+            mkdir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+        }
 		
 		$config['upload_path'] = 'assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url;
-		$config['allowed_types'] = 'gif|jpg|png|pdf|doc|xls|docx|xlsx';
+		$config['allowed_types'] = 'pdf|doc|xls|docx|xlsx';
 
 		$this->load->library('upload', $config);
 		$this->upload->do_upload('imageFile');
@@ -378,14 +462,20 @@ class Form_app_func extends CI_Controller
             $reg_url = $_POST['reg_id'].'/';
 			$berkas_id = $_POST['berkas_id'];
             $berkas_url = $_POST['berkas_id'].'/';
+			$dt_berkas_id = $_POST['dt_berkas_id'];
+            if ((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+            } else {
+                $dt_berkas_url = "";
+            }
 		} else {
 			$reg_id = '';
             $berkas_id = '';
 		}
 		
-		if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url)) {
-			mkdir('assets/upload/docs/'.$reg_url.$berkas_url, 0777, TRUE);
-		}
+        if (!is_dir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+            mkdir('assets/upload/temp/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+        }
 		
 		$config['upload_path'] = 'assets/upload/docs/'.$reg_url.$berkas_url;
 		$config['allowed_types'] = 'gif|jpg|png|pdf|doc|xls|docx|xlsx';
@@ -650,7 +740,6 @@ class Form_app_func extends CI_Controller
                                         $data = $result;
                                         echo json_encode($data);
                                     } else {
-                                        $generate = $this->mfa->getTransRegBerkasLain();
                                         $result = array(
                                             "reg_id" => $reg_id,
                                             "trans_id"=> $trans_id,
@@ -697,7 +786,11 @@ class Form_app_func extends CI_Controller
                                     {
                                         $reg_url = $_POST['reg_id'].'/';
                                         $berkas_url = $_POST['berkas_id'].'/';
-                                        $dt_berkas_url = $_POST['dt_berkas_id'].'/';              
+                                        if ((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                                            $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+                                        } else {
+                                            $dt_berkas_url = "";
+                                        }             
                                         $temp_file_path = $this->input->post('file_path');
                                         $temp_file_name = $this->input->post('file_name');
                                         $temp_real_name = $this->input->post('real_name');
@@ -801,81 +894,150 @@ class Form_app_func extends CI_Controller
                             }
                         } else {                          
                             if ($jenis == "02") {
-                                
-                                $reg_url = $_POST['reg_id'].'/';
-                                $berkas_url = $_POST['berkas_id'].'/';
-                                if((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
-                                    $dt_berkas_id = $_POST['dt_berkas_id'];
-                                    $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+
+                                $check = $this->mfa->CountDtRegBerkas($reg_id, $trans_id, $berkas_id, $dt_berkas_id);
+                                if ($check >= 1) {
+                                    $reg_url = $_POST['reg_id'].'/';
+                                    $berkas_url = $_POST['berkas_id'].'/';
+                                    if ((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                                        $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+                                    } else {
+                                        $dt_berkas_url = "";
+                                    }             
+                                    $temp_file_path = $this->input->post('file_path');
+                                    $temp_file_name = $this->input->post('file_name');
+                                    $temp_real_name = $this->input->post('real_name');
+                                    $temp_url = $this->input->post('url');
+
+                                    $source_path = $temp_url;
+                                    $destination_path =  'assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url;
+
+                                    if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+                                        mkdir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+                                    }
+
+                                    if(!copy($source_path, $destination_path.$temp_file_name)) {
+                                        $result = array(
+                                            "err" => "copy error!"
+                                        );
+                                        $data = $result;
+                                        echo json_encode($data);              
+                                    }  
+                                    else { 
+                                        $file_path = $destination_path;
+                                        $file_name = $temp_file_name;
+                                        $url = $destination_path.$temp_file_name;
+                                        $real_name = $temp_real_name;
+                                        $status = 1;
+
+                                        $update = $this->mfa->updateDtRegBerkas_upload(
+                                            $reg_id, 
+                                            $trans_id, 
+                                            $berkas_id, 
+                                            $jenis,
+                                            $dt_berkas_id,
+                                            $dt_jenis,
+                                            $file_path,
+                                            $file_name,
+                                            $url,
+                                            $real_name,
+                                            $last_updated_date, 
+                                            $last_updated_by,
+                                            $status
+                                        );
+                                        
+                                        $result = array(
+                                            "reg_id" => $reg_id,
+                                            "trans_id" => $trans_id,
+                                            "berkas_id"=> $berkas_id,
+                                            "dt_berkas_id"=> $dt_berkas_id,
+                                            "file_path"=> $file_path,
+                                            "file_name"=> $file_name,
+                                            "url"=> $url,
+                                            "real_name"=> $real_name,
+                                            "last_updated_date"=> $last_updated_date,
+                                            "last_updated_by"=> $last_updated_by,
+                                            "message"=> "707"
+                                        );
+                                        $data = $result;
+                                        echo json_encode($data);
+                                    }
                                 } else {
-                                    $dt_berkas_id = "";
-                                    $dt_berkas_url = "";
-                                }
-                                $temp_file_path = $this->input->post('file_path');
-                                $temp_file_name = $this->input->post('file_name');
-                                $temp_real_name = $this->input->post('real_name');
-                                $temp_url = $this->input->post('url');
-
-                                $source_path = $temp_url;
-                                $destination_path =  'assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url;
-
-                                if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url)) {
-                                    mkdir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
-                                }
-
-                                if(!copy($source_path, $destination_path.$temp_file_name)) {
+                                    $reg_url = $_POST['reg_id'].'/';
+                                    $berkas_url = $_POST['berkas_id'].'/';
+                                    if((isset($_POST['dt_berkas_id']) && $_POST['dt_berkas_id'] != "" && $_POST['dt_berkas_id'] != "N")) {
+                                        $dt_berkas_id = $_POST['dt_berkas_id'];
+                                        $dt_berkas_url = $_POST['dt_berkas_id'].'/';
+                                    } else {
+                                        $dt_berkas_id = "";
+                                        $dt_berkas_url = "";
+                                    }
+                                    $temp_file_path = $this->input->post('file_path');
+                                    $temp_file_name = $this->input->post('file_name');
+                                    $temp_real_name = $this->input->post('real_name');
+                                    $temp_url = $this->input->post('url');
+    
+                                    $source_path = $temp_url;
+                                    $destination_path =  'assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url;
+    
+                                    if (!is_dir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url)) {
+                                        mkdir('assets/upload/docs/'.$reg_url.$berkas_url.$dt_berkas_url, 0777, TRUE);
+                                    }
+    
+                                    if(!copy($source_path, $destination_path.$temp_file_name)) {
+                                        $result = array(
+                                            "err" => "copy error!"
+                                        );                
+                                    } else {
+                                        $file_path = $destination_path;
+                                        $url = $destination_path.$temp_file_name;
+                                        $file_name = $temp_file_name;
+                                        $real_name = $temp_real_name;
+    
+                                        $insert = $this->mfa->saveDtRegBerkas(
+                                            $trans_id,
+                                            $berkas_id,
+                                            $dt_berkas_id,
+                                            $keterangan,
+                                            $jenis,
+                                            $dt_jenis,
+                                            $queue_item,
+                                            $file_path,
+                                            $file_name,
+                                            $url,
+                                            $real_name,
+                                            $created_date,
+                                            $created_by,
+                                            $show_item,
+                                            $status
+                                        );
+    
+                                    }
+    
                                     $result = array(
-                                        "err" => "copy error!"
-                                    );                
-                                } else {
-                                    $file_path = $destination_path;
-                                    $url = $destination_path.$temp_file_name;
-                                    $file_name = $temp_file_name;
-                                    $real_name = $temp_real_name;
-
-                                    $insert = $this->mfa->saveDtRegBerkas(
-                                        $trans_id,
-                                        $berkas_id,
-                                        $dt_berkas_id,
-                                        $keterangan,
-                                        $jenis,
-                                        $dt_jenis,
-                                        $queue_item,
-                                        $file_path,
-                                        $file_name,
-                                        $url,
-                                        $real_name,
-                                        $created_date,
-                                        $created_by,
-                                        $show_item,
-                                        $status
+                                        "reg_id" => $reg_id,
+                                        "trans_id"=> $trans_id,
+                                        "berkas_id"=> $berkas_id,
+                                        "dt_berkas_id"=> $dt_berkas_id,
+                                        "jenis"=> $jenis,
+                                        "dt_jenis"=> $dt_jenis,
+                                        "keterangan" => $keterangan,
+                                        "queue_item"=> $queue_item,
+                                        "file_path"=> $file_path,
+                                        "file_name"=> $file_name,
+                                        "url"=> $url,
+                                        "real_name"=> $real_name,
+                                        "created_date"=> $created_date,
+                                        "created_by" => $created_by,
+                                        "show_item" => $show_item,
+                                        "status" => $status,
+                                        "template" => $template,
+                                        "msg"=> "202"
                                     );
-
+    
+                                    $data = $result;
+                                    echo json_encode($data); 
                                 }
-
-                                $result = array(
-                                    "reg_id" => $reg_id,
-                                    "trans_id"=> $trans_id,
-                                    "berkas_id"=> $berkas_id,
-                                    "dt_berkas_id"=> $dt_berkas_id,
-                                    "jenis"=> $jenis,
-                                    "dt_jenis"=> $dt_jenis,
-                                    "keterangan" => $keterangan,
-                                    "queue_item"=> $queue_item,
-                                    "file_path"=> $file_path,
-                                    "file_name"=> $file_name,
-                                    "url"=> $url,
-                                    "real_name"=> $real_name,
-                                    "created_date"=> $created_date,
-                                    "created_by" => $created_by,
-                                    "show_item" => $show_item,
-                                    "status" => $status,
-                                    "template" => $template,
-                                    "msg"=> "202"
-                                );
-
-                                $data = $result;
-                                echo json_encode($data); 
                                 
                             } else {
 
@@ -1122,26 +1284,32 @@ class Form_app_func extends CI_Controller
 
                 $get = $this->mfa->getRegisteredBerkas($reg_id, $trans_id, $berkas_id, $dt_berkas_id);
                 
-                $im = new imagick($_SERVER['DOCUMENT_ROOT'] ."/mitraweb/" . $get->URL . "[0]");    
-                // $im->resizeImage(200,0,1,0);
-                // $im->cropImage($width, $height, $startX, $startY);
-                $im->cropThumbnailImage( 200, 150 );
-                $im->setImageFormat('jpg'); 
-                $im->setbackgroundcolor('rgb(64, 64, 64)');
-                $im->setImageCompression(Imagick::COMPRESSION_JPEG); 
-                $im->setImageCompressionQuality(100);
-                $im->unsharpMaskImage(0.5 , 1 , 1 , 0.05);  
+                $ext = pathinfo($get->FILE_NAME, PATHINFO_EXTENSION);
+                $im = "";
+                $thumb = "";
+                if ($ext === "pdf") {
+                    $im = new imagick($_SERVER['DOCUMENT_ROOT'] ."/mitraweb/" . $get->URL . "[0]");    
+                    // $im->resizeImage(200,0,1,0);
+                    // $im->cropImage($width, $height, $startX, $startY);
+                    $im->cropThumbnailImage( 200, 150 );
+                    $im->setImageFormat('jpg'); 
+                    $im->setbackgroundcolor('rgb(64, 64, 64)');
+                    $im->setImageCompression(Imagick::COMPRESSION_JPEG); 
+                    $im->setImageCompressionQuality(100);
+                    $im->unsharpMaskImage(0.5 , 1 , 1 , 0.05);  
 
-                ob_start();
-                $thumbnail = $im->getImageBlob();
-                $contents =  ob_get_contents();
-                ob_end_clean();
-                $thumb = "<img class='mx-auto d-block rounded-top border border-bottom-0 pt-1 pr-1 pl-1 pb-0' src='data:image/jpg;base64,".base64_encode($thumbnail)."' />";
+                    ob_start();
+                    $thumbnail = $im->getImageBlob();
+                    $contents =  ob_get_contents();
+                    ob_end_clean();
+                    $thumb = "<img class='mx-auto d-block rounded-top border border-bottom-0 pt-1 pr-1 pl-1 pb-0' src='data:image/jpg;base64,".base64_encode($thumbnail)."' />";
+                }
 
                 $result = array(
                     "trans_id"=> $get->TRANS_ID,
                     "reg_id"=> $get->REG_ID,
                     "berkas_id"=> $get->BERKAS_ID,
+                    "dt_berkas_id"=> $get->DT_BERKAS_ID,
                     "file_path"=> $get->FILE_PATH,
                     "file_name"=> $get->FILE_NAME,
                     "real_name"=> $get->REAL_FILE_NAME,
@@ -1149,7 +1317,8 @@ class Form_app_func extends CI_Controller
                     "upload_date"=> $get->UPLOAD_DATE,
                     "upload_by"=> $get->UPLOAD_BY,
                     "img"=> $im,
-                    "thumb"=> $thumb
+                    "thumb"=> $thumb,
+                    "ext"=> $ext
                 );
 
                 $data = $result;

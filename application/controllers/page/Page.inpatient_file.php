@@ -4,7 +4,17 @@
     $page_start = 1;
     $keyword = "";
     $reg_id = "";
-
+    $rawat = "Y";
+    $from_date = ""; 
+    $to_date = "";
+    $B001 =""; 
+    $B002 = "";
+    $B003 = ""; 
+    $B004 = "";
+    $B005 = ""; 
+    $B006 = "";
+    $B007 = "";
+    $max_count = "";
     if($this->uri->segment(3) <> ''){
         if($this->uri->segment(4) <> ''){
             $page_start = $this->uri->segment(4) + 1;
@@ -13,8 +23,8 @@
         }
     }
 
-    $countrows =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id);
-    $rows = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id);
+    $countrows =  $this->mfa->getRowCountCurrentInpatient($keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007, $max_count);
+    $rows = $this->mfa->getRowCurrentInpatient($page_start, $per_page, $keyword, $reg_id, $rawat, $from_date, $to_date, $B001, $B002, $B003, $B004, $B005, $B006, $B007);
     $berkas = $this->mfa->getBerkas("Y");
     $berkas_all = $this->mfa->getBerkas();
 
@@ -96,8 +106,11 @@
     }
 
     $dropdown_all = '';
+    $dropdown_all.= '<button class="dropdown-item" data-toggle="tooltip" data-placement="bottom" berkas_id="all" desc="all"><i class="far fa-file-plus"></i>&nbsp;SEMUA</button>';
+    $n=0;
     foreach($berkas_all as $list) {
-        $dropdown_all.= '<button class="dropdown-item btn-upload-template" data-toggle="tooltip" data-placement="bottom" title="Upload Template ' . $list->KETERANGAN . '" berkas_id="' . $list->BERKAS_ID . '" desc="' .  $list->KETERANGAN . '"><i class="far fa-file-plus"></i>&nbsp;' . $list->KETERANGAN . '</button>';
+        $n++;
+        $dropdown_all.= '<button class="dropdown-item" data-toggle="tooltip" data-placement="bottom" id=' . $n . ' title="Upload Template ' . $list->KETERANGAN . '" berkas_id="' . $list->BERKAS_ID . '" desc="' .  $list->KETERANGAN . '"><i class="far fa-file-plus"></i>&nbsp;' . $list->KETERANGAN . '</button>';
     }
 
     
